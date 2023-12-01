@@ -1,0 +1,25 @@
+.flags_select {
+    padding: 50px;
+    height: 55px;
+}
+
+.registerButton {
+    color: #000;
+    cursor: pointer;
+}
+
+.registerButton:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.inputOTP {
+    border: 1px solid #222;
+    border-radius: 5px;
+    width: 40px !important;
+    height: 40px;
+}
+
+.inputOTP:focus {
+    outline: none;
+}

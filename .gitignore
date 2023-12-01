@@ -18,7 +18,11 @@ dist/
 
 # Package files
 *.jar
-
+  
+#next
+/.next/
+/out/
+   
 # Maven
 target/
 dist/
