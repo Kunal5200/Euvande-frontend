@@ -143,3 +143,54 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 12px;
   font-weight: 500;
 }
+
+.f-13 {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.f-40 {
+  font-size: 40px;
+}
+
+.f-30 {
+  font-size: 30px;
+}
+
+.f-10 {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* font-size */
+
+
+
+.brands:hover {
+  transition: 1s ease all;
+  transform: scale(1);
+}
+
+.brands:hover {
+  border: 1px solid rgba(0, 0, 253, 0.463);
+  cursor: pointer;
+}
+
+@media screen and (max-width:600px) {
+  .custom_btn {
+    width: 100% !important;
+  }
+
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.link {
+  text-decoration: none
+}
+
+.MuiTabs-indicator {
+  background-color: transparent;
+}

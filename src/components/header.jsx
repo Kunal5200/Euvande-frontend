@@ -79,7 +79,7 @@ const Navbar = () => {
               </Link>
             ))}
             <div style={{ width: "100%" }}>
-              <Link href={"/seller-login"}>
+              <Link href={"/sell-cars"} onClick={() => setShowMenu(false)}>
                 <Button className="custom_btn mt-3" width="100%" fw="600">
                   <span>Sell With Us</span>
                   <span>Sell With Us</span>

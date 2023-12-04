@@ -79,3 +79,43 @@ export const loginTextField = {
     color: "#d32f2f",
   },
 };
+
+export const cardStyles = {
+  position: "relative",
+  bottom: "50px",
+};
+
+export const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+};
+
+export const tabButton = {
+  color: "#000",
+  fontSize: "12px",
+  fontWeight: "500",
+  minHeight: "0",
+  "&.Mui-selected": {
+    color: "#000 ",
+    border: "1px solid #eee",
+    textDecoration: "none",
+    borderRadius: "20px",
+  },
+  "&.MuiTabs-indicator": {
+    backgroundColor: "#ffffff",
+  },
+};

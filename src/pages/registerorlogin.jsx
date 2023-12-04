@@ -1,15 +1,9 @@
-import countryData from "@/assests/countries.json";
-import countryFlag from "@/assests/countriesFlag";
-import countries from "@/assests/country";
+import Button from "@/components/button";
+import LoginForm from "@/components/loginForm";
+import styles from "@/styles/Login.module.css";
 import { TextField } from "@mui/material";
 import { animated, useSpring } from "@react-spring/web";
 import { useState } from "react";
-import ReactFlagsSelect from "react-flags-select";
-import styles from "@/styles/Login.module.css";
-import { loginTextField } from "@/utils/styles";
-import { loginValidation } from "@/utils/validation";
-import LoginForm from "@/components/loginForm";
-import Button from "@/components/button";
 const RegisterLogin = () => {
   const [position, setPosition] = useState(0);
 
