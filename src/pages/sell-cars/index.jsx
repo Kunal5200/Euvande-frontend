@@ -1,56 +1,19 @@
-import React from "react";
-import styles from "@/styles/seller.module.css";
-import Head from "next/head";
-import { Card, Divider, Grid, Stack, TextField } from "@mui/material";
-import car from "@/banner_image/car.png";
+import data from "@/assests/data";
+import FAQ from "@/components/accordion";
+import Brands from "@/components/brands";
+import Button from "@/components/button";
+import Review from "@/components/review";
 import hands from "@/icons/hands.png";
 import wallet from "@/icons/purse.png";
 import certificate from "@/icons/stamp.png";
+import styles from "@/styles/seller.module.css";
 import { cardStyles, loginTextField, responsive } from "@/utils/styles";
-import Button from "@/components/button";
+import { Card, Divider, Grid, Stack, TextField } from "@mui/material";
+import Head from "next/head";
+import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
-import maruti from "@/brandImage/maruti_logo.webp";
-import hyundai from "@/brandImage/hyundai.webp";
-import honda from "@/brandImage/honda.webp";
-import tata from "@/brandImage/tata.webp";
-import toyota from "@/brandImage/car_Toyota.webp";
-import mahindra from "@/brandImage/mahindra.webp";
-import ford from "@/brandImage/ford.webp";
-import Brands from "@/components/brands";
-import data from "@/assests/data";
 import Carousel from "react-multi-carousel";
-import Review from "@/components/review";
 const SellerLogin = () => {
-  const brandsSelector = [
-    {
-      name: "Maruti",
-      logo: maruti.src,
-    },
-    {
-      name: "hyundai",
-      logo: hyundai.src,
-    },
-    {
-      name: "Honda",
-      logo: honda.src,
-    },
-    {
-      name: "Tata",
-      logo: tata.src,
-    },
-    {
-      name: "toyota",
-      logo: toyota.src,
-    },
-    {
-      name: "mahindra",
-      logo: mahindra.src,
-    },
-    {
-      name: "ford",
-      logo: ford.src,
-    },
-  ];
   return (
     <>
       <Head>
@@ -149,22 +112,24 @@ const SellerLogin = () => {
                   direction={{ xs: "column", sm: "row" }}
                   alignItems={"center"}
                 >
-                  {brandsSelector.map((val, i) => (
-                    <Brands img={val.logo} brands={val.name} />
+                  {data.brandsSelector.slice(0, 7).map((val, i) => (
+                    <Brands img={val.logo} brands={val.name} key={i} />
                   ))}
-                  <Card
-                    sx={{
-                      width: "95px",
-                      height: "80px",
-                      display: "flex",
+                  <Link href={'/sell-cars/make'} className="link">
+                    <Card
+                      sx={{
+                        width: "95px",
+                        height: "80px",
+                        display: "flex",
 
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                    className="brands"
-                  >
-                    View All Brands
-                  </Card>
+                        alignItems: "center",
+                        textAlign: "center",
+                      }}
+                      className="brands"
+                    >
+                      View All Brands
+                    </Card>
+                  </Link>
                 </Stack>
               </div>
             </Card>
@@ -172,7 +137,9 @@ const SellerLogin = () => {
           <Grid xs={2} item></Grid>
         </Grid>
         <div className="container">
-          <h4 className="text-capitalize mb-4 text-center ">Easy auto sales</h4>
+          <h4 className="text-capitalize mb-4 text-center f-30 ">
+            Easy auto sales
+          </h4>
           <Grid container>
             {data.selling.map((val, i) => (
               <Grid item xs={4} key={i}>
@@ -198,8 +165,8 @@ const SellerLogin = () => {
             ))}
           </Grid>
         </div>
-        <div className="container mt-4">
-          <h4 className="text-center mb-3">Customer Reviews</h4>
+        <div className="container mt-5">
+          <h4 className="text-center mb-3 f-30">Customer Reviews</h4>
           <Carousel responsive={responsive}>
             {data.reviews.map((val, i) => (
               <Review
@@ -210,6 +177,10 @@ const SellerLogin = () => {
               />
             ))}
           </Carousel>
+        </div>
+        <div className="container mt-5">
+          <h4 className="text-center mb-3 f-30">FAQs</h4>
+          <FAQ />
         </div>
       </div>
     </>

@@ -103,3 +103,19 @@ export const responsive = {
     items: 1,
   },
 };
+
+export const tabButton = {
+  color: "#000",
+  fontSize: "12px",
+  fontWeight: "500",
+  minHeight: "0",
+  "&.Mui-selected": {
+    color: "#000 ",
+    border: "1px solid #eee",
+    textDecoration: "none",
+    borderRadius: "20px",
+  },
+  "&.MuiTabs-indicator": {
+    backgroundColor: "#ffffff",
+  },
+};

@@ -7,6 +7,36 @@ import profile2 from "@/reviewer/profile2.jpg";
 import profile3 from "@/reviewer/profile3.jpg";
 import profile4 from "@/reviewer/profile4.jpg";
 import profile5 from "@/reviewer/profile5.jpg";
+import maruti from "@/brandImage/maruti.webp";
+import hyundai from "@/brandImage/hyundai.webp";
+import ford from "@/brandImage/Ford.webp";
+import honda from "@/brandImage/Honda.webp";
+import mahindra from "@/brandImage/mahindra.webp";
+import tata from "@/brandImage/tata.webp";
+import nissan from "@/brandImage/Nissan.webp";
+import toyota from "@/brandImage/toyota.webp";
+import ashokleyland from "@/brandImage/ashokleyland.webp";
+import astonMartin from "@/brandImage/Aston-Martin.webp";
+import audi from "@/brandImage/Audi.webp";
+import bentley from "@/brandImage/bentley.webp";
+import bwm from "@/brandImage/BMW.webp";
+import bugatti from "@/brandImage/bugatti.webp";
+import cadillac from "@/brandImage/cadillac.webp";
+import caterham from "@/brandImage/caterham.webp";
+import chevrolet from "@/brandImage/chevrolet.webp";
+import chrysler from "@/brandImage/Chrysler.webp";
+import citroen from "@/brandImage/Citroen.webp";
+import conquest from "@/brandImage/conquest.webp";
+import daewoo from "@/brandImage/Daewoo.webp";
+import datsun from "@/brandImage/Datsun.webp";
+import dc from "@/brandImage/dc.webp";
+import dodge from "@/brandImage/dodge.webp";
+import ferrari from "@/brandImage/ferrari.webp";
+import fiat from "@/brandImage/fiat.webp";
+import force from "@/brandImage/force.webp";
+import hindustanmotors from "@/brandImage/hindustanmotors.webp";
+import hummer from "@/brandImage/Hummer.webp";
+import lamborghini from "@/brandImage/lamborghini.webp";
 let data = {
   sliderData: [
     {
@@ -62,13 +92,135 @@ let data = {
       name: "Jessica",
       img: profile4,
       review:
-        "I have sold my car at CarDekho. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr Nagaraj visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from CarDekho gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr Nagaraj.",
+        "I have sold my car at Euvande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr Nagaraj visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from CarDekho gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr Nagaraj.",
     },
     {
       name: "Sia",
       img: profile5,
       review:
-        "Sold my car to CarDekho at there Whitefield branch. It all happened so quickly. Nagaraj came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank Nagaraj for his professionalism and CarDekho for providing me the right price and hassle free selling of my car.",
+        "Sold my car to Euvande at there Whitefield branch. It all happened so quickly. Nagaraj came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank Nagaraj for his professionalism and CarDekho for providing me the right price and hassle free selling of my car.",
+    },
+  ],
+  brandsSelector: [
+    {
+      name: "Maruti",
+      logo: maruti.src,
+    },
+    {
+      name: "hyundai",
+      logo: hyundai.src,
+    },
+    {
+      name: "Honda",
+      logo: honda.src,
+    },
+    {
+      name: "Tata",
+      logo: tata.src,
+    },
+    {
+      name: "toyota",
+      logo: toyota.src,
+    },
+    {
+      name: "mahindra",
+      logo: mahindra.src,
+    },
+    {
+      name: "ford",
+      logo: ford.src,
+    },
+    {
+      name: "Nissan",
+      logo: nissan.src,
+    },
+    {
+      name: "Ashko Leyland",
+      logo: ashokleyland.src,
+    },
+    {
+      name: "Aston Martin",
+      logo: astonMartin.src,
+    },
+    {
+      name: "Audi",
+      logo: audi.src,
+    },
+    {
+      name: "Bentley",
+      logo: bentley.src,
+    },
+    {
+      name: "BMW",
+      logo: bwm.src,
+    },
+    {
+      name: "Bugatti",
+      logo: bugatti.src,
+    },
+    {
+      name: "Cadillac",
+      logo: cadillac.src,
+    },
+    {
+      name: "Caterham",
+      logo: caterham.src,
+    },
+    {
+      name: "Chevrolet",
+      logo: chevrolet.src,
+    },
+    {
+      name: "Chrysler",
+      logo: chrysler.src,
+    },
+    {
+      name: "Citreon",
+      logo: citroen.src,
+    },
+    {
+      name: "Conquest",
+      logo: conquest.src,
+    },
+    {
+      name: "Daewoo",
+      logo: daewoo.src,
+    },
+    {
+      name: "Datsun",
+      logo: datsun.src,
+    },
+    {
+      name: "DC",
+      logo: dc.src,
+    },
+    {
+      name: "Dodge",
+      logo: dodge.src,
+    },
+    {
+      name: "Ferrari",
+      logo: ferrari.src,
+    },
+    {
+      name: "Fiat",
+      logo: fiat.src,
+    },
+    {
+      name: "Force",
+      logo: force.src,
+    },
+    {
+      name: "Hindustan Motors",
+      logo: hindustanmotors.src,
+    },
+    {
+      name: "Hummer",
+      logo: hummer.src,
+    },
+    {
+      name: "Lamborghini",
+      logo: lamborghini.src,
     },
   ],
 };
