@@ -1,12 +1,11 @@
-import Button from "@/components/button";
 import LoginForm from "@/components/loginForm";
+import Signup from "@/components/signupForm";
 import styles from "@/styles/Login.module.css";
-import { TextField } from "@mui/material";
 import { animated, useSpring } from "@react-spring/web";
 import { useState } from "react";
 const RegisterLogin = () => {
   const [position, setPosition] = useState(0);
-
+  const [viaOTP, setViaOtp] = useState(false);
   const [springs, api] = useSpring(() => ({
     from: { x: position },
   }));
@@ -48,21 +47,11 @@ const RegisterLogin = () => {
           ></animated.div>
           <div className="row p-3">
             <div className="col-sm-6  ">
-              <form>
-                <TextField variant="outlined" label="Name" fullWidth />
-                <TextField variant="outlined" label="Name" fullWidth />
-                <TextField variant="outlined" label="Name" fullWidth />
-                <TextField variant="outlined" label="Name" fullWidth />
-                <TextField variant="outlined" label="Name" fullWidth />
-                <TextField variant="outlined" label="Name" fullWidth />
-              </form>
-              <Button className="custom_btn" onClick={handleClick}>
-                <span>Change</span>
-                <span>Change</span>
-              </Button>
+              <Signup />
             </div>
             <div className="col-sm-6  ">
               <LoginForm otpShow={otpShow} setOtpShow={setOtpShow} />
+
               <p className="f-12 px-3">
                 New User?{" "}
                 <span className={styles.registerButton} onClick={handleClick}>

@@ -1,6 +1,6 @@
 import countryData from "@/assests/countries.json";
 import { countries } from "@/assests/country";
-import { isPhonenumber } from "@/utils/regex";
+import { isEmail, isNumber, isPhonenumber } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
 import { loginValidation } from "@/utils/validation";
 import { Autocomplete, Box, TextField } from "@mui/material";
@@ -13,23 +13,33 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
     countryCode: "",
+    password: "",
   });
+  const [viaOtp, setViaOTP] = useState(false);
 
   const router = useRouter();
 
   const inputHandler = (e) => {
     let { id, value } = e.target;
-    console.log(id, value);
-    setState({ ...state, [id]: value });
-    setError({
-      ...error,
-      [id]:
-        id === "identity"
-          ? isPhonenumber(value)
-            ? ""
-            : "Please Enter Valid Phone Number"
-          : "",
-    });
+    if (value == "") {
+      setViaOTP(false);
+    } else {
+      if (isNumber(value)) {
+        setViaOTP(true);
+        setState({ ...state, [id]: value });
+        setError({
+          ...error,
+          [id]: isPhonenumber(value) ? "" : "Please Enter Valid Phone Number",
+        });
+      } else {
+        setViaOTP(false);
+        setState({ ...state, [id]: value });
+        setError({
+          ...error,
+          [id]: isEmail(value) ? "" : "Please Enter Valid Email Id",
+        });
+      }
+    }
   };
   const handleCountryChange = (_, newValue) => {
     if (newValue) {
@@ -41,17 +51,28 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   const [error, setError] = useState({
     identity: "",
     countryCode: "",
+    password: "",
   });
-  const handleback = (e) => {
-    e.preventDefault();
-    router.back();
-  };
 
   const loginsubmitHandler = (e) => {
     e.preventDefault();
-    if (loginValidation({ state, setError, error })) {
+    if (viaOtp) {
+      if (isNumber(state.identity)) {
+        if (!isPhonenumber(state.identity)) {
+          setError({ ...error, identity: "Please Enter valid Phone Number" });
+          return;
+        }
+      } else {
+        if (!isEmail(state.identity)) {
+          setError({ ...error, identity: "Please Enter Valid Email Id" });
+          return;
+        }
+      }
+    }
+
+    if (loginValidation({ state, setError, error, viaOtp })) {
       toast.success("OTP sent Successfully");
-      setOtpShow(true);
+      viaOtp ? setOtpShow(true) : router.push("/");
     } else {
       toast.error("Please Enter Valid Details");
     }
@@ -68,56 +89,80 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
             or list your vehicle for sale, your journey starts with a simple
             login.
           </p>
+
           <div>
-            <Autocomplete
-              sx={loginTextField}
-              options={countries}
-              autoHighlight
-              onChange={handleCountryChange}
-              getOptionLabel={(option) => option.label}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  <img
-                    loading="lazy"
-                    width={20}
-                    height={20}
-                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                    src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                    alt=""
+            {viaOtp && (
+              <Autocomplete
+                sx={loginTextField}
+                options={countries}
+                autoHighlight
+                onChange={handleCountryChange}
+                getOptionLabel={(option) => option.label}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    <img
+                      loading="lazy"
+                      width={20}
+                      height={20}
+                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                      alt=""
+                    />
+                    {option.label} ({option.code}) +{option.phone}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a country"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                    }}
+                    error={error.countryCode}
+                    helperText={error.countryCode}
                   />
-                  {option.label} ({option.code}) +{option.phone}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Choose a country"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password",
-                  }}
-                  error={error.countryCode}
-                  helperText={error.countryCode}
-                />
-              )}
-            />
+                )}
+              />
+            )}
             <TextField
               variant="outlined"
-              label="Phone Number*"
+              label="Enter Your Email or Phone Number*"
               sx={loginTextField}
               fullWidth
-              type="number"
+              type="text"
               onChange={inputHandler}
               error={error.identity}
               helperText={error.identity}
               className="my-4"
               id="identity"
             />
+            {!viaOtp && (
+              <TextField
+                type="password"
+                className="mb-4"
+                variant="outlined"
+                fullWidth
+                label="Password"
+                sx={loginTextField}
+                id="password"
+                onChange={inputHandler}
+                error={error.password}
+                helperText={error.password}
+              />
+            )}
           </div>
+
+          {/* <p
+            className="ms-2 text-start f-12 text-decoration-underline pointer"
+            onClick={() => setViaOTP(!viaOtp)}
+          >
+            {viaOtp ? "Login Via Email and Password" : "Login Via OTP"}
+          </p> */}
           <div className="text-center ">
             <Button className="custom_btn" width="100%">
               <span>Login</span>

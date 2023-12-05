@@ -1,8 +1,7 @@
+import data from "@/assests/data";
 import LinkTab from "@/components/linktab";
-import { Card } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import Head from "next/head";
-import React from "react";
-
 const Period = () => {
   return (
     <>
@@ -15,7 +14,13 @@ const Period = () => {
             <LinkTab />
 
             <Card className="p-3">
-              <h5>Select the registration year</h5>
+              <h5 className="mb-3">Select the registration year</h5>
+
+              <Grid container>
+                {data.Year.map((val, i) => (
+                  <Grid item xs={3}></Grid>
+                ))}
+              </Grid>
             </Card>
           </div>
         </div>

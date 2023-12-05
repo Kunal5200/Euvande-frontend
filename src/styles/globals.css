@@ -95,7 +95,7 @@
 
 .custom_btn:hover:after {
   transform-origin: bottom center;
-  transform: skewY(9.3deg) scaleY(2);
+  transform: skewY(7.3deg) scaleY(2);
 }
 
 .custom_btn:hover span:last-child {
@@ -193,4 +193,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .MuiTabs-indicator {
   background-color: transparent;
+}
+
+.react-datepicker-wrapper{
+  width: 100% ;
 }

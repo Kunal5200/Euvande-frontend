@@ -79,6 +79,50 @@ export const loginTextField = {
     color: "#d32f2f",
   },
 };
+export const phonetextField = {
+  "& label.Mui-focused": {
+    color: "#000000",
+  },
+  "& label": {
+    fontSize: "15px",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#B2BAC2",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "1px solid #000000",
+      borderLeft: "none",
+      borderTopLeftRadius: "0px",
+      borderBottomLeftRadius: "0px",
+    },
+    "&:hover fieldset": {
+      borderColor: "#000000",
+    },
+    "&.Mui-focused fieldset": {
+      border: "1px solid #000000",
+      borderLeft: "none",
+    },
+  },
+
+  "& .Mui-error": {
+    "& fieldset": {
+      border: "1px solid #d32f2f",
+    },
+    "&:hover fieldset": {
+      border: "1px solid #d32f2f",
+    },
+    "&.Mui-focused fieldset": {
+      border: "1px solid #d32f2f",
+    },
+    "& label.Mui-focused": {
+      color: "#d32f2f",
+    },
+  },
+  "& .MuiInputLabel-root.Mui-error": {
+    color: "#d32f2f",
+  },
+};
 
 export const cardStyles = {
   position: "relative",

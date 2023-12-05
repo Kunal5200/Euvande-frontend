@@ -1,10 +1,16 @@
 import React from "react";
-import DatePicker from "react-date-picker";
-
-const DateSelector = () => {
+import ReactDatePicker from "react-datepicker";
+import styles from "@/styles/datePicker.module.css";
+const DateSelector = (props) => {
   return (
     <div>
-      <DatePicker />
+      <ReactDatePicker
+        dateFormat="yyyy"
+        showYearPicker={props.showYearPicker}
+        selected={props.onSelect}
+        onChange={props.onChange}
+        className={styles.date_picker}
+      />
     </div>
   );
 };
