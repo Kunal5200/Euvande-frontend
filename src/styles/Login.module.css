@@ -18,6 +18,15 @@
     border-radius: 5px;
     width: 40px !important;
     height: 40px;
+    margin: 10px;
+}
+
+.errorInputOTP {
+    border: 1px solid red;
+    border-radius: 5px;
+    width: 40px !important;
+    height: 40px;
+    margin: 10px;
 }
 
 .inputOTP:focus {

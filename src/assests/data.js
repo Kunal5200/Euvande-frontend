@@ -37,6 +37,7 @@ import force from "@/brandImage/force.webp";
 import hindustanmotors from "@/brandImage/hindustanmotors.webp";
 import hummer from "@/brandImage/Hummer.webp";
 import lamborghini from "@/brandImage/lamborghini.webp";
+import rollyroyce from "@/brandImage/rollsroyce.webp";
 let data = {
   sliderData: [
     {
@@ -103,8 +104,8 @@ let data = {
   ],
   brandsSelector: [
     {
-      name: "Maruti",
-      logo: maruti.src,
+      name: "Rolls Royce",
+      logo: rollyroyce.src,
     },
     {
       name: "hyundai",
@@ -343,6 +344,126 @@ let data = {
     },
     {
       year: "1984",
+    },
+  ],
+  carModel: [
+    {
+      car_image:
+        "https://img.gaadicdn.com/images/car-images/large/Rolls-Royce/Rolls-Royce-Cullinan/6405/front-left-side-47.jpg",
+      centralModelId: 3001,
+      id: "648",
+      modelId: "648",
+      name: "Cullinan",
+    },
+    {
+      car_image:
+        "https://img.gaadicdn.com/images/car-images/large/Rolls-Royce/Rolls-Royce-Dawn/047.jpg",
+      centralModelId: 478,
+      id: "651",
+      modelId: "651",
+      name: "Dawn",
+    },
+    {
+      car_image:
+        "https://img.gaadicdn.com/images/car-images/large/Rolls-Royce/Rolls-Royce-Ghost/6397/1594192258201/front-left-side-47.jpg",
+      centralModelId: 3214,
+      id: "652",
+      modelId: "652",
+      name: "Ghost",
+    },
+    {
+      car_image:
+        "https://img.gaadicdn.com/images/car-images/large/Rolls-Royce/Rolls-Royce-Phantom/7784/1587205583793/seats-(aerial-view)-53.jpg",
+      centralModelId: 481,
+      id: "429",
+      modelId: "429",
+      name: "Phantom",
+    },
+    {
+      car_image:
+        "https://img.gaadicdn.com/images/car-images/large/Rolls-Royce/Rolls-Royce-Wraith/6404/Rolls-Royce-Wraith-Black-Badge/front-left-side-47.jpg",
+      centralModelId: 483,
+      id: "649",
+      modelId: "649",
+      name: "Wraith",
+    },
+  ],
+  carVariant: [
+    {
+      variant: "V11",
+    },
+    {
+      variant: "V12",
+    },
+    {
+      variant: "V13",
+    },
+    {
+      variant: "V14",
+    },
+    {
+      variant: "V15",
+    },
+    {
+      variant: "V16",
+    },
+    {
+      variant: "V17",
+    },
+    {
+      variant: "V18",
+    },
+  ],
+  carOwnerShip: [
+    {
+      ownership: "1st Owner",
+    },
+    {
+      ownership: "2nd Owner",
+    },
+    {
+      ownership: "3rd Owner",
+    },
+    {
+      ownership: "4th Owner",
+    },
+    {
+      ownership: "5th Owner",
+    },
+  ],
+  odometer: [
+    {
+      driven: "0-10000 Km",
+    },
+    {
+      driven: "10000-20000 Km",
+    },
+    {
+      driven: "20000-30000 Km",
+    },
+    {
+      driven: "30000-40000 Km",
+    },
+    {
+      driven: "40000-50000 Km",
+    },
+    {
+      driven: "50000-60000 Km",
+    },
+    {
+      driven: "60000-70000 Km",
+    },
+    {
+      driven: "70000-80000 Km",
+    },
+    {
+      driven: "80000-90000 Km",
+    },
+    {
+      driven: "90000-100000 Km",
+    },
+    {
+      driven: "More than 100000 Km",
     },
   ],
 };

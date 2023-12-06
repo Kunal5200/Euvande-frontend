@@ -1,8 +1,13 @@
 import countriesData from "@/assests/countriesCode";
 import countryFlag from "@/assests/countriesFlag";
 import { loginTextField, phonetextField } from "@/utils/styles";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Info,
+  MarkEmailRead,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
+import { IconButton, InputAdornment, Popover, TextField } from "@mui/material";
 import { useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import Button from "./button";
@@ -11,6 +16,17 @@ import countryData from "@/assests/countries.json";
 import { useDispatch } from "react-redux";
 import { showModal } from "@/redux/reducers/modal";
 import { VerifyOtp } from "@/assests/modalcalling/otpform";
+import {
+  addUser,
+  phoneNumberVerification,
+  verifyEmail,
+} from "@/api/apiCalling/authenticationApi";
+import carLoader from "@/loader/car.webp";
+import { registerValidation } from "@/utils/validation";
+import { isEmail, isPhonenumber } from "@/utils/regex";
+import { toast } from "react-toastify";
+import Loading from "react-loading";
+import otp from "@/icons/otp.png";
 const Signup = () => {
   const [togglePassword, setTogglePassword] = useState(true);
   const [state, setState] = useState({
@@ -18,6 +34,7 @@ const Signup = () => {
     email: "",
     password: "",
     phone: "",
+    countryCode: "",
   });
   const dispatch = useDispatch();
   const [error, setError] = useState({
@@ -26,10 +43,35 @@ const Signup = () => {
     password: "",
     phone: "",
   });
+
+  const [emailDisabled, setEmailDisAbled] = useState(true);
+  const [phoneDisabled, setPhoneDisabled] = useState(true);
   const inputChangeHandler = (e) => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
+    if (id === "email" && isEmail(value)) {
+      setEmailDisAbled(false);
+    }
+
+    if (id === "phone" && isPhonenumber(value)) {
+      setPhoneDisabled(false);
+    }
+    setError({
+      ...error,
+      [id]:
+        id === "email"
+          ? isEmail(value)
+            ? ""
+            : "Please Enter Valid Email"
+          : id === "phone"
+          ? isPhonenumber(value)
+            ? ""
+            : "Please Enter Valid Phone Number "
+          : "",
+    });
   };
+  const [emailverify, setEmailVerify] = useState(true);
+  const [phoneverify, setPhoneVerify] = useState(true);
 
   const [selected, setSelected] = useState("NL");
   const [dialcode, setDialCode] = useState("+31");
@@ -43,14 +85,44 @@ const Signup = () => {
     }
   };
 
-  const showOtpModal = () => {
-    dispatch(showModal(<VerifyOtp />));
+  const VerifyEmail = () => {
+    if (state.email === "") {
+      toast.error("Please Enter Valid Email ID");
+    } else {
+      verifyEmail({ data: state.email, dispatch });
+    }
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const VerifyPhone = () => {
+    let body = {
+      countryCode: dialcode,
+      phoneNo: state.phone,
+    };
+    if (state.phone === "") {
+      toast.error("Please Enter Valid Phone Number");
+    } else {
+      phoneNumberVerification({ data: body, dispatch });
+    }
   };
-  const verifyEmailAddress = () => {};
+  const [loading, setLoading] = useState(false);
+  const [openPopOverEmail, setOpenPopOverEmail] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const submitHandler = (e) => {
+    let body = {
+      email: state.email,
+      phoneNo: state.phone,
+      countryCode: dialcode,
+      name: state.name,
+      password: state.password,
+    };
+    setLoading(true);
+    e.preventDefault();
+    if (registerValidation({ state, error, setError })) {
+      addUser({ setLoading, body });
+    } else {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <div className="container">
@@ -74,6 +146,8 @@ const Signup = () => {
             className="mb-3"
             onChange={inputChangeHandler}
             id="name"
+            error={error.name}
+            helperText={error.name}
           />
           <TextField
             label="Email*"
@@ -84,20 +158,35 @@ const Signup = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment>
-                  <Button
-                    className="custom_btn"
-                    type="button"
-                    onClick={showOtpModal}
+                  <IconButton
+                    disabled={emailDisabled}
+                    onClick={VerifyEmail}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                      },
+                      "&.MuiTouchRipple": {
+                        backgroundColor: "transparent",
+                      },
+                    }}
                   >
-                    <span>Verify</span>
-                    <span>Verify</span>
-                  </Button>
+                    <MarkEmailRead />
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
             id="email"
             onChange={inputChangeHandler}
+            error={error.email}
+            helperText={error.email}
           />
+          <Popover
+            anchorEl={anchorEl}
+            onClose={() => setOpenPopOverEmail(false)}
+            open={openPopOverEmail}
+          >
+            Your Email is not Verified
+          </Popover>
           <TextField
             label="Password*"
             variant="outlined"
@@ -118,44 +207,10 @@ const Signup = () => {
                 </InputAdornment>
               ),
             }}
+            error={error.password}
+            helperText={error.password}
           />
           <div className="d-flex align-items-center mb-3 ">
-            {/* <Autocomplete
-              sx={loginTextField}
-              options={countries}
-              autoHighlight
-              // onChange={handleCountryChange}
-              getOptionLabel={(option) => option.label}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  <img
-                    loading="lazy"
-                    width={20}
-                    height={20}
-                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                    src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                    alt=""
-                  />
-                  {option.label} ({option.code}) +{option.phone}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Choose a country"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password",
-                  }}
-                  error={error.countryCode}
-                  helperText={error.countryCode}
-                />
-              )}
-            /> */}
             <ReactFlagsSelect
               searchable={true}
               onSelect={onSelect}
@@ -169,7 +224,9 @@ const Signup = () => {
               selectedSize={13}
               optionsSize={13}
               fullWidth={true}
-              className={styles.flags_select}
+              className={
+                error.phone ? styles.flags_select_error : styles.flags_select
+              }
             />
             <TextField
               label="Phone Number*"
@@ -180,20 +237,33 @@ const Signup = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment>
-                    <Button className="custom_btn" type="button">
-                      <span>Verify</span>
-                      <span>Verify</span>
-                    </Button>
+                    <IconButton disabled={phoneDisabled} onClick={VerifyPhone}>
+                      <img src={otp.src} width={20} height={20} />
+                    </IconButton>
                   </InputAdornment>
                 ),
               }}
+              error={error.phone}
+              helperText={error.phone}
               id="phone"
               onChange={inputChangeHandler}
             />
           </div>
           <Button className="custom_btn" width="100%" type="submit">
-            <span>Proceed</span>
-            <span>Proceed</span>
+            {!loading ? (
+              <>
+                <span>Proceed</span>
+                <span>Proceed</span>
+              </>
+            ) : (
+              <Loading
+                type="bars"
+                color="#ffffff"
+                height={20}
+                width={50}
+                className="m-auto"
+              />
+            )}
           </Button>
         </form>
       </div>

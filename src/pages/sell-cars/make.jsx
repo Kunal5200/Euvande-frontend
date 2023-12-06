@@ -6,15 +6,30 @@ import { Search } from "@mui/icons-material";
 import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import styles from "@/styles/tabs.module.css";
+import { useRouter } from "next/router";
 const Make = () => {
+  const router = useRouter();
   const [brand, setBrand] = useState("");
+  const [selected, setSelected] = useState(false);
   const brandSelectHandler = (brandName) => {
     setBrand(brandName);
-    console.log(brandName);
+    setSelected(true);
+    localStorage.setItem("brand", brandName);
+    router.push("/sell-cars/period");
   };
 
-  const [disbaledtab, setDisabledTab] = useState(true);
 
+
+  const [disbaledtab, setDisabledTab] = useState(true);
+useEffect(()=>{
+    if(selected === ""){
+        setDisabledTab(true)
+    }
+    else{
+        setDisabledTab(false)
+    }
+},[selected])
   return (
     <>
       <Head>
@@ -52,8 +67,14 @@ const Make = () => {
                   <div className="col-sm-2 mb-3" key={i}>
                     <Brands
                       img={val.logo}
+                      key={i}
                       brands={val.name}
                       onClick={() => brandSelectHandler(val.name)}
+                      className={
+                        val.name === brand && selected
+                          ? styles.brandsSelected
+                          : ""
+                      }
                     />
                   </div>
                 ))}

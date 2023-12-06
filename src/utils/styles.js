@@ -108,12 +108,19 @@ export const phonetextField = {
   "& .Mui-error": {
     "& fieldset": {
       border: "1px solid #d32f2f",
+      borderLeft: "none",
+      borderTopLeftRadius: "0px",
+      borderBottomLeftRadius: "0px",
     },
     "&:hover fieldset": {
       border: "1px solid #d32f2f",
+      borderLeft: "none",
+      borderTopLeftRadius: "0px",
+      borderBottomLeftRadius: "0px",
     },
     "&.Mui-focused fieldset": {
       border: "1px solid #d32f2f",
+      borderLeft: "none",
     },
     "& label.Mui-focused": {
       color: "#d32f2f",
@@ -154,10 +161,27 @@ export const tabButton = {
   fontWeight: "500",
   minHeight: "0",
   "&.Mui-selected": {
+    color: "#FFF ",
+    border: "1px solid #000",
+    textDecoration: "none",
+    borderRadius: "20px",
+    backgroundColor:"#000"
+  },
+  "&.MuiTabs-indicator": {
+    backgroundColor: "#ffffff",
+  },
+};
+export const varianttabButton = {
+  color: "#ffffff",
+  fontSize: "12px",
+  fontWeight: "500",
+  minHeight: "0",
+  "&.Mui-selected": {
     color: "#000 ",
     border: "1px solid #eee",
     textDecoration: "none",
     borderRadius: "20px",
+    backgroundColor: "#eee",
   },
   "&.MuiTabs-indicator": {
     backgroundColor: "#ffffff",

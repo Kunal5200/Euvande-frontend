@@ -2,6 +2,7 @@ import LoginForm from "@/components/loginForm";
 import Signup from "@/components/signupForm";
 import styles from "@/styles/Login.module.css";
 import { animated, useSpring } from "@react-spring/web";
+import Head from "next/head";
 import { useState } from "react";
 const RegisterLogin = () => {
   const [position, setPosition] = useState(0);
@@ -25,6 +26,9 @@ const RegisterLogin = () => {
 
   return (
     <div className="container my-5">
+      <Head>
+        <title>Register or Login</title>
+      </Head>
       <div className="row  ">
         <div className="col-sm-8 m-auto card">
           <animated.div
@@ -48,6 +52,15 @@ const RegisterLogin = () => {
           <div className="row p-3">
             <div className="col-sm-6  ">
               <Signup />
+              <p className="f-12 px-3">
+                Already have an Account ?
+                <span
+                  onClick={handleClick}
+                  className="text-decoration-underline text-info pointer"
+                >
+                  Login
+                </span>
+              </p>
             </div>
             <div className="col-sm-6  ">
               <LoginForm otpShow={otpShow} setOtpShow={setOtpShow} />

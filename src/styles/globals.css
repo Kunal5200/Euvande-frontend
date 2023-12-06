@@ -38,7 +38,9 @@
   touch-action: manipulation;
 } */
 
-
+.w-500 {
+  width: 500px;
+}
 
 /* CSS */
 .custom_btn {
@@ -95,7 +97,7 @@
 
 .custom_btn:hover:after {
   transform-origin: bottom center;
-  transform: skewY(7.3deg) scaleY(2);
+  transform: skewY(0.3deg) scaleY(2);
 }
 
 .custom_btn:hover span:last-child {
@@ -195,6 +197,6 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: transparent;
 }
 
-.react-datepicker-wrapper{
-  width: 100% ;
+.react-datepicker-wrapper {
+  width: 100%;
 }

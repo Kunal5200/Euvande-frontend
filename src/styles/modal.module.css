@@ -15,19 +15,11 @@
 }
 
 .modal__content {
-    max-width: 500px;
+    width: 500px;
     max-height: 100%;
     border-radius: 20px;
     position: relative;
-    background-image: url("https://vroar-bucket.s3.us-west-1.amazonaws.com/background/main_bg.png"),
-        linear-gradient(180deg,
-            #e8e8e6,
-            #f0f0ef 0%,
-            #f6eee6 0%,
-            #f6eee6 0%,
-            #f0f0ef 0%,
-            #f6eee6 0%,
-            #f0f0ef 0%);
+    background-color: white;
     padding: 0;
     background-position: 50% 50%, 0 0;
     background-size: 3.125rem, auto;

@@ -9,7 +9,7 @@ const Brands = (props) => {
           display: "grid",
           placeContent: "center",
         }}
-        className="brands"
+        className={`brands ${props.className} `}
       >
         <div className="text-center">
           <img src={props.img} width={50} className="mb-1" />

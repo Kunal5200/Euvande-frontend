@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import Button from "./button";
 import OTPinput from "./otpInput";
 import { useRouter } from "next/router";
+import { login } from "@/api/apiCalling/authenticationApi";
 const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
@@ -24,13 +25,15 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     if (value == "") {
       setViaOTP(false);
     } else {
-      if (isNumber(value)) {
-        setViaOTP(true);
-        setState({ ...state, [id]: value });
-        setError({
-          ...error,
-          [id]: isPhonenumber(value) ? "" : "Please Enter Valid Phone Number",
-        });
+      if (id === "identity") {
+        if (isNumber(value)) {
+          setViaOTP(true);
+          setState({ ...state, [id]: value });
+          setError({
+            ...error,
+            [id]: isPhonenumber(value) ? "" : "Please Enter Valid Phone Number",
+          });
+        }
       } else {
         setViaOTP(false);
         setState({ ...state, [id]: value });
@@ -69,10 +72,16 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
         }
       }
     }
+    let body = {
+      email: state.identity,
+      password: state.password,
+    };
 
     if (loginValidation({ state, setError, error, viaOtp })) {
-      toast.success("OTP sent Successfully");
-      viaOtp ? setOtpShow(true) : router.push("/");
+      if (viaOtp) {
+      } else {
+        login(body);
+      }
     } else {
       toast.error("Please Enter Valid Details");
     }

@@ -19,6 +19,7 @@ const Button = (props) => {
           fontWeight: props.fw,
         }}
         onClick={props.onClick}
+        disabled={props.disabled}
       >
         {props.children}
       </button>

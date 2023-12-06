@@ -3,10 +3,9 @@ import { Tab, Tabs } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
-const LinkTab = () => {
+const LinkTab = (props) => {
   const router = useRouter();
   const [value, setvalue] = useState(0);
-
   const tabData = [
     { label: "Make", route: "/sell-cars/make" },
     { label: "Period", route: "/sell-cars/period" },
@@ -36,9 +35,24 @@ const LinkTab = () => {
 
   return (
     <div>
-      <Tabs value={value} onChange={handleChange} scrollButtons="auto">
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        scrollButtons="auto"
+        sx={{
+          border: "1px solid #ccc",
+          borderRadius: "40px",
+          padding: "8px",
+          marginBottom: "5px",
+        }}
+      >
         {tabData.map((tab, index) => (
-          <Tab key={index} label={tab.label} sx={tabButton} />
+          <Tab
+            key={index}
+            label={tab.label}
+            sx={tabButton}
+            disabled={props.disabled}
+          />
         ))}
       </Tabs>
     </div>

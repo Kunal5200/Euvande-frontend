@@ -3,9 +3,9 @@ import styles from "@/styles/Login.module.css";
 import { useState } from "react";
 import Button from "@/components/button";
 import { toast } from "react-toastify";
-import { verifyEmailOTP } from "@/api/apiCalling/authenticationApi";
 import { useDispatch } from "react-redux";
-export const VerifyOtp = () => {
+import { phoneNumberOTPVerification } from "@/api/apiCalling/authenticationApi";
+export const VerifyPhoneOTP = () => {
   const dispatch = useDispatch();
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
@@ -13,13 +13,13 @@ export const VerifyOtp = () => {
     e.preventDefault();
 
     let body = {
-      referenceId: localStorage.getItem("referenceId"),
+      referenceId: localStorage.getItem("phoneId"),
       otp: otp,
     };
     if (otp === "") {
       setError("Kindly enter the OTP that was sent to your email address.");
     } else {
-      verifyEmailOTP({ data: body, dispatch });
+      phoneNumberOTPVerification({ data: body, dispatch });
     }
   };
   return (
