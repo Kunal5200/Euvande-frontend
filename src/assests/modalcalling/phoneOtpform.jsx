@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "@/components/button";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { phoneNumberOTPVerification } from "@/api/apiCalling/authenticationApi";
+import { OtpphoneVerification, phoneNumberOTPVerification } from "@/api/apiCalling/authenticationApi";
 export const VerifyPhoneOTP = () => {
   const dispatch = useDispatch();
   const [otp, setOTP] = useState("");
@@ -19,7 +19,7 @@ export const VerifyPhoneOTP = () => {
     if (otp === "") {
       setError("Kindly enter the OTP that was sent to your email address.");
     } else {
-      phoneNumberOTPVerification({ data: body, dispatch });
+      OtpphoneVerification({ data: body, dispatch });
     }
   };
   return (

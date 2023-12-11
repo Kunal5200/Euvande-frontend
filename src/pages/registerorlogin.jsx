@@ -33,7 +33,7 @@ const RegisterLogin = () => {
         <div className="col-sm-8 m-auto card">
           <animated.div
             style={{
-              width: 380,
+              width: "50%",
               height: "100%",
               background: "rgb(238,174,202)",
               background:

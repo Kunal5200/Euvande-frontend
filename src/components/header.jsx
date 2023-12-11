@@ -4,12 +4,14 @@ import user_black from "@/icons/user_black.png";
 import styles from "@/styles/Header.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Card, Slide } from "@mui/material";
+import { Card, Divider, Slide } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Button from "./button";
+import logoblack from "@/logo/logoblackeuvande.png";
+import logoWhite from "@/logo/logowhiteeuvande.png";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -19,30 +21,53 @@ const Navbar = () => {
     setShowMenu(!showMenu);
   };
 
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
-    if (router.pathname === "/") {
+    if (
+      router.pathname === "/" ||
+      router.pathname === "/sell-cars/car-details"
+    ) {
       setShow(true);
     } else {
       setShow(false);
     }
+    if (localStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
   }, [router.pathname, show]);
+  const [popOver, setIsPopOver] = useState(false);
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/");
+    setIsPopOver(false);
+  };
+  const routePage = () => {
+    !isLogin ? router.push("/registerorlogin") : setIsPopOver(!popOver);
+  };
   return (
     <div className={`${show ? styles.mainHeader : ""} container p-2`}>
       <div className="d-flex align-items-center justify-content-between">
-        <div className={show ? "text-white" : "text-dark"}>Logo</div>
+        <Link href={"/"}>
+          {show ? (
+            <img src={logoWhite.src} width={80} height={80} />
+          ) : (
+            <img src={logoblack.src} width={80} height={80} />
+          )}
+        </Link>
         <div className="d-flex align-items-center">
-          {/* <FaRegUserCircle color="#ffffff" size={35} className="mx-3" fontWeight={300} /> */}
-          <Link href={"/registerorlogin"}>
-            <Button backgroundColor="transparent" border="none">
-              <Image
-                src={show ? user : user_black}
-                width={30}
-                height={30}
-                alt="login account"
-                className="me-3"
-              />
-            </Button>
-          </Link>
+          <Button backgroundColor="transparent" border="none">
+            <Image
+              src={show ? user : user_black}
+              width={30}
+              height={30}
+              alt="login account"
+              className="me-3"
+              onClick={routePage}
+            />
+          </Button>
+
           <Button
             border="1px solid #eee"
             rounded="20px"
@@ -86,6 +111,19 @@ const Navbar = () => {
                 </Button>
               </Link>
             </div>
+          </Card>
+        </Slide>
+      </div>
+      <div>
+        <Slide direction="down" in={popOver}>
+          <Card
+            className={styles.menuSlider}
+            style={{ right: "130px", width: "200px" }}
+          >
+            <p className="mb-0">Profile</p>
+            <p className="mb-0" onClick={handleLogout}>
+              Logout
+            </p>
           </Card>
         </Slide>
       </div>

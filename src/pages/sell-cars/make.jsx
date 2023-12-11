@@ -16,28 +16,26 @@ const Make = () => {
     setBrand(brandName);
     setSelected(true);
     localStorage.setItem("brand", brandName);
+
     router.push("/sell-cars/period");
   };
 
-
-
   const [disbaledtab, setDisabledTab] = useState(true);
-useEffect(()=>{
-    if(selected === ""){
-        setDisabledTab(true)
+  useEffect(() => {
+    if (selected === "") {
+      setDisabledTab(true);
+    } else {
+      setDisabledTab(false);
     }
-    else{
-        setDisabledTab(false)
-    }
-},[selected])
+  }, [selected]);
   return (
     <>
       <Head>
         <title>Select bar brand to estimate car selling price</title>
       </Head>
-      <div className="container">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9 ">
             <LinkTab disabled={disbaledtab} brandSelected={!brand} />
             <Card className="p-5">
               <h4 className="mb-3">Select Your Car Brand</h4>
@@ -58,27 +56,32 @@ useEffect(()=>{
                 label="Search Your Brand"
                 className="mb-3"
               />
-
-              <div
-                className="row "
-                style={{ height: "500px", overflowY: "scroll" }}
-              >
-                {data.brandsSelector.map((val, i) => (
-                  <div className="col-sm-2 mb-3" key={i}>
-                    <Brands
-                      img={val.logo}
-                      key={i}
-                      brands={val.name}
-                      onClick={() => brandSelectHandler(val.name)}
-                      className={
-                        val.name === brand && selected
-                          ? styles.brandsSelected
-                          : ""
-                      }
-                    />
-                  </div>
-                ))}
+              <div className={styles.overflow_wrapper}>
+                <div className="row ">
+                  {data.brandsSelector.map((val, i) => (
+                    <div className="col-sm-2 mb-3 text-center" key={i}>
+                      <Brands
+                        img={val.logo}
+                        key={i}
+                        brands={val.name}
+                        onClick={() => brandSelectHandler(val.name)}
+                        className={
+                          val.name === brand && selected
+                            ? styles.brandsSelected
+                            : ""
+                        }
+                        width={100}
+                        height={100}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
+            </Card>
+          </div>
+          <div className="col-sm-3">
+            <Card>
+                Helloo
             </Card>
           </div>
         </div>

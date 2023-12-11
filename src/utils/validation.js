@@ -10,14 +10,12 @@ export const loginValidation = ({ state, setError, error, viaOtp }) => {
       viaOtp
         ? {
             ...error,
-            identity:
-              identity === "" && "Please Enter Valid Phone Number or Email Id",
+            identity: identity === "" && "Please Enter Valid  Email Id",
             countryCode: countryCode === "" && "Please Select Your Country",
           }
         : {
             ...error,
-            identity:
-              identity === "" && "Please Enter Valid Email Id or Phone Number",
+            identity: identity === "" && "Please Enter Valid Email Id ",
             password: password === "" && "Please Enter Password",
           }
     );
@@ -43,3 +41,31 @@ export const registerValidation = ({ state, error, setError }) => {
     return true;
   }
 };
+
+export const contactValidation = ({ state, error, setError }) => {
+  let { name, email, phoneNumber, country, zipCode } = state;
+
+  if (
+    name === "" ||
+    email === "" ||
+    phoneNumber === "" ||
+    country === "" ||
+    zipCode === ""
+  ) {
+    setError({
+      ...error,
+      name: name === "" && "Please Enter Name ",
+      email: email === "" && "Please Enter Email",
+      phoneNumber: phoneNumber === "" && "Please Enter Phone Number",
+      country: country === "" && "Please Select Country",
+      zipCode: zipCode === "" && "Please Enter Zip Code",
+    });
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const specificationValidation=({state,error,setError})=>{
+  
+}

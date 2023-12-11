@@ -466,6 +466,133 @@ let data = {
       driven: "More than 100000 Km",
     },
   ],
+  carModifySteps: [
+    {
+      name: "Specifications",
+    },
+    {
+      name: "Equipment",
+    },
+    {
+      name: "Car Condition",
+    },
+    {
+      name: "Contact Information",
+    },
+    {
+      name: "Photos",
+    },
+    {
+      name: "Car Valutation",
+    },
+  ],
+  list1: [
+    {
+      label: "Buy",
+    },
+    {
+      label: "Sell",
+    },
+    {
+      label: "How it Works?",
+    },
+  ],
+  list2: [
+    {
+      label: "Delievery",
+    },
+    {
+      label: "Warranty",
+    },
+  ],
+  list3: [
+    {
+      label: "Online Auction",
+    },
+  ],
+  list4: [
+    {
+      label: "About us",
+    },
+    {
+      label: "Contact",
+    },
+  ],
+  transmissionType: [
+    {
+      name: "Automatic",
+    },
+    {
+      name: "Manual",
+    },
+  ],
+  vehicleType: [
+    {
+      label: "Cabriolet",
+    },
+    {
+      label: "Compact",
+    },
+    {
+      label: "Coupe",
+    },
+    {
+      label: "Estate car",
+    },
+    {
+      label: "Hatchback",
+    },
+    {
+      label: "Liftback",
+    },
+
+    {
+      label: "MPV",
+    },
+    {
+      label: "Other",
+    },
+    {
+      label: "Pick-up",
+    },
+    {
+      label: "Sedan",
+    },
+    {
+      label: "SUV / Off-road",
+    },
+    {
+      label: "Van",
+    },
+  ],
+  doors: [
+    {
+      label: "2/3",
+    },
+    {
+      label: "4/5",
+    },
+  ],
+  interior: [
+    {
+      label: "Alcantara",
+    },
+    {
+      label: "Cloth",
+    },
+    {
+      label: "Full leather",
+    },
+    {
+      label: "Other",
+    },
+    {
+      label: "Part leather",
+    },
+    {
+      label: "Velour",
+    },
+  ],
 };
 
 export default data;

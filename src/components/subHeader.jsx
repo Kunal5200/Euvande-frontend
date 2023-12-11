@@ -10,18 +10,22 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 const Subheader = () => {
   const router = useRouter();
-  const [show, setShow] = useState (false);
+  const [show, setShow] = useState(false);
   useEffect(() => {
-    if (router.pathname === "/") {
+    if (
+      router.pathname === "/" ||
+      router.pathname === "/sell-cars/car-details"
+    ) {
       setShow(true);
     } else {
       setShow(false);
     }
-  },[router.pathname,show]);
+  }, [router.pathname, show]);
   return (
     <div
-      className={`container-fluid border-bottom p-2 ${show?"absolute__header text-white":"text-dark" }  `}
-
+      className={`container-fluid border-bottom p-2 ${
+        show ? "absolute__header text-white" : "text-dark"
+      }  `}
     >
       <div className="container">
         <div className="d-flex align-items-center justify-content-between ">
@@ -38,7 +42,7 @@ const Subheader = () => {
           <div className="d-flex align-items-center">
             <TiSocialFacebook size={20} />
             <Image
-              src={show? twitter:twitterblack}
+              src={show ? twitter : twitterblack}
               alt=""
               width={15}
               height={15}

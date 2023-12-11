@@ -4,22 +4,23 @@ import { Card, Stack } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import styles from '@/styles/tabs.module.css'
+import styles from "@/styles/tabs.module.css";
 const Ownership = () => {
   const [ownership, setOwnership] = useState("");
   const router = useRouter();
   const handleClick = (ownerShip) => {
     setOwnership(ownerShip);
     router.push("/sell-cars/odometer");
+    localStorage.setItem("ownership", ownerShip);
   };
   return (
     <>
       <Head>
         <title>Ownership</title>
       </Head>
-      <div className="container">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9 ">
             <LinkTab />
             <Card className="p-3">
               <h5>Select Car Ownership</h5>
@@ -37,6 +38,9 @@ const Ownership = () => {
                 ))}
               </Stack>
             </Card>
+          </div>
+          <div className="col-sm-3">
+            <Card>hello</Card>
           </div>
         </div>
       </div>

@@ -1,34 +1,31 @@
-import countriesData from "@/assests/countriesCode";
-import countryFlag from "@/assests/countriesFlag";
-import { loginTextField, phonetextField } from "@/utils/styles";
-import {
-  Info,
-  MarkEmailRead,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
-import { IconButton, InputAdornment, Popover, TextField } from "@mui/material";
-import { useState } from "react";
-import ReactFlagsSelect from "react-flags-select";
-import Button from "./button";
-import styles from "@/styles/signup.module.css";
-import countryData from "@/assests/countries.json";
-import { useDispatch } from "react-redux";
-import { showModal } from "@/redux/reducers/modal";
-import { VerifyOtp } from "@/assests/modalcalling/otpform";
 import {
   addUser,
   phoneNumberVerification,
+  sendOtpEmail,
+  sendOtpPhone,
   verifyEmail,
 } from "@/api/apiCalling/authenticationApi";
-import carLoader from "@/loader/car.webp";
-import { registerValidation } from "@/utils/validation";
-import { isEmail, isPhonenumber } from "@/utils/regex";
-import { toast } from "react-toastify";
-import Loading from "react-loading";
+import countryData from "@/assests/countries.json";
+import countriesData from "@/assests/countriesCode";
+import countryFlag from "@/assests/countriesFlag";
 import otp from "@/icons/otp.png";
+import styles from "@/styles/signup.module.css";
+import { isEmail, isPhonenumber } from "@/utils/regex";
+import { loginTextField, phonetextField } from "@/utils/styles";
+import { registerValidation } from "@/utils/validation";
+import { Verified, Visibility, VisibilityOff } from "@mui/icons-material";
+import { IconButton, InputAdornment, Popover, TextField } from "@mui/material";
+import { useState } from "react";
+import ReactFlagsSelect from "react-flags-select";
+import { FaInfoCircle } from "react-icons/fa";
+import Loading from "react-loading";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import Button from "./button";
+import { useRouter } from "next/router";
 const Signup = () => {
   const [togglePassword, setTogglePassword] = useState(true);
+  const router = useRouter();
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -70,8 +67,8 @@ const Signup = () => {
           : "",
     });
   };
-  const [emailverify, setEmailVerify] = useState(true);
-  const [phoneverify, setPhoneVerify] = useState(true);
+  const [emailverify, setEmailVerify] = useState(false);
+  const [phoneverify, setPhoneVerify] = useState(false);
 
   const [selected, setSelected] = useState("NL");
   const [dialcode, setDialCode] = useState("+31");
@@ -89,7 +86,8 @@ const Signup = () => {
     if (state.email === "") {
       toast.error("Please Enter Valid Email ID");
     } else {
-      verifyEmail({ data: state.email, dispatch });
+      sendOtpEmail({ data: state.email, dispatch, setEmailVerify });
+      setOpenPopOverEmail(false);
     }
   };
 
@@ -101,26 +99,29 @@ const Signup = () => {
     if (state.phone === "") {
       toast.error("Please Enter Valid Phone Number");
     } else {
-      phoneNumberVerification({ data: body, dispatch });
+      sendOtpPhone({ data: body, dispatch, setPhoneVerify });
+      setopenPopOverPhone(false);
     }
   };
   const [loading, setLoading] = useState(false);
   const [openPopOverEmail, setOpenPopOverEmail] = useState(false);
+  const [openPopOverPhone, setopenPopOverPhone] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const submitHandler = (e) => {
     let body = {
       email: state.email,
-      phoneNo: state.phone,
-      countryCode: dialcode,
       name: state.name,
       password: state.password,
     };
+    console.log("ertyu");
     setLoading(true);
     e.preventDefault();
     if (registerValidation({ state, error, setError })) {
-      addUser({ setLoading, body });
+      addUser({ setLoading, body, router });
+      console.log("hello");
     } else {
       setLoading(false);
+      console.log("first");
     }
   };
   return (
@@ -159,8 +160,6 @@ const Signup = () => {
               endAdornment: (
                 <InputAdornment>
                   <IconButton
-                    disabled={emailDisabled}
-                    onClick={VerifyEmail}
                     sx={{
                       "&:hover": {
                         backgroundColor: "transparent",
@@ -170,8 +169,39 @@ const Signup = () => {
                       },
                     }}
                   >
-                    <MarkEmailRead />
+                    {emailverify ? (
+                      <Verified color="green" />
+                    ) : (
+                      <FaInfoCircle
+                        onClick={() => setOpenPopOverEmail(true)}
+                        className="animate__animated animate__pulse animate__infinite	infinite"
+                        color="#ff0000bd"
+                      />
+                    )}
                   </IconButton>
+                  <Popover
+                    anchorEl={anchorEl}
+                    onClose={() => setOpenPopOverEmail(false)}
+                    open={openPopOverEmail}
+                    anchorOrigin={{
+                      vertical: "center",
+                      horizontal: "center",
+                    }}
+                  >
+                    <div className="p-3">
+                      <p className="mb-0">
+                        Please Click the Button below to verify your Email
+                      </p>
+                      <Button
+                        onClick={VerifyEmail}
+                        className="custom_btn my-2"
+                        width="100%"
+                      >
+                        <span>Verify Now</span>
+                        <span>Verify Now</span>
+                      </Button>
+                    </div>
+                  </Popover>
                 </InputAdornment>
               ),
             }}
@@ -180,13 +210,7 @@ const Signup = () => {
             error={error.email}
             helperText={error.email}
           />
-          <Popover
-            anchorEl={anchorEl}
-            onClose={() => setOpenPopOverEmail(false)}
-            open={openPopOverEmail}
-          >
-            Your Email is not Verified
-          </Popover>
+
           <TextField
             label="Password*"
             variant="outlined"
@@ -210,7 +234,7 @@ const Signup = () => {
             error={error.password}
             helperText={error.password}
           />
-          <div className="d-flex align-items-center mb-3 ">
+          {/* <div className="d-flex align-items-center mb-3 ">
             <ReactFlagsSelect
               searchable={true}
               onSelect={onSelect}
@@ -237,9 +261,41 @@ const Signup = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment>
-                    <IconButton disabled={phoneDisabled} onClick={VerifyPhone}>
-                      <img src={otp.src} width={20} height={20} />
+                    <IconButton>
+                      {phoneverify ? (
+                        <Verified />
+                      ) : (
+                        <FaInfoCircle
+                          onClick={() => setopenPopOverPhone(true)}
+                          className="animate__animated animate__pulse animate__infinite	infinite"
+                          color="#ff0000bd"
+                        />
+                      )}
                     </IconButton>
+                    <Popover
+                      anchorEl={anchorEl}
+                      onClose={() => setopenPopOverPhone(false)}
+                      open={openPopOverPhone}
+                      anchorOrigin={{
+                        vertical: "center",
+                        horizontal: "center",
+                      }}
+                    >
+                      <div className="p-3">
+                        <p className="mb-0">
+                          Please Click the Button below to verify your Phone
+                          Number
+                        </p>
+                        <Button
+                          onClick={VerifyPhone}
+                          className="custom_btn my-2"
+                          width="100%"
+                        >
+                          <span>Verify Now</span>
+                          <span>Verify Now</span>
+                        </Button>
+                      </div>
+                    </Popover>
                   </InputAdornment>
                 ),
               }}
@@ -248,7 +304,7 @@ const Signup = () => {
               id="phone"
               onChange={inputChangeHandler}
             />
-          </div>
+          </div> */}
           <Button className="custom_btn" width="100%" type="submit">
             {!loading ? (
               <>
@@ -258,9 +314,9 @@ const Signup = () => {
             ) : (
               <Loading
                 type="bars"
-                color="#ffffff"
+                color="#000"
                 height={20}
-                width={50}
+                width={20}
                 className="m-auto"
               />
             )}

@@ -9,22 +9,29 @@ import { useState } from "react";
 import styles from "@/styles/tabs.module.css";
 const Variant = () => {
   const [value, setValue] = useState(0);
-  const handleChange = (e, newvalue) => {
-    setValue(newvalue);
-  };
+
   const [variant, setVariant] = useState("");
+  const [variantType, setVariantType] = useState("Petrol");
   const router = useRouter();
   const handleClick = (variant) => {
     setVariant(variant);
     router.push("/sell-cars/ownership");
+    localStorage.setItem("variant", variant);
+    localStorage.setItem("variantType", variantType);
   };
 
+  const handleChange = (e, newvalue) => {
+    setValue(newvalue);
+    setVariantType(e.target.id);
+  };
   const tabs = [
     {
       name: "petrol variant",
+      id: "Petrol",
     },
     {
       name: "diesel variant",
+      id: "Diesel",
     },
   ];
   return (
@@ -32,9 +39,9 @@ const Variant = () => {
       <Head>
         <title>Variant</title>
       </Head>
-      <div className="container">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9 ">
             <LinkTab />
             <Card className="p-3">
               <h5 className="mb-3">Select Variant</h5>
@@ -48,7 +55,12 @@ const Variant = () => {
                 }}
               >
                 {tabs.map((val, i) => (
-                  <Tab label={val.name} key={i} sx={varianttabButton} />
+                  <Tab
+                    label={val.name}
+                    id={val.id}
+                    key={i}
+                    sx={varianttabButton}
+                  />
                 ))}
               </Tabs>
               <TabPanel value={value} index={0} className="mt-3 p-2">
@@ -86,6 +98,9 @@ const Variant = () => {
                 </Grid>
               </TabPanel>
             </Card>
+          </div>
+          <div className="col-sm-3">
+            <Card>Hello</Card>
           </div>
         </div>
       </div>

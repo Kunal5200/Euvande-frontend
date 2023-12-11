@@ -14,6 +14,9 @@ const LinkTab = (props) => {
     { label: "Ownership", route: "/sell-cars/ownership" },
     { label: "Odometer", route: "/sell-cars/odometer" },
     { label: "Location", route: "/sell-cars/location" },
+    { label: "Specifications", route: "/sell-cars/specifications" },
+    { label: "Contact Information", route: "/sell-cars/contact-information" },
+    { label: "Photos", route: "/sell-cars/upload-picture" },
   ];
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const LinkTab = (props) => {
           border: "1px solid #ccc",
           borderRadius: "40px",
           padding: "8px",
-          marginBottom: "5px",
+          marginBottom: "20px",
         }}
       >
         {tabData.map((tab, index) => (

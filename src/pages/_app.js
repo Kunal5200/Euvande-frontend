@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-multi-carousel/lib/styles.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import 'animate.css';
 import { ToastContainer } from "react-toastify";
 import { Provider } from "react-redux";
 import store from "@/redux/store";

@@ -28,9 +28,9 @@ const Period = () => {
       <Head>
         <title>Select period Of time</title>
       </Head>
-      <div className="container">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9 ">
             <LinkTab />
 
             <Card className="p-3">
@@ -68,6 +68,9 @@ const Period = () => {
                 ))}
               </Grid>
             </Card>
+          </div>
+          <div className="col-sm-3">
+            <Card>Hello</Card>
           </div>
         </div>
       </div>

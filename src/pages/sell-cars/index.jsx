@@ -11,9 +11,13 @@ import { cardStyles, loginTextField, responsive } from "@/utils/styles";
 import { Card, Divider, Grid, Stack, TextField } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
 const SellerLogin = () => {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -88,6 +92,7 @@ const SellerLogin = () => {
                   width={200}
                   rounded="5px"
                   height="50px"
+                  onClick={() => router.push("/create-demand")}
                 >
                   <span>
                     Sell My Car <FaArrowRight className="ms-2" />
@@ -113,13 +118,19 @@ const SellerLogin = () => {
                   alignItems={"center"}
                 >
                   {data.brandsSelector.slice(0, 7).map((val, i) => (
-                    <Brands img={val.logo} brands={val.name} key={i} />
+                    <Brands
+                      img={val.logo}
+                      brands={val.name}
+                      key={i}
+                      width={95}
+                      height={95}
+                    />
                   ))}
-                  <Link href={'/sell-cars/make'} className="link">
+                  <Link href={"/sell-cars/make"} className="link">
                     <Card
                       sx={{
                         width: "95px",
-                        height: "80px",
+                        height: "95px",
                         display: "flex",
 
                         alignItems: "center",

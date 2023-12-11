@@ -11,21 +11,19 @@ const Odometer = () => {
   const handleClick = (driven) => {
     setDriven(driven);
     router.push("/sell-cars/location");
+    localStorage.setItem("driven", driven);
   };
   return (
     <>
       <Head>
         <title>Odometer</title>
       </Head>
-      <div className="container">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9 ">
             <LinkTab />
 
-            <Card
-              className="p-3"
-              style={{ height: "500px", overflowY: "scroll" }}
-            >
+            <Card className={`p-3 ${styles.overflow_wrapper}`}>
               <h5 className="mb-2">Select Km Driven</h5>
               <Stack spacing={3}>
                 {data.odometer.map((val, i) => (
@@ -41,6 +39,9 @@ const Odometer = () => {
                 ))}
               </Stack>
             </Card>
+          </div>
+          <div className="col-sm-3">
+            <Card>Hello</Card>
           </div>
         </div>
       </div>

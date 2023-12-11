@@ -1,11 +1,11 @@
 import { Card } from "@mui/material";
 const Brands = (props) => {
   return (
-    <div onClick={props.onClick}>
+    <div className="d-flex align-items-center justify-content-center" onClick={props.onClick}>
       <Card
         sx={{
-          width: "95px",
-          height: "80px",
+          width: props.width,
+          height: props.height,
           display: "grid",
           placeContent: "center",
         }}

@@ -15,8 +15,8 @@ export const authControllers = {
 
   login: async (data) => {
     try {
-      let result = await publicAPI.publicAPI(
-        "authentication/api/user/login",
+      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
+        "/api/user/login",
         data
       );
       return result;
@@ -57,6 +57,17 @@ export const authControllers = {
       throw error;
     }
   },
+  emailOtpVerification: async (data) => {
+    try {
+      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
+        "/api/updateEmail/EmailOtpVerification",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
   phoneVerification: async (data) => {
     try {
       let result = await ngRokpublicAPI.ngROKpublicAPI.post(
@@ -68,10 +79,44 @@ export const authControllers = {
       throw error;
     }
   },
+  sendOTPonPhone: async (data) => {
+    try {
+      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
+        "api/updatePhone/SendOtpOnPhone",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
   phoneOTPVerification: async (data) => {
     try {
       let result = await ngRokpublicAPI.ngROKpublicAPI.post(
         "api/updatePhone/phoneNoVerification",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  otpPhoneVerification: async (data) => {
+    try {
+      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
+        "api/updatePhone/phoneNoVerification",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  sendOtponEmail: async (data) => {
+    try {
+      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
+        "api/updateEmail/SendOtpOnEmail",
         data
       );
       return result;

@@ -10,13 +10,15 @@ const ngRokSecuredAPI = axios.create({
 });
 
 ngRokSecuredAPI.interceptors.request.use((config) => {
-  const token = localStorage.getItem("myToken");
-  config.headers.accessToken = token;
+  const token = localStorage.getItem("accessToken");
+  config.headers.accessToken = `${token}`;
+  return config;
 });
 
 securedAPI.interceptors.request.use((config) => {
-  const token = localStorage.getItem("myToken");
-  config.headers.accessToken = token;
+  const token = localStorage.getItem("accessToken");
+  config.headers.accessToken = `${token}`;
+  return config;
 });
 
 const ngROKpublicAPI = axios.create({
@@ -27,4 +29,4 @@ const publicAPI = axios.create({
   baseURL: serverconstants.authenticationServerURL,
 });
 
-export default { securedAPI, publicAPI,ngRokSecuredAPI,ngROKpublicAPI };
+export default { securedAPI, publicAPI, ngRokSecuredAPI, ngROKpublicAPI };

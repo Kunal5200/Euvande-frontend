@@ -21,15 +21,16 @@ const Model = () => {
     setModel(modelName);
     setSelected(true);
     router.push("/sell-cars/variant");
+    localStorage.setItem("model", modelName);
   };
   return (
     <>
       <Head>
         <title>Select Model of your Car</title>
       </Head>
-      <div className="container">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9 ">
             <LinkTab />
 
             <Card className="p-3">
@@ -68,6 +69,9 @@ const Model = () => {
                 ))}
               </Grid>
             </Card>
+          </div>
+          <div className="col-sm-3">
+            <Card>hello</Card>
           </div>
         </div>
       </div>

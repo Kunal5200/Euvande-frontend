@@ -22,6 +22,7 @@ export default function Home() {
     backgroundColor: "rgb(34 34 34 / 34%)",
     color: "#ffffff",
   };
+
   return (
     <>
       <Head>

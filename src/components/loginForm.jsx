@@ -3,13 +3,21 @@ import { countries } from "@/assests/country";
 import { isEmail, isNumber, isPhonenumber } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
 import { loginValidation } from "@/utils/validation";
-import { Autocomplete, Box, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Button from "./button";
 import OTPinput from "./otpInput";
 import { useRouter } from "next/router";
 import { login } from "@/api/apiCalling/authenticationApi";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
 const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
@@ -19,30 +27,39 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   const [viaOtp, setViaOTP] = useState(false);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const inputHandler = (e) => {
     let { id, value } = e.target;
-    if (value == "") {
-      setViaOTP(false);
-    } else {
-      if (id === "identity") {
-        if (isNumber(value)) {
-          setViaOTP(true);
-          setState({ ...state, [id]: value });
-          setError({
-            ...error,
-            [id]: isPhonenumber(value) ? "" : "Please Enter Valid Phone Number",
-          });
-        }
-      } else {
-        setViaOTP(false);
-        setState({ ...state, [id]: value });
-        setError({
-          ...error,
-          [id]: isEmail(value) ? "" : "Please Enter Valid Email Id",
-        });
-      }
-    }
+    // if (value == "") {
+    //   setViaOTP(false);
+    // } else {
+    //   if (isNumber(value)) {
+    //     setViaOTP(true);
+    //     setState({ ...state, [id]: value });
+    //     setError({
+    //       ...error,
+    //       [id]: isPhonenumber(value) ? "" : "Please Enter Valid Phone Number",
+    //     });
+    //   } else {
+    //     setViaOTP(false);
+    //     setState({ ...state, [id]: value });
+    //     setError({
+    //       ...error,
+    //       [id]: isEmail(value) ? "" : "Please Enter Valid Email Id",
+    //     });
+    //   }
+    // }
+    setState({ ...state, [id]: value });
+    setError({
+      ...error,
+      [id]:
+        id === "identity"
+          ? isEmail(value)
+            ? ""
+            : "Please Enter valid Email"
+          : "",
+    });
   };
   const handleCountryChange = (_, newValue) => {
     if (newValue) {
@@ -78,15 +95,13 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     };
 
     if (loginValidation({ state, setError, error, viaOtp })) {
-      if (viaOtp) {
-      } else {
-        login(body);
-      }
+      login({ body, router, dispatch });
     } else {
       toast.error("Please Enter Valid Details");
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div>
       {!otpShow ? (
@@ -100,7 +115,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
           </p>
 
           <div>
-            {viaOtp && (
+            {/* {viaOtp && (
               <Autocomplete
                 sx={loginTextField}
                 options={countries}
@@ -137,10 +152,10 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                   />
                 )}
               />
-            )}
+            )} */}
             <TextField
               variant="outlined"
-              label="Enter Your Email or Phone Number*"
+              label="Enter Your Email*"
               sx={loginTextField}
               fullWidth
               type="text"
@@ -150,20 +165,29 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
               className="my-4"
               id="identity"
             />
-            {!viaOtp && (
-              <TextField
-                type="password"
-                className="mb-4"
-                variant="outlined"
-                fullWidth
-                label="Password"
-                sx={loginTextField}
-                id="password"
-                onChange={inputHandler}
-                error={error.password}
-                helperText={error.password}
-              />
-            )}
+            {/* {!viaOtp && ( */}
+            <TextField
+              type={showPassword ? "text" : "password"}
+              className="mb-4"
+              variant="outlined"
+              fullWidth
+              label="Password"
+              sx={loginTextField}
+              id="password"
+              onChange={inputHandler}
+              error={error.password}
+              helperText={error.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment>
+                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      {!showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {/* )} */}
           </div>
 
           {/* <p
