@@ -1,18 +1,20 @@
-import { getUserInfo } from "@/api/apiCalling/listingApi";
-import LinkTab from "@/components/linktab";
-import { Autocomplete, Box, Card, Grid, Stack, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import CheckIcon from "@mui/icons-material/Check";
-import { loginTextField } from "@/utils/styles";
+import {
+  getUserProfile,
+  updateUserDetails,
+} from "@/api/apiCalling/authenticationApi";
 import { countries } from "@/assests/country";
 import Button from "@/components/button";
-import { useRouter } from "next/router";
-import { contactValidation } from "@/utils/validation";
-import { toast } from "react-toastify";
+import LinkTab from "@/components/linktab";
 import { isEmail, isPhonenumber } from "@/utils/regex";
-import { useDispatch, useSelector } from "react-redux";
-import { listingController } from "@/api/listing";
-
+import { loginTextField } from "@/utils/styles";
+import { contactValidation } from "@/utils/validation";
+import CheckIcon from "@mui/icons-material/Check";
+import { Autocomplete, Box, Card, Grid, Stack, TextField } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import Loading from "react-loading";
 const ContactInformation = () => {
   const router = useRouter();
   const [user, setUser] = useState({});
@@ -49,57 +51,51 @@ const ContactInformation = () => {
     phoneNumber: "",
     country: "",
     zipCode: "",
+    countryCode: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const [country, setCountry] = useState("");
   const handleCountryChange = (event, newValue) => {
     if (newValue) {
-      setState({ ...state, country: newValue.label });
+      setState({
+        ...state,
+        country: newValue.label,
+        countryCode: newValue.phone,
+      });
       setCountry(newValue);
+
       setError({ ...error, country: "" });
     } else {
       setState({ ...state, country: "" });
     }
   };
   const submitHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
-    console.log(state);
+    let body = {
+      name: state.name,
+      countryName: state.country,
+      zipCode: state.zipCode,
+      phoneNo: state.phoneNumber,
+      countryCode: state.countryCode,
+      email: state.email,
+    };
     if (contactValidation({ state, error, setError })) {
+      updateUserDetails({ body, setLoading, router });
+
       localStorage.setItem("userDetails", JSON.stringify(state));
-      router.push("/sell-cars/upload-picture");
     } else {
       toast.error("Please Enter Details");
     }
-  };
-
-  const loggedInUserDetails = () => {
-    listingController
-      .getUserDetails()
-      .then((res) => {
-        setUser(res.data.data);
-        const userData = res.data.data;
-        const countryName = countries.find(
-          (code) => `+${code.phone}` === userData.countryCode
-        );
-
-        setState({
-          ...state,
-          name: userData.name || "",
-          phoneNumber: userData.phoneNo || "",
-          email: userData.email || "",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const [show, setShow] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      // getUserInfo({ dispatch, setUser });
-      loggedInUserDetails();
+      getUserProfile({ setState, state, setUser });
       setShow(true);
     } else {
       setShow(false);
@@ -133,7 +129,7 @@ const ContactInformation = () => {
                       YOU ARE LOGGED IN WITH THE E-MAIL:
                     </p>
                     <span className="text-success f-13 fw-bold">
-                      {user && user.email ? user.email : ""}
+                      {state && user.email ? user.email : ""}
                     </span>
                   </Grid>
                 </Grid>
@@ -148,6 +144,7 @@ const ContactInformation = () => {
                       sx={loginTextField}
                       error={error.email}
                       helperText={error.email}
+                      value={state.email}
                     />
                   </Grid>
                 </Grid>
@@ -165,8 +162,10 @@ const ContactInformation = () => {
                       variant="outlined"
                       error={error.name}
                       helperText={error.name}
-                      defaultValue={state.name}
-                      focused={state.name}
+                      value={state.name}
+                      focused={
+                        state.name === "" || state.name === null ? false : true
+                      }
                     />
                   </Grid>
                   <Grid item xs={6}>
@@ -178,8 +177,7 @@ const ContactInformation = () => {
                       id="phoneNumber"
                       error={error.phoneNumber}
                       helperText={error.phoneNumber}
-                      defaultValue={state.phoneNumber}
-                      focused={state.phoneNumber}
+                      value={state.phoneNumber}
                     />
                   </Grid>
                 </Grid>
@@ -240,8 +238,20 @@ const ContactInformation = () => {
                 </Grid>
                 <div className="text-end my-3 p-3">
                   <Button className="custom_btn" width="200px">
-                    <span>Continue</span>
-                    <span>Continue</span>
+                    {loading ? (
+                      <Loading
+                        type="bars"
+                        color="#000"
+                        className="m-auto"
+                        width={20}
+                        height={20}
+                      />
+                    ) : (
+                      <>
+                        <span>Continue</span>
+                        <span>Continue</span>
+                      </>
+                    )}
                   </Button>
                 </div>
               </form>

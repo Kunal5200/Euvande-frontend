@@ -1,44 +1,119 @@
 import sliderImage1 from "@/banner_image/sliderImage1.jpeg";
-import image1 from "@/icons/quote.jpg";
-import image2 from "@/icons/doorstep.webp";
-import image3 from "@/icons/payment.jpg";
-import profile1 from "@/reviewer/profile1.jpg";
-import profile2 from "@/reviewer/profile2.jpg";
-import profile3 from "@/reviewer/profile3.jpg";
-import profile4 from "@/reviewer/profile4.jpg";
-import profile5 from "@/reviewer/profile5.jpg";
-import maruti from "@/brandImage/maruti.webp";
-import hyundai from "@/brandImage/hyundai.webp";
-import ford from "@/brandImage/Ford.webp";
-import honda from "@/brandImage/Honda.webp";
-import mahindra from "@/brandImage/mahindra.webp";
-import tata from "@/brandImage/tata.webp";
-import nissan from "@/brandImage/Nissan.webp";
-import toyota from "@/brandImage/toyota.webp";
-import ashokleyland from "@/brandImage/ashokleyland.webp";
 import astonMartin from "@/brandImage/Aston-Martin.webp";
 import audi from "@/brandImage/Audi.webp";
-import bentley from "@/brandImage/bentley.webp";
 import bwm from "@/brandImage/BMW.webp";
+import chrysler from "@/brandImage/Chrysler.webp";
+import citroen from "@/brandImage/Citroen.webp";
+import daewoo from "@/brandImage/Daewoo.webp";
+import datsun from "@/brandImage/Datsun.webp";
+import ford from "@/brandImage/Ford.webp";
+import honda from "@/brandImage/Honda.webp";
+import hummer from "@/brandImage/Hummer.webp";
+import nissan from "@/brandImage/Nissan.webp";
+import ashokleyland from "@/brandImage/ashokleyland.webp";
+import bentley from "@/brandImage/bentley.webp";
 import bugatti from "@/brandImage/bugatti.webp";
 import cadillac from "@/brandImage/cadillac.webp";
 import caterham from "@/brandImage/caterham.webp";
 import chevrolet from "@/brandImage/chevrolet.webp";
-import chrysler from "@/brandImage/Chrysler.webp";
-import citroen from "@/brandImage/Citroen.webp";
 import conquest from "@/brandImage/conquest.webp";
-import daewoo from "@/brandImage/Daewoo.webp";
-import datsun from "@/brandImage/Datsun.webp";
 import dc from "@/brandImage/dc.webp";
 import dodge from "@/brandImage/dodge.webp";
 import ferrari from "@/brandImage/ferrari.webp";
 import fiat from "@/brandImage/fiat.webp";
 import force from "@/brandImage/force.webp";
 import hindustanmotors from "@/brandImage/hindustanmotors.webp";
-import hummer from "@/brandImage/Hummer.webp";
+import hyundai from "@/brandImage/hyundai.webp";
 import lamborghini from "@/brandImage/lamborghini.webp";
+import mahindra from "@/brandImage/mahindra.webp";
 import rollyroyce from "@/brandImage/rollsroyce.webp";
+import tata from "@/brandImage/tata.webp";
+import toyota from "@/brandImage/toyota.webp";
+import image2 from "@/icons/doorstep.webp";
+import image3 from "@/icons/payment.jpg";
+import image1 from "@/icons/quote.jpg";
+import profile1 from "@/reviewer/profile1.jpg";
+import profile2 from "@/reviewer/profile2.jpg";
+import profile3 from "@/reviewer/profile3.jpg";
+import profile4 from "@/reviewer/profile4.jpg";
+import profile5 from "@/reviewer/profile5.jpg";
+import frontLeft from "@/carProduct/exterior/frontleft.webp";
+import frontView from "@/carProduct/exterior/frontview.webp";
+import frontRight from "@/carProduct/exterior/frontright.webp";
+import rearRight from "@/carProduct/exterior/backright.webp";
+import rearView from "@/carProduct/exterior/backview.webp";
+import rearLeft from "@/carProduct/exterior/backleft.webp";
+import headlamp from "@/carProduct/exterior/frontlight.webp";
+import engine from "@/carProduct/exterior/engine.webp";
+import driversdoor from "@/carProduct/interior/driversdoor.webp";
+import driverSeat from "@/carProduct/interior/driverseat.webp";
+import codriversSeat from "@/carProduct/interior/codriverseat.webp";
+import instrumentPanel from "@/carProduct/interior/instrumentpanel.webp";
 let data = {
+  photoUpload: [
+    {
+      image: frontLeft.src,
+      label: "Front Left",
+      id: "frontLeft",
+    },
+    {
+      image: frontView.src,
+      label: "Front View",
+      id: "frontView",
+    },
+    {
+      image: frontRight.src,
+      label: "Front Right",
+      id: "frontRight",
+    },
+    {
+      image: rearRight.src,
+      label: "Rear Right",
+      id: "rearRight",
+    },
+    {
+      image: rearView.src,
+      label: "Rear View",
+      id: "rearView",
+    },
+    {
+      image: rearLeft.src,
+      label: "Rear Left",
+      id: "rearLeft",
+    },
+    {
+      image: headlamp.src,
+      label: "Headlamp",
+      id: "headlamp",
+    },
+    {
+      image: engine.src,
+      label: "Engine",
+      id: "engine",
+    },
+  ],
+  interiorPhotoUpload: [
+    {
+      image: driversdoor.src,
+      label: "Driver Door",
+      id: "driversDoor",
+    },
+    {
+      image: driverSeat.src,
+      label: "Driver Seat",
+      id: "driverSeat",
+    },
+    {
+      image: codriversSeat.src,
+      label: "Passenger Seat",
+      id: "passengerSeat",
+    },
+    {
+      image: instrumentPanel.src,
+      label: "Instrument Panel",
+      id: "instrumentpanel",
+    },
+  ],
   sliderData: [
     {
       image: sliderImage1,

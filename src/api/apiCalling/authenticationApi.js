@@ -1,133 +1,81 @@
 import { toast } from "react-toastify";
 import { authControllers } from "../authentication";
-import { hideModal, showModal } from "@/redux/reducers/modal";
-import { VerifyOtp } from "@/assests/modalcalling/otpform";
-import { VerifyPhoneOTP } from "@/assests/modalcalling/phoneOtpform";
-import { loggedIn } from "@/redux/reducers/user";
 
-// export const verifyEmail = ({ data, dispatch, setEmailVerify }) => {
-//   let body = {
-//     email: data,
-//   };
-//   authControllers
-//     .verifyEmail(body)
-//     .then((res) => {
-//       toast.success(res.data.message);
-//       localStorage.setItem("referenceId", res.data.data.referenceId);
-//       dispatch(showModal(<VerifyOtp setEmailVerify={setEmailVerify} />));
-//     })
-//     .catch((err) => {
-//       toast.error(err.response.data.message);
-//     });
-// };
-
-export const sendOtpEmail = ({ data, dispatch, setEmailVerify }) => {
-  let body = {
-    email: data,
-  };
+export const userRegister = ({ setLoading, body, setEmailVerify }) => {
   authControllers
-    .sendOtponEmail(body)
+    .RegisterUser(body)
     .then((res) => {
       toast.success(res.data.message);
       localStorage.setItem("referenceId", res.data.data.referenceId);
-      dispatch(showModal(<VerifyOtp setEmailVerify={setEmailVerify} />));
-    })
-    .catch((err) => {
-      toast.error(err.response.data.message);
-    });
-};
-
-export const addUser = ({ setLoading, body, router }) => {
-  authControllers
-    .registerUser(body)
-    .then((res) => {
-      toast.success(res.data.message);
       setLoading(false);
-      router.push("/");
-    })
-    .catch((err) => {
-      console.log(err);
-      setLoading(false);
-      toast.error(err.response.data.message);
-    });
-};
-
-// export const verifyEmailOTP = ({ data, dispatch, setEmailVerify }) => {
-//   authControllers
-//     .emailOTPVerify(data)
-//     .then((res) => {
-//       toast.success(res.data.message);
-//       dispatch(hideModal());
-//       setEmailVerify(true);
-//     })
-//     .catch((err) => {
-//       toast.error(err.response.data.message);
-//     });
-// };
-export const otpEmailVerify = ({ data, dispatch, setEmailVerify }) => {
-  authControllers
-    .emailOtpVerification(data)
-    .then((res) => {
-      toast.success(res.data.message);
-      dispatch(hideModal());
       setEmailVerify(true);
     })
     .catch((err) => {
       toast.error(err.response.data.message);
-    });
-};
-// export const phoneNumberVerification = ({ data, dispatch, setPhoneVerify }) => {
-//   authControllers
-//     .phoneVerification(data)
-//     .then((res) => {
-//       toast.success(res.data.message);
-//       setPhoneVerify(true);
-//       localStorage.setItem("phoneId", res.data.data.referenceId);
-//       dispatch(showModal(<VerifyPhoneOTP />));
-//     })
-//     .catch((err) => {
-//       toast.error(err.response.data.message);
-//     });
-// };
-export const sendOtpPhone = ({ data, dispatch, setPhoneVerify }) => {
-  authControllers
-    .sendOTPonPhone(data)
-    .then((res) => {
-      toast.success(res.data.message);
-      setPhoneVerify(true);
-      localStorage.setItem("phoneId", res.data.data.referenceId);
-      dispatch(showModal(<VerifyPhoneOTP />));
-    })
-    .catch((err) => {
-      toast.error(err.response.data.message);
+      setLoading(false);
     });
 };
 
-
-export const OtpphoneVerification = ({ data, dispatch }) => {
+export const userVerify = ({ body, setLoading, router }) => {
   authControllers
-    .otpPhoneVerification(data)
+    .verifyOtp(body)
     .then((res) => {
       toast.success(res.data.message);
-      dispatch(hideModal());
-    })
-    .catch((err) => {
-      toast.error(err.response.data.message);
-    });
-};
-export const login = ({ body, router, dispatch }) => {
-  authControllers
-    .login(body)
-    .then((res) => {
-      const response = res.data.data;
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
-      localStorage.setItem("isLogin", true);
-      dispatch(loggedIn({ ...response, isAuthenticated: true }));
-      toast.success(res.data.message);
+      setLoading(false);
       router.push("/");
     })
     .catch((err) => {
-      toast.error(err.response.data.messsage);
+      toast.error(err.response.data.message);
+      setLoading(false);
+    });
+};
+
+export const loginUser = ({ body, router, setLoading }) => {
+  authControllers
+    .loginUser(body)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      setLoading(false);
+      router.back();
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message);
+      setLoading(false);
+    });
+};
+
+export const getUserProfile = ({ setState, setUser, state }) => {
+  authControllers
+    .getUserDetails()
+    .then((res) => {
+      setState({
+        ...state,
+        name: res.data.data.name,
+        email: res.data.data.email,
+      });
+      setUser(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const updateUserDetails = ({ body, setLoading, router }) => {
+  const stateStringfy = JSON.stringify(body);
+  authControllers
+    .updateUserDetails(body)
+    .then((res) => {
+      toast.success(res.data.message);
+      setLoading(false);
+
+      router.push("/sell-cars/upload-picture");
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message);
+      setLoading(false);
     });
 };

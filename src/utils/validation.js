@@ -26,13 +26,13 @@ export const loginValidation = ({ state, setError, error, viaOtp }) => {
 };
 
 export const registerValidation = ({ state, error, setError }) => {
-  let { email, phone, password, name } = state;
+  let { email, password, name } = state;
 
-  if (name === "" || phone === "" || password === "" || email === "") {
+  if (name === "" || password === "" || email === "") {
     setError({
       ...error,
       name: name === "" && "Name is Required",
-      phone: phone === "" && "Phone Number is Required",
+
       password: password === "" && "Password is Required",
       email: email === "" && "Email Address is Required",
     });
@@ -66,6 +66,4 @@ export const contactValidation = ({ state, error, setError }) => {
   }
 };
 
-export const specificationValidation=({state,error,setError})=>{
-  
-}
+export const specificationValidation = ({ state, error, setError }) => {};

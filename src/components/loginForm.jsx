@@ -15,7 +15,8 @@ import { toast } from "react-toastify";
 import Button from "./button";
 import OTPinput from "./otpInput";
 import { useRouter } from "next/router";
-import { login } from "@/api/apiCalling/authenticationApi";
+import Loading from "react-loading";
+import { login, loginUser } from "@/api/apiCalling/authenticationApi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 const LoginForm = ({ otpShow, setOtpShow }) => {
@@ -24,32 +25,13 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     countryCode: "",
     password: "",
   });
-  const [viaOtp, setViaOTP] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   const inputHandler = (e) => {
     let { id, value } = e.target;
-    // if (value == "") {
-    //   setViaOTP(false);
-    // } else {
-    //   if (isNumber(value)) {
-    //     setViaOTP(true);
-    //     setState({ ...state, [id]: value });
-    //     setError({
-    //       ...error,
-    //       [id]: isPhonenumber(value) ? "" : "Please Enter Valid Phone Number",
-    //     });
-    //   } else {
-    //     setViaOTP(false);
-    //     setState({ ...state, [id]: value });
-    //     setError({
-    //       ...error,
-    //       [id]: isEmail(value) ? "" : "Please Enter Valid Email Id",
-    //     });
-    //   }
-    // }
+
     setState({ ...state, [id]: value });
     setError({
       ...error,
@@ -61,12 +43,6 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
           : "",
     });
   };
-  const handleCountryChange = (_, newValue) => {
-    if (newValue) {
-      setState({ ...state, countryCode: newValue.phone });
-      setError({ ...error, countryCode: "" });
-    }
-  };
 
   const [error, setError] = useState({
     identity: "",
@@ -74,30 +50,27 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const loginsubmitHandler = (e) => {
     e.preventDefault();
-    if (viaOtp) {
-      if (isNumber(state.identity)) {
-        if (!isPhonenumber(state.identity)) {
-          setError({ ...error, identity: "Please Enter valid Phone Number" });
-          return;
-        }
-      } else {
-        if (!isEmail(state.identity)) {
-          setError({ ...error, identity: "Please Enter Valid Email Id" });
-          return;
-        }
-      }
+    setLoading(true);
+
+    if (!isEmail(state.identity)) {
+      setError({ ...error, identity: "Please Enter Valid Email Id" });
+      setLoading(false);
+      return;
     }
     let body = {
       email: state.identity,
       password: state.password,
     };
 
-    if (loginValidation({ state, setError, error, viaOtp })) {
-      login({ body, router, dispatch });
+    if (loginValidation({ state, setError, error })) {
+      loginUser({ body, router, setLoading });
     } else {
       toast.error("Please Enter Valid Details");
+      setLoading(false);
     }
   };
 
@@ -115,44 +88,6 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
           </p>
 
           <div>
-            {/* {viaOtp && (
-              <Autocomplete
-                sx={loginTextField}
-                options={countries}
-                autoHighlight
-                onChange={handleCountryChange}
-                getOptionLabel={(option) => option.label}
-                renderOption={(props, option) => (
-                  <Box
-                    component="li"
-                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                    {...props}
-                  >
-                    <img
-                      loading="lazy"
-                      width={20}
-                      height={20}
-                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                      alt=""
-                    />
-                    {option.label} ({option.code}) +{option.phone}
-                  </Box>
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Choose a country"
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "new-password",
-                    }}
-                    error={error.countryCode}
-                    helperText={error.countryCode}
-                  />
-                )}
-              />
-            )} */}
             <TextField
               variant="outlined"
               label="Enter Your Email*"
@@ -165,7 +100,6 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
               className="my-4"
               id="identity"
             />
-            {/* {!viaOtp && ( */}
             <TextField
               type={showPassword ? "text" : "password"}
               className="mb-4"
@@ -187,19 +121,24 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                 ),
               }}
             />
-            {/* )} */}
           </div>
 
-          {/* <p
-            className="ms-2 text-start f-12 text-decoration-underline pointer"
-            onClick={() => setViaOTP(!viaOtp)}
-          >
-            {viaOtp ? "Login Via Email and Password" : "Login Via OTP"}
-          </p> */}
           <div className="text-center ">
             <Button className="custom_btn" width="100%">
-              <span>Login</span>
-              <span>Login</span>
+              {loading ? (
+                <Loading
+                  type="bars"
+                  className="m-auto"
+                  width={20}
+                  height={20}
+                  color="#000"
+                />
+              ) : (
+                <>
+                  <span>Login</span>
+                  <span>Login</span>
+                </>
+              )}
             </Button>
           </div>
         </form>

@@ -2,121 +2,53 @@ import securedAPI from "./config";
 import publicAPI from "./config";
 import ngRokpublicAPI from "./config";
 export const authControllers = {
-  loginRegister: async () => {
+  RegisterUser: async (body) => {
     try {
       let result = await publicAPI.publicAPI.post(
-        "authentication/api/user/loginOrRegister"
+        "authentication/api/user/register",
+        body
       );
       return result;
     } catch (error) {
       throw error;
     }
   },
-
-  login: async (data) => {
+  verifyOtp: async (body) => {
     try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "/api/user/login",
-        data
+      let result = await publicAPI.publicAPI.post(
+        "authentication/api/user/verify",
+        body
       );
       return result;
     } catch (error) {
       throw error;
     }
   },
-  verifyEmail: async (data) => {
+  loginUser: async (body) => {
     try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "/api/updateEmail/addOrUpdateEmail",
-        data
+      let result = await publicAPI.publicAPI.post(
+        "authentication/api/user/login",
+        body
       );
       return result;
     } catch (error) {
       throw error;
     }
   },
-  registerUser: async (data) => {
+  getUserDetails: async () => {
     try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "/api/user/UserRegistration",
-        data
+      let result = await securedAPI.securedAPI.get(
+        "/authentication/api/user/getUserDetail"
       );
       return result;
     } catch (error) {
       throw error;
     }
   },
-  emailOTPVerify: async (data) => {
+  updateUserDetails: async (data) => {
     try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "/api/updateEmail/emailVerification",
-        data
-      );
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  },
-  emailOtpVerification: async (data) => {
-    try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "/api/updateEmail/EmailOtpVerification",
-        data
-      );
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  },
-  phoneVerification: async (data) => {
-    try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "api/updatePhone/addOrUpdatePhone",
-        data
-      );
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  },
-  sendOTPonPhone: async (data) => {
-    try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "api/updatePhone/SendOtpOnPhone",
-        data
-      );
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  },
-  phoneOTPVerification: async (data) => {
-    try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "api/updatePhone/phoneNoVerification",
-        data
-      );
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  },
-  otpPhoneVerification: async (data) => {
-    try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "api/updatePhone/phoneNoVerification",
-        data
-      );
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  sendOtponEmail: async (data) => {
-    try {
-      let result = await ngRokpublicAPI.ngROKpublicAPI.post(
-        "api/updateEmail/SendOtpOnEmail",
+      let result = await securedAPI.securedAPI.post(
+        "authentication/api/user/updateUserDetail",
         data
       );
       return result;

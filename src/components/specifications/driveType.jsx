@@ -41,6 +41,7 @@ const DriveType = ({ setActiveStep, activeStep, setState, state }) => {
       <Button
         onClick={() => setActiveStep(activeStep - 1)}
         className={styles.back_btn}
+        type="button"
       >
         <FaAngleLeft />
         Back
