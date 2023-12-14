@@ -79,6 +79,48 @@ export const loginTextField = {
     color: "#d32f2f",
   },
 };
+
+export const loginWhiteTextField = {
+  "& label.Mui-focused": {
+    color: "#ffffff",
+  },
+  "& label": {
+    fontSize: "15px",
+    color: "#ffffff",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#fff",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "1px solid #ffffff",
+    },
+    "&:hover fieldset": {
+      borderColor: "#ffffff",
+    },
+    "&.Mui-focused fieldset": {
+      border: "1px solid #ffffff",
+    },
+  },
+
+  "& .Mui-error": {
+    "& fieldset": {
+      border: "1px solid #d32f2f",
+    },
+    "&:hover fieldset": {
+      border: "1px solid #d32f2f",
+    },
+    "&.Mui-focused fieldset": {
+      border: "1px solid #d32f2f",
+    },
+    "& label.Mui-focused": {
+      color: "#d32f2f",
+    },
+  },
+  "& .MuiInputLabel-root.Mui-error": {
+    color: "#d32f2f",
+  },
+};
 export const phonetextField = {
   "& label.Mui-focused": {
     color: "#000000",
@@ -165,10 +207,25 @@ export const tabButton = {
     border: "1px solid #000",
     textDecoration: "none",
     borderRadius: "20px",
-    backgroundColor:"#000"
+    backgroundColor: "#000",
   },
   "&.MuiTabs-indicator": {
     backgroundColor: "#ffffff",
+  },
+};
+export const tabsectionButton = {
+  color: "#000",
+  fontSize: "15px",
+  fontWeight: "500",
+  minHeight: "0",
+  "&.Mui-selected": {
+    color: "#333 ",
+    border: "none",
+    borderBottom: "1px solid  #ddd",
+    textDecoration: "none",
+  },
+  "&.MuiTabs-indicator": {
+    backgroundColor: "#000000",
   },
 };
 export const varianttabButton = {

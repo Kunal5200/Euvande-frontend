@@ -3,9 +3,28 @@
     height: 55px;
 }
 
+.bg_image {
+    background-image: url('../../public/images/banner_image/carbg.jpg');
+    height: 120vh;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+
+
+.form {
+    background-color: #000;
+}
+
 .registerButton {
     color: #000;
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .registerButton:hover {

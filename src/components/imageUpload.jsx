@@ -39,7 +39,7 @@ const ImageUpload = (props) => {
               <div
                 style={{
                   backgroundImage: `url(${imagePreviews[val.id] || val.image})`,
-                  height: "100px",
+                  height: "150px",
                   width: "100%",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",

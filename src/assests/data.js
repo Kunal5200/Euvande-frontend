@@ -49,6 +49,12 @@ import driversdoor from "@/carProduct/interior/driversdoor.webp";
 import driverSeat from "@/carProduct/interior/driverseat.webp";
 import codriversSeat from "@/carProduct/interior/codriverseat.webp";
 import instrumentPanel from "@/carProduct/interior/instrumentpanel.webp";
+import dashboard from "@/carProduct/interior/dashboard.webp";
+import rearPanel from "@/carProduct/interior/backcenterpanel.webp";
+import rearseats from "@/carProduct/interior/backseats.webp";
+import headlining from "@/carProduct/interior/ceiling.webp";
+import tyres from "@/carProduct/wheel/wheel.webp";
+import frontleftTyre from "@/carProduct/wheel/pneu.webp";
 let data = {
   photoUpload: [
     {
@@ -112,6 +118,68 @@ let data = {
       image: instrumentPanel.src,
       label: "Instrument Panel",
       id: "instrumentpanel",
+    },
+    {
+      image: dashboard.src,
+      label: "Dashboard",
+      id: "dashboard",
+    },
+    {
+      image: rearPanel.src,
+      label: "Rear Panel of Center Console",
+      id: "rearPanel",
+    },
+    {
+      image: rearseats.src,
+      label: "Rear Seats",
+      id: "rearSeats",
+    },
+    {
+      image: headlining.src,
+      label: "Headlining",
+      id: "headlining",
+    },
+  ],
+  tyres: [
+    {
+      label: "Front Left Wheel",
+      image: tyres.src,
+      id: "frontLeftWheel",
+    },
+    {
+      label: "Back Left Wheel",
+      image: tyres.src,
+      id: "backLeftWheel",
+    },
+    {
+      label: "Back Right Wheel",
+      image: tyres.src,
+      id: "backgRightWheel",
+    },
+    {
+      label: "Front Right Wheel",
+      image: tyres.src,
+      id: "frontRightWheel",
+    },
+    {
+      label: "Front Left Tyre",
+      image: frontleftTyre.src,
+      id: "frontLeftTyre",
+    },
+    {
+      label: "Back Left Tyre",
+      image: frontleftTyre.src,
+      id: "backLeftTyre",
+    },
+    {
+      label: "Back Right Tyre",
+      image: frontleftTyre.src,
+      id: "backRightTyre",
+    },
+    {
+      label: "Front Left Tyre",
+      image: frontleftTyre.src,
+      id: "frontRightTyre",
     },
   ],
   sliderData: [

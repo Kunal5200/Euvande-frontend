@@ -23,7 +23,7 @@ const Subheader = () => {
   }, [router.pathname, show]);
   return (
     <div
-      className={`container-fluid border-bottom p-2 ${
+      className={`container-fluid  border-bottom p-2 ${
         show ? "absolute__header text-white" : "text-dark"
       }  `}
     >

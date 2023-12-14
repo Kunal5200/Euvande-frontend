@@ -4,14 +4,20 @@ import { isEmail, isPhonenumber } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
 import { registerValidation } from "@/utils/validation";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "react-loading";
 import { useDispatch } from "react-redux";
 import Button from "./button";
 import OTPinput from "./otpInput";
-const Signup = () => {
+const SignupForm = () => {
   const [togglePassword, setTogglePassword] = useState(true);
   const router = useRouter();
   const [state, setState] = useState({
@@ -96,15 +102,16 @@ const Signup = () => {
         ) : (
           <form onSubmit={submitHandler}>
             <div className="mb-3">
-              <h5 className="text-center">
+              <Typography className="text-center p-2" variant="h1" fontSize={15}>
                 🌟 Welcome to the Ultimate Car Marketplace! 🚗
-              </h5>
-              <p className="f-12 text-center">
+              </Typography>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <Typography className="f-12 text-center" padding={1}>
                 Excited to have you with us! Whether you're parting ways with
                 your trusted ride or on the hunt for your dream wheels, our
                 platform is the place where car dreams take off. Ready to roll?
                 Let's make it quick.
-              </p>
+              </Typography>
             </div>
             <TextField
               label="Name*"
@@ -123,55 +130,6 @@ const Signup = () => {
               fullWidth
               sx={loginTextField}
               className="mb-3"
-              // InputProps={{
-              //   endAdornment: (
-              //     <InputAdornment>
-              //       <IconButton
-              //         sx={{
-              //           "&:hover": {
-              //             backgroundColor: "transparent",
-              //           },
-              //           "&.MuiTouchRipple": {
-              //             backgroundColor: "transparent",
-              //           },
-              //         }}
-              //       >
-              //         {emailverify ? (
-              //           <Verified color="green" />
-              //         ) : (
-              //           <FaInfoCircle
-              //             onClick={() => setOpenPopOverEmail(true)}
-              //             className="animate__animated animate__pulse animate__infinite	infinite"
-              //             color="#ff0000bd"
-              //           />
-              //         )}
-              //       </IconButton>
-              //       <Popover
-              //         anchorEl={anchorEl}
-              //         onClose={() => setOpenPopOverEmail(false)}
-              //         open={openPopOverEmail}
-              //         anchorOrigin={{
-              //           vertical: "center",
-              //           horizontal: "center",
-              //         }}
-              //       >
-              //         <div className="p-3">
-              //           <p className="mb-0">
-              //             Please Click the Button below to verify your Email
-              //           </p>
-              //           <Button
-              //             onClick={VerifyEmail}
-              //             className="custom_btn my-2"
-              //             width="100%"
-              //           >
-              //             <span>Verify Now</span>
-              //             <span>Verify Now</span>
-              //           </Button>
-              //         </div>
-              //       </Popover>
-              //     </InputAdornment>
-              //   ),
-              // }}
               id="email"
               onChange={inputChangeHandler}
               error={error.email}
@@ -295,4 +253,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupForm;

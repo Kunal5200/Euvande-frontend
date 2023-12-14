@@ -6,6 +6,7 @@ import { loginValidation } from "@/utils/validation";
 import {
   Autocomplete,
   Box,
+  Divider,
   IconButton,
   InputAdornment,
   TextField,
@@ -19,6 +20,9 @@ import Loading from "react-loading";
 import { login, loginUser } from "@/api/apiCalling/authenticationApi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
+import styles from "@/styles/Login.module.css";
+import { showModal } from "@/redux/reducers/modal";
+import ForgotPassword from "@/assests/modalcalling/forgot-password";
 const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
@@ -29,6 +33,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+ 
   const inputHandler = (e) => {
     let { id, value } = e.target;
 
@@ -78,16 +83,16 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   return (
     <div>
       {!otpShow ? (
-        <form className="text-center p-3" onSubmit={loginsubmitHandler}>
-          <h4>Euvande Login</h4>
-          <p className="f-12">
-            Log in to your Car Marketplace account to access a world of seamless
-            car buying and selling. Whether you're here to find your dream car
-            or list your vehicle for sale, your journey starts with a simple
-            login.
+        <form className={`text-center  pb-3 `} onSubmit={loginsubmitHandler}>
+          <h4 className="p-2">🚗 Euvande Login </h4>
+          <Divider style={{ backgroundColor: "#000" }} />
+          <p className="f-12 p-2">
+            ⭐ Rev up your car journey! Unlock a world of effortless buying and
+            selling. Dive into our Car Marketplace—your dream car or sale
+            awaits. Login now and drive into the future!
           </p>
 
-          <div>
+          <div className="p-3">
             <TextField
               variant="outlined"
               label="Enter Your Email*"
@@ -121,25 +126,24 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                 ),
               }}
             />
-          </div>
-
-          <div className="text-center ">
-            <Button className="custom_btn" width="100%">
-              {loading ? (
-                <Loading
-                  type="bars"
-                  className="m-auto"
-                  width={20}
-                  height={20}
-                  color="#000"
-                />
-              ) : (
-                <>
-                  <span>Login</span>
-                  <span>Login</span>
-                </>
-              )}
-            </Button>
+            <div className="text-center  ">
+              <Button className="custom_btn" width="100%">
+                {loading ? (
+                  <Loading
+                    type="bars"
+                    className="m-auto"
+                    width={20}
+                    height={20}
+                    color="#000"
+                  />
+                ) : (
+                  <>
+                    <span>Login</span>
+                    <span>Login</span>
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </form>
       ) : (

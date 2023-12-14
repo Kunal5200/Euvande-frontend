@@ -10,6 +10,7 @@ import {
   Card,
   Divider,
 } from "@mui/material";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -40,9 +41,12 @@ const UploadPicture = () => {
 
   return (
     <div>
+      <Head>
+        <title>Upload Photos-car</title>
+      </Head>
       <div className="container">
         <div className="row mb-3">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9">
             <LinkTab />
             <form onSubmit={submitHandler}>
               <Card className=" py-3">
@@ -74,8 +78,16 @@ const UploadPicture = () => {
                         <ImageUpload data={data.interiorPhotoUpload} />
                       </AccordionDetails>
                     </Accordion>
+                    <Accordion defaultExpanded={true}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Wheel and Tyres</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload data={data.tyres} />
+                      </AccordionDetails>
+                    </Accordion>
                   </div>
-                  <div className="text-end">
+                  <div className="text-end mt-2">
                     <Button className="custom_btn" type="submit" width={150}>
                       <span>Continue</span>
                       <span>Continue</span>
@@ -84,6 +96,9 @@ const UploadPicture = () => {
                 </div>
               </Card>
             </form>
+          </div>
+          <div className="col-sm-3">
+            <Card>Hello</Card>
           </div>
         </div>
       </div>
