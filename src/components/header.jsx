@@ -1,9 +1,11 @@
 import { HeaderLinks } from "@/assests/routes";
-import user from "@/icons/user.png";
-import user_black from "@/icons/user_black.png";
+import { getUserProfile } from "@/api/apiCalling/authenticationApi";
 import styles from "@/styles/Header.module.css";
 import CloseIcon from "@mui/icons-material/Close";
+import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import PersonIcon from "@mui/icons-material/Person";
 import {
   Card,
   Divider,
@@ -11,23 +13,19 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Menu,
   Paper,
   Slide,
   Stack,
+  Typography,
 } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import LogoutIcon from "@mui/icons-material/Logout";
-import Image from "next/image";
 import Link from "next/link";
-import { FaCar, FaUser } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FaCar, FaUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import logo from "@/logo/EuVandeLogoWhite.svg";
 import Button from "./button";
-import logoblack from "@/logo/logoblackeuvande.png";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import logoWhite from "@/logo/logowhiteeuvande.png";
-import { RiMenu4Fill } from "react-icons/ri";
+import Image from "next/image";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -54,6 +52,7 @@ const Navbar = () => {
     router.push("/");
     setIsPopOver(false);
   };
+  const dispatch = useDispatch();
   const routePage = () => {
     !isLogin ? router.push("/login") : setIsPopOver(!popOver);
   };
@@ -64,6 +63,11 @@ const Navbar = () => {
       setIsLogin(false);
     }
   });
+  useEffect(() => {
+    localStorage.getItem("accessToken")
+      ? getUserProfile({ dispatch })
+      : () => {};
+  }, []);
 
   const userProfile = () => {
     router.push("/user-profile");
@@ -83,53 +87,17 @@ const Navbar = () => {
       onClick: handleLogout,
     },
   ];
+  const selector = useSelector((state) => state.userInfo);
+  const name = selector.name;
   return (
     <div className={`container-fluid ${show ? "" : styles.header}`}>
       <div className={`${show ? styles.mainHeader : ""} container p-2`}>
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
-            {show ? (
-              <FaCar size={30} color="#fff" />
-            ) : (
-              // <img src={logoWhite.src} width={50} height={50} />
-              <FaCar size={30} color="#fff" />
-            )}
+            <Image src={logo} width={150} />
           </Link>
-          {/* <div className="d-flex align-items-center">
-            <Button backgroundColor="transparent" border="none">
-              <Image
-                src={show ? user : user_black}
-                width={30}
-                height={30}
-                alt="login account"
-                className="me-3"
-                onClick={routePage}
-              />
-            </Button>
 
-            <Button
-              border="1px solid #eee"
-              rounded="20px"
-              backgroundColor="#eee"
-              padding="10px"
-              width="100px"
-              fs="15px"
-              onClick={handleShowMenu}
-            >
-              {!showMenu ? (
-                <div className={styles.menu_btn}>
-                  <MoreVertIcon fontSize="13px" className="me-1" />
-                  Menu
-                </div>
-              ) : (
-                <div className={styles.menu_btn}>
-                  <CloseIcon fontSize="13px" className="me-1" />
-                  Close
-                </div>
-              )}
-            </Button>
-          </div> */}
-          <Stack direction={"row"} spacing={1} alignItems={"center"}>
+          <Stack direction={"row"} spacing={1} alignItems={"center"} className={styles.desktopView}>
             <Stack direction="row" alignItems={"center"} spacing={1}>
               <LocalPhoneOutlinedIcon
                 style={{
@@ -143,12 +111,30 @@ const Navbar = () => {
               />
               <p className="text-white f-12">+1 9845751252</p>
             </Stack>
+
             <Divider
               flexItem
               orientation="vertical"
               variant="middle"
               style={{ backgroundColor: "#fff", opacity: 1 }}
             />
+            <Typography color="#ffffff">Buy Car</Typography>
+            <Divider
+              flexItem
+              orientation="vertical"
+              variant="middle"
+              style={{ backgroundColor: "#fff", opacity: 1 }}
+            />
+            <Link href={"/sell-cars"} className="link">
+              <Typography color="#ffffff">Sell Car</Typography>
+            </Link>
+            <Divider
+              flexItem
+              orientation="vertical"
+              variant="middle"
+              style={{ backgroundColor: "#fff", opacity: 1 }}
+            />
+
             <Stack
               spacing={1}
               alignItems={"center"}
@@ -157,8 +143,15 @@ const Navbar = () => {
               className="pointer"
             >
               <FaUser color="#fff" />
-              <p className="text-white">Login/Register</p>
+              {isLogin ? (
+                <Typography color={"#ffffff"} className="text-capitalize">
+                  Hello ,{name}{" "}
+                </Typography>
+              ) : (
+                <p className="text-white">Login/Register</p>
+              )}
             </Stack>
+
             <Divider
               flexItem
               orientation="vertical"
@@ -169,7 +162,7 @@ const Navbar = () => {
               border="1px solid #eee"
               rounded="20px"
               backgroundColor="#eee"
-              padding="10px"
+              padding="8px"
               width="100px"
               fs="15px"
               onClick={handleShowMenu}
@@ -188,6 +181,8 @@ const Navbar = () => {
             </Button>
             {/* <RiMenu4Fill color="#fff" size={25}/> */}
           </Stack>
+
+          <FaUser className={styles.mobileView} />
         </div>
         <div className="text-end">
           <Slide direction="down" in={showMenu}>
@@ -201,9 +196,9 @@ const Navbar = () => {
                   {val.title}
                 </Link>
               ))}
-              <div style={{ width: "100%" }}>
+              {/* <div style={{ width: "100%" }}>
                 <Link
-                  href={isLogin ? "/sell-cars" : "/registerorlogin"}
+                  href={isLogin ? "/sell-cars" : "/login"}
                   onClick={() => setShowMenu(false)}
                 >
                   <Button className="custom_btn mt-3" width="100%" fw="600">
@@ -211,7 +206,7 @@ const Navbar = () => {
                     <span>Sell With Us</span>
                   </Button>
                 </Link>
-              </div>
+              </div> */}
             </Card>
           </Slide>
         </div>
@@ -219,7 +214,7 @@ const Navbar = () => {
           <Slide direction="down" in={popOver} style={{ zIndex: 999 }}>
             <Paper
               style={{
-                right: "100px",
+                right: router.pathname === "/" ? "100px" : "180px",
                 width: "150px",
                 position: "absolute",
               }}

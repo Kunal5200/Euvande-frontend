@@ -1,4 +1,7 @@
-import sliderImage1 from "@/banner_image/sliderImage1.jpeg";
+import sliderImage1 from "@/banner_image/sliderImage1.webp";
+import sliderImage2 from "@/banner_image/sliderImage2.webp";
+import sliderImage3 from "@/banner_image/sliderImage3.webp";
+import sliderImage4 from "@/banner_image/sliderImage4.webp";
 import astonMartin from "@/brandImage/Aston-Martin.webp";
 import audi from "@/brandImage/Audi.webp";
 import bwm from "@/brandImage/BMW.webp";
@@ -55,6 +58,12 @@ import rearseats from "@/carProduct/interior/backseats.webp";
 import headlining from "@/carProduct/interior/ceiling.webp";
 import tyres from "@/carProduct/wheel/wheel.webp";
 import frontleftTyre from "@/carProduct/wheel/pneu.webp";
+import car1 from "@/carProduct/car1.jpg";
+import choose from "@/icons/how-it-works.webp";
+import dacia from "@/dummyCars/dacia.jpeg";
+import citroenSuv from "@/dummyCars/citroen.jpeg";
+import seat from "@/dummyCars/seat.jpeg";
+import jimmy from "@/dummyCars/jimmy.jpeg";
 let data = {
   photoUpload: [
     {
@@ -185,12 +194,31 @@ let data = {
   sliderData: [
     {
       image: sliderImage1,
+      bannerText: "Revolutionize Your Ride: Explore Our Car Marketplace Today!",
+      bannerDescription:
+        "Experience a groundbreaking approach to car buying and selling as you navigate our innovative car marketplace. Discover a new era of convenience and choice for your automotive journey.",
+      button: "Buy Cars",
     },
     {
-      image: sliderImage1,
+      image: sliderImage2,
+      bannerText: "Drive Your Dreams: Find the Perfect Car with Us!",
+      bannerDescription:
+        "Turn your automotive dreams into reality with our platform. Browse through an extensive selection to find the perfect car that matches your desires. Your dream ride is just a click away!",
+      button: "View Cars",
     },
     {
-      image: sliderImage1,
+      image: sliderImage3,
+      bannerText: "Your Dream Car, Your Way: Shop and Sell with Confidence!",
+      bannerDescription:
+        "Tailor your automotive experience to fit your dreams. Shop for your dream car and sell with confidence, knowing that our platform is designed to cater to your individual preferences.",
+      button: "Sell Your Car Now",
+    },
+    {
+      image: sliderImage4,
+      bannerText: "Where Cars Meet Enthusiasts: Buy and Sell with Ease!",
+      bannerDescription:
+        "Join a community where cars and enthusiasts converge. Experience the joy of buying and selling with ease, knowing you're part of a passionate community that shares your love for automobiles.",
+      button: "View More",
     },
   ],
   selling: [
@@ -642,7 +670,7 @@ let data = {
   ],
   list2: [
     {
-      label: "Delievery",
+      label: "Delivery",
     },
     {
       label: "Warranty",
@@ -734,6 +762,245 @@ let data = {
     },
     {
       label: "Velour",
+    },
+  ],
+  passwordRequirement: [
+    {
+      title: "The password must be at least 8 characters long.",
+    },
+    {
+      title:
+        "It must include at least one alphabet character (either uppercase or lowercase).",
+    },
+    {
+      title: "It must include at least one numeric digit (0-9).",
+    },
+    {
+      title:
+        "It must include at least one special character from the set: !@#$%^&*",
+    },
+    {
+      title: "Spaces are not allowed within the password.",
+    },
+  ],
+  address: [
+    {
+      addressType: "Home",
+      address: "Inge Beisheim Platz 53,Tangstedt,Schleswig-Holstein,Germany",
+    },
+    {
+      addressType: "Office",
+      address: "Kieler Strasse 58,Oberneukirchen, Freistaat Bayern,Germany",
+    },
+  ],
+
+  mileage: [
+    {
+      number: 2500,
+    },
+    {
+      number: 5000,
+    },
+    {
+      number: 10000,
+    },
+    {
+      number: 15000,
+    },
+    {
+      number: 20000,
+    },
+    {
+      number: 30000,
+    },
+    {
+      number: 40000,
+    },
+    {
+      number: 50000,
+    },
+    {
+      number: 60000,
+    },
+    {
+      number: 70000,
+    },
+    {
+      number: 80000,
+    },
+    {
+      number: 90000,
+    },
+    {
+      number: 100000,
+    },
+  ],
+  price: [
+    {
+      price: "1000 €",
+    },
+    {
+      price: "2000 €",
+    },
+    {
+      price: "3000 €",
+    },
+    {
+      price: "4000 €",
+    },
+    {
+      price: "5000 €",
+    },
+    {
+      price: "6000 €",
+    },
+    {
+      price: "7000 €",
+    },
+    {
+      price: "8000 €",
+    },
+    {
+      price: "9000 €",
+    },
+    {
+      price: "10000 €",
+    },
+  ],
+  carDataList: [
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+  ],
+  howWorks: [
+    {
+      img: choose.src,
+      heading: "European Dreams, Driven Reality.",
+      description:
+        "Turn your European dreams into reality with the perfect car. Explore iconic destinations, scenic routes, and cityscapes on your terms. Your dream ride awaits.",
+    },
+    {
+      img: choose.src,
+      heading: "Expert Eyes, Thorough Inspection.",
+      description:
+        "Our expert eyes ensure a meticulous inspection, guaranteeing your peace of mind.",
+    },
+    {
+      img: choose.src,
+      heading: "Delivered to Your Doorstep.",
+      description:
+        "Experience seamless convenience with our direct-to-your-door delivery service – your dream car, delivered effortlessly to your home.",
+    },
+  ],
+  suv: [
+    {
+      name: "Dacia Spring 33 kW",
+      img: dacia.src,
+      driven: 28000,
+      variant: "Diesel",
+      transmission: "Automatic",
+      price: "33469",
+    },
+    {
+      name: "Citroen C5 Aircross 130 S&S LIVE 96 kW",
+      driven: 28000,
+      img: citroenSuv.src,
+      transmission: "Automatic",
+      variant: "CNG",
+      price: "44500",
+    },
+    {
+      name: "Seat Arona 1.0 TGI 66 kW",
+      driven: 28000,
+      img: seat.src,
+      transmission: "Manual",
+      variant: "Petrol",
+      price: "46200",
+    },
+    {
+      name: "Suzuki Jimny 75 kW",
+      driven: 28000,
+      img: jimmy.src,
+      transmission: "Manual",
+      variant: "Petrol",
+      price: "52000",
     },
   ],
 };

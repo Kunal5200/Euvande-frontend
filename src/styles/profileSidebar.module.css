@@ -4,7 +4,8 @@
     place-items: center;
 
 }
-.wrapper{
+
+.wrapper {
     height: auto;
 }
 
@@ -23,4 +24,5 @@
     align-items: center;
     justify-content: center;
     margin: auto;
+    text-transform: capitalize;
 }

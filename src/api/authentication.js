@@ -89,4 +89,15 @@ export const authControllers = {
       throw error;
     }
   },
+  addAddress: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "authentication/api/address/addAddress",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

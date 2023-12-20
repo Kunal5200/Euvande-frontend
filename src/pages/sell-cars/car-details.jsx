@@ -102,14 +102,16 @@ const CarDetails = () => {
                   </Grid>
                 </Grid>
               </Grid>
+              <Grid container>
+                <Grid>
+                  
+                </Grid>
+              </Grid>
             </Paper>
           </div>
         </Grid>
         <Grid item xs={3}></Grid>
       </Grid>
-      <div>
-        <Button></Button>
-      </div>
     </div>
   );
 };

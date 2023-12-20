@@ -5,37 +5,133 @@ import { countries } from "../country";
 import Button from "@/components/button";
 import { useDispatch } from "react-redux";
 import { hideModal } from "@/redux/reducers/modal";
+import { updateUserDetails } from "@/api/apiCalling/authenticationApi";
+import { updateDetailsValidation } from "@/utils/validation";
+import { toast } from "react-toastify";
+import Loading from "react-loading";
+import { isEmail, isPhonenumber } from "@/utils/regex";
 
-const EditUserProfile = () => {
+const EditUserProfile = ({ value, setUser }) => {
+  const [state, setState] = useState({
+    name: value.name ? value.name : "",
+    email: value.email ? value.email : "",
+    phoneNo: value.phoneNo ? value.phoneNo : "",
+    countryName: value.countryName ? value.countryName : "",
+  });
+  const [error, setError] = useState({
+    name: "",
+    email: "",
+    phoneNo: "",
+    countryName: "",
+    countryCode: "",
+  });
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const inputChangeHandler = (e) => {
+    let { id, value } = e.target;
+    setState({ ...state, [id]: value });
+    setError({
+      ...error,
+      [id]:
+        id === "email"
+          ? isEmail(value)
+            ? ""
+            : "Please Enter Valid Email"
+          : id === "phoneNo"
+          ? isPhonenumber(value)
+            ? ""
+            : "Please Enter Valid Phone No"
+          : "",
+    });
+  };
   const cancelHandler = () => {
     dispatch(hideModal());
   };
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({
+    label: value.countryName || "",
+    code: value.countryCode || "",
+  });
   const handleCountryChange = (event, newValue) => {
-    console.log(newValue);
     setCountry(newValue);
+    if (newValue) {
+      setState({
+        ...state,
+        countryName: newValue.label,
+        countryCode: newValue.code,
+      });
+      setError({ ...error, countryName: "" });
+    }
+  };
+
+  const submitHandler = (e) => {
+    setLoading(false);
+    e.preventDefault();
+    let body = {
+      name: state.name,
+      email: state.email,
+      phoneNo: state.phoneNo,
+      countryName: state.countryName,
+      countryCode: state.countryCode,
+    };
+
+    if (updateDetailsValidation({ state, error, setError })) {
+      updateUserDetails({ body, setLoading, dispatch, setUser });
+    } else {
+      toast.error("Please Enter Required Fields");
+      setLoading(false);
+    }
   };
   return (
     <div style={{ width: "600px" }}>
       <div className="container-fluid">
         <div className="">
-          <h4 className="mb-2">Edit Details</h4>
+          <h4 className="mb-2">Edit Peronal Details</h4>
         </div>
         <Divider style={{ backgroundColor: "#000 " }} />
 
-        <form className="mt-5">
+        <form className="mt-5" onSubmit={submitHandler}>
           <Grid container className="mb-3" spacing={2}>
             <Grid item xs={6}>
-              <TextField label="Name*" sx={loginTextField} fullWidth />
+              <TextField
+                label="Name*"
+                sx={loginTextField}
+                fullWidth
+                id="name"
+                value={state.name}
+                focused={state.name === "" ? false : true}
+                onChange={inputChangeHandler}
+                error={error.name}
+                helperText={error.name}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="Email*" sx={loginTextField} fullWidth />
+              <TextField
+                label="Email*"
+                sx={loginTextField}
+                fullWidth
+                value={state.email}
+                onChange={inputChangeHandler}
+                focused={state.email === "" ? false : true}
+                id="email"
+                error={error.email}
+                helperText={error.email}
+              />
             </Grid>
           </Grid>
           <Grid container className="mb-3" spacing={2}>
             <Grid item xs={6}>
-              <TextField label="Phone Number*" sx={loginTextField} fullWidth />
+              <TextField
+                label="Phone Number*"
+                sx={loginTextField}
+                fullWidth
+                value={state.phoneNo}
+                type="tel"
+                id="phoneNo"
+                onChange={inputChangeHandler}
+                focused={state.phoneNo === "" ? false : true}
+                error={error.phoneNo}
+                helperText={error.phoneNo}
+              />
             </Grid>
             <Grid item xs={6}>
               <Autocomplete
@@ -71,6 +167,8 @@ const EditUserProfile = () => {
                       ...params.inputProps,
                       autoComplete: "new-password",
                     }}
+                    error={error.countryName}
+                    helperText={error.countryName}
                   />
                 )}
               />
@@ -87,8 +185,20 @@ const EditUserProfile = () => {
                 backgroundColor="#000"
                 color="#fff"
               >
-                <span>Save Changes</span>
-                <span>Save Changes</span>
+                {loading ? (
+                  <Loading
+                    type="bars"
+                    color="#FFDB58"
+                    width={20}
+                    height={20}
+                    className="m-auto"
+                  />
+                ) : (
+                  <>
+                    <span>Save Changes</span>
+                    <span>Save Changes</span>
+                  </>
+                )}
               </Button>
             </Grid>
           </Grid>

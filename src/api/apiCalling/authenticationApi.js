@@ -1,7 +1,9 @@
+import OTPverifyPassword from "@/assests/modalcalling/forgotPasswordOTp";
+import { hideModal, showModal } from "@/redux/reducers/modal";
+import { setDetails } from "@/redux/reducers/userdetails";
 import { toast } from "react-toastify";
 import { authControllers } from "../authentication";
-import { hideModal, showModal } from "@/redux/reducers/modal";
-import OTPverifyPassword from "@/assests/modalcalling/forgotPasswordOTp";
+import { loggedIn } from "@/redux/reducers/user";
 
 export const userRegister = ({ setLoading, body, setEmailVerify }) => {
   authControllers
@@ -34,32 +36,58 @@ export const userVerify = ({ body, setLoading, router }) => {
     });
 };
 
-export const loginUser = ({ body, router, setLoading }) => {
+export const loginUser = ({ body, router, setLoading, dispatch }) => {
   authControllers
     .loginUser(body)
     .then((res) => {
+      const response = res.data.data;
+      dispatch(loggedIn({ ...response }));
       toast.success(res.data.message);
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);
-      router.push('/');
+      router.push("/");
     })
     .catch((err) => {
       setLoading(false);
       toast.error(err.response.data.message);
+      console.log(err);
     });
 };
 
-export const getUserProfile = ({ setState, setUser, state }) => {
+export const getUserProfile = ({
+  setState,
+  setUser,
+  state,
+  dispatch,
+  setLoading,
+}) => {
   authControllers
     .getUserDetails()
     .then((res) => {
-      setState({
-        ...state,
-        name: res.data.data.name,
-        email: res.data.data.email,
-        phoneNumber: res.data.data.phoneNo,
-      });
+      const response = res.data.data;
+
+      dispatch(setDetails({ ...response }));
+      setLoading && setLoading(false);
+      setUser && setUser(res.data.data);
+      setState &&
+        state &&
+        setState({
+          ...state,
+          name: res.data.data.name,
+          email: res.data.data.email,
+          phoneNumber: res.data.data.phoneNo,
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getProfile = ({ setUser, dispatch }) => {
+  authControllers
+    .getUserDetails()
+    .then((res) => {
       setUser(res.data.data);
     })
     .catch((err) => {
@@ -67,14 +95,20 @@ export const getUserProfile = ({ setState, setUser, state }) => {
     });
 };
 
-export const updateUserDetails = ({ body, setLoading, router }) => {
+export const updateUserDetails = ({
+  body,
+  setLoading,
+  router,
+  dispatch,
+  setUser,
+}) => {
   authControllers
     .updateUserDetails(body)
     .then((res) => {
       toast.success(res.data.message);
       setLoading(false);
-
-      router.push("/sell-cars/upload-picture");
+      router ? router.push("/sell-cars/upload-picture") : dispatch(hideModal());
+      getUserProfile({ setUser, dispatch });
     })
     .catch((err) => {
       setLoading(false);
@@ -114,3 +148,18 @@ export const verifyForgotPasswordOTP = ({ body, setLoading, dispatch }) => {
     });
 };
 
+export const changePassword = ({ body, setLoading, setState }) => {
+  authControllers
+    .changePassword(body)
+    .then((res) => {
+      toast.success(res.data.message);
+      window.location.reload();
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      setLoading(false);
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message);
+      setLoading(false);
+    });
+};

@@ -13,3 +13,11 @@ export const isEmail = (value) => {
   );
   return checkvalue;
 };
+
+export const isPasswordValid = (value) => {
+  const password =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/.test(
+      value
+    );
+  return password;
+};

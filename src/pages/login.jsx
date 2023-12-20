@@ -1,16 +1,13 @@
-import LoginForm from "@/components/loginForm";
-import Signup from "@/components/signupForm";
-import styles from "@/styles/Login.module.css";
-import { animated, useSpring } from "@react-spring/web";
-import signupImage from "@/banner_image/carsignup.jpg";
-import Head from "next/head";
-import { useState } from "react";
-import { Card, Grid, Typography } from "@mui/material";
-import { Login } from "@mui/icons-material";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { showModal } from "@/redux/reducers/modal";
 import ForgotPassword from "@/assests/modalcalling/forgot-password";
+import LoginForm from "@/components/loginForm";
+import { showModal } from "@/redux/reducers/modal";
+import styles from "@/styles/Login.module.css";
+import { Card, Grid, Typography } from "@mui/material";
+import { useSpring } from "@react-spring/web";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 const RegisterLogin = () => {
   const [position, setPosition] = useState(0);
   const [viaOTP, setViaOtp] = useState(false);

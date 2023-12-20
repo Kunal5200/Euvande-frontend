@@ -1,6 +1,5 @@
 import ProfileSidebar from "@/components/profile/profile-sidebar";
 import Head from "next/head";
-import React from "react";
 
 const UserProfile = () => {
   return (

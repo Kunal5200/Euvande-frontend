@@ -10,19 +10,42 @@ import {
   TextField,
 } from "@mui/material";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
+import { vehicleController } from "@/api/addVehicle";
 const Period = () => {
   const router = useRouter();
-  const [selected, setSelected] = useState(false);
-  const [year, setYear] = useState("");
-  const handleSelect = (year) => {
-    setSelected(true);
-    setYear(year);
-    localStorage.setItem("year", year);
-    router.push("/sell-cars/model");
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [year, setYear] = useState(0);
+  const handleSelect = (selectedYear) => {
+    console.log(selectedYear);
+    setSelectedYear(selectedYear === selectedYear ? null : selectedYear);
+    setYear(selectedYear);
+    localStorage.setItem("year", selectedYear);
   };
+  const [period, setPeriod] = useState([]);
+  const getPeriod = (value) => {
+    let body = {
+      makeId: parseInt(value),
+    };
+    vehicleController
+      .getPeriodByMake(body)
+      .then((res) => {
+        setPeriod(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("brand")) {
+      getPeriod(localStorage.getItem("brand"));
+    } else {
+      console.log("select brand name");
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -52,17 +75,15 @@ const Period = () => {
                 className="mb-3"
               />
               <Grid container spacing={2}>
-                {data.Year.map((val, i) => (
+                {period.map((val, i) => (
                   <Grid item xs={4} key={i}>
                     <Card
                       className={`p-2 pointer ${
-                        val.year === year && selected
-                          ? styles.year_Selector
-                          : ""
+                        val === selectedYear ? styles.year_Selector : ""
                       }`}
-                      onClick={() => handleSelect(val.year)}
+                      onClick={() => handleSelect(val)}
                     >
-                      {val.year}
+                      {val}
                     </Card>
                   </Grid>
                 ))}

@@ -1,12 +1,28 @@
 import styles from "@/styles/profileSidebar.module.css";
 import { tabsectionButton } from "@/utils/styles";
-import { Card, Divider, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { Card, Divider, Skeleton, Tab, Tabs } from "@mui/material";
+import { useEffect, useState } from "react";
 import { FaBoxOpen, FaHeart } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import TabPanel from "../tabPanel";
 import ProfileSettings from "./profile-settings";
+import { authControllers } from "@/api/authentication";
+import { getUserProfile } from "@/api/apiCalling/authenticationApi";
+import { useDispatch } from "react-redux";
 const ProfileSidebar = () => {
+  const [user, setUser] = useState({});
+  const [placeholderLoading, setPlaceholderLoading] = useState(true);
+  // const getUserDetails = () => {
+  //   authControllers
+  //     .getUserDetails()
+  //     .then((res) => {
+  //       setUser(res.data.data);
+  //       setPlaceholderLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const tabsSection = [
     {
       label: "Orders",
@@ -21,12 +37,18 @@ const ProfileSidebar = () => {
       icon: <IoIosSettings />,
     },
   ];
+  const dispatch = useDispatch();
 
   const [value, setValue] = useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log(user);
+
+  useEffect(() => {
+    // getUserDetails();
+    getUserProfile({ dispatch, setUser, setLoading: setPlaceholderLoading });
+  }, []);
   return (
     <div className={styles.wrapper}>
       <div className="row">
@@ -34,9 +56,34 @@ const ProfileSidebar = () => {
           <Card>
             <div className={styles.profile_wrapper}>
               <div className="p-3">
-                <div className={styles.profile_image}>K</div>
-                <p className="mt-2 mb-0 text-center">Kunal Sharma</p>
-                <p>kunalsharma@yopmail.com</p>
+                {placeholderLoading ? (
+                  <Skeleton
+                    className="m-auto"
+                    animation="wave"
+                    variant="circular"
+                    width={40}
+                    height={40}
+                  />
+                ) : (
+                  <div className={styles.profile_image}>
+                    {user.name.slice(0, 1)}
+                  </div>
+                )}
+                {placeholderLoading ? (
+                  <Skeleton
+                    animation="wave"
+                    className="m-auto"
+                    variant="text"
+                    width={100}
+                  />
+                ) : (
+                  <p className="mt-2 mb-0 text-center text-capitalize">{user.name}</p>
+                )}
+                {placeholderLoading ? (
+                  <Skeleton animation="wave" variant="text" width={200} />
+                ) : (
+                  <p>{user.email}</p>
+                )}
               </div>
             </div>
             <Divider style={{ background: "#000", width: "100%" }} />
@@ -71,7 +118,11 @@ const ProfileSidebar = () => {
             Short listed vehicle
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <ProfileSettings />
+            <ProfileSettings
+              userDetails={user}
+              loading={placeholderLoading}
+              setUser={setUser}
+            />
           </TabPanel>
         </div>
       </div>

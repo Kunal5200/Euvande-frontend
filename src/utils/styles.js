@@ -241,6 +241,19 @@ export const varianttabButton = {
     backgroundColor: "#eee",
   },
   "&.MuiTabs-indicator": {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#000",
+    fontSize: "10px",
+  },
+};
+
+export const bodyTypeTabButton = {
+  color: "#000",
+  "&.Mui-selected": {
+    color: "#ffffff",
+    backgroundColor: "purple",
+    borderRadius: "8px",
+  },
+  "&": {
+    transition: "s ease-in-out",
   },
 };

@@ -92,10 +92,9 @@ const ContactInformation = () => {
   };
 
   const [show, setShow] = useState(true);
-
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      getUserProfile({ setState, state, setUser });
+      getUserProfile({ setState, state, setUser, dispatch });
       setShow(true);
     } else {
       setShow(false);

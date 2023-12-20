@@ -8,6 +8,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
+import { vehicleController } from "@/api/addVehicle";
 const Make = () => {
   const router = useRouter();
   const [brand, setBrand] = useState("");
@@ -16,8 +17,19 @@ const Make = () => {
     setBrand(brandName);
     setSelected(true);
     localStorage.setItem("brand", brandName);
-
     router.push("/sell-cars/period");
+  };
+  const [brandSelector, setBrandSelector] = useState([]);
+
+  const getMake = () => {
+    vehicleController
+      .getMake()
+      .then((res) => {
+        setBrandSelector(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const [disbaledtab, setDisabledTab] = useState(true);
@@ -27,6 +39,7 @@ const Make = () => {
     } else {
       setDisabledTab(false);
     }
+    getMake();
   }, [selected]);
   return (
     <>
@@ -58,13 +71,13 @@ const Make = () => {
               />
               <div className={styles.overflow_wrapper}>
                 <div className="row ">
-                  {data.brandsSelector.map((val, i) => (
+                  {brandSelector.map((val, i) => (
                     <div className="col-sm-2 mb-3 text-center" key={i}>
                       <Brands
                         img={val.logo}
                         key={i}
-                        brands={val.name}
-                        onClick={() => brandSelectHandler(val.name)}
+                        brands={val.makeName}
+                        onClick={() => brandSelectHandler(val.id)}
                         className={
                           val.name === brand && selected
                             ? styles.brandsSelected
@@ -80,9 +93,7 @@ const Make = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>
-                Helloo
-            </Card>
+            <Card>Helloo</Card>
           </div>
         </div>
       </div>

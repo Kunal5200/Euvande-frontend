@@ -10,9 +10,10 @@ import {
   TextField,
 } from "@mui/material";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
+import { vehicleController } from "@/api/addVehicle";
 const Model = () => {
   const [selected, setSelected] = useState(false);
   const [model, setModel] = useState("");
@@ -23,6 +24,22 @@ const Model = () => {
     router.push("/sell-cars/variant");
     localStorage.setItem("model", modelName);
   };
+
+  const getModel = () => {
+    vehicleController
+      .getVariants()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    const make = localStorage.getItem("brand");
+    const year = localStorage.getItem("year");
+    
+  }, []);
   return (
     <>
       <Head>

@@ -1,4 +1,7 @@
-import { Info, Person, Lock } from "@mui/icons-material";
+import EditUserProfile from "@/assests/modalcalling/editUserProfile";
+import { showModal } from "@/redux/reducers/modal";
+import { Info, Lock, Person } from "@mui/icons-material";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
 import EmailIcon from "@mui/icons-material/Email";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -7,20 +10,24 @@ import {
   AccordionSummary,
   Divider,
   IconButton,
+  Skeleton,
   Stack,
   Tooltip,
+  Typography,
 } from "@mui/material";
-import { FaAddressCard, FaPhoneAlt } from "react-icons/fa";
-import ChangePassword from "./change-password";
 import { useRouter } from "next/router";
+import { FaPhoneAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/redux/reducers/modal";
-import EditUserProfile from "@/assests/modalcalling/editUserProfile";
-const ProfileSettings = () => {
+import ChangePassword from "./change-password";
+import Address from "./address";
+const ProfileSettings = (props) => {
+  const user = props.userDetails;
+  const loading = props.loading;
+  const setUser = props.setUser;
   const router = useRouter();
   const dispatch = useDispatch();
   const editProfileModal = () => {
-    dispatch(showModal(<EditUserProfile />));
+    dispatch(showModal(<EditUserProfile value={user} setUser={setUser} />));
   };
   return (
     <div>
@@ -34,28 +41,46 @@ const ProfileSettings = () => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Person />
-                    <h5>Contact Information</h5>
+                    <Typography variant="h6" fontWeight={500}>
+                      Contact Information
+                    </Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />
                 <AccordionDetails>
                   <div className="d-flex align-items-center justify-content-between">
-                    <p className="fw-semibold mb-2 f-25">Kunal sharma</p>
-                    <p
+                    {loading ? (
+                      <Skeleton animation="wave" variant="text" />
+                    ) : (
+                      <Typography
+                        fontSize={20}
+                        letterSpacing={1}
+                        variant="h4"
+                        className="mb-1"
+                        textTransform={"capitalize"}
+                      >
+                        {user.name}
+                      </Typography>
+                    )}
+                    <Typography
                       className="f-12 text-primary pointer"
                       onClick={editProfileModal}
                     >
                       Edit Details
-                    </p>
+                    </Typography>
                   </div>
-                  <p className="f-12 fw-semibold mb-1">
-                    <EmailIcon className="me-2" fontSize="12px" />
-                    kunalsharma@yopmail.com
-                  </p>
+                  {loading ? (
+                    <Skeleton animation="wave" variant="rectangular" />
+                  ) : (
+                    <p className="f-12 fw-semibold ">
+                      <EmailIcon className="me-2" fontSize="12px" />
+                      {user.email}
+                    </p>
+                  )}
                   <div className="d-flex align-items-center justify-content-between">
                     <p className="f-12 fw-semibold text-danger">
                       <FaPhoneAlt className="me-2" fontSize="12px" />
-                      9891452700
+                      {user.phoneNo}
                     </p>
                     <Tooltip title="Verify Phone Number" placement="top">
                       <IconButton>
@@ -73,7 +98,7 @@ const ProfileSettings = () => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Lock />
-                    <h5>Change Password</h5>
+                    <Typography variant="h6">Change Password</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />
@@ -84,13 +109,13 @@ const ProfileSettings = () => {
               <Accordion className="mb-2">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1} alignItems={"center"}>
-                    <FaAddressCard />
-                    <h5>Address</h5>
+                    <ContactMailIcon />
+                    <Typography variant="h6">Address</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />
                 <AccordionDetails>
-                  <ChangePassword />
+                  <Address />
                 </AccordionDetails>
               </Accordion>
             </div>

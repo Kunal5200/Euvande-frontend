@@ -33,7 +33,6 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
- 
   const inputHandler = (e) => {
     let { id, value } = e.target;
 
@@ -72,7 +71,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     };
 
     if (loginValidation({ state, setError, error })) {
-      loginUser({ body, router, setLoading });
+      loginUser({ body, router, setLoading, dispatch });
     } else {
       toast.error("Please Enter Valid Details");
       setLoading(false);
