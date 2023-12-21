@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import logo from "@/logo/EuVandeLogoWhite.svg";
 import Button from "./button";
 import Image from "next/image";
+import { removeDetails, setDetails } from "@/redux/reducers/userdetails";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -51,6 +52,7 @@ const Navbar = () => {
     localStorage.clear();
     router.push("/");
     setIsPopOver(false);
+    dispatch(removeDetails());
   };
   const dispatch = useDispatch();
   const routePage = () => {
@@ -87,6 +89,7 @@ const Navbar = () => {
       onClick: handleLogout,
     },
   ];
+
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
   return (
@@ -97,7 +100,12 @@ const Navbar = () => {
             <Image src={logo} width={150} />
           </Link>
 
-          <Stack direction={"row"} spacing={1} alignItems={"center"} className={styles.desktopView}>
+          <Stack
+            direction={"row"}
+            spacing={1}
+            alignItems={"center"}
+            className={styles.desktopView}
+          >
             <Stack direction="row" alignItems={"center"} spacing={1}>
               <LocalPhoneOutlinedIcon
                 style={{
@@ -125,7 +133,7 @@ const Navbar = () => {
               variant="middle"
               style={{ backgroundColor: "#fff", opacity: 1 }}
             />
-            <Link href={"/sell-cars"} className="link">
+            <Link href={isLogin ? "/sell-cars" : "/login"} className="link">
               <Typography color="#ffffff">Sell Car</Typography>
             </Link>
             <Divider

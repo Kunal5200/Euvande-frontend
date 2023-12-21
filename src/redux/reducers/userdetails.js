@@ -13,8 +13,11 @@ export const userInfo = createSlice({
     setDetails: (state, actions) => {
       return (state = actions.payload);
     },
+    removeDetails: (state) => {
+      return (state = initialState);
+    },
   },
 });
 
-export const { setDetails } = userInfo.actions;
+export const { setDetails, removeDetails } = userInfo.actions;
 export default userInfo.reducer;

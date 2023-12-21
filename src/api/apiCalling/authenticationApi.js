@@ -41,7 +41,7 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
     .loginUser(body)
     .then((res) => {
       const response = res.data.data;
-      dispatch(loggedIn({ ...response }));
+      dispatch(setDetails({ ...response }));
       toast.success(res.data.message);
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);

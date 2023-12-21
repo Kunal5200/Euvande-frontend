@@ -1,6 +1,6 @@
 import whitelogo from "@/logo/EuVandeLogoWhite.svg";
 import styles from "@/styles/footer.module.css";
-import { Grid, Stack } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import {
   FaFacebookSquare,
   FaInstagramSquare,
@@ -11,13 +11,18 @@ import List from "./list";
 import data from "@/assests/data";
 const Footer = () => {
   return (
-    <div className={`${styles.footer_bg} p-5`}>
+    <Box className={`${styles.footer_bg}`} paddingY={10}>
       <div className="container ">
-        <Grid container spacing={4}>
+        <Grid container spacing={6}>
           <Grid item xs={12} lg={4}>
             <img src={whitelogo.src} width={150} />
-
-            <p className="mb-0 mt-3">Euvande 2023. All Rights Reserved</p>
+            <Typography fontSize={12} marginY={3} textAlign={"justify"}>
+              EUVande takes the thrill of luxury car ownership to new heights,
+              offering an unparalleled platform where enthusiasts can seamlessly
+              buy, sell, and even participate in exciting auctions for the most
+              coveted vehicles.
+            </Typography>
+            {/* <p className="mb-0 mt-3">Euvande 2023. All Rights Reserved</p> */}
 
             <Stack direction="row" className="mt-3" spacing={2}>
               <FaYoutube size={20} />
@@ -40,7 +45,7 @@ const Footer = () => {
           </Grid>
         </Grid>
       </div>
-    </div>
+    </Box>
   );
 };
 

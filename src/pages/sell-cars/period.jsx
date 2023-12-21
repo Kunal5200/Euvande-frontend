@@ -19,10 +19,10 @@ const Period = () => {
   const [selectedYear, setSelectedYear] = useState(null);
   const [year, setYear] = useState(0);
   const handleSelect = (selectedYear) => {
-    console.log(selectedYear);
     setSelectedYear(selectedYear === selectedYear ? null : selectedYear);
     setYear(selectedYear);
     localStorage.setItem("year", selectedYear);
+    router.push("/sell-cars/model");
   };
   const [period, setPeriod] = useState([]);
   const getPeriod = (value) => {

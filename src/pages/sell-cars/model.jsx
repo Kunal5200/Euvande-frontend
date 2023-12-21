@@ -38,7 +38,14 @@ const Model = () => {
   useEffect(() => {
     const make = localStorage.getItem("brand");
     const year = localStorage.getItem("year");
-    
+
+    if (make && year) {
+      let body = {
+        makeId: make,
+        periodId: year,
+      };
+      getModel();
+    }
   }, []);
   return (
     <>

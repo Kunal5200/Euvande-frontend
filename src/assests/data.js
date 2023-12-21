@@ -64,6 +64,12 @@ import dacia from "@/dummyCars/dacia.jpeg";
 import citroenSuv from "@/dummyCars/citroen.jpeg";
 import seat from "@/dummyCars/seat.jpeg";
 import jimmy from "@/dummyCars/jimmy.jpeg";
+import testimonial1 from "@/testimonials/testimonial1.jpeg";
+import testimonial2 from "@/testimonials/testimonial2.jpeg";
+import testimonial3 from "@/testimonials/testimonial3.jpg";
+import testimonial5 from "@/testimonials/testimonial5.jpg";
+import testimonial6 from "@/testimonials/testimonial6.jpg";
+import testimonial4 from "@/testimonials/testimonial4.jpeg";
 let data = {
   photoUpload: [
     {
@@ -277,78 +283,97 @@ let data = {
     {
       name: "Rolls Royce",
       logo: rollyroyce.src,
+      carNumber: 450,
     },
     {
       name: "hyundai",
       logo: hyundai.src,
+      carNumber: 450,
     },
     {
       name: "Honda",
       logo: honda.src,
+      carNumber: 450,
     },
     {
       name: "Tata",
       logo: tata.src,
+      carNumber: 450,
     },
     {
       name: "toyota",
       logo: toyota.src,
+      carNumber: 450,
     },
     {
       name: "mahindra",
       logo: mahindra.src,
+      carNumber: 450,
     },
     {
       name: "ford",
       logo: ford.src,
+      carNumber: 450,
     },
     {
       name: "Nissan",
       logo: nissan.src,
+      carNumber: 450,
     },
     {
       name: "Ashko Leyland",
       logo: ashokleyland.src,
+      carNumber: 450,
     },
     {
       name: "Aston Martin",
       logo: astonMartin.src,
+      carNumber: 450,
     },
     {
       name: "Audi",
       logo: audi.src,
+      carNumber: 450,
     },
     {
       name: "Bentley",
       logo: bentley.src,
+      carNumber: 450,
     },
     {
       name: "BMW",
       logo: bwm.src,
+      carNumber: 450,
     },
     {
       name: "Bugatti",
       logo: bugatti.src,
+      carNumber: 450,
     },
     {
       name: "Cadillac",
       logo: cadillac.src,
+      carNumber: 450,
     },
     {
       name: "Caterham",
       logo: caterham.src,
+      carNumber: 450,
     },
     {
       name: "Chevrolet",
       logo: chevrolet.src,
+      carNumber: 450,
     },
     {
       name: "Chrysler",
       logo: chrysler.src,
+      carNumber: 450,
     },
     {
       name: "Citreon",
       logo: citroen.src,
+      carNumber: 450,
     },
     {
       name: "Conquest",
@@ -1001,6 +1026,73 @@ let data = {
       transmission: "Manual",
       variant: "Petrol",
       price: "52000",
+    },
+  ],
+  testimonials: [
+    {
+      name: " Lucian v.",
+      testimonial:
+        "Embarking on the journey to find the perfect car became a delightful experience with EUVande. From the moment I navigated theiruser-friendly website, I was captivated by the extensive and diverse inventory that catered to every preference and budget.",
+      img: testimonial1.src,
+    },
+    {
+      name: "Sophie M.",
+      testimonial:
+        "  As a discerning buyer, EUVande exceeded my expectations. From the extensive choices to the seamless process, I found my ideal car effortlessly. Kudos to EUVande for making car buying in Europe an absolute pleasure!",
+      img: testimonial2.src,
+    },
+    {
+      name: " Luca P",
+      testimonial:
+        "EUVande's website made my car search a breeze. The transparent transactions and helpful customer service made the whole process smooth. Proud owner of a fantastic car, thanks to EUVande!",
+      img: testimonial3.src,
+    },
+    {
+      name: "Henrik K.",
+      testimonial:
+        "EUVande stands out in the crowded online car market. Their user-friendly interface, honest pricing, and dedicated support made my car purchase easy and enjoyable. Highly recommended!",
+      img: testimonial4.src,
+    },
+    {
+      name: "Emma S.",
+      testimonial:
+        "Thumbs up to EUVande for redefining car buying! The comprehensive listings and responsive team made me confident in my choice. I'm now cruising in my dream car, thanks to EUVande's top-notch service.",
+      img: testimonial5.src,
+    },
+    {
+      name: "Andrei B.",
+      testimonial:
+        " EUVande made my car buying journey a delight. The extensive inventory, clear details, and smooth transactions set them apart. I'm a satisfied customer who found the perfect car hassle-free!",
+      img: testimonial6.src,
+    },
+  ],
+  faqs: [
+    {
+      question: "Q. What makes EUVande unique in the online car buying market?",
+      answer:
+        "EUVande stands out for its extensive and diverse inventory, user-friendly interface, and commitment to transparency. We provide a seamless and enjoyable car-buying experience, setting a new standard in the industry.",
+    },
+    {
+      question:
+        "Q. How can I be sure of the transparency in pricing and fees on EUVande?",
+      answer:
+        "At EUVande, we prioritize transparency. The listed prices on our website are clear and inclusive of all fees, ensuring that you know the total cost upfront. No hidden charges, no surprises – just straightforward pricing.",
+    },
+    {
+      question: "Q. What types of vehicles are available on EUVande?",
+      answer:
+        "Our inventory caters to a wide range of preferences and budgets. From compact cars to SUVs and luxury vehicles, EUVande offers a diverse selection. Our goal is to provide options that suit every customer's unique needs and preferences.",
+    },
+    {
+      question: "Q. How does the online transaction process work on EUVande?",
+      answer:
+        "Our online transaction process is designed for simplicity and efficiency. Once you've found your ideal car, follow the user-friendly steps to complete the purchase. Our secure platform ensures a safe and smooth transaction, making your car-buying journey hassle-free.",
+    },
+    {
+      question:
+        "Q. What support is available if I have questions or need assistance during the car-buying process?",
+      answer:
+        "We value excellent customer service. Our dedicated support team is ready to assist you at every step. Feel free to reach out through our contact channels for prompt and helpful responses to any queries or concerns you may have. Your satisfaction is our priority.",
     },
   ],
 };

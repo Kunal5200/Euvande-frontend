@@ -90,7 +90,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View SUV Cars</span>
                 <span>View SUV Cars</span>
               </Button>
@@ -114,7 +114,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View Family Cars</span>
                 <span>View Family Cars</span>
               </Button>
@@ -138,7 +138,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View Estate Cars</span>
                 <span>View Estate Cars</span>
               </Button>
@@ -162,7 +162,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View City Cars</span>
                 <span>View City Cars</span>
               </Button>
@@ -186,7 +186,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View Luxury Cars</span>
                 <span>View Luxury Cars</span>
               </Button>
@@ -210,7 +210,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View New Cars</span>
                 <span>View New Cars</span>
               </Button>
@@ -234,7 +234,7 @@ const BodyType = () => {
               ))}
             </Grid>
             <Box textAlign={"center"}>
-              <Button className="custom_btn mt-3" width="250px" rounded={20}>
+              <Button className="custom_btn mt-5" width="250px" rounded={20}>
                 <span>View Sport Cars</span>
                 <span>View Sport Cars</span>
               </Button>
