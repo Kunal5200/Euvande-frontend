@@ -79,11 +79,11 @@ const Period = () => {
                   <Grid item xs={4} key={i}>
                     <Card
                       className={`p-2 pointer ${
-                        val === selectedYear ? styles.year_Selector : ""
+                        val.year === selectedYear ? styles.year_Selector : ""
                       }`}
-                      onClick={() => handleSelect(val)}
+                      onClick={() => handleSelect(val.id)}
                     >
-                      {val}
+                      {val.year}
                     </Card>
                   </Grid>
                 ))}

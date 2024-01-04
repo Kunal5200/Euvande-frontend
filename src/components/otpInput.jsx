@@ -6,7 +6,12 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { userVerify } from "@/api/apiCalling/authenticationApi";
 import Loading from "react-loading";
+import logo from "@/logo/EuVandeLogoBlack.svg";
+import { Box } from "@mui/material";
+import Image from "next/image";
+import { useDispatch } from "react-redux";
 const OTPinput = () => {
+  const dispatch = useDispatch();
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +20,7 @@ const OTPinput = () => {
     e.preventDefault();
     let body = {
       otp: otp,
-      referenceId: localStorage.getItem("referenceId"),
+      referenceId: JSON.parse(localStorage.getItem("referenceId")),
     };
     setLoading(true);
     if (otp === "") {
@@ -23,14 +28,14 @@ const OTPinput = () => {
       setLoading(false);
       return false;
     } else {
-      userVerify({ body, router, setLoading });
+      userVerify({ body, router, setLoading, dispatch });
       return true;
     }
   };
   return (
     <div>
       <form onSubmit={submitHandler}>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <h5>🚗 Ultimate Car Marketplace OTP Verification 🚀</h5>
           <p className="f-12 text-center">
             Welcome to the fast lane of car dreams! To ensure a secure and swift
@@ -38,7 +43,10 @@ const OTPinput = () => {
             identity. Buckle up for a quick and easy OTP (One-Time Password)
             verification process.
           </p>
-        </div>
+        </div> */}
+        <Box textAlign={"center"} marginBottom={4}>
+          <Image src={logo} width={200} />
+        </Box>
         <OTPInput
           numInputs={6}
           renderSeparator={<span>-</span>}
@@ -55,7 +63,7 @@ const OTPinput = () => {
           {loading ? (
             <Loading
               type="bars"
-              color="#000"
+              color="#ffdb58"
               width={20}
               height={20}
               className="m-auto"

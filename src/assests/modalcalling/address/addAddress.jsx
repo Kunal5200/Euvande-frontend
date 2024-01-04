@@ -2,8 +2,15 @@ import { loginTextField } from "@/utils/styles";
 import {
   Autocomplete,
   Box,
+  Checkbox,
   Divider,
+  FormControlLabel,
+  FormLabel,
   Grid,
+  InputLabel,
+  Radio,
+  RadioGroup,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -16,13 +23,14 @@ import { authControllers } from "@/api/authentication";
 import { useDispatch } from "react-redux";
 import { hideModal } from "@/redux/reducers/modal";
 
-const AddAddress = () => {
+const AddAddress = ({ getAddress }) => {
   const [state, setState] = useState({
     street: "",
     houseNumber: "",
     postalCode: "",
     city: "",
     countryName: "",
+    addressType: "home",
   });
   const [country, setCountry] = useState("");
   const dispatch = useDispatch();
@@ -49,6 +57,14 @@ const AddAddress = () => {
       setError({ ...error, countryName: "" });
     }
   };
+  const handleAddressType = (e) => {
+    let { checked, value } = e.target;
+    if (value === "home" || value === "office") {
+      setState({ ...state, addressType: value });
+    } else {
+      setState({ ...state, addressType: value });
+    }
+  };
 
   const addUserAddress = () => {
     let body = {
@@ -58,15 +74,18 @@ const AddAddress = () => {
       city: state.city,
       country: state.countryName,
       isDefault: false,
+      addressType: state.addressType,
     };
     authControllers
       .addAddress(body)
       .then((res) => {
         toast.success(res.data.message);
         dispatch(hideModal());
+        getAddress();
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response.data.message);
       });
   };
   const submitHandler = (e) => {
@@ -180,7 +199,41 @@ const AddAddress = () => {
                 />
               </Grid>
             </Grid>
-
+            <FormLabel>Address Type*</FormLabel>
+            <RadioGroup
+              row
+              defaultValue={"home"}
+              onChange={handleAddressType}
+              id="addressType"
+            >
+              <FormControlLabel
+                value={"home"}
+                control={<Radio defaultValue={"home"} />}
+                label="Home"
+              />
+              <FormControlLabel
+                value={"office"}
+                control={<Radio defaultValue={"office"} />}
+                label="Office"
+              />
+              <FormControlLabel
+                value={"other"}
+                control={<Radio />}
+                label="Other"
+              />
+            </RadioGroup>
+            {state.addressType === "home" || state.addressType === "office" ? (
+              <></>
+            ) : (
+              <TextField
+                type="text"
+                label="Address Type*"
+                sx={loginTextField}
+                id="addressType"
+                className="mb-3"
+                onChange={handleAddressType}
+              />
+            )}
             <div className="text-center ">
               <Button className="custom_btn" width={250}>
                 <span>Add Address</span>

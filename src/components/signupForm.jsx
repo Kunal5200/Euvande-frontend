@@ -5,6 +5,7 @@ import { loginTextField } from "@/utils/styles";
 import { registerValidation } from "@/utils/validation";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Box,
   Divider,
   IconButton,
   InputAdornment,
@@ -17,6 +18,8 @@ import Loading from "react-loading";
 import { useDispatch } from "react-redux";
 import Button from "./button";
 import OTPinput from "./otpInput";
+import logo from "@/logo/EuVandeLogoBlack.svg";
+import Image from "next/image";
 const SignupForm = () => {
   const [togglePassword, setTogglePassword] = useState(true);
   const router = useRouter();
@@ -63,7 +66,6 @@ const SignupForm = () => {
   };
   const [emailverify, setEmailVerify] = useState(false);
   const [phoneverify, setPhoneVerify] = useState(false);
-
   const [selected, setSelected] = useState("NL");
   const [dialcode, setDialCode] = useState("+31");
   const onSelect = (e) => {
@@ -89,7 +91,7 @@ const SignupForm = () => {
     setLoading(true);
     e.preventDefault();
     if (registerValidation({ state, error, setError })) {
-      userRegister({ setLoading, body, setEmailVerify });
+      userRegister({ setLoading, body, setEmailVerify, dispatch });
     } else {
       setLoading(false);
     }
@@ -101,18 +103,23 @@ const SignupForm = () => {
           <OTPinput />
         ) : (
           <form onSubmit={submitHandler}>
-            <div className="mb-3">
-              <Typography className="text-center p-2" variant="h1" fontSize={15}>
+            {/* <div className="mb-3">
+              <Typography
+                className="text-center p-2"
+                variant="h1"
+                fontSize={15}
+              >
                 🌟 Welcome to the Ultimate Car Marketplace! 🚗
               </Typography>
               <Divider style={{ backgroundColor: "#000" }} />
               <Typography className="f-12 text-center" padding={1}>
-                Excited to have you with us! Whether you're parting ways with
-                your trusted ride or on the hunt for your dream wheels, our
-                platform is the place where car dreams take off. Ready to roll?
-                Let's make it quick.
+                Ready to make car dreams a reality? Whether selling or buying,
+                our platform is where it happens. Let's get started quickly!
               </Typography>
-            </div>
+            </div> */}
+            <Box marginBottom={4} textAlign={"center"}>
+              <Image src={logo} width={200} />
+            </Box>
             <TextField
               label="Name*"
               variant="outlined"
@@ -230,7 +237,13 @@ const SignupForm = () => {
               onChange={inputChangeHandler}
             />
           </div> */}
-            <Button className="custom_btn" width="100%" type="submit">
+            <Button
+              className="custom_btn"
+              width="100%"
+              type="submit"
+              padding="15px"
+              rounded="4px"
+            >
               {!loading ? (
                 <>
                   <span>Proceed</span>
@@ -239,7 +252,7 @@ const SignupForm = () => {
               ) : (
                 <Loading
                   type="bars"
-                  color="#000"
+                  color="#ffdb58"
                   height={20}
                   width={20}
                   className="m-auto"

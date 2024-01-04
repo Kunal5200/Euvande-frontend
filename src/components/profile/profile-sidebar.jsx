@@ -43,7 +43,6 @@ const ProfileSidebar = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(user);
 
   useEffect(() => {
     // getUserDetails();
@@ -77,7 +76,9 @@ const ProfileSidebar = () => {
                     width={100}
                   />
                 ) : (
-                  <p className="mt-2 mb-0 text-center text-capitalize">{user.name}</p>
+                  <p className="mt-2 mb-0 text-center text-capitalize">
+                    {user.name}
+                  </p>
                 )}
                 {placeholderLoading ? (
                   <Skeleton animation="wave" variant="text" width={200} />

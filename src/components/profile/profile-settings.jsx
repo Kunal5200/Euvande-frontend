@@ -20,6 +20,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import ChangePassword from "./change-password";
 import Address from "./address";
+import VerifyPhone from "@/assests/modalcalling/verifyPhoneNumber/verifyPhoneNumber";
 const ProfileSettings = (props) => {
   const user = props.userDetails;
   const loading = props.loading;
@@ -28,6 +29,9 @@ const ProfileSettings = (props) => {
   const dispatch = useDispatch();
   const editProfileModal = () => {
     dispatch(showModal(<EditUserProfile value={user} setUser={setUser} />));
+  };
+  const verifyPhoneNumber = (userInfo) => {
+    dispatch(showModal(<VerifyPhone user={userInfo} />));
   };
   return (
     <div>
@@ -83,7 +87,7 @@ const ProfileSettings = (props) => {
                       {user.phoneNo}
                     </p>
                     <Tooltip title="Verify Phone Number" placement="top">
-                      <IconButton>
+                      <IconButton onClick={() => verifyPhoneNumber(user)}>
                         <Info
                           fontSize="12px"
                           className="pointer"

@@ -1095,6 +1095,39 @@ let data = {
         "We value excellent customer service. Our dedicated support team is ready to assist you at every step. Feel free to reach out through our contact channels for prompt and helpful responses to any queries or concerns you may have. Your satisfaction is our priority.",
     },
   ],
+  features: [
+    {
+      label: "Digital cockpit",
+    },
+    {
+      label: "Head-up display",
+    },
+    {
+      label: "Apple CarPlay",
+    },
+    {
+      label: "Navigation system",
+    },
+    {
+      label: "Traffic sign recognition",
+    },
+
+    {
+      label: "Bluetooth",
+    },
+    {
+      label: "Rain sensor",
+    },
+    {
+      label: "Light sensor",
+    },
+    {
+      label: "Lane assist",
+    },
+    {
+      label: "Blind spot assist",
+    },
+  ],
 };
 
 export default data;

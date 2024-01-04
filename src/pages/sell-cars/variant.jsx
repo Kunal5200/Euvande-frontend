@@ -5,11 +5,12 @@ import { varianttabButton } from "@/utils/styles";
 import { Card, Grid, Tab, Tabs } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
+import { vehicleController } from "@/api/addVehicle";
 const Variant = () => {
   const [value, setValue] = useState(0);
-
+  const [fuel, setFuel] = useState([]);
   const [variant, setVariant] = useState("");
   const [variantType, setVariantType] = useState("Petrol");
   const router = useRouter();
@@ -23,6 +24,11 @@ const Variant = () => {
   const handleChange = (e, newvalue) => {
     setValue(newvalue);
     setVariantType(e.target.id);
+    let body = {
+      modelId: parseInt(localStorage.getItem("model")),
+      fuelType: e.target.id,
+    };
+    getModel(body);
   };
   const tabs = [
     {
@@ -34,6 +40,28 @@ const Variant = () => {
       id: "Diesel",
     },
   ];
+  const getModel = (body) => {
+    vehicleController
+      .getVariants(body)
+      .then((res) => {
+        setFuel(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    const model = localStorage.getItem("model");
+
+    if (model) {
+      let body = {
+        modelId: parseInt(model),
+        fuelType: variantType,
+      };
+      getModel(body);
+    } else {
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -66,15 +94,15 @@ const Variant = () => {
               <TabPanel value={value} index={0} className="mt-3 p-2">
                 <h6>Petrol Variants</h6>
                 <Grid container spacing={3}>
-                  {data.carVariant.map((val, i) => (
+                  {fuel.map((val, i) => (
                     <Grid item xs={3} key={i}>
                       <Card
                         className={`p-2 pointer ${
                           val.variant === variant && styles.year_selector
                         }`}
-                        onClick={() => handleClick(val.variant)}
+                        onClick={() => handleClick(val.id)}
                       >
-                        {val.variant}
+                        {val.variantName}
                       </Card>
                     </Grid>
                   ))}
@@ -83,15 +111,15 @@ const Variant = () => {
               <TabPanel value={value} index={1} className="mt-3 p-2">
                 <h6>Diesel Variants</h6>
                 <Grid container spacing={3}>
-                  {data.carVariant.map((val, i) => (
+                  {fuel.map((val, i) => (
                     <Grid item xs={3} key={i}>
                       <Card
                         className={`p-2 pointer ${
-                          val.variant === variant && styles.year_selector
+                          val.id === variant && styles.year_selector
                         }`}
-                        onClick={() => handleClick(val.variant)}
+                        onClick={() => handleClick(val.id)}
                       >
-                        {val.variant}
+                        {val.variantName}
                       </Card>
                     </Grid>
                   ))}

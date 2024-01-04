@@ -24,12 +24,13 @@ const Model = () => {
     router.push("/sell-cars/variant");
     localStorage.setItem("model", modelName);
   };
+  const [modelName, setModelName] = useState([]);
 
-  const getModel = () => {
+  const getModel = (body) => {
     vehicleController
-      .getVariants()
+      .getModels(body)
       .then((res) => {
-        console.log(res);
+        setModelName(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -37,16 +38,18 @@ const Model = () => {
   };
   useEffect(() => {
     const make = localStorage.getItem("brand");
-    const year = localStorage.getItem("year");
-
-    if (make && year) {
+    const period = localStorage.getItem("year");
+    if (make && period) {
       let body = {
-        makeId: make,
-        periodId: year,
+        makeId: parseInt(make),
+        periodId: parseInt(period),
       };
-      getModel();
+      getModel(body);
+    } else {
+      console.log("not callinng");
     }
   }, []);
+
   return (
     <>
       <Head>
@@ -77,17 +80,17 @@ const Model = () => {
               />
 
               <Grid container spacing={2}>
-                {data.carModel.map((val, i) => (
+                {modelName.map((val, i) => (
                   <Grid item xs={4} key={i}>
                     <Card
                       className={`p-2 pointer ${
-                        val.name === model && selected
+                        val.modelName === model && selected
                           ? styles.year_Selector
                           : ""
                       }`}
-                      onClick={() => handleSelectModel(val.name)}
+                      onClick={() => handleSelectModel(val.id)}
                     >
-                      {val.name}
+                      {val.modelName}
                     </Card>
                   </Grid>
                 ))}

@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { FaCar, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "@/logo/EuVandeLogoWhite.svg";
+import logoBlack from "@/logo/EuVandeLogoBlack.svg";
 import Button from "./button";
 import Image from "next/image";
 import { removeDetails, setDetails } from "@/redux/reducers/userdetails";
@@ -56,7 +57,7 @@ const Navbar = () => {
   };
   const dispatch = useDispatch();
   const routePage = () => {
-    !isLogin ? router.push("/login") : setIsPopOver(!popOver);
+    !isLogin ? router.push("/registerorlogin") : setIsPopOver(!popOver);
   };
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -97,7 +98,7 @@ const Navbar = () => {
       <div className={`${show ? styles.mainHeader : ""} container p-2`}>
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
-            <Image src={logo} width={150} />
+            <Image src={show ? logo : logoBlack} width={150} />
           </Link>
 
           <Stack
@@ -109,15 +110,17 @@ const Navbar = () => {
             <Stack direction="row" alignItems={"center"} spacing={1}>
               <LocalPhoneOutlinedIcon
                 style={{
-                  fill: "#fff",
-                  border: "1px solid #fff",
+                  fill: show ? "#fff" : "#000",
+                  border: show ? "1px solid #fff" : "1px solid #000",
                   borderRadius: "50%",
                   width: "30px",
                   height: "30px",
                   padding: "5px",
                 }}
               />
-              <p className="text-white f-12">+1 9845751252</p>
+              <p className={`${show ? "text-white" : "text-dark"} f-12`}>
+                +1 9845751252
+              </p>
             </Stack>
 
             <Divider
@@ -126,15 +129,24 @@ const Navbar = () => {
               variant="middle"
               style={{ backgroundColor: "#fff", opacity: 1 }}
             />
-            <Typography color="#ffffff">Buy Car</Typography>
+            <Link href={"/buy-cars"} className="link">
+              <Typography color={show ? "#ffffff" : "#000000"}>
+                Buy Car
+              </Typography>
+            </Link>
             <Divider
               flexItem
               orientation="vertical"
               variant="middle"
               style={{ backgroundColor: "#fff", opacity: 1 }}
             />
-            <Link href={isLogin ? "/sell-cars" : "/login"} className="link">
-              <Typography color="#ffffff">Sell Car</Typography>
+            <Link
+              href={isLogin ? "/sell-cars" : "/registerorlogin"}
+              className="link"
+            >
+              <Typography color={show ? "#ffffff" : "#000000"}>
+                Sell Car
+              </Typography>
             </Link>
             <Divider
               flexItem
@@ -150,13 +162,18 @@ const Navbar = () => {
               onClick={routePage}
               className="pointer"
             >
-              <FaUser color="#fff" />
+              <FaUser color={show ? "#fff" : "#000"} />
               {isLogin ? (
-                <Typography color={"#ffffff"} className="text-capitalize">
-                  Hello ,{name}{" "}
+                <Typography
+                  color={show ? "#ffffff" : "#000000"}
+                  className="text-capitalize"
+                >
+                  Hello,{name}{" "}
                 </Typography>
               ) : (
-                <p className="text-white">Login/Register</p>
+                <Typography color={show ? "#ffffff" : "#000000"}>
+                  Login/Register
+                </Typography>
               )}
             </Stack>
 
@@ -206,7 +223,7 @@ const Navbar = () => {
               ))}
               {/* <div style={{ width: "100%" }}>
                 <Link
-                  href={isLogin ? "/sell-cars" : "/login"}
+                  href={isLogin ? "/sell-cars" : "/registerorlogin"}
                   onClick={() => setShowMenu(false)}
                 >
                   <Button className="custom_btn mt-3" width="100%" fw="600">

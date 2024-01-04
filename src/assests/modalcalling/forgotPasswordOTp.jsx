@@ -21,7 +21,7 @@ const OTPverifyPassword = () => {
   const submitHandler = (e) => {
     let body = {
       otp: otp,
-      referenceId: localStorage.getItem("referenceId"),
+      referenceId: JSON.parse(localStorage.getItem("referenceId")),
       password: password,
     };
     e.preventDefault();

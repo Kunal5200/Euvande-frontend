@@ -23,15 +23,11 @@ const AddressCard = (props) => {
   };
   const dispatch = useDispatch();
   const openAddressModal = () => {
-    dispatch(showModal(<AddAddress />));
+    dispatch(showModal(<AddAddress getAddress={props.getAddress} />));
   };
 
   const editAddressModalOpen = (val) => {
     dispatch(showModal(<EditAddress value={val} />));
-  };
-
-  const openDeleteAddressModal = (val) => {
-    dispatch(showModal(<DeleteAddress value={val} />));
   };
 
   return (
@@ -50,12 +46,27 @@ const AddressCard = (props) => {
             style={{ fontSize: "12px" }}
           />
           <Box paddingLeft={4}>
-            <Typography variant="body1" fontSize={15}>
+            <Typography
+              variant="body1"
+              fontSize={15}
+              textTransform={"capitalize"}
+            >
               {val.addressType}
             </Typography>
-            <Typography fontSize={13} marginTop={1}>
-              {val.address}
-            </Typography>
+            <Stack direction={"row"} alignItems={"center"} spacing={1}>
+              <Typography fontSize={13} marginTop={1}>
+                {val.street},
+              </Typography>
+              <Typography fontSize={13} marginTop={1}>
+                {val.houseNo},
+              </Typography>
+              <Typography fontSize={13} marginTop={1}>
+                {val.city},
+              </Typography>
+              <Typography fontSize={13} marginTop={1}>
+                {val.country},
+              </Typography>
+            </Stack>
             <Stack direction={"row"} spacing={2} marginTop={2}>
               <Typography
                 fontSize={12}
@@ -76,7 +87,7 @@ const AddressCard = (props) => {
                   borderBottom="1px dashed #000"
                   width="fit-content"
                   className="pointer"
-                  onClick={() => openDeleteAddressModal(val)}
+                  onClick={() => props.onDelete(val)}
                 >
                   Delete Address
                 </Typography>

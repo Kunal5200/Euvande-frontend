@@ -57,7 +57,7 @@ const EditUserProfile = ({ value, setUser }) => {
       setState({
         ...state,
         countryName: newValue.label,
-        countryCode: newValue.code,
+        countryCode: newValue.phone,
       });
       setError({ ...error, countryName: "" });
     }
@@ -85,7 +85,7 @@ const EditUserProfile = ({ value, setUser }) => {
     <div style={{ width: "600px" }}>
       <div className="container-fluid">
         <div className="">
-          <h4 className="mb-2">Edit Peronal Details</h4>
+          <h4 className="mb-2">Edit Personal Details</h4>
         </div>
         <Divider style={{ backgroundColor: "#000 " }} />
 
@@ -134,7 +134,7 @@ const EditUserProfile = ({ value, setUser }) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Autocomplete
+            <Autocomplete
                 id="country"
                 options={countries}
                 autoHighlight

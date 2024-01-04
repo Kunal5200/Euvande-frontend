@@ -3,9 +3,12 @@ import styles from "@/styles/Login.module.css";
 import { useState } from "react";
 import Button from "@/components/button";
 import { toast } from "react-toastify";
-import { otpEmailVerify, verifyEmailOTP } from "@/api/apiCalling/authenticationApi";
+import {
+  otpEmailVerify,
+  verifyEmailOTP,
+} from "@/api/apiCalling/authenticationApi";
 import { useDispatch } from "react-redux";
-export const VerifyOtp = ({setEmailVerify}) => {
+export const VerifyOtp = ({ setEmailVerify }) => {
   const dispatch = useDispatch();
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
@@ -13,13 +16,13 @@ export const VerifyOtp = ({setEmailVerify}) => {
     e.preventDefault();
 
     let body = {
-      referenceId: localStorage.getItem("referenceId"),
+      referenceId: JSON.parse(localStorage.getItem("referenceId")),
       otp: otp,
     };
     if (otp === "") {
       setError("Kindly enter the OTP that was sent to your email address.");
     } else {
-      otpEmailVerify({ data: body, dispatch,setEmailVerify });
+      otpEmailVerify({ data: body, dispatch, setEmailVerify });
     }
   };
   return (
@@ -35,7 +38,7 @@ export const VerifyOtp = ({setEmailVerify}) => {
         <div>
           <form onSubmit={submitHandler}>
             <OTPInput
-              numInputs={4}
+              numInputs={6}
               renderSeparator={
                 <span className={error ? "text-danger" : ""}>-</span>
               }

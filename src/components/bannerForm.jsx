@@ -47,7 +47,7 @@ const BannerForm = () => {
     }),
     input: (provided, state) => ({
       ...provided,
-      color: "#ffffff",
+      color: "#ffffff", 
     }),
   };
   return (

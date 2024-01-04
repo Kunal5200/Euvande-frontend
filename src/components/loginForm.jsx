@@ -19,10 +19,12 @@ import { useRouter } from "next/router";
 import Loading from "react-loading";
 import { login, loginUser } from "@/api/apiCalling/authenticationApi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import logo from "@/logo/EuVandeLogoBlack.svg";
 import { useDispatch } from "react-redux";
 import styles from "@/styles/Login.module.css";
 import { showModal } from "@/redux/reducers/modal";
 import ForgotPassword from "@/assests/modalcalling/forgot-password";
+import Image from "next/image";
 const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
@@ -83,13 +85,14 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     <div>
       {!otpShow ? (
         <form className={`text-center  pb-3 `} onSubmit={loginsubmitHandler}>
-          <h4 className="p-2">🚗 Euvande Login </h4>
+          {/* <h4 className="p-2">🚗 Euvande Login </h4>
           <Divider style={{ backgroundColor: "#000" }} />
           <p className="f-12 p-2">
             ⭐ Rev up your car journey! Unlock a world of effortless buying and
             selling. Dive into our Car Marketplace—your dream car or sale
             awaits. Login now and drive into the future!
-          </p>
+          </p> */}
+          <Image src={logo} width={200} className="" />
 
           <div className="p-3">
             <TextField
@@ -126,14 +129,19 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
               }}
             />
             <div className="text-center  ">
-              <Button className="custom_btn" width="100%">
+              <Button
+                className="custom_btn"
+                width="100%"
+                padding="15px"
+                rounded="4px"
+              >
                 {loading ? (
                   <Loading
                     type="bars"
                     className="m-auto"
                     width={20}
                     height={20}
-                    color="#000"
+                    color="#ffdb58"
                   />
                 ) : (
                   <>

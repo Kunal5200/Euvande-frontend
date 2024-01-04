@@ -5,12 +5,18 @@ import { toast } from "react-toastify";
 import { authControllers } from "../authentication";
 import { loggedIn } from "@/redux/reducers/user";
 
-export const userRegister = ({ setLoading, body, setEmailVerify }) => {
+export const userRegister = ({
+  setLoading,
+  body,
+  setEmailVerify,
+  dispatch,
+}) => {
   authControllers
     .RegisterUser(body)
     .then((res) => {
       toast.success(res.data.message);
       localStorage.setItem("referenceId", res.data.data.referenceId);
+
       setLoading(false);
       setEmailVerify(true);
     })
@@ -20,11 +26,12 @@ export const userRegister = ({ setLoading, body, setEmailVerify }) => {
     });
 };
 
-export const userVerify = ({ body, setLoading, router }) => {
+export const userVerify = ({ body, setLoading, router, dispatch }) => {
   authControllers
     .verifyOtp(body)
     .then((res) => {
       toast.success(res.data.message);
+      dispatch(setDetails({ ...res.data.data }));
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);

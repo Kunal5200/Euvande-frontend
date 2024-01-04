@@ -100,4 +100,36 @@ export const authControllers = {
       throw error;
     }
   },
+  updatePhoneNumber: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "authentication/api/updatePhone/addOrUpdatePhone",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  removeAddress: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        `/authentication/api/address/removeAddress/${data}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  verifyPhoneOTP: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "/authentication/api/updatePhone/phoneNoVerification",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
