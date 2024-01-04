@@ -2,9 +2,10 @@ import data from "@/assests/data";
 import LinkTab from "@/components/linktab";
 import { Card, Stack } from "@mui/material";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
+import { vehicleController } from "@/api/addVehicle";
 const Odometer = () => {
   const [driven, setDriven] = useState("");
   const router = useRouter();
@@ -13,6 +14,30 @@ const Odometer = () => {
     router.push("/sell-cars/location");
     localStorage.setItem("driven", driven);
   };
+  const [odometer, setOdoMeter] = useState([]);
+
+  const getOdoMeter = (body) => {
+    vehicleController
+      .getOdometer(body)
+      .then((res) => {
+        setOdoMeter(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    const variant = localStorage.getItem("variant");
+
+    if (variant) {
+      let body = {
+        variantId: parseInt(variant),
+      };
+      getOdoMeter(body);
+    } else {
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -32,7 +57,7 @@ const Odometer = () => {
                       val.driven === driven && styles.year_Selector
                     }`}
                     key={i}
-                    onClick={() => handleClick(val.driven)}
+                    onClick={() => handleClick(val.id)}
                   >
                     {val.driven}
                   </Card>

@@ -1,11 +1,10 @@
-import ngRokSecuredAPI from "./config";
+import SecuredAPI from "./config";
 
 export const listingController = {
-  getUserDetails: async () => {
+  getuserAddress: async () => {
     try {
-      let result = await ngRokSecuredAPI.ngRokSecuredAPI.post(
-        "/api/user/getUserDetail",
-        {}
+      let result = await SecuredAPI.securedAPI.get(
+        "authentication/api/address/getAddresses"
       );
       return result;
     } catch (error) {

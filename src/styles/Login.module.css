@@ -3,9 +3,37 @@
     height: 55px;
 }
 
+.bg_image {
+    /* background-image: url('../../public/images/banner_image/backgroundImage2.jpg'); */
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)); */
+    /* background: #0f0c29;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); */
+    background: #bdc3c7;
+    background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);
+    background: linear-gradient(to right, #2c3e50, #bdc3c7);
+    height: 120vh;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+
+
+.loginForm {
+    height: 500px;
+    display: grid;
+    place-items: center;
+}
+
 .registerButton {
     color: #000;
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .registerButton:hover {
@@ -18,7 +46,7 @@
     border-radius: 5px;
     width: 40px !important;
     height: 40px;
-    margin: 10px;
+    margin: 3px;
 }
 
 .errorInputOTP {

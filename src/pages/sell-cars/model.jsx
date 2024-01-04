@@ -10,9 +10,10 @@ import {
   TextField,
 } from "@mui/material";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
+import { vehicleController } from "@/api/addVehicle";
 const Model = () => {
   const [selected, setSelected] = useState(false);
   const [model, setModel] = useState("");
@@ -23,6 +24,32 @@ const Model = () => {
     router.push("/sell-cars/variant");
     localStorage.setItem("model", modelName);
   };
+  const [modelName, setModelName] = useState([]);
+
+  const getModel = (body) => {
+    vehicleController
+      .getModels(body)
+      .then((res) => {
+        setModelName(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    const make = localStorage.getItem("brand");
+    const period = localStorage.getItem("year");
+    if (make && period) {
+      let body = {
+        makeId: parseInt(make),
+        periodId: parseInt(period),
+      };
+      getModel(body);
+    } else {
+      console.log("not callinng");
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -53,17 +80,17 @@ const Model = () => {
               />
 
               <Grid container spacing={2}>
-                {data.carModel.map((val, i) => (
+                {modelName.map((val, i) => (
                   <Grid item xs={4} key={i}>
                     <Card
                       className={`p-2 pointer ${
-                        val.name === model && selected
+                        val.modelName === model && selected
                           ? styles.year_Selector
                           : ""
                       }`}
-                      onClick={() => handleSelectModel(val.name)}
+                      onClick={() => handleSelectModel(val.id)}
                     >
-                      {val.name}
+                      {val.modelName}
                     </Card>
                   </Grid>
                 ))}

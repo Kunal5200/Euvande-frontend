@@ -1,82 +1,154 @@
 import LoginForm from "@/components/loginForm";
-import Signup from "@/components/signupForm";
+import { Box, Card, Divider, Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
+import ReactCardFlip from "react-card-flip";
 import styles from "@/styles/Login.module.css";
-import { animated, useSpring } from "@react-spring/web";
-import Head from "next/head";
-import { useState } from "react";
-const RegisterLogin = () => {
-  const [position, setPosition] = useState(0);
-  const [viaOTP, setViaOtp] = useState(false);
-  const [springs, api] = useSpring(() => ({
-    from: { x: position },
-  }));
+import SignupForm from "@/components/signupForm";
+import { useDispatch } from "react-redux";
+import { showModal } from "@/redux/reducers/modal";
+import ForgotPassword from "@/assests/modalcalling/forgot-password";
+import Button from "@/components/button";
+const RegisterorLogin = () => {
+  const dispatch = useDispatch();
+
+  const forgotPassword = () => {
+    dispatch(showModal(<ForgotPassword />));
+  };
+  const [flip, setFlip] = useState(false);
 
   const handleClick = () => {
-    const targetPosition = position === 0 ? 380 : 0;
-
-    api.start({
-      from: { x: position },
-      to: { x: targetPosition },
-    });
-
-    setPosition(targetPosition);
+    setFlip(!flip);
   };
-
-  const [otpShow, setOtpShow] = useState(false);
-
   return (
-    <div className="container my-5">
-      <Head>
-        <title>Register or Login</title>
-      </Head>
-      <div className="row  ">
-        <div className="col-sm-8 m-auto card">
-          <animated.div
-            style={{
-              width: "50%",
-              height: "100%",
-              background: "rgb(238,174,202)",
-              background:
-                "linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
-              borderRadius: 8,
-              position: "absolute",
-              zIndex: 999,
-              color: "#ffffff",
-              padding: "5px",
-              display: "grid",
-              placeItems: "center",
-              left: 0,
-              ...springs,
-            }}
-          ></animated.div>
-          <div className="row p-3">
-            <div className="col-sm-6  ">
-              <Signup />
-              <p className="f-12 px-3">
-                Already have an Account ?
-                <span
-                  onClick={handleClick}
-                  className="text-decoration-underline text-info pointer"
-                >
-                  Login
-                </span>
-              </p>
-            </div>
-            <div className="col-sm-6  ">
-              <LoginForm otpShow={otpShow} setOtpShow={setOtpShow} />
-
-              <p className="f-12 px-3">
-                New User?{" "}
-                <span className={styles.registerButton} onClick={handleClick}>
-                  Register Yourself
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
+    <div>
+      <div className={styles.bg_image}>
+        <Grid container spacing={2}>
+          <Grid item xs={8} margin={"auto"}>
+            {/* <Card className={`p-2  pb-5 ${styles.loginForm}`}>
+              <Grid container>
+                <Grid item lg={6} padding={2}>
+                  <ReactCardFlip isFlipped={flip}>
+                    <Box>
+                      <Typography variant="h6" font textAlign={"center"}>
+                        Ready to make car dreams a reality? Whether selling or
+                        buying, our platform is where it happens. Let's get
+                        started quickly!
+                      </Typography>
+                      <Button onClick={handleClick} border="1px solid ">
+                        Sign up
+                      </Button>
+                    </Box>
+                    <Typography variant="h4" onClick={handleClick}>
+                      Hello
+                    </Typography>
+                  </ReactCardFlip>
+                </Grid>
+                <Grid item lg={6}>
+                  <ReactCardFlip isFlipped={flip}>
+                    <LoginForm />
+                    <SignupForm />
+                  </ReactCardFlip>
+                </Grid>
+              </Grid>
+            </Card> */}
+            <Grid container>
+              <Grid item lg={6}>
+                <ReactCardFlip isFlipped={flip}>
+                  <Box
+                    sx={{
+                      backgroundColor: "#000",
+                      height: "500px",
+                      color: "#fff",
+                      display: "grid",
+                      placeItems: "center",
+                    }}
+                  >
+                    <Box textAlign={"center"}>
+                      <Typography
+                        paddingX={2}
+                        variant="h6"
+                        fontSize={20}
+                        textAlign={"center"}
+                      >
+                        Ready to make car dreams a reality? Whether selling or
+                        buying, our platform is where it happens. Let's get
+                        started quickly!
+                      </Typography>
+                      <Button
+                        onClick={handleClick}
+                        border="1px solid white "
+                        color="#fff"
+                        backgroundColor="transparent"
+                        padding="10px"
+                        width="120px"
+                        rounded="20px"
+                        className="mt-4"
+                      >
+                        Sign Up
+                      </Button>
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: "#000",
+                      height: "500px",
+                      color: "#fff",
+                      display: "grid",
+                      placeItems: "center",
+                    }}
+                  >
+                    <Box textAlign={"center"}>
+                      <Typography
+                        paddingX={2}
+                        variant="h6"
+                        fontSize={20}
+                        textAlign={"center"}
+                      >
+                        Ready to embark on your car journey? Whether selling or
+                        buying, our platform is your gateway. Let's get you
+                        logged in quickly!
+                      </Typography>
+                      <Button
+                        onClick={handleClick}
+                        border="1px solid white "
+                        color="#fff"
+                        backgroundColor="transparent"
+                        padding="10px"
+                        width="120px"
+                        rounded="20px"
+                        className="mt-4"
+                      >
+                        Sign In
+                      </Button>
+                    </Box>
+                  </Box>
+                </ReactCardFlip>
+              </Grid>
+              <Grid item lg={6}>
+                <ReactCardFlip isFlipped={flip}>
+                  <Card className={styles.loginForm} sx={{ padding: 2 }}>
+                    <LoginForm />
+                    <Typography
+                      fontSize={"12px"}
+                      paddingRight={2}
+                      fontWeight={500}
+                      className="pointer text-decoration-underline"
+                      onClick={forgotPassword}
+                    >
+                      Forgot Password?
+                    </Typography>
+                  </Card>
+                  <Card className={styles.loginForm} sx={{ padding: 2 }}>
+                    <SignupForm />
+                  </Card>
+                </ReactCardFlip>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
 };
 
-export default RegisterLogin;
+export default RegisterorLogin;

@@ -4,6 +4,7 @@ let initialState = {
   email: "",
   login_token: "",
   isAuthenticated: false,
+  name: "",
 };
 
 export const user = createSlice({

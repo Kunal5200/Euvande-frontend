@@ -29,6 +29,7 @@ const Interior = ({ setState, state, setActiveStep, activeStep, data }) => {
       <Button
         className={styles.back_btn}
         onClick={() => setActiveStep(activeStep - 1)}
+        type="button"
       >
         <FaAngleLeft />
         Back

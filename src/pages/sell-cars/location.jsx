@@ -46,7 +46,7 @@ const Location = () => {
               <p className="f-12 fw-normal">
                 In which city you are looking to sell your car?
               </p>
-              <form onSubmit={submitHandle}>
+              <form onSubmit={submitHandle} className="mt-3">
                 <Grid container alignItems={"center"} spacing={2}>
                   <Grid item xs={7}>
                     <TextField

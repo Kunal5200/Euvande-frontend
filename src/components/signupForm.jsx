@@ -1,29 +1,26 @@
-import {
-  addUser,
-  phoneNumberVerification,
-  sendOtpEmail,
-  sendOtpPhone,
-  verifyEmail,
-} from "@/api/apiCalling/authenticationApi";
+import { userRegister } from "@/api/apiCalling/authenticationApi";
 import countryData from "@/assests/countries.json";
-import countriesData from "@/assests/countriesCode";
-import countryFlag from "@/assests/countriesFlag";
-import otp from "@/icons/otp.png";
-import styles from "@/styles/signup.module.css";
 import { isEmail, isPhonenumber } from "@/utils/regex";
-import { loginTextField, phonetextField } from "@/utils/styles";
+import { loginTextField } from "@/utils/styles";
 import { registerValidation } from "@/utils/validation";
-import { Verified, Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment, Popover, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Box,
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import ReactFlagsSelect from "react-flags-select";
-import { FaInfoCircle } from "react-icons/fa";
 import Loading from "react-loading";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import Button from "./button";
-import { useRouter } from "next/router";
-const Signup = () => {
+import OTPinput from "./otpInput";
+import logo from "@/logo/EuVandeLogoBlack.svg";
+import Image from "next/image";
+const SignupForm = () => {
   const [togglePassword, setTogglePassword] = useState(true);
   const router = useRouter();
   const [state, setState] = useState({
@@ -69,7 +66,6 @@ const Signup = () => {
   };
   const [emailverify, setEmailVerify] = useState(false);
   const [phoneverify, setPhoneVerify] = useState(false);
-
   const [selected, setSelected] = useState("NL");
   const [dialcode, setDialCode] = useState("+31");
   const onSelect = (e) => {
@@ -82,30 +78,8 @@ const Signup = () => {
     }
   };
 
-  const VerifyEmail = () => {
-    if (state.email === "") {
-      toast.error("Please Enter Valid Email ID");
-    } else {
-      sendOtpEmail({ data: state.email, dispatch, setEmailVerify });
-      setOpenPopOverEmail(false);
-    }
-  };
-
-  const VerifyPhone = () => {
-    let body = {
-      countryCode: dialcode,
-      phoneNo: state.phone,
-    };
-    if (state.phone === "") {
-      toast.error("Please Enter Valid Phone Number");
-    } else {
-      sendOtpPhone({ data: body, dispatch, setPhoneVerify });
-      setopenPopOverPhone(false);
-    }
-  };
   const [loading, setLoading] = useState(false);
   const [openPopOverEmail, setOpenPopOverEmail] = useState(false);
-  const [openPopOverPhone, setopenPopOverPhone] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const submitHandler = (e) => {
     let body = {
@@ -113,128 +87,86 @@ const Signup = () => {
       name: state.name,
       password: state.password,
     };
-    console.log("ertyu");
+
     setLoading(true);
     e.preventDefault();
     if (registerValidation({ state, error, setError })) {
-      addUser({ setLoading, body, router });
-      console.log("hello");
+      userRegister({ setLoading, body, setEmailVerify, dispatch });
     } else {
       setLoading(false);
-      console.log("first");
     }
   };
   return (
     <div>
       <div className="container">
-        <form onSubmit={submitHandler}>
-          <div className="mb-3">
-            <h5 className="text-center">
-              🌟 Welcome to the Ultimate Car Marketplace! 🚗
-            </h5>
-            <p className="f-12 text-center">
-              Excited to have you with us! Whether you're parting ways with your
-              trusted ride or on the hunt for your dream wheels, our platform is
-              the place where car dreams take off. Ready to roll? Let's make it
-              quick.
-            </p>
-          </div>
-          <TextField
-            label="Name*"
-            variant="outlined"
-            fullWidth
-            sx={loginTextField}
-            className="mb-3"
-            onChange={inputChangeHandler}
-            id="name"
-            error={error.name}
-            helperText={error.name}
-          />
-          <TextField
-            label="Email*"
-            variant="outlined"
-            fullWidth
-            sx={loginTextField}
-            className="mb-3"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <IconButton
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "transparent",
-                      },
-                      "&.MuiTouchRipple": {
-                        backgroundColor: "transparent",
-                      },
-                    }}
-                  >
-                    {emailverify ? (
-                      <Verified color="green" />
-                    ) : (
-                      <FaInfoCircle
-                        onClick={() => setOpenPopOverEmail(true)}
-                        className="animate__animated animate__pulse animate__infinite	infinite"
-                        color="#ff0000bd"
-                      />
-                    )}
-                  </IconButton>
-                  <Popover
-                    anchorEl={anchorEl}
-                    onClose={() => setOpenPopOverEmail(false)}
-                    open={openPopOverEmail}
-                    anchorOrigin={{
-                      vertical: "center",
-                      horizontal: "center",
-                    }}
-                  >
-                    <div className="p-3">
-                      <p className="mb-0">
-                        Please Click the Button below to verify your Email
-                      </p>
-                      <Button
-                        onClick={VerifyEmail}
-                        className="custom_btn my-2"
-                        width="100%"
-                      >
-                        <span>Verify Now</span>
-                        <span>Verify Now</span>
-                      </Button>
-                    </div>
-                  </Popover>
-                </InputAdornment>
-              ),
-            }}
-            id="email"
-            onChange={inputChangeHandler}
-            error={error.email}
-            helperText={error.email}
-          />
+        {emailverify ? (
+          <OTPinput />
+        ) : (
+          <form onSubmit={submitHandler}>
+            {/* <div className="mb-3">
+              <Typography
+                className="text-center p-2"
+                variant="h1"
+                fontSize={15}
+              >
+                🌟 Welcome to the Ultimate Car Marketplace! 🚗
+              </Typography>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <Typography className="f-12 text-center" padding={1}>
+                Ready to make car dreams a reality? Whether selling or buying,
+                our platform is where it happens. Let's get started quickly!
+              </Typography>
+            </div> */}
+            <Box marginBottom={4} textAlign={"center"}>
+              <Image src={logo} width={200} />
+            </Box>
+            <TextField
+              label="Name*"
+              variant="outlined"
+              fullWidth
+              sx={loginTextField}
+              className="mb-3"
+              onChange={inputChangeHandler}
+              id="name"
+              error={error.name}
+              helperText={error.name}
+            />
+            <TextField
+              label="Email*"
+              variant="outlined"
+              fullWidth
+              sx={loginTextField}
+              className="mb-3"
+              id="email"
+              onChange={inputChangeHandler}
+              error={error.email}
+              helperText={error.email}
+            />
 
-          <TextField
-            label="Password*"
-            variant="outlined"
-            fullWidth
-            type={!togglePassword ? "text" : "password"}
-            sx={loginTextField}
-            className="mb-3"
-            id="password"
-            onChange={inputChangeHandler}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setTogglePassword(!togglePassword)}
-                  >
-                    {togglePassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={error.password}
-            helperText={error.password}
-          />
-          {/* <div className="d-flex align-items-center mb-3 ">
+            <TextField
+              label="Password*"
+              variant="outlined"
+              fullWidth
+              type={!togglePassword ? "text" : "password"}
+              sx={loginTextField}
+              className="mb-3"
+              id="password"
+              onChange={inputChangeHandler}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setTogglePassword(!togglePassword)}
+                    >
+                      {togglePassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              error={error.password}
+              helperText={error.password}
+            />
+            {/* <div className="d-flex align-items-center mb-3 ">
             <ReactFlagsSelect
               searchable={true}
               onSelect={onSelect}
@@ -305,26 +237,33 @@ const Signup = () => {
               onChange={inputChangeHandler}
             />
           </div> */}
-          <Button className="custom_btn" width="100%" type="submit">
-            {!loading ? (
-              <>
-                <span>Proceed</span>
-                <span>Proceed</span>
-              </>
-            ) : (
-              <Loading
-                type="bars"
-                color="#000"
-                height={20}
-                width={20}
-                className="m-auto"
-              />
-            )}
-          </Button>
-        </form>
+            <Button
+              className="custom_btn"
+              width="100%"
+              type="submit"
+              padding="15px"
+              rounded="4px"
+            >
+              {!loading ? (
+                <>
+                  <span>Proceed</span>
+                  <span>Proceed</span>
+                </>
+              ) : (
+                <Loading
+                  type="bars"
+                  color="#ffdb58"
+                  height={20}
+                  width={20}
+                  className="m-auto"
+                />
+              )}
+            </Button>
+          </form>
+        )}
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default SignupForm;

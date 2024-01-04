@@ -12,13 +12,22 @@
     z-index: 9999
 }
 
+.header {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)); */
+}
+
 .mainHeader {
     position: absolute;
     z-index: 9999;
     width: 100%;
     left: 0;
     right: 0;
-    top: 50px;
+    top: 0px;
+}
+
+.mobileView {
+    display: none;
 }
 
 .headerlinks {
@@ -41,4 +50,15 @@
     align-items: center;
     justify-content: center;
     letter-spacing: 2px;
+}
+
+
+@media screen and (max-width:600px) {
+    .mobileView {
+        display: block;
+    }
+
+    .desktopView {
+        display: none;
+    }
 }

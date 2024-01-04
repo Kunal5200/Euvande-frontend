@@ -34,6 +34,7 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
       <Button
         className={styles.back_btn}
         onClick={() => setActiveStep(activeStep - 1)}
+        type="button"
       >
         <FaAngleLeft />
         Back

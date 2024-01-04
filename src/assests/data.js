@@ -1,53 +1,230 @@
-import sliderImage1 from "@/banner_image/sliderImage1.jpeg";
-import image1 from "@/icons/quote.jpg";
-import image2 from "@/icons/doorstep.webp";
-import image3 from "@/icons/payment.jpg";
-import profile1 from "@/reviewer/profile1.jpg";
-import profile2 from "@/reviewer/profile2.jpg";
-import profile3 from "@/reviewer/profile3.jpg";
-import profile4 from "@/reviewer/profile4.jpg";
-import profile5 from "@/reviewer/profile5.jpg";
-import maruti from "@/brandImage/maruti.webp";
-import hyundai from "@/brandImage/hyundai.webp";
-import ford from "@/brandImage/Ford.webp";
-import honda from "@/brandImage/Honda.webp";
-import mahindra from "@/brandImage/mahindra.webp";
-import tata from "@/brandImage/tata.webp";
-import nissan from "@/brandImage/Nissan.webp";
-import toyota from "@/brandImage/toyota.webp";
-import ashokleyland from "@/brandImage/ashokleyland.webp";
+import sliderImage1 from "@/banner_image/sliderImage1.webp";
+import sliderImage2 from "@/banner_image/sliderImage2.webp";
+import sliderImage3 from "@/banner_image/sliderImage3.webp";
+import sliderImage4 from "@/banner_image/sliderImage4.webp";
 import astonMartin from "@/brandImage/Aston-Martin.webp";
 import audi from "@/brandImage/Audi.webp";
-import bentley from "@/brandImage/bentley.webp";
 import bwm from "@/brandImage/BMW.webp";
+import chrysler from "@/brandImage/Chrysler.webp";
+import citroen from "@/brandImage/Citroen.webp";
+import daewoo from "@/brandImage/Daewoo.webp";
+import datsun from "@/brandImage/Datsun.webp";
+import ford from "@/brandImage/Ford.webp";
+import honda from "@/brandImage/Honda.webp";
+import hummer from "@/brandImage/Hummer.webp";
+import nissan from "@/brandImage/Nissan.webp";
+import ashokleyland from "@/brandImage/ashokleyland.webp";
+import bentley from "@/brandImage/bentley.webp";
 import bugatti from "@/brandImage/bugatti.webp";
 import cadillac from "@/brandImage/cadillac.webp";
 import caterham from "@/brandImage/caterham.webp";
 import chevrolet from "@/brandImage/chevrolet.webp";
-import chrysler from "@/brandImage/Chrysler.webp";
-import citroen from "@/brandImage/Citroen.webp";
 import conquest from "@/brandImage/conquest.webp";
-import daewoo from "@/brandImage/Daewoo.webp";
-import datsun from "@/brandImage/Datsun.webp";
 import dc from "@/brandImage/dc.webp";
 import dodge from "@/brandImage/dodge.webp";
 import ferrari from "@/brandImage/ferrari.webp";
 import fiat from "@/brandImage/fiat.webp";
 import force from "@/brandImage/force.webp";
 import hindustanmotors from "@/brandImage/hindustanmotors.webp";
-import hummer from "@/brandImage/Hummer.webp";
+import hyundai from "@/brandImage/hyundai.webp";
 import lamborghini from "@/brandImage/lamborghini.webp";
+import mahindra from "@/brandImage/mahindra.webp";
 import rollyroyce from "@/brandImage/rollsroyce.webp";
+import tata from "@/brandImage/tata.webp";
+import toyota from "@/brandImage/toyota.webp";
+import image2 from "@/icons/doorstep.webp";
+import image3 from "@/icons/payment.jpg";
+import image1 from "@/icons/quote.jpg";
+import profile1 from "@/reviewer/profile1.jpg";
+import profile2 from "@/reviewer/profile2.jpg";
+import profile3 from "@/reviewer/profile3.jpg";
+import profile4 from "@/reviewer/profile4.jpg";
+import profile5 from "@/reviewer/profile5.jpg";
+import frontLeft from "@/carProduct/exterior/frontleft.webp";
+import frontView from "@/carProduct/exterior/frontview.webp";
+import frontRight from "@/carProduct/exterior/frontright.webp";
+import rearRight from "@/carProduct/exterior/backright.webp";
+import rearView from "@/carProduct/exterior/backview.webp";
+import rearLeft from "@/carProduct/exterior/backleft.webp";
+import headlamp from "@/carProduct/exterior/frontlight.webp";
+import engine from "@/carProduct/exterior/engine.webp";
+import driversdoor from "@/carProduct/interior/driversdoor.webp";
+import driverSeat from "@/carProduct/interior/driverseat.webp";
+import codriversSeat from "@/carProduct/interior/codriverseat.webp";
+import instrumentPanel from "@/carProduct/interior/instrumentpanel.webp";
+import dashboard from "@/carProduct/interior/dashboard.webp";
+import rearPanel from "@/carProduct/interior/backcenterpanel.webp";
+import rearseats from "@/carProduct/interior/backseats.webp";
+import headlining from "@/carProduct/interior/ceiling.webp";
+import tyres from "@/carProduct/wheel/wheel.webp";
+import frontleftTyre from "@/carProduct/wheel/pneu.webp";
+import car1 from "@/carProduct/car1.jpg";
+import choose from "@/icons/how-it-works.webp";
+import dacia from "@/dummyCars/dacia.jpeg";
+import citroenSuv from "@/dummyCars/citroen.jpeg";
+import seat from "@/dummyCars/seat.jpeg";
+import jimmy from "@/dummyCars/jimmy.jpeg";
+import testimonial1 from "@/testimonials/testimonial1.jpeg";
+import testimonial2 from "@/testimonials/testimonial2.jpeg";
+import testimonial3 from "@/testimonials/testimonial3.jpg";
+import testimonial5 from "@/testimonials/testimonial5.jpg";
+import testimonial6 from "@/testimonials/testimonial6.jpg";
+import testimonial4 from "@/testimonials/testimonial4.jpeg";
 let data = {
+  photoUpload: [
+    {
+      image: frontLeft.src,
+      label: "Front Left",
+      id: "frontLeft",
+    },
+    {
+      image: frontView.src,
+      label: "Front View",
+      id: "frontView",
+    },
+    {
+      image: frontRight.src,
+      label: "Front Right",
+      id: "frontRight",
+    },
+    {
+      image: rearRight.src,
+      label: "Rear Right",
+      id: "rearRight",
+    },
+    {
+      image: rearView.src,
+      label: "Rear View",
+      id: "rearView",
+    },
+    {
+      image: rearLeft.src,
+      label: "Rear Left",
+      id: "rearLeft",
+    },
+    {
+      image: headlamp.src,
+      label: "Headlamp",
+      id: "headlamp",
+    },
+    {
+      image: engine.src,
+      label: "Engine",
+      id: "engine",
+    },
+  ],
+  interiorPhotoUpload: [
+    {
+      image: driversdoor.src,
+      label: "Driver Door",
+      id: "driversDoor",
+    },
+    {
+      image: driverSeat.src,
+      label: "Driver Seat",
+      id: "driverSeat",
+    },
+    {
+      image: codriversSeat.src,
+      label: "Passenger Seat",
+      id: "passengerSeat",
+    },
+    {
+      image: instrumentPanel.src,
+      label: "Instrument Panel",
+      id: "instrumentpanel",
+    },
+    {
+      image: dashboard.src,
+      label: "Dashboard",
+      id: "dashboard",
+    },
+    {
+      image: rearPanel.src,
+      label: "Rear Panel of Center Console",
+      id: "rearPanel",
+    },
+    {
+      image: rearseats.src,
+      label: "Rear Seats",
+      id: "rearSeats",
+    },
+    {
+      image: headlining.src,
+      label: "Headlining",
+      id: "headlining",
+    },
+  ],
+  tyres: [
+    {
+      label: "Front Left Wheel",
+      image: tyres.src,
+      id: "frontLeftWheel",
+    },
+    {
+      label: "Back Left Wheel",
+      image: tyres.src,
+      id: "backLeftWheel",
+    },
+    {
+      label: "Back Right Wheel",
+      image: tyres.src,
+      id: "backgRightWheel",
+    },
+    {
+      label: "Front Right Wheel",
+      image: tyres.src,
+      id: "frontRightWheel",
+    },
+    {
+      label: "Front Left Tyre",
+      image: frontleftTyre.src,
+      id: "frontLeftTyre",
+    },
+    {
+      label: "Back Left Tyre",
+      image: frontleftTyre.src,
+      id: "backLeftTyre",
+    },
+    {
+      label: "Back Right Tyre",
+      image: frontleftTyre.src,
+      id: "backRightTyre",
+    },
+    {
+      label: "Front Left Tyre",
+      image: frontleftTyre.src,
+      id: "frontRightTyre",
+    },
+  ],
   sliderData: [
     {
       image: sliderImage1,
+      bannerText: "Revolutionize Your Ride: Explore Our Car Marketplace Today!",
+      bannerDescription:
+        "Experience a groundbreaking approach to car buying and selling as you navigate our innovative car marketplace. Discover a new era of convenience and choice for your automotive journey.",
+      button: "Buy Cars",
     },
     {
-      image: sliderImage1,
+      image: sliderImage2,
+      bannerText: "Drive Your Dreams: Find the Perfect Car with Us!",
+      bannerDescription:
+        "Turn your automotive dreams into reality with our platform. Browse through an extensive selection to find the perfect car that matches your desires. Your dream ride is just a click away!",
+      button: "View Cars",
     },
     {
-      image: sliderImage1,
+      image: sliderImage3,
+      bannerText: "Your Dream Car, Your Way: Shop and Sell with Confidence!",
+      bannerDescription:
+        "Tailor your automotive experience to fit your dreams. Shop for your dream car and sell with confidence, knowing that our platform is designed to cater to your individual preferences.",
+      button: "Sell Your Car Now",
+    },
+    {
+      image: sliderImage4,
+      bannerText: "Where Cars Meet Enthusiasts: Buy and Sell with Ease!",
+      bannerDescription:
+        "Join a community where cars and enthusiasts converge. Experience the joy of buying and selling with ease, knowing you're part of a passionate community that shares your love for automobiles.",
+      button: "View More",
     },
   ],
   selling: [
@@ -106,78 +283,97 @@ let data = {
     {
       name: "Rolls Royce",
       logo: rollyroyce.src,
+      carNumber: 450,
     },
     {
       name: "hyundai",
       logo: hyundai.src,
+      carNumber: 450,
     },
     {
       name: "Honda",
       logo: honda.src,
+      carNumber: 450,
     },
     {
       name: "Tata",
       logo: tata.src,
+      carNumber: 450,
     },
     {
       name: "toyota",
       logo: toyota.src,
+      carNumber: 450,
     },
     {
       name: "mahindra",
       logo: mahindra.src,
+      carNumber: 450,
     },
     {
       name: "ford",
       logo: ford.src,
+      carNumber: 450,
     },
     {
       name: "Nissan",
       logo: nissan.src,
+      carNumber: 450,
     },
     {
       name: "Ashko Leyland",
       logo: ashokleyland.src,
+      carNumber: 450,
     },
     {
       name: "Aston Martin",
       logo: astonMartin.src,
+      carNumber: 450,
     },
     {
       name: "Audi",
       logo: audi.src,
+      carNumber: 450,
     },
     {
       name: "Bentley",
       logo: bentley.src,
+      carNumber: 450,
     },
     {
       name: "BMW",
       logo: bwm.src,
+      carNumber: 450,
     },
     {
       name: "Bugatti",
       logo: bugatti.src,
+      carNumber: 450,
     },
     {
       name: "Cadillac",
       logo: cadillac.src,
+      carNumber: 450,
     },
     {
       name: "Caterham",
       logo: caterham.src,
+      carNumber: 450,
     },
     {
       name: "Chevrolet",
       logo: chevrolet.src,
+      carNumber: 450,
     },
     {
       name: "Chrysler",
       logo: chrysler.src,
+      carNumber: 450,
     },
     {
       name: "Citreon",
       logo: citroen.src,
+      carNumber: 450,
     },
     {
       name: "Conquest",
@@ -499,7 +695,7 @@ let data = {
   ],
   list2: [
     {
-      label: "Delievery",
+      label: "Delivery",
     },
     {
       label: "Warranty",
@@ -591,6 +787,345 @@ let data = {
     },
     {
       label: "Velour",
+    },
+  ],
+  passwordRequirement: [
+    {
+      title: "The password must be at least 8 characters long.",
+    },
+    {
+      title:
+        "It must include at least one alphabet character (either uppercase or lowercase).",
+    },
+    {
+      title: "It must include at least one numeric digit (0-9).",
+    },
+    {
+      title:
+        "It must include at least one special character from the set: !@#$%^&*",
+    },
+    {
+      title: "Spaces are not allowed within the password.",
+    },
+  ],
+  address: [
+    {
+      addressType: "Home",
+      address: "Inge Beisheim Platz 53,Tangstedt,Schleswig-Holstein,Germany",
+    },
+    {
+      addressType: "Office",
+      address: "Kieler Strasse 58,Oberneukirchen, Freistaat Bayern,Germany",
+    },
+  ],
+
+  mileage: [
+    {
+      number: 2500,
+    },
+    {
+      number: 5000,
+    },
+    {
+      number: 10000,
+    },
+    {
+      number: 15000,
+    },
+    {
+      number: 20000,
+    },
+    {
+      number: 30000,
+    },
+    {
+      number: 40000,
+    },
+    {
+      number: 50000,
+    },
+    {
+      number: 60000,
+    },
+    {
+      number: 70000,
+    },
+    {
+      number: 80000,
+    },
+    {
+      number: 90000,
+    },
+    {
+      number: 100000,
+    },
+  ],
+  price: [
+    {
+      price: "1000 €",
+    },
+    {
+      price: "2000 €",
+    },
+    {
+      price: "3000 €",
+    },
+    {
+      price: "4000 €",
+    },
+    {
+      price: "5000 €",
+    },
+    {
+      price: "6000 €",
+    },
+    {
+      price: "7000 €",
+    },
+    {
+      price: "8000 €",
+    },
+    {
+      price: "9000 €",
+    },
+    {
+      price: "10000 €",
+    },
+  ],
+  carDataList: [
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+    {
+      carName:
+        "Volkswagen Beetle Cabriolet 2.0 TSI BlueMotion Technology 162 kW",
+      driven: "50,671",
+      amount: "30949",
+      emi: "505",
+      img: car1,
+      variant: "Petrol",
+      transmission: "Manual",
+    },
+  ],
+  howWorks: [
+    {
+      img: choose.src,
+      heading: "European Dreams, Driven Reality.",
+      description:
+        "Turn your European dreams into reality with the perfect car. Explore iconic destinations, scenic routes, and cityscapes on your terms. Your dream ride awaits.",
+    },
+    {
+      img: choose.src,
+      heading: "Expert Eyes, Thorough Inspection.",
+      description:
+        "Our expert eyes ensure a meticulous inspection, guaranteeing your peace of mind.",
+    },
+    {
+      img: choose.src,
+      heading: "Delivered to Your Doorstep.",
+      description:
+        "Experience seamless convenience with our direct-to-your-door delivery service – your dream car, delivered effortlessly to your home.",
+    },
+  ],
+  suv: [
+    {
+      name: "Dacia Spring 33 kW",
+      img: dacia.src,
+      driven: 28000,
+      variant: "Diesel",
+      transmission: "Automatic",
+      price: "33469",
+    },
+    {
+      name: "Citroen C5 Aircross 130 S&S LIVE 96 kW",
+      driven: 28000,
+      img: citroenSuv.src,
+      transmission: "Automatic",
+      variant: "CNG",
+      price: "44500",
+    },
+    {
+      name: "Seat Arona 1.0 TGI 66 kW",
+      driven: 28000,
+      img: seat.src,
+      transmission: "Manual",
+      variant: "Petrol",
+      price: "46200",
+    },
+    {
+      name: "Suzuki Jimny 75 kW",
+      driven: 28000,
+      img: jimmy.src,
+      transmission: "Manual",
+      variant: "Petrol",
+      price: "52000",
+    },
+  ],
+  testimonials: [
+    {
+      name: " Lucian v.",
+      testimonial:
+        "Embarking on the journey to find the perfect car became a delightful experience with EUVande. From the moment I navigated theiruser-friendly website, I was captivated by the extensive and diverse inventory that catered to every preference and budget.",
+      img: testimonial1.src,
+    },
+    {
+      name: "Sophie M.",
+      testimonial:
+        "  As a discerning buyer, EUVande exceeded my expectations. From the extensive choices to the seamless process, I found my ideal car effortlessly. Kudos to EUVande for making car buying in Europe an absolute pleasure!",
+      img: testimonial2.src,
+    },
+    {
+      name: " Luca P",
+      testimonial:
+        "EUVande's website made my car search a breeze. The transparent transactions and helpful customer service made the whole process smooth. Proud owner of a fantastic car, thanks to EUVande!",
+      img: testimonial3.src,
+    },
+    {
+      name: "Henrik K.",
+      testimonial:
+        "EUVande stands out in the crowded online car market. Their user-friendly interface, honest pricing, and dedicated support made my car purchase easy and enjoyable. Highly recommended!",
+      img: testimonial4.src,
+    },
+    {
+      name: "Emma S.",
+      testimonial:
+        "Thumbs up to EUVande for redefining car buying! The comprehensive listings and responsive team made me confident in my choice. I'm now cruising in my dream car, thanks to EUVande's top-notch service.",
+      img: testimonial5.src,
+    },
+    {
+      name: "Andrei B.",
+      testimonial:
+        " EUVande made my car buying journey a delight. The extensive inventory, clear details, and smooth transactions set them apart. I'm a satisfied customer who found the perfect car hassle-free!",
+      img: testimonial6.src,
+    },
+  ],
+  faqs: [
+    {
+      question: "Q. What makes EUVande unique in the online car buying market?",
+      answer:
+        "EUVande stands out for its extensive and diverse inventory, user-friendly interface, and commitment to transparency. We provide a seamless and enjoyable car-buying experience, setting a new standard in the industry.",
+    },
+    {
+      question:
+        "Q. How can I be sure of the transparency in pricing and fees on EUVande?",
+      answer:
+        "At EUVande, we prioritize transparency. The listed prices on our website are clear and inclusive of all fees, ensuring that you know the total cost upfront. No hidden charges, no surprises – just straightforward pricing.",
+    },
+    {
+      question: "Q. What types of vehicles are available on EUVande?",
+      answer:
+        "Our inventory caters to a wide range of preferences and budgets. From compact cars to SUVs and luxury vehicles, EUVande offers a diverse selection. Our goal is to provide options that suit every customer's unique needs and preferences.",
+    },
+    {
+      question: "Q. How does the online transaction process work on EUVande?",
+      answer:
+        "Our online transaction process is designed for simplicity and efficiency. Once you've found your ideal car, follow the user-friendly steps to complete the purchase. Our secure platform ensures a safe and smooth transaction, making your car-buying journey hassle-free.",
+    },
+    {
+      question:
+        "Q. What support is available if I have questions or need assistance during the car-buying process?",
+      answer:
+        "We value excellent customer service. Our dedicated support team is ready to assist you at every step. Feel free to reach out through our contact channels for prompt and helpful responses to any queries or concerns you may have. Your satisfaction is our priority.",
+    },
+  ],
+  features: [
+    {
+      label: "Digital cockpit",
+    },
+    {
+      label: "Head-up display",
+    },
+    {
+      label: "Apple CarPlay",
+    },
+    {
+      label: "Navigation system",
+    },
+    {
+      label: "Traffic sign recognition",
+    },
+
+    {
+      label: "Bluetooth",
+    },
+    {
+      label: "Rain sensor",
+    },
+    {
+      label: "Light sensor",
+    },
+    {
+      label: "Lane assist",
+    },
+    {
+      label: "Blind spot assist",
     },
   ],
 };

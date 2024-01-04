@@ -19,3 +19,13 @@
     width: 5px;
     height: 0px;
 }
+
+.carCard_wrapper {
+    width: 250px;
+}
+
+@media screen and (max-width:600px) {
+    .carCard_wrapper {
+        width: 100%
+    }
+}

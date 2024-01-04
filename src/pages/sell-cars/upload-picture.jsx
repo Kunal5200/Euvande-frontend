@@ -1,11 +1,19 @@
+import data from "@/assests/data";
 import Button from "@/components/button";
+import ImageUpload from "@/components/imageUpload";
 import LinkTab from "@/components/linktab";
-import { Box, Card, Grid, Paper, TextField } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Card,
+  Divider,
+} from "@mui/material";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
-import { Carousel } from "react-responsive-carousel";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-
 const UploadPicture = () => {
   let carRef = useRef();
   const router = useRouter();
@@ -25,7 +33,7 @@ const UploadPicture = () => {
     e.preventDefault();
     if (pictures) {
       localStorage.setItem("pictures", JSON.stringify(carPicture));
-        router.push("/sell-cars/car-details");
+      router.push("/sell-cars/car-details");
     } else {
       toast.error("Please Select Pictures");
     }
@@ -33,55 +41,64 @@ const UploadPicture = () => {
 
   return (
     <div>
+      <Head>
+        <title>Upload Photos-car</title>
+      </Head>
       <div className="container">
         <div className="row mb-3">
-          <div className="col-sm-8 m-auto">
+          <div className="col-sm-9">
             <LinkTab />
             <form onSubmit={submitHandler}>
-              <Card className="p-3 py-3">
-                <h5>Vehicle Photo Documentation</h5>
-
-                <input
-                  type="file"
-                  style={{ display: "none" }}
-                  id="car_picture"
-                  ref={carRef}
-                  onChange={carPictureHandler}
-                  multiple
-                />
-                <Grid container>
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}>
-                    <Button
-                      className="custom_btn my-4"
-                      width="100%"
-                      onClick={() => carRef.current.click()}
-                      type="button"
-                    >
-                      <span>Browse Files...</span>
-                      <span>Browse Files...</span>
+              <Card className=" py-3">
+                <div className="p-2">
+                  <h5>Vehicle Photo Documentation</h5>
+                </div>
+                <Divider style={{ backgroundColor: "#000" }} />
+                <div className="p-2">
+                  <p className="f-12 fw-semibold mt-2">
+                    Take photos of the car from all four sides as well as the
+                    dashboard and interior equipment, including any damage or
+                    wear to the interior and exterior (paint damage, curbed
+                    rims, cracks, etc.).
+                  </p>
+                  <div>
+                    <Accordion defaultExpanded={true}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Exterior</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload data={data.photoUpload} />
+                      </AccordionDetails>
+                    </Accordion>
+                    <Accordion defaultExpanded={true}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Interior</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload data={data.interiorPhotoUpload} />
+                      </AccordionDetails>
+                    </Accordion>
+                    <Accordion defaultExpanded={true}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Wheel and Tyres</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload data={data.tyres} />
+                      </AccordionDetails>
+                    </Accordion>
+                  </div>
+                  <div className="text-end mt-2">
+                    <Button className="custom_btn" type="submit" width={150}>
+                      <span>Continue</span>
+                      <span>Continue</span>
                     </Button>
-                  </Grid>
-                  <Grid item xs={4}></Grid>
-                </Grid>
-                {carPicture.length ? (
-                  <Carousel autoPlay={true} interval={2000} infiniteLoop={true}>
-                    {carPicture.map((val, i) => (
-                      <img src={val} key={i} />
-                    ))}
-                  </Carousel>
-                ) : (
-                  <></>
-                )}
-
-                <div className="text-end">
-                  <Button className="custom_btn" type="submit" width={150}>
-                    <span>Continue</span>
-                    <span>Continue</span>
-                  </Button>
+                  </div>
                 </div>
               </Card>
             </form>
+          </div>
+          <div className="col-sm-3">
+            <Card>Hello</Card>
           </div>
         </div>
       </div>
