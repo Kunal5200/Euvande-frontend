@@ -279,147 +279,147 @@ let data = {
         "Sold my car to Euvande at there Whitefield branch. It all happened so quickly. Nagaraj came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank Nagaraj for his professionalism and CarDekho for providing me the right price and hassle free selling of my car.",
     },
   ],
-  brandsSelector: [
-    {
-      name: "Rolls Royce",
-      logo: rollyroyce.src,
-      carNumber: 450,
-    },
-    {
-      name: "hyundai",
-      logo: hyundai.src,
-      carNumber: 450,
-    },
-    {
-      name: "Honda",
-      logo: honda.src,
-      carNumber: 450,
-    },
-    {
-      name: "Tata",
-      logo: tata.src,
-      carNumber: 450,
-    },
-    {
-      name: "toyota",
-      logo: toyota.src,
-      carNumber: 450,
-    },
-    {
-      name: "mahindra",
-      logo: mahindra.src,
-      carNumber: 450,
-    },
-    {
-      name: "ford",
-      logo: ford.src,
-      carNumber: 450,
-    },
-    {
-      name: "Nissan",
-      logo: nissan.src,
-      carNumber: 450,
-    },
-    {
-      name: "Ashko Leyland",
-      logo: ashokleyland.src,
-      carNumber: 450,
-    },
-    {
-      name: "Aston Martin",
-      logo: astonMartin.src,
-      carNumber: 450,
-    },
-    {
-      name: "Audi",
-      logo: audi.src,
-      carNumber: 450,
-    },
-    {
-      name: "Bentley",
-      logo: bentley.src,
-      carNumber: 450,
-    },
-    {
-      name: "BMW",
-      logo: bwm.src,
-      carNumber: 450,
-    },
-    {
-      name: "Bugatti",
-      logo: bugatti.src,
-      carNumber: 450,
-    },
-    {
-      name: "Cadillac",
-      logo: cadillac.src,
-      carNumber: 450,
-    },
-    {
-      name: "Caterham",
-      logo: caterham.src,
-      carNumber: 450,
-    },
-    {
-      name: "Chevrolet",
-      logo: chevrolet.src,
-      carNumber: 450,
-    },
-    {
-      name: "Chrysler",
-      logo: chrysler.src,
-      carNumber: 450,
-    },
-    {
-      name: "Citreon",
-      logo: citroen.src,
-      carNumber: 450,
-    },
-    {
-      name: "Conquest",
-      logo: conquest.src,
-    },
-    {
-      name: "Daewoo",
-      logo: daewoo.src,
-    },
-    {
-      name: "Datsun",
-      logo: datsun.src,
-    },
-    {
-      name: "DC",
-      logo: dc.src,
-    },
-    {
-      name: "Dodge",
-      logo: dodge.src,
-    },
-    {
-      name: "Ferrari",
-      logo: ferrari.src,
-    },
-    {
-      name: "Fiat",
-      logo: fiat.src,
-    },
-    {
-      name: "Force",
-      logo: force.src,
-    },
-    {
-      name: "Hindustan Motors",
-      logo: hindustanmotors.src,
-    },
-    {
-      name: "Hummer",
-      logo: hummer.src,
-    },
-    {
-      name: "Lamborghini",
-      logo: lamborghini.src,
-    },
-  ],
+  // brandsSelector: [
+  //   {
+  //     name: "Rolls Royce",
+  //     logo: rollyroyce.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "hyundai",
+  //     logo: hyundai.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Honda",
+  //     logo: honda.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Tata",
+  //     logo: tata.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "toyota",
+  //     logo: toyota.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "mahindra",
+  //     logo: mahindra.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "ford",
+  //     logo: ford.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Nissan",
+  //     logo: nissan.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Ashko Leyland",
+  //     logo: ashokleyland.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Aston Martin",
+  //     logo: astonMartin.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Audi",
+  //     logo: audi.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Bentley",
+  //     logo: bentley.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "BMW",
+  //     logo: bwm.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Bugatti",
+  //     logo: bugatti.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Cadillac",
+  //     logo: cadillac.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Caterham",
+  //     logo: caterham.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Chevrolet",
+  //     logo: chevrolet.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Chrysler",
+  //     logo: chrysler.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Citreon",
+  //     logo: citroen.src,
+  //     carNumber: 450,
+  //   },
+  //   {
+  //     name: "Conquest",
+  //     logo: conquest.src,
+  //   },
+  //   {
+  //     name: "Daewoo",
+  //     logo: daewoo.src,
+  //   },
+  //   {
+  //     name: "Datsun",
+  //     logo: datsun.src,
+  //   },
+  //   {
+  //     name: "DC",
+  //     logo: dc.src,
+  //   },
+  //   {
+  //     name: "Dodge",
+  //     logo: dodge.src,
+  //   },
+  //   {
+  //     name: "Ferrari",
+  //     logo: ferrari.src,
+  //   },
+  //   {
+  //     name: "Fiat",
+  //     logo: fiat.src,
+  //   },
+  //   {
+  //     name: "Force",
+  //     logo: force.src,
+  //   },
+  //   {
+  //     name: "Hindustan Motors",
+  //     logo: hindustanmotors.src,
+  //   },
+  //   {
+  //     name: "Hummer",
+  //     logo: hummer.src,
+  //   },
+  //   {
+  //     name: "Lamborghini",
+  //     logo: lamborghini.src,
+  //   },
+  // ],
   Year: [
     {
       year: "2023",
