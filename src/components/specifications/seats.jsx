@@ -3,31 +3,7 @@ import React from "react";
 import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
-const Seats = ({ setActiveStep, activeStep, setState, state }) => {
-  const seats = [
-    {
-      label: "2",
-    },
-    {
-      label: "3",
-    },
-    {
-      label: "4",
-    },
-    {
-      label: "5",
-    },
-    {
-      label: "6",
-    },
-    {
-      label: "7",
-    },
-    {
-      label: "8",
-    },
-  ];
-
+const Seats = ({ setActiveStep, activeStep, setState, state, data }) => {
   const handleChangeSeat = (seat) => {
     setState({ ...state, seats: seat });
     setActiveStep(activeStep + 1);
@@ -35,18 +11,18 @@ const Seats = ({ setActiveStep, activeStep, setState, state }) => {
   return (
     <div>
       <Stack direction={"row"} spacing={2}>
-        {seats.map((val, i) => (
+        {data.map((val, i) => (
           <Button
             key={i}
-            onClick={() => handleChangeSeat(val.label)}
+            onClick={() => handleChangeSeat(val)}
             className={
-              state.seats === val.label
+              state.seats === val
                 ? styles.selected_btn
                 : styles.unselected_btn
             }
             type="button"
           >
-            {val.label}
+            {val}
           </Button>
         ))}
       </Stack>

@@ -14,7 +14,8 @@ export const vehicleController = {
   getPeriodByMake: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "/vehicle/api/period/getPeriodByMake",data
+        "/vehicle/api/period/getPeriodByMake",
+        data
       );
       return result;
     } catch (error) {
@@ -43,10 +44,21 @@ export const vehicleController = {
       throw error;
     }
   },
-  getOdometer: async (data) => {
+
+  getSpecifications: async () => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        "/vehicle/api/carSpecification/getDefaultSpecification"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  addVehicle: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "/vehicle/api/odometer/getOdometerByVariants",
+        "vehicle/api/cars/addCar",
         data
       );
       return result;
@@ -54,11 +66,47 @@ export const vehicleController = {
       throw error;
     }
   },
-  getSpecifications: async (data) => {
+  getCarInfo: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        `/vehicle/api/cars/getCarById/${data}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  addSpecifications: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "vehicle/api/specification/getSpecification",
+        "/vehicle/api/cars/addSpecification",
         data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  uploadPhotos: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "/vehicle/api/cars/addMedia",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getVehicleDetails: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        `/vehicle/api/cars/getCarDetailById/${data}`
       );
       return result;
     } catch (error) {

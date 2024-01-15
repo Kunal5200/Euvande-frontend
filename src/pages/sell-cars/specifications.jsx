@@ -1,12 +1,17 @@
+import { addSpecification, getCarInfo } from "@/api/apiCalling/vehicle";
 import Button from "@/components/button";
 import LinkTab from "@/components/linktab";
 import SpecificationSteps from "@/components/specifications/specificationStep";
 import { Card, Stack } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 const Specifications = () => {
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
+  const carInfo = useSelector((state) => state.CarInfo);
+
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
@@ -15,6 +20,7 @@ const Specifications = () => {
     seats: "",
     interiorMaterial: "",
     vatDeduction: "",
+    carId: carInfo.id,
   });
   const {
     transmission,
@@ -40,10 +46,27 @@ const Specifications = () => {
       toast.error("Please Select All Fields*");
       return false;
     } else {
-      router.push("/sell-cars/contact-information");
-      localStorage.setItem("specifications", JSON.stringify(state));
+      addSpecification({
+        data: state,
+        router,
+        path: "/sell-cars/contact-information",
+      });
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+      } else {
+        return () => {};
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <div className="container my-5">

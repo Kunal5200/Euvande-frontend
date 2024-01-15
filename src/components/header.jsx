@@ -1,5 +1,8 @@
-import { HeaderLinks } from "@/assests/routes";
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
+import { HeaderLinks } from "@/assests/routes";
+import logoBlack from "@/logo/EuVandeLogoBlack.svg";
+import logo from "@/logo/EuVandeLogoWhite.svg";
+import { removeDetails } from "@/redux/reducers/userdetails";
 import styles from "@/styles/Header.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
@@ -18,26 +21,25 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaCar, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "@/logo/EuVandeLogoWhite.svg";
-import logoBlack from "@/logo/EuVandeLogoBlack.svg";
 import Button from "./button";
-import Image from "next/image";
-import { removeDetails, setDetails } from "@/redux/reducers/userdetails";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
   const router = useRouter();
+  const isAuthenticated = useSelector(
+    (state) => state.userInfo.isAuthenticated
+  );
 
   const handleShowMenu = () => {
     setShowMenu(!showMenu);
   };
 
-  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     if (
       router.pathname === "/" ||
@@ -57,15 +59,9 @@ const Navbar = () => {
   };
   const dispatch = useDispatch();
   const routePage = () => {
-    !isLogin ? router.push("/registerorlogin") : setIsPopOver(!popOver);
+    !isAuthenticated ? router.push("/registerorlogin") : setIsPopOver(!popOver);
   };
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  });
+
   useEffect(() => {
     localStorage.getItem("accessToken")
       ? getUserProfile({ dispatch })
@@ -98,7 +94,7 @@ const Navbar = () => {
       <div className={`${show ? styles.mainHeader : ""} container p-2`}>
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
-            <Image src={show ? logo : logoBlack} width={150} />
+            <Image src={show ? logo : logoBlack} width={150} alt="logo" />
           </Link>
 
           <Stack
@@ -118,16 +114,21 @@ const Navbar = () => {
                   padding: "5px",
                 }}
               />
-              <p className={`${show ? "text-white" : "text-dark"} f-12`}>
+              <Typography color={show ? "#ffffff" : "#000000"}>
                 +1 9845751252
-              </p>
+              </Typography>
             </Stack>
 
             <Divider
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 25,
+                alignSelf: "center",
+              }}
             />
             <Link href={"/buy-cars"} className="link">
               <Typography color={show ? "#ffffff" : "#000000"}>
@@ -138,10 +139,15 @@ const Navbar = () => {
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 25,
+                alignSelf: "center",
+              }}
             />
             <Link
-              href={isLogin ? "/sell-cars" : "/registerorlogin"}
+              href={isAuthenticated ? "/sell-cars" : "/registerorlogin"}
               className="link"
             >
               <Typography color={show ? "#ffffff" : "#000000"}>
@@ -152,7 +158,12 @@ const Navbar = () => {
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 25,
+                alignSelf: "center",
+              }}
             />
 
             <Stack
@@ -163,12 +174,12 @@ const Navbar = () => {
               className="pointer"
             >
               <FaUser color={show ? "#fff" : "#000"} />
-              {isLogin ? (
+              {isAuthenticated ? (
                 <Typography
                   color={show ? "#ffffff" : "#000000"}
                   className="text-capitalize"
                 >
-                  Hello,{name}{" "}
+                  Hello, {name}{" "}
                 </Typography>
               ) : (
                 <Typography color={show ? "#ffffff" : "#000000"}>
@@ -181,7 +192,12 @@ const Navbar = () => {
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 25,
+                alignSelf: "center",
+              }}
             />
             <Button
               border="1px solid #eee"
@@ -195,16 +211,15 @@ const Navbar = () => {
               {!showMenu ? (
                 <div className={styles.menu_btn}>
                   <MoreVertIcon fontSize="13px" className="me-1" />
-                  Menu
+                  <Typography>Menu</Typography>
                 </div>
               ) : (
                 <div className={styles.menu_btn}>
                   <CloseIcon fontSize="13px" className="me-1" />
-                  Close
+                  <Typography>Close</Typography>
                 </div>
               )}
             </Button>
-            {/* <RiMenu4Fill color="#fff" size={25}/> */}
           </Stack>
 
           <FaUser className={styles.mobileView} />
@@ -221,17 +236,6 @@ const Navbar = () => {
                   {val.title}
                 </Link>
               ))}
-              {/* <div style={{ width: "100%" }}>
-                <Link
-                  href={isLogin ? "/sell-cars" : "/registerorlogin"}
-                  onClick={() => setShowMenu(false)}
-                >
-                  <Button className="custom_btn mt-3" width="100%" fw="600">
-                    <span>Sell With Us</span>
-                    <span>Sell With Us</span>
-                  </Button>
-                </Link>
-              </div> */}
             </Card>
           </Slide>
         </div>
@@ -246,8 +250,8 @@ const Navbar = () => {
             >
               <List>
                 {linksList.map((val, i) => (
-                  <>
-                    <ListItem button key={i} onClick={val.onClick}>
+                  <div key={i}>
+                    <ListItem button onClick={val.onClick}>
                       <ListItemAvatar>{val.icon}</ListItemAvatar>
                       <ListItemText primary={val.name} />
                     </ListItem>
@@ -256,7 +260,7 @@ const Navbar = () => {
                     ) : (
                       <Divider style={{ backgroundColor: "#000" }} />
                     )}
-                  </>
+                  </div>
                 ))}
               </List>
             </Paper>

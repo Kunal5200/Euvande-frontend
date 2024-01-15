@@ -134,7 +134,7 @@ const EditUserProfile = ({ value, setUser }) => {
               />
             </Grid>
             <Grid item xs={6}>
-            <Autocomplete
+              <Autocomplete
                 id="country"
                 options={countries}
                 autoHighlight

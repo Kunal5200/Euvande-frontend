@@ -14,15 +14,16 @@ const Interior = ({ setState, state, setActiveStep, activeStep, data }) => {
         {data.map((val, i) => (
           <Button
             key={i}
-            onClick={() => handelChangeInterior(val.label)}
+            onClick={() => handelChangeInterior(val)}
             type="button"
             className={
-              state.interiorMaterial === val.label
+              state.interiorMaterial === val
                 ? styles.selected_btn
                 : styles.unselected_btn
             }
+            textTransform="capitalize"
           >
-            {val.label}
+            {val}
           </Button>
         ))}
       </Stack>

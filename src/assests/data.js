@@ -70,6 +70,41 @@ import testimonial3 from "@/testimonials/testimonial3.jpg";
 import testimonial5 from "@/testimonials/testimonial5.jpg";
 import testimonial6 from "@/testimonials/testimonial6.jpg";
 import testimonial4 from "@/testimonials/testimonial4.jpeg";
+import car1Image1 from "@/cars/car1/image1.jpeg";
+import car1Image2 from "@/cars/car1/image2.jpeg";
+import car1Image3 from "@/cars/car1/image3.jpeg";
+import car1Image4 from "@/cars/car1/image4.jpeg";
+import car1Image5 from "@/cars/car1/image5.jpeg";
+import car1Image6 from "@/cars/car1/image6.jpeg";
+import car1Image7 from "@/cars/car1/image7.jpeg";
+import car1Image8 from "@/cars/car1/image8.jpeg";
+import car2Image1 from "@/cars/car2/image1.jpeg";
+import car2Image2 from "@/cars/car2/image2.jpeg";
+import car2Image3 from "@/cars/car2/image3.jpeg";
+import car2Image4 from "@/cars/car2/image4.jpeg";
+import car2Image5 from "@/cars/car2/image5.jpeg";
+import car2Image6 from "@/cars/car2/image6.jpeg";
+import car2Image7 from "@/cars/car2/image7.jpeg";
+import car2Image8 from "@/cars/car2/image8.jpeg";
+import car2Image9 from "@/cars/car2/image9.jpeg";
+import car2Image10 from "@/cars/car2/image10.jpeg";
+import car2Image11 from "@/cars/car2/image11.jpeg";
+import car2Image12 from "@/cars/car2/image12.jpeg";
+import car3Image1 from "@/cars/car3/image1.jpeg";
+import car3Image2 from "@/cars/car3/image2.jpeg";
+import car3Image3 from "@/cars/car3/image3.jpeg";
+import car3Image4 from "@/cars/car3/image4.jpeg";
+import car3Image5 from "@/cars/car3/image5.jpeg";
+import car3Image6 from "@/cars/car3/image6.jpeg";
+import car3Image7 from "@/cars/car3/image7.jpeg";
+import car3Image8 from "@/cars/car3/image8.jpeg";
+import car3Image9 from "@/cars/car3/image9.jpeg";
+import car3Image10 from "@/cars/car3/image10.jpeg";
+import car3Image11 from "@/cars/car3/image11.jpeg";
+import car3Image12 from "@/cars/car3/image12.jpeg";
+import car3Image13 from "@/cars/car3/image13.jpeg";
+import car3Image14 from "@/cars/car3/image14.jpeg";
+import car3Image15 from "@/cars/car3/image15.jpeg";
 let data = {
   photoUpload: [
     {
@@ -117,7 +152,7 @@ let data = {
     {
       image: driversdoor.src,
       label: "Driver Door",
-      id: "driversDoor",
+      id: "driverDoor",
     },
     {
       image: driverSeat.src,
@@ -132,7 +167,7 @@ let data = {
     {
       image: instrumentPanel.src,
       label: "Instrument Panel",
-      id: "instrumentpanel",
+      id: "instrumentPanel",
     },
     {
       image: dashboard.src,
@@ -142,17 +177,17 @@ let data = {
     {
       image: rearPanel.src,
       label: "Rear Panel of Center Console",
-      id: "rearPanel",
+      id: "rearPanelOfCenterConsole",
     },
     {
       image: rearseats.src,
       label: "Rear Seats",
-      id: "rearSeats",
+      id: "rearSeat",
     },
     {
       image: headlining.src,
       label: "Headlining",
-      id: "headlining",
+      id: "Headlining",
     },
   ],
   tyres: [
@@ -169,7 +204,7 @@ let data = {
     {
       label: "Back Right Wheel",
       image: tyres.src,
-      id: "backgRightWheel",
+      id: "backRightWheel",
     },
     {
       label: "Front Right Wheel",
@@ -1126,6 +1161,249 @@ let data = {
     },
     {
       label: "Blind spot assist",
+    },
+  ],
+  carData: [
+    {
+      carImages: [
+        {
+          img: car1Image1,
+        },
+        {
+          img: car1Image2,
+        },
+        {
+          img: car1Image3,
+        },
+        {
+          img: car1Image4,
+        },
+        {
+          img: car1Image5,
+        },
+        {
+          img: car1Image6,
+        },
+        {
+          img: car1Image7,
+        },
+        {
+          img: car1Image8,
+        },
+      ],
+      carName: "Opel Astra 1.2 Turbo Edition 81 kW",
+      specifications: [
+        {
+          driven: "34 400 km",
+          registration: "01/2020",
+          engine: "110hp",
+          transmission: "Manual",
+          fuelType: "Petrol",
+        },
+      ],
+      features: [
+        {
+          label: "Heated front seats",
+        },
+        {
+          label: "Apple CarPlay",
+        },
+        {
+          label: "Android auto",
+        },
+        {
+          label: "Integrated music streaming",
+        },
+        {
+          label: "Voice control",
+        },
+        {
+          label: "Heated steering wheel",
+        },
+        {
+          label: "Bluetooth",
+        },
+        {
+          label: "Rain sensor",
+        },
+        {
+          label: "Light sensor",
+        },
+        {
+          label: "Hill-start assist",
+        },
+      ],
+      countryName: "Germany",
+      deliveryAmount: "965",
+      carAmount: "15 749",
+      amountWithoutAmount: "13 234",
+    },
+    {
+      carImages: [
+        {
+          img: car2Image1,
+        },
+        {
+          img: car2Image2,
+        },
+        {
+          img: car2Image3,
+        },
+        {
+          img: car2Image4,
+        },
+        {
+          img: car2Image5,
+        },
+        {
+          img: car2Image6,
+        },
+        {
+          img: car2Image7,
+        },
+        {
+          img: car2Image8,
+        },
+        {
+          img: car2Image9,
+        },
+        {
+          img: car2Image10,
+        },
+        {
+          img: car2Image11,
+        },
+        {
+          img: car2Image12,
+        },
+      ],
+      carName: "Jeep Renegade 1.6 96 kW",
+      specifications: [
+        {
+          driven: "69000 km",
+          registration: "04/2021",
+          engine: "131hp",
+          transmission: "Manual",
+          fuelType: "Diesel",
+        },
+      ],
+      features: [
+        {
+          label: "Head-up display",
+        },
+        {
+          label: "Bluetooth",
+        },
+        {
+          label: "Multifunctional steering wheel",
+        },
+        {
+          label: "Daytime running lights",
+        },
+        {
+          label: "Front electric windows",
+        },
+        {
+          label: "Alloy wheels",
+        },
+      ],
+      countryName: "Italy",
+      deliveryAmount: "1315",
+      carAmount: "22 699",
+    },
+    {
+      carImages: [
+        {
+          img: car3Image1,
+        },
+        {
+          img: car3Image2,
+        },
+        {
+          img: car3Image3,
+        },
+        {
+          img: car3Image4,
+        },
+        {
+          img: car3Image5,
+        },
+        {
+          img: car3Image6,
+        },
+        {
+          img: car3Image7,
+        },
+        {
+          img: car3Image8,
+        },
+        {
+          img: car3Image9,
+        },
+        {
+          img: car3Image10,
+        },
+        {
+          img: car3Image11,
+        },
+        {
+          img: car3Image12,
+        },
+        {
+          img: car3Image13,
+        },
+        {
+          img: car3Image14,
+        },
+        {
+          img: car3Image15,
+        },
+      ],
+      carName: "BMW 330 185 kW",
+      specifications: [
+        {
+          driven: "44 606 km",
+          registration: "10/2020",
+          engine: "252hp",
+          transmission: "Automatic",
+          fuelType: "Hybrid",
+        },
+      ],
+      features: [
+        {
+          label: "Digital cockpit",
+        },
+        {
+          label: "Electric adjustable front seats",
+        },
+        {
+          label: "Heated front seats",
+        },
+        {
+          label: "Head-up display",
+        },
+        {
+          label: "Apple CarPlay",
+        },
+        {
+          label: "WLAN/Wifi hotspot",
+        },
+        {
+          label: "Integrated music streaming",
+        },
+        {
+          label: "Voice control",
+        },
+        {
+          label: "Navigation system",
+        },
+        {
+          label: "Glare-free high beam headlights",
+        },
+      ],
+      countryName: "Germany",
+      deliveryAmount: "1315",
+      carAmount: "22 699",
     },
   ],
 };

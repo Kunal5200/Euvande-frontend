@@ -1,6 +1,6 @@
 import EditUserProfile from "@/assests/modalcalling/editUserProfile";
 import { showModal } from "@/redux/reducers/modal";
-import { Info, Lock, Person } from "@mui/icons-material";
+import { Done, Info, Lock, Person } from "@mui/icons-material";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import EmailIcon from "@mui/icons-material/Email";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -31,7 +31,7 @@ const ProfileSettings = (props) => {
     dispatch(showModal(<EditUserProfile value={user} setUser={setUser} />));
   };
   const verifyPhoneNumber = (userInfo) => {
-    dispatch(showModal(<VerifyPhone user={userInfo} />));
+    dispatch(showModal(<VerifyPhone user={userInfo} userDetails={user} />));
   };
   return (
     <div>
@@ -82,18 +82,31 @@ const ProfileSettings = (props) => {
                     </p>
                   )}
                   <div className="d-flex align-items-center justify-content-between">
-                    <p className="f-12 fw-semibold text-danger">
+                    <p
+                      className={`f-12 fw-semibold ${
+                        user.isPhoneNoVerified ? "text-success" : "text-danger"
+                      } `}
+                    >
                       <FaPhoneAlt className="me-2" fontSize="12px" />
                       {user.phoneNo}
                     </p>
-                    <Tooltip title="Verify Phone Number" placement="top">
-                      <IconButton onClick={() => verifyPhoneNumber(user)}>
-                        <Info
-                          fontSize="12px"
-                          className="pointer"
-                          style={{ color: "red" }}
-                        />
-                      </IconButton>
+                    <Tooltip
+                      title={
+                        user.isPhoneNoVerified ? "" : "Verify Phone Number"
+                      }
+                      placement="top"
+                    >
+                      {user.isPhoneNoVerified ? (
+                        <Done sx={{ fill: "green" }} />
+                      ) : (
+                        <IconButton onClick={() => verifyPhoneNumber(user)}>
+                          <Info
+                            fontSize="12px"
+                            className="pointer"
+                            style={{ color: "red" }}
+                          />
+                        </IconButton>
+                      )}
                     </Tooltip>
                   </div>
                 </AccordionDetails>

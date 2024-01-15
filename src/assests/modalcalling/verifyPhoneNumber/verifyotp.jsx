@@ -7,7 +7,7 @@ import { authControllers } from "@/api/authentication";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { hideModal } from "@/redux/reducers/modal";
-const VerifyPhoneOTP = () => {
+const VerifyPhoneOTP = ({ userDetails }) => {
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const VerifyPhoneOTP = () => {
         .then((res) => {
           toast.success(res.data.message);
           dispatch(hideModal());
+          userDetails();
         })
         .catch((err) => {
           let errMessage = err.message || err.response.data.message;

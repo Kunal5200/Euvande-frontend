@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { AutoPlay, Autoplay } from "swiper/modules";
 import { ExpandMore } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 export default function Home() {
   useEffect(() => {
     Aos.init();

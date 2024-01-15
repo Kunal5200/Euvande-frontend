@@ -2,14 +2,17 @@ import { configureStore } from "@reduxjs/toolkit";
 import modalReducer from "../reducers/modal";
 import userReducer from "../reducers/user";
 import userInfoReducer from "../reducers/userdetails";
+import carInfoReducer from "../reducers/vehicleInformation";
+
 export default configureStore({
   reducer: {
     modal: modalReducer,
     user: userReducer,
     userInfo: userInfoReducer,
+    CarInfo: carInfoReducer,
   },
-  middleware: (getdefaultMiddleware) =>
-    getdefaultMiddleware({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: false,
     }),
 });

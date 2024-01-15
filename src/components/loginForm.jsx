@@ -134,6 +134,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                 width="100%"
                 padding="15px"
                 rounded="4px"
+                disabled={loading}
               >
                 {loading ? (
                   <Loading

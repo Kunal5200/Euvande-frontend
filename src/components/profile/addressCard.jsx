@@ -27,7 +27,9 @@ const AddressCard = (props) => {
   };
 
   const editAddressModalOpen = (val) => {
-    dispatch(showModal(<EditAddress value={val} />));
+    dispatch(
+      showModal(<EditAddress value={val} getAddress={props.getAddress} />)
+    );
   };
 
   return (

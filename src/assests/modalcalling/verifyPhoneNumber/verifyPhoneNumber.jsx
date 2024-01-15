@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { hideModal, showModal } from "@/redux/reducers/modal";
 import VerifyPhoneOTP from "./verifyotp";
 
-const VerifyPhone = ({ user }) => {
+const VerifyPhone = ({ user, userDetails }) => {
   //   const [phone, setPhone] = useState();
   const [state, setState] = useState({
     countryCode: user.countryCode,
@@ -70,7 +70,7 @@ const VerifyPhone = ({ user }) => {
           localStorage.setItem("referenceId", res.data.data.referenceId);
           setLoading(false);
           dispatch(hideModal());
-          dispatch(showModal(<VerifyPhoneOTP />));
+          dispatch(showModal(<VerifyPhoneOTP userDetails={userDetails} />));
         })
         .catch((err) => {
           let errMessage =

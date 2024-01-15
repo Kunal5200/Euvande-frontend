@@ -14,19 +14,19 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
     <div>
       <Grid container spacing={1}>
         {data.map((val, i) => (
-          <Grid item xs={3}>
+          <Grid item xs={3} key={i}>
             <Button
-              key={i}
               className={
-                state.vehicleType === val.label
+                state.vehicleType === val
                   ? styles.selected_btn
                   : styles.unselected_btn
               }
               width={150}
-              onClick={() => handleVehicleType(val.label)}
+              onClick={() => handleVehicleType(val)}
               type="button"
+              textTransform="capitalize"
             >
-              {val.label}
+              {val}
             </Button>
           </Grid>
         ))}

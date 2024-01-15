@@ -1,5 +1,7 @@
+import { authControllers } from "@/api/authentication";
 import { countries } from "@/assests/country";
 import Button from "@/components/button";
+import { hideModal } from "@/redux/reducers/modal";
 import { loginTextField } from "@/utils/styles";
 import {
   Autocomplete,
@@ -10,17 +12,20 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import Loading from "react-loading";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-const EditAddress = ({ value }) => {
-  console.log("first", value);
-
+const EditAddress = ({ value, getAddress }) => {
   const [state, setState] = useState({
-    street: "",
-    city: "",
-    postalCode: "",
-    houseNumber: "",
-    countryName: "",
+    street: value.street || "",
+    city: value.city || "",
+    postalCode: value.postalCode || "",
+    houseNumber: value.houseNo || "",
+    countryName: value.country || "",
+    id: value.id,
   });
+  const dispatch = useDispatch();
   const [error, setError] = useState({
     street: "",
     houseNumber: "",
@@ -28,7 +33,10 @@ const EditAddress = ({ value }) => {
     city: "",
     countryName: "",
   });
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({
+    label: value.country || "",
+    code: value.countryCode || "",
+  });
 
   const inputChangeHandler = (e) => {
     let { id, value } = e.target;
@@ -44,9 +52,24 @@ const EditAddress = ({ value }) => {
       setError({ ...error, countryName: "" });
     }
   };
+  const [loading, setLoading] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setLoading(true);
+    authControllers
+      .editAddress(state)
+      .then((res) => {
+        toast.success(res.data.data);
+        setLoading(false);
+        dispatch(hideModal());
+        getAddress();
+      })
+      .catch((err) => {
+        let errMessage = err.response.data.message || err.message;
+        toast.error(errMessage);
+        setLoading(false);
+      });
   };
   return (
     <div>
@@ -70,6 +93,8 @@ const EditAddress = ({ value }) => {
                   onChange={inputChangeHandler}
                   error={error.street}
                   helperText={error.street}
+                  value={state.street}
+                  focused={state.street != "" ? true : false}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -81,6 +106,8 @@ const EditAddress = ({ value }) => {
                   onChange={inputChangeHandler}
                   error={error.houseNumber}
                   helperText={error.houseNumber}
+                  value={state.houseNumber}
+                  focused={state.houseNumber != "" ? true : false}
                 />
               </Grid>
             </Grid>
@@ -94,6 +121,8 @@ const EditAddress = ({ value }) => {
                   onChange={inputChangeHandler}
                   error={error.postalCode}
                   helperText={error.postalCode}
+                  value={state.postalCode}
+                  focused={state.postalCode != "" ? true : false}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -105,6 +134,8 @@ const EditAddress = ({ value }) => {
                   helperText={error.city}
                   error={error.city}
                   onChange={inputChangeHandler}
+                  value={state.city}
+                  focused={state.city != "" ? true : false}
                 />
               </Grid>
             </Grid>
@@ -154,9 +185,21 @@ const EditAddress = ({ value }) => {
             </Grid>
 
             <div className="text-center ">
-              <Button className="custom_btn" width={250}>
-                <span>Update Address</span>
-                <span>Update Address</span>
+              <Button className="custom_btn" width={250} disabled={loading}>
+                {loading ? (
+                  <Loading
+                    type="bars"
+                    color="#ffdb58"
+                    width={20}
+                    height={20}
+                    className="m-auto"
+                  />
+                ) : (
+                  <>
+                    <span>Update Address</span>
+                    <span>Update Address</span>
+                  </>
+                )}
               </Button>
             </div>
           </Box>

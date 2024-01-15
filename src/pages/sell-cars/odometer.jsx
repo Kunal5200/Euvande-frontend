@@ -6,37 +6,33 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
+import { useDispatch, useSelector } from "react-redux";
+import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
 const Odometer = () => {
   const [driven, setDriven] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
+  const carInfo = useSelector((state) => state.CarInfo);
   const handleClick = (driven) => {
     setDriven(driven);
-    router.push("/sell-cars/location");
-    localStorage.setItem("driven", driven);
+    let body = {
+      id: carInfo.id,
+      odometer: driven.driven,
+    };
+    addCar({ body, router, path: "/sell-cars/location", dispatch });
   };
   const [odometer, setOdoMeter] = useState([]);
 
-  const getOdoMeter = (body) => {
-    vehicleController
-      .getOdometer(body)
-      .then((res) => {
-        setOdoMeter(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
-    const variant = localStorage.getItem("variant");
-
-    if (variant) {
-      let body = {
-        variantId: parseInt(variant),
-      };
-      getOdoMeter(body);
-    } else {
-    }
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+      } else {
+        return () => {};
+      }
+    };
+    fetchData();
   }, []);
   return (
     <>
@@ -57,7 +53,7 @@ const Odometer = () => {
                       val.driven === driven && styles.year_Selector
                     }`}
                     key={i}
-                    onClick={() => handleClick(val.id)}
+                    onClick={() => handleClick(val)}
                   >
                     {val.driven}
                   </Card>

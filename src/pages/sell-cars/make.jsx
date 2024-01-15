@@ -9,15 +9,27 @@ import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
+import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { useDispatch, useSelector } from "react-redux";
 const Make = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [brand, setBrand] = useState("");
   const [selected, setSelected] = useState(false);
+  const carInfo = useSelector((state) => state.CarInfo);
+
   const brandSelectHandler = (brandName) => {
     setBrand(brandName);
+    let body = carInfo.id
+      ? {
+          makeId: brandName,
+          id: JSON.parse(carInfo.id),
+        }
+      : {
+          makeId: brandName,
+        };
+    addCar({ body, router, path: "/sell-cars/period", dispatch });
     setSelected(true);
-    localStorage.setItem("brand", brandName);
-    router.push("/sell-cars/period");
   };
   const [brandSelector, setBrandSelector] = useState([]);
 
@@ -32,15 +44,14 @@ const Make = () => {
       });
   };
 
-  const [disbaledtab, setDisabledTab] = useState(true);
+  // console.log(carInfo);
   useEffect(() => {
-    if (selected === "") {
-      setDisabledTab(true);
-    } else {
-      setDisabledTab(false);
-    }
     getMake();
-  }, [selected]);
+    const carId = parseInt(localStorage.getItem("carInfo"));
+    if (carId) {
+      getCarInfo({ data: carId, dispatch });
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -49,7 +60,7 @@ const Make = () => {
       <div className="container my-5">
         <div className="row">
           <div className="col-sm-9 ">
-            <LinkTab disabled={disbaledtab} brandSelected={!brand} />
+            <LinkTab brandSelected={!brand} />
             <Card className="p-5">
               <h4 className="mb-3">Select Your Car Brand</h4>
 

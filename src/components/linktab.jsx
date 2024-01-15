@@ -3,6 +3,7 @@ import { tabButton } from "@/utils/styles";
 import { Tab, Tabs } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const LinkTab = (props) => {
   const router = useRouter();
@@ -65,15 +66,16 @@ const LinkTab = (props) => {
     handleRoute(tabData[newValue].route);
   };
 
+  const carInfo = useSelector((state) => state.CarInfo);
   useEffect(() => {
-    const make = localStorage.getItem("brand");
-    const period = localStorage.getItem("year");
-    const model = localStorage.getItem("model");
-    const variant = localStorage.getItem("variant");
-    const ownerShip = localStorage.getItem("ownership");
-    const odometer = localStorage.getItem("driven");
-    const location = localStorage.getItem("location");
-    const specifications = localStorage.getItem("specifications");
+    const make = carInfo && carInfo.make;
+    const period = carInfo && carInfo.period;
+    const model = carInfo && carInfo.model;
+    const variant = carInfo && carInfo.variant;
+    const ownerShip = carInfo && carInfo.ownership;
+    const odometer = carInfo && carInfo.odometer;
+    const location = carInfo && carInfo.location && carInfo.location.city;
+    const specifications = carInfo && carInfo.specification;
 
     if (make) {
       setDisablePeriod(false);
@@ -99,7 +101,7 @@ const LinkTab = (props) => {
     if (specifications) {
       setDisableContact(false);
     }
-  }, []);
+  }, [carInfo]);
 
   return (
     <div>

@@ -17,7 +17,7 @@ const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
         {data.map((val, i) => (
           <Button
             key={i}
-            onClick={() => handleChangeDoors(val.label)}
+            onClick={() => handleChangeDoors(val)}
             className={
               val.label === state.doors
                 ? styles.selected_btn
@@ -26,7 +26,7 @@ const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
             type="button"
             width={70}
           >
-            {val.label}
+            {val}
           </Button>
         ))}
       </Stack>

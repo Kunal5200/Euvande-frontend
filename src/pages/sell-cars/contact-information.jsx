@@ -12,14 +12,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Autocomplete, Box, Card, Grid, Stack, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
+import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
 const ContactInformation = () => {
   const router = useRouter();
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
-
+  const carInfo = useSelector((state) => state.CarInfo);
   const inputHandler = (e) => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
@@ -40,14 +41,12 @@ const ContactInformation = () => {
 
   const [error, setError] = useState({
     name: "",
-    email: "",
     phoneNumber: "",
     country: "",
     zipCode: "",
   });
   const [state, setState] = useState({
     name: "",
-    email: "",
     phoneNumber: "",
     country: "",
     zipCode: "",
@@ -80,12 +79,19 @@ const ContactInformation = () => {
       zipCode: state.zipCode,
       phoneNo: state.phoneNumber,
       countryCode: state.countryCode,
-      email: state.email,
     };
     if (contactValidation({ state, error, setError })) {
-      updateUserDetails({ body, setLoading, router });
-
-      localStorage.setItem("userDetails", JSON.stringify(state));
+      let data = {
+        id: carInfo.id,
+        contactInfo: body,
+      };
+      addCar({
+        body: data,
+        router,
+        dispatch,
+        path: "/sell-cars/upload-picture",
+        setLoading
+      });
     } else {
       toast.error("Please Enter Details");
     }
@@ -99,6 +105,16 @@ const ContactInformation = () => {
     } else {
       setShow(false);
     }
+
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        getCarInfo({ data: carId, dispatch });
+      } else {
+        return () => {};
+      }
+    };
+    fetchData();
   }, []);
 
   return (

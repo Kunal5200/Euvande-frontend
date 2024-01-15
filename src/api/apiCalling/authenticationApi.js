@@ -31,7 +31,7 @@ export const userVerify = ({ body, setLoading, router, dispatch }) => {
     .verifyOtp(body)
     .then((res) => {
       toast.success(res.data.message);
-      dispatch(setDetails({ ...res.data.data }));
+      dispatch(setDetails({ ...res.data.data, isAuthenticated: true }));
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);
@@ -48,7 +48,7 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
     .loginUser(body)
     .then((res) => {
       const response = res.data.data;
-      dispatch(setDetails({ ...response }));
+      dispatch(setDetails({ ...response, isAuthenticated: true }));
       toast.success(res.data.message);
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
@@ -57,7 +57,8 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
     })
     .catch((err) => {
       setLoading(false);
-      toast.error(err.response.data.message);
+      let errMessage = err.response ? err.response.data.message : err.message;
+      toast.error(errMessage);
       console.log(err);
     });
 };
@@ -74,7 +75,7 @@ export const getUserProfile = ({
     .then((res) => {
       const response = res.data.data;
 
-      dispatch(setDetails({ ...response }));
+      dispatch(setDetails({ ...response, isAuthenticated: true }));
       setLoading && setLoading(false);
       setUser && setUser(res.data.data);
       setState &&

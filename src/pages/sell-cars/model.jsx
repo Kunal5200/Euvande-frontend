@@ -14,15 +14,22 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
+import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { useDispatch, useSelector } from "react-redux";
 const Model = () => {
   const [selected, setSelected] = useState(false);
+  const dispatch = useDispatch();
+  const carInfo = useSelector((state) => state.CarInfo);
   const [model, setModel] = useState("");
   const router = useRouter();
   const handleSelectModel = (modelName) => {
     setModel(modelName);
     setSelected(true);
-    router.push("/sell-cars/variant");
-    localStorage.setItem("model", modelName);
+    let body = {
+      id: carInfo.id,
+      modelId: modelName,
+    };
+    addCar({ body, router, path: "/sell-cars/variant", dispatch });
   };
   const [modelName, setModelName] = useState([]);
 
@@ -37,18 +44,32 @@ const Model = () => {
       });
   };
   useEffect(() => {
-    const make = localStorage.getItem("brand");
-    const period = localStorage.getItem("year");
-    if (make && period) {
-      let body = {
-        makeId: parseInt(make),
-        periodId: parseInt(period),
-      };
-      getModel(body);
-    } else {
-      console.log("not callinng");
-    }
+    const fetchData = async () => {
+      const carId = parseInt(localStorage.getItem("carId"));
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+      } else {
+        console.log("not callinng");
+      }
+    };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchModel = async () => {
+      if (carInfo.id) {
+        let body = {
+          makeId: carInfo.make,
+          periodId: carInfo.period,
+        };
+        await getModel(body);
+      } else {
+        () => {};
+      }
+    };
+
+    fetchModel();
+  }, [carInfo.id]);
 
   return (
     <>

@@ -11,26 +11,105 @@ import {
   TextField,
 } from "@mui/material";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import detectloc from "@/icons/detectLoc.svg";
 import { Close } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Location = () => {
   const router = useRouter();
-
-  const [searchValue, setSearchValue] = useState("");
-
+  const dispatch = useDispatch();
+  const carInfo = useSelector((state) => state.CarInfo);
+  console.log(carInfo);
+  const [state, setState] = useState({
+    city: "",
+    lat: "",
+    long: "",
+  });
   const handleClearClick = () => {
-    setSearchValue("");
+    setState({ ...state, city: "" });
   };
   const handleChange = (e) => {
-    setSearchValue(e.target.value);
+    setState({ ...state, city: e.target.value });
   };
+  const handleClick = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+
+          try {
+            const response = await axios.get(
+              `https://api.opencagedata.com/geocode/v1/json?key=d8f80813a79c4255b03221765ad65a3c&language=en&pretty=1&q=${latitude}+${longitude}`
+            );
+
+            const city = response.data.results[0]?.components?.city;
+
+            setState({
+              ...state,
+              city: city || "",
+              lat: latitude,
+              long: longitude,
+            });
+          } catch (error) {
+            console.error("Error getting location:", error);
+          }
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by your browser.");
+    }
+  };
+
   const submitHandle = (e) => {
     e.preventDefault();
-    localStorage.setItem("location", searchValue);
-    router.push("/sell-cars/specifications");
+
+    if (state.city === "") {
+      toast.error("Please Enter Your City");
+      return false;
+    } else {
+      let body =
+        state.lat && state.long != ""
+          ? {
+              id: carInfo.id,
+              location: {
+                latitude: state.lat,
+                longitude: state.long,
+                city: state.city,
+              },
+            }
+          : {
+              id: carInfo.id,
+
+              location: {
+                city: state.city,
+              },
+            };
+
+      addCar({ body, router, path: "/sell-cars/specifications", dispatch });
+      return true;
+    }
+   
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+      } else {
+        () => {};
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <Head>
@@ -52,9 +131,9 @@ const Location = () => {
                     <TextField
                       sx={loginTextField}
                       onChange={handleChange}
-                      label="Search Your City"
+                      label="Enter Your City Name"
                       fullWidth
-                      value={searchValue}
+                      value={state.city}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment>
@@ -72,6 +151,7 @@ const Location = () => {
                       width="100%"
                       padding="18px"
                       type="button"
+                      onClick={handleClick}
                     >
                       <span>
                         <img src={detectloc.src} /> Use Current Location

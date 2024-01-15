@@ -14,15 +14,22 @@ import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
+import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { useDispatch, useSelector } from "react-redux";
 const Period = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [selectedYear, setSelectedYear] = useState(null);
+  const carInfo = useSelector((state) => state.CarInfo);
   const [year, setYear] = useState(0);
   const handleSelect = (selectedYear) => {
     setSelectedYear(selectedYear === selectedYear ? null : selectedYear);
     setYear(selectedYear);
-    localStorage.setItem("year", selectedYear);
-    router.push("/sell-cars/model");
+    let body = {
+      periodId: selectedYear,
+      id: carInfo.id,
+    };
+    addCar({ body, router, path: "/sell-cars/model", dispatch });
   };
   const [period, setPeriod] = useState([]);
   const getPeriod = (value) => {
@@ -40,12 +47,30 @@ const Period = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("brand")) {
-      getPeriod(localStorage.getItem("brand"));
-    } else {
-      console.log("select brand name");
-    }
+    const fetchData = async () => {
+      const carId = parseInt(localStorage.getItem("carId"));
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+      } else {
+        console.log("select brand name");
+      }
+    };
+
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchPeriod = async () => {
+      if (carInfo && carInfo.make) {
+        await getPeriod(carInfo.make);
+      } else {
+        return () => {};
+      }
+    };
+
+    fetchPeriod();
+  }, [carInfo]);
+
   return (
     <>
       <Head>
