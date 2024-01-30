@@ -215,7 +215,7 @@ export const tabButton = {
 };
 export const tabsectionButton = {
   color: "#000",
-  fontSize: "15px",
+  fontSize: "13px",
   fontWeight: "500",
   minHeight: "0",
   "&.Mui-selected": {
@@ -255,5 +255,17 @@ export const bodyTypeTabButton = {
   },
   "&": {
     transition: "s ease-in-out",
+  },
+};
+
+export const orderTabButton = {
+  borderBottom: "1px solid #d7d7d7",
+  width: "100%",
+  fontSize: "15px",
+  fontWeight: "600",
+  "&.Mui-selected": {
+    borderBottom: "2px solid purple",
+    color: "Purple",
+    // borderRadius: "20px",
   },
 };

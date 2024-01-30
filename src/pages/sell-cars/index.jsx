@@ -1,3 +1,5 @@
+import { vehicleController } from "@/api/addVehicle";
+import { addCar } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import FAQ from "@/components/accordion";
 import Brands from "@/components/brands";
@@ -12,12 +14,32 @@ import { Card, Divider, Grid, Stack, TextField } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
+import { useDispatch } from "react-redux";
 const SellerLogin = () => {
   const router = useRouter();
+  const [make, setMake] = useState([]);
+  const dispatch = useDispatch();
 
+  const addCarBrand = (id) => {
+    let body = {
+      makeId: id,
+    };
+    addCar({ body, router, path: "/sell-cars/period", dispatch });
+  };
+
+  useEffect(() => {
+    vehicleController
+      .getMake()
+      .then((res) => {
+        setMake(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <>
       <Head>
@@ -117,13 +139,14 @@ const SellerLogin = () => {
                   direction={{ xs: "column", sm: "row" }}
                   alignItems={"center"}
                 >
-                  {data.brandsSelector.slice(0, 7).map((val, i) => (
+                  {make.slice(0, 7).map((val, i) => (
                     <Brands
                       img={val.logo}
-                      brands={val.name}
+                      brands={val.makeName}
                       key={i}
                       width={95}
                       height={95}
+                      onClick={() => addCarBrand(val.id)}
                     />
                   ))}
                   <Link href={"/sell-cars/make"} className="link">

@@ -1,6 +1,6 @@
 import EditUserProfile from "@/assests/modalcalling/editUserProfile";
 import { showModal } from "@/redux/reducers/modal";
-import { Done, Info, Lock, Person } from "@mui/icons-material";
+import { Done, Info, Lock, Person, Verified } from "@mui/icons-material";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import EmailIcon from "@mui/icons-material/Email";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -92,12 +92,14 @@ const ProfileSettings = (props) => {
                     </p>
                     <Tooltip
                       title={
-                        user.isPhoneNoVerified ? "" : "Verify Phone Number"
+                        user.isPhoneNoVerified
+                          ? "Phone Number Verified"
+                          : "Verify Phone Number"
                       }
                       placement="top"
                     >
                       {user.isPhoneNoVerified ? (
-                        <Done sx={{ fill: "green" }} />
+                        <Verified sx={{ fill: "green" }} />
                       ) : (
                         <IconButton onClick={() => verifyPhoneNumber(user)}>
                           <Info

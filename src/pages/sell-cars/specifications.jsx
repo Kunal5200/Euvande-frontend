@@ -11,37 +11,58 @@ const Specifications = () => {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const carInfo = useSelector((state) => state.CarInfo);
-
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
-    driveType: "",
+    driveType4WD: "",
     doors: "",
     seats: "",
     interiorMaterial: "",
     vatDeduction: "",
+    power: "",
+    color: "",
+    equipments: [],
     carId: carInfo.id,
   });
   const {
     transmission,
     vehicleType,
-    driveType,
+    driveType4WD,
     doors,
     seats,
     interiorMaterial,
     vatDeduction,
+    power,
+    color,
+    equipments,
   } = state;
   const router = useRouter();
-  const submitHandler = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+      } else {
+        return () => {};
+      }
+    };
+
+
+    fetchData();
+  }, []);
+  const submitHandler = () => {
+    // e.preventDefault();
     if (
       transmission === "" ||
       vehicleType === "" ||
-      driveType === "" ||
+      driveType4WD === "" ||
       doors === "" ||
       seats === "" ||
       interiorMaterial === "" ||
-      vatDeduction === ""
+      vatDeduction === "" ||
+      power === "" ||
+      color === "" ||
+      equipments === ""
     ) {
       toast.error("Please Select All Fields*");
       return false;
@@ -54,19 +75,6 @@ const Specifications = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const carId = localStorage.getItem("carId");
-      if (carId) {
-        await getCarInfo({ data: carId, dispatch });
-      } else {
-        return () => {};
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <div>
       <div className="container my-5">
@@ -74,29 +82,33 @@ const Specifications = () => {
           <div className="col-sm-9 ">
             <LinkTab />
             <Card className="p-3">
-              <form onSubmit={submitHandler}>
-                <SpecificationSteps
-                  setState={setState}
-                  state={state}
-                  activeStep={activeStep}
-                  setActiveStep={setActiveStep}
-                />
-                <Stack direction="row" spacing={2} className="my-3">
-                  <Button
-                    className="custom_btn"
-                    type="button"
-                    onClick={() => setActiveStep(activeStep - 1)}
-                    disabled={activeStep === 0}
-                  >
-                    <span>Back</span>
-                    <span>Back</span>
-                  </Button>
-                  <Button className="custom_btn" type="submit">
-                    <span>Continue</span>
-                    <span>Continue</span>
-                  </Button>
-                </Stack>
-              </form>
+              {/* <form onSubmit={submitHandler}> */}
+              <SpecificationSteps
+                setState={setState}
+                state={state}
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+              />
+              <Stack direction="row" spacing={2} className="my-3">
+                <Button
+                  className="custom_btn"
+                  type="button"
+                  onClick={() => setActiveStep(activeStep - 1)}
+                  disabled={activeStep === 0}
+                >
+                  <span>Back</span>
+                  <span>Back</span>
+                </Button>
+                <Button
+                  className="custom_btn"
+                  type="submit"
+                  onClick={submitHandler}
+                >
+                  <span>Continue</span>
+                  <span>Continue</span>
+                </Button>
+              </Stack>
+              {/* </form> */}
             </Card>
           </div>
           <div className="col-sm-3">

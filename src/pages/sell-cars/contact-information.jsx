@@ -80,7 +80,7 @@ const ContactInformation = () => {
       phoneNo: state.phoneNumber,
       countryCode: state.countryCode,
     };
-    if (contactValidation({ state, error, setError })) {
+    if (contactValidation({ state, error, setError, setLoading })) {
       let data = {
         id: carInfo.id,
         contactInfo: body,
@@ -90,10 +90,11 @@ const ContactInformation = () => {
         router,
         dispatch,
         path: "/sell-cars/upload-picture",
-        setLoading
+        setLoading,
       });
     } else {
       toast.error("Please Enter Details");
+      setLoading(false);
     }
   };
 
@@ -157,7 +158,7 @@ const ContactInformation = () => {
                       label="Email*"
                       fullWidth
                       sx={loginTextField}
-                      error={error.email}
+                      error={Boolean(error.email)}
                       helperText={error.email}
                       value={state.email}
                     />
@@ -175,7 +176,7 @@ const ContactInformation = () => {
                       onChange={inputHandler}
                       id="name"
                       variant="outlined"
-                      error={error.name}
+                      error={Boolean(error.name)}
                       helperText={error.name}
                       value={state.name}
                       focused={
@@ -190,7 +191,7 @@ const ContactInformation = () => {
                       sx={loginTextField}
                       onChange={inputHandler}
                       id="phoneNumber"
-                      error={error.phoneNumber}
+                      error={Boolean(error.phoneNumber)}
                       helperText={error.phoneNumber}
                       value={state.phoneNumber}
                     />
@@ -233,7 +234,7 @@ const ContactInformation = () => {
                             ...params.inputProps,
                             autoComplete: "new-password",
                           }}
-                          error={error.country}
+                          error={Boolean(error.country)}
                           helperText={error.country}
                         />
                       )}
@@ -246,7 +247,7 @@ const ContactInformation = () => {
                       id="zipCode"
                       onChange={inputHandler}
                       sx={loginTextField}
-                      error={error.zipCode}
+                      error={Boolean(error.zipCode)}
                       helperText={error.zipCode}
                     />
                   </Grid>
@@ -256,7 +257,7 @@ const ContactInformation = () => {
                     {loading ? (
                       <Loading
                         type="bars"
-                        color="#000"
+                        color="red"
                         className="m-auto"
                         width={20}
                         height={20}

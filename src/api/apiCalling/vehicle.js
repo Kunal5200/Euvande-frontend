@@ -6,11 +6,10 @@ export const addCar = ({ body, router, path, dispatch, setLoading }) => {
   vehicleController
     .addVehicle(body)
     .then((res) => {
-      console.log(res);
       dispatch(setCarDetails({ ...res.data.data }));
       setLoading && setLoading(false);
       localStorage.setItem("carId", res.data.data.id);
-      router.push(path);
+      router && path && router.push(path);
     })
     .catch((err) => {
       let errMessage = err.response ? err.response.data.message : err.message;
@@ -70,7 +69,7 @@ export const getCarDetails = ({ carId, setCarData, setLoading }) => {
     .getVehicleDetails(carId)
     .then((res) => {
       setCarData(res.data.data);
-      setLoading(false);
+      setLoading && setLoading(false);
     })
     .catch((error) => {
       console.log(error);

@@ -23,7 +23,6 @@ const Location = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
-  console.log(carInfo);
   const [state, setState] = useState({
     city: "",
     lat: "",
@@ -40,7 +39,6 @@ const Location = () => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-
           try {
             const response = await axios.get(
               `https://api.opencagedata.com/geocode/v1/json?key=d8f80813a79c4255b03221765ad65a3c&language=en&pretty=1&q=${latitude}+${longitude}`

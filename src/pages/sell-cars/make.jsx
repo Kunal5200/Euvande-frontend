@@ -44,13 +44,22 @@ const Make = () => {
       });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const carId = parseInt(localStorage.getItem("carId"));
+      if (carId) {
+        getCarInfo({ data: carId, dispatch });
+      } else {
+        return () => {};
+      }
+    };
+
+    fetchData();
+  }, []);
+
   // console.log(carInfo);
   useEffect(() => {
     getMake();
-    const carId = parseInt(localStorage.getItem("carInfo"));
-    if (carId) {
-      getCarInfo({ data: carId, dispatch });
-    }
   }, []);
   return (
     <>

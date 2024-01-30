@@ -13,3 +13,16 @@ export const getUserInfo = ({ dispatch, setUser }) => {
       console.log(err);
     });
 };
+
+export const getSellerPendingCars = ({ setData, setLoading }) => {
+  listingController
+    .getSellerPendingCars()
+    .then((res) => {
+      setData(res.data.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setLoading(true);
+    });
+};

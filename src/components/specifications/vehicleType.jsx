@@ -32,11 +32,13 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
         ))}
       </Grid>
       <Button
-        className={styles.back_btn}
+        className="custom_btn_white mt-2"
         onClick={() => setActiveStep(activeStep - 1)}
         type="button"
+        backgroundColor="#000"
+        color="#fff"
+        width="100px"
       >
-        <FaAngleLeft />
         Back
       </Button>
     </div>

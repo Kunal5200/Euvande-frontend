@@ -1406,6 +1406,59 @@ let data = {
       carAmount: "22 699",
     },
   ],
+  variantTypes: [
+    {
+      label: "Petrol",
+      id: "Petrol",
+    },
+    {
+      label: "Diesel",
+      id: "Diesel",
+    },
+    {
+      label: "EV",
+      id: "EV",
+    },
+    {
+      label: "CNG",
+      id: "CNG",
+    },
+    {
+      label: "LNG",
+      id: "LNG",
+    },
+    {
+      label: "FCV",
+      id: "FCV",
+    },
+    {
+      label: "LPG",
+      id: "LPG",
+    },
+  ],
+  variants: [
+    {
+      label: "Petrol Variants",
+    },
+    {
+      label: "Diesel Variants",
+    },
+    {
+      label: "EV Variants",
+    },
+    {
+      label: "CNG Variants",
+    },
+    {
+      label: "LNG Variants",
+    },
+    {
+      label: "FCV Variants",
+    },
+    {
+      label: "LPG Variants",
+    },
+  ],
 };
 
 export default data;

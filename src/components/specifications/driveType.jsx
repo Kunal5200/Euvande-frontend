@@ -1,14 +1,10 @@
-import { Stack } from "@mui/material";
-import React, { useState } from "react";
-import Button from "../button";
 import styles from "@/styles/specifications.module.css";
-import { FaAngleLeft } from "react-icons/fa";
+import { Stack } from "@mui/material";
+import Button from "../button";
 const DriveType = ({ setActiveStep, activeStep, setState, state, data }) => {
-  // const [driveType, setDriveType] = useState("");
   const handleChangeDriveType = (driveType) => {
-    // setDriveType(driveType);
     setActiveStep(activeStep + 1);
-    setState({ ...state, driveType: driveType });
+    setState({ ...state, driveType4WD: driveType });
   };
   return (
     <div>
@@ -17,7 +13,7 @@ const DriveType = ({ setActiveStep, activeStep, setState, state, data }) => {
           <Button
             key={i}
             className={
-              state.driveType === val
+              state.driveType4WD === val
                 ? styles.selected_btn
                 : styles.unselected_btn
             }
@@ -30,11 +26,13 @@ const DriveType = ({ setActiveStep, activeStep, setState, state, data }) => {
         ))}
       </Stack>
       <Button
+        className="custom_btn_white mt-2"
         onClick={() => setActiveStep(activeStep - 1)}
-        className={styles.back_btn}
         type="button"
+        backgroundColor="#000"
+        color="#fff"
+        width="100px"
       >
-        <FaAngleLeft />
         Back
       </Button>
     </div>

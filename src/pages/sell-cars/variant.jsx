@@ -38,16 +38,16 @@ const Variant = () => {
     };
     getModel(body);
   };
-  const tabs = [
-    {
-      name: "petrol variant",
-      id: "Petrol",
-    },
-    {
-      name: "diesel variant",
-      id: "Diesel",
-    },
-  ];
+  // const tabs = [
+  //   {
+  //     name: "petrol variant",
+  //     id: "Petrol",
+  //   },
+  //   {
+  //     name: "diesel variant",
+  //     id: "Diesel",
+  //   },
+  // ];
   const getModel = (body) => {
     vehicleController
       .getVariants(body)
@@ -106,59 +106,44 @@ const Variant = () => {
                   padding: "8px",
                 }}
               >
-                {tabs.map((val, i) => (
+                {data.variantTypes.map((val, i) => (
                   <Tab
-                    label={val.name}
+                    label={val.label}
                     id={val.id}
                     key={i}
                     sx={varianttabButton}
                   />
                 ))}
               </Tabs>
-              <TabPanel value={value} index={0} className="mt-3 p-2">
-                <h6>Petrol Variants</h6>
-                {fuel.length ? (
-                  <Grid container spacing={3}>
-                    {fuel.map((val, i) => (
-                      <Grid item xs={3} key={i}>
-                        <Card
-                          className={`p-2 pointer ${
-                            val.variant === variant && styles.year_selector
-                          }`}
-                          onClick={() => handleClick(val.id)}
-                        >
-                          {val.variantName}
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                ) : (
-                  <Typography marginTop={2}>
-                    No Petrol Variants Found
-                  </Typography>
-                )}
-              </TabPanel>
-              <TabPanel value={value} index={1} className="mt-3 p-2">
-                <h6>Diesel Variants</h6>
-                {fuel.length ? (
-                  <Grid container spacing={3}>
-                    {fuel.map((val, i) => (
-                      <Grid item xs={3} key={i}>
-                        <Card
-                          className={`p-2 pointer ${
-                            val.id === variant && styles.year_selector
-                          }`}
-                          onClick={() => handleClick(val.id)}
-                        >
-                          {val.variantName}
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                ) : (
-                  <Typography marginTop={2}>No Diesel Variant Found</Typography>
-                )}
-              </TabPanel>
+              {data.variants.map((val, i) => (
+                <TabPanel value={value} index={i} className="mt-3 p-2">
+                  <h6>{val.label}</h6>
+                  {fuel.length ? (
+                    <Grid container spacing={3}>
+                      {fuel.map((val, i) => (
+                        <Grid item xs={3} key={i}>
+                          <Card
+                            className={`p-2 pointer  ${
+                              val.variant === variant && styles.year_selector
+                            }`}
+                            onClick={() => handleClick(val.id)}
+                            sx={{
+                              mt: 1,
+                              "&:hover": {
+                                boxShadow: "0px 10px 15px -7px ",
+                              },
+                            }}
+                          >
+                            {val.variantName}
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  ) : (
+                    <Typography marginTop={2}>No Variants Found</Typography>
+                  )}
+                </TabPanel>
+              ))}
             </Card>
           </div>
           <div className="col-sm-3">

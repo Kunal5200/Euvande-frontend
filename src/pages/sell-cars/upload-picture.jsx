@@ -1,4 +1,8 @@
-import { addImageUpload, getCarInfo } from "@/api/apiCalling/vehicle";
+import {
+  addImageUpload,
+  getCarDetails,
+  getCarInfo,
+} from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import Button from "@/components/button";
 import ImageUpload from "@/components/imageUpload";
@@ -64,7 +68,30 @@ const UploadPicture = () => {
   const submitHandler = (e) => {
     setLoading(true);
     e.preventDefault();
-    if (state) {
+    if (
+      state.Headlining != null ||
+      state.backLeftTyre != null ||
+      state.backLeftWheel != null ||
+      state.backRightTyre != null ||
+      state.backRightWheel != null ||
+      state.dashboard != null ||
+      state.driverDoor != null ||
+      state.driverSeat != null ||
+      state.engine != null ||
+      state.frontLeft != null ||
+      state.frontLeftTyre != null ||
+      state.frontLeftWheel != null ||
+      state.frontRight != null ||
+      state.frontRightWheel != null ||
+      state.frontView != null ||
+      state.headlamp != null ||
+      state.instrumentPanel != null ||
+      state.passengerSeat != null ||
+      state.rearLeft != null ||
+      state.rearPanelOfCenterConsole != null ||
+      state.rearSeat != null ||
+      state.rearView != null
+    ) {
       addImageUpload({ data: state, router, setLoading });
     } else {
       toast.error("Please select Pictures");

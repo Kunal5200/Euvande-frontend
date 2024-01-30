@@ -21,6 +21,7 @@ const Vatdeduction = ({ setActiveStep, activeStep, setState, state, data }) => {
                 ? styles.selected_btn
                 : styles.unselected_btn
             }
+            width={50}
           >
             {val}
           </Button>
@@ -28,11 +29,13 @@ const Vatdeduction = ({ setActiveStep, activeStep, setState, state, data }) => {
       </Stack>
 
       <Button
-        className={styles.back_btn}
+        className="custom_btn_white mt-2"
         onClick={() => setActiveStep(activeStep - 1)}
         type="button"
+        backgroundColor="#000"
+        color="#fff"
+        width="100px"
       >
-        <FaAngleLeft />
         Back
       </Button>
     </div>

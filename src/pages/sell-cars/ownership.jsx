@@ -51,6 +51,12 @@ const Ownership = () => {
                       val.ownership === ownership ? styles.year_Selector : ""
                     }`}
                     onClick={() => handleClick(val.ownership)}
+                    sx={{
+                      "&:hover": {
+                        boxShadow: "0px 10px 15px -7px ",
+                      },
+                      mt: 1,
+                    }}
                   >
                     {val.ownership}
                   </Card>

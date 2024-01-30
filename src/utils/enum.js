@@ -14,3 +14,15 @@ export const FILTERS = {
   LOWESTMILEAGE: "Lowest Mileage",
   HIGHESTDISCOUNT: "Highest Discount",
 };
+
+export const CarStatus = {
+  "In-Progress": "In-Progress",
+  Pending: "Pending",
+  Available: "Available",
+  Sold: "Sold",
+  Reserved: "Reserved", //buyer has expressed interest
+  Expired: "Expired",
+  Withdrawn: "Withdrawn", //seller has withdrawn
+  "On Hold": "On Hold",
+  "Not Available": "Not Available", //maintenance, repairs .etc
+};

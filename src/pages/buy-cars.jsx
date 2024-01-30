@@ -9,15 +9,8 @@ import React, { useState } from "react";
 
 const BuyCars = () => {
   const [selectedValue, setSelectedValue] = useState(FILTERS.NEWESTAD);
-  const [open, setOpen] = useState(false);
 
-  const openFilterDialog = () => {
-    setOpen(true);
-  };
-  const closeFIlterDialog = (value) => {
-    setSelectedValue(value);
-    setOpen(false);
-  };
+  
   return (
     <div>
       <Box>
@@ -53,20 +46,9 @@ const BuyCars = () => {
                     ml: 1,
                   }}
                 />
-                {/* <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  ml={1}
-                  className="pointer"
-                  onClick={openFilterDialog}
-                >
-                  <Typography fontSize={12}>{selectedValue}</Typography>
-                  <ExpandMore />
-                </Stack> */}
                 <Filterbar />
               </Stack>
             </Stack>
-            {/* <FilterDialog onSelect={closeFIlterDialog} open={open} /> */}
             <Box marginTop={3}>
               {data.carData.map((val, i) => (
                 <BoxCar

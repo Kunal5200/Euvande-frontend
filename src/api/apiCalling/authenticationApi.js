@@ -22,7 +22,8 @@ export const userRegister = ({
     })
     .catch((err) => {
       setLoading(false);
-      toast.error(err.response.data.message);
+      let errMessage = err.response ? err.response.data.message : err.message;
+      toast.error(errMessage);
     });
 };
 
