@@ -18,7 +18,7 @@ import Loading from "react-loading";
 import { useDispatch } from "react-redux";
 import Button from "./button";
 import OTPinput from "./otpInput";
-import logo from "@/logo/EuVandeLogoBlack.svg";
+import logo from "@/logo/EUVandeLogoBlack.svg";
 import Image from "next/image";
 const SignupForm = () => {
   const [togglePassword, setTogglePassword] = useState(true);

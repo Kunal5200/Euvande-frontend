@@ -1,4 +1,4 @@
-import whitelogo from "@/logo/EuVandeLogoBlack.svg";
+import whitelogo from "@/logo/EUVandeLogoBlack.svg";
 import styles from "@/styles/footer.module.css";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import {

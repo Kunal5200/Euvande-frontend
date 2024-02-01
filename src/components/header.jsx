@@ -1,7 +1,7 @@
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
 import { HeaderLinks } from "@/assests/routes";
-import logoBlack from "@/logo/EuVandeLogoBlack.svg";
-import logo from "@/logo/EuVandeLogoWhite.svg";
+import logoBlack from "@/logo/EUVandeLogoBlack.svg";
+import logo from "@/logo/EUVandeLogoWhite.svg";
 import { removeDetails } from "@/redux/reducers/userdetails";
 import styles from "@/styles/Header.module.css";
 import CloseIcon from "@mui/icons-material/Close";

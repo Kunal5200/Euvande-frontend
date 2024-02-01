@@ -30,7 +30,7 @@ import hyundai from "@/brandImage/Hyundai.webp";
 import lamborghini from "@/brandImage/lamborghini.webp";
 import mahindra from "@/brandImage/mahindra.webp";
 import rollyroyce from "@/brandImage/rollsroyce.webp";
-import tata from "@/brandImage/tata.webp";
+import tata from "@/brandImage/TATA.webp";
 import toyota from "@/brandImage/toyota.webp";
 import image2 from "@/icons/doorstep.webp";
 import image3 from "@/icons/payment.jpg";
