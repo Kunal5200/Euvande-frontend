@@ -1,3 +1,4 @@
+import { CarStatus, OPTION_TYPE } from "@/utils/enum";
 import { CalendarMonth, DirectionsCar } from "@mui/icons-material";
 import {
   Box,
@@ -14,9 +15,18 @@ import { BsFuelPump } from "react-icons/bs";
 import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
 import CustomButton from "./button2";
-import { OPTION_TYPE } from "@/utils/enum";
+import { sendForApprovalCar } from "@/api/apiCalling/vehicle";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import Loading from "react-loading";
 
-const CarInfoCard = ({ carData, loading, onChange, onSubmit }) => {
+const CarInfoCard = ({
+  carData,
+  loading,
+  onChange,
+  onSubmit,
+  priceLoading,
+}) => {
   const carSpecifications = [
     {
       icon: <GiRoad />,
@@ -56,6 +66,21 @@ const CarInfoCard = ({ carData, loading, onChange, onSubmit }) => {
         "Not Disclosed",
     },
   ];
+
+  const [approvalLoading, setApprovalLoading] = useState(false);
+
+  const approvalSending = () => {
+    setApprovalLoading(true);
+    if (carData && carData.price) {
+      sendForApprovalCar({
+        carId: carData.id,
+        setLoading: setApprovalLoading,
+      });
+    } else {
+      toast.error("Please Enter Price First");
+      setApprovalLoading(false);
+    }
+  };
   return (
     <Card sx={{ position: "relative", bottom: 120 }}>
       <Grid container>
@@ -143,7 +168,11 @@ const CarInfoCard = ({ carData, loading, onChange, onSubmit }) => {
                   border="1px solid #495254"
                   onClick={onSubmit}
                 >
-                  Add Price
+                  {priceLoading ? (
+                    <Loading type="bars" width={20} height={20} color="red" />
+                  ) : (
+                    "Add Price"
+                  )}
                 </CustomButton>
               </Grid>
             </Grid>
@@ -151,8 +180,24 @@ const CarInfoCard = ({ carData, loading, onChange, onSubmit }) => {
 
           <Grid container mt={2}>
             <Grid lg={12}>
-              <Button variant="contained" fullWidth>
-                Put car up for the auction
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={approvalSending}
+                disabled={carData && carData.status === CarStatus.Pending}
+                sx={{
+                  "&.Mui-disabled": {
+                    color: "#fff",
+                  },
+                }}
+              >
+                {approvalLoading ? (
+                  <Loading type="bars" color="red" width={20} height={20} />
+                ) : carData && carData.status === CarStatus.Pending ? (
+                  "Waiting for Euvande Approval"
+                ) : (
+                  " Put car up for the Approval"
+                )}
               </Button>
             </Grid>
           </Grid>

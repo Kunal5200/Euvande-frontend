@@ -2,12 +2,20 @@ import { toast } from "react-toastify";
 import { vehicleController } from "../addVehicle";
 import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 
-export const addCar = ({ body, router, path, dispatch, setLoading }) => {
+export const addCar = ({
+  body,
+  router,
+  path,
+  dispatch,
+  setLoading,
+  setCarData,
+}) => {
   vehicleController
     .addVehicle(body)
     .then((res) => {
       dispatch(setCarDetails({ ...res.data.data }));
       setLoading && setLoading(false);
+      getCarDetails({ setCarData, setLoading, carId: res.data.data.id });
       localStorage.setItem("carId", res.data.data.id);
       router && path && router.push(path);
     })
@@ -29,14 +37,16 @@ export const getCarInfo = ({ data, dispatch }) => {
     });
 };
 
-export const addSpecification = ({ data, router, path }) => {
+export const addSpecification = ({ data, router, path, setLoading }) => {
   vehicleController
     .addSpecifications(data)
     .then((res) => {
       router.push(path);
+      setLoading(false);
     })
     .catch((err) => {
       console.log(err);
+      setLoading(false);
     });
 };
 
@@ -74,5 +84,22 @@ export const getCarDetails = ({ carId, setCarData, setLoading }) => {
     .catch((error) => {
       console.log(error);
       setLoading(true);
+    });
+};
+
+export const sendForApprovalCar = ({ carId, setLoading,  }) => {
+  vehicleController
+    .sendForApprovals(carId)
+    .then((res) => {
+      toast.success(res.data.message);
+      setLoading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) ||
+        err.message ||
+        "Network Error";
+      toast.error(errMessage);
+      setLoading(false);
     });
 };

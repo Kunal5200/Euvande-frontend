@@ -4,7 +4,8 @@ import LinkTab from "@/components/linktab";
 import SpecificationSteps from "@/components/specifications/specificationStep";
 import { Card, Stack } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Loading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 const Specifications = () => {
@@ -47,11 +48,13 @@ const Specifications = () => {
       }
     };
 
-
     fetchData();
   }, []);
+
+  const [loading, setLoading] = useState(false);
   const submitHandler = () => {
     // e.preventDefault();
+    setLoading(true);
     if (
       transmission === "" ||
       vehicleType === "" ||
@@ -65,12 +68,14 @@ const Specifications = () => {
       equipments === ""
     ) {
       toast.error("Please Select All Fields*");
+      setLoading(false);
       return false;
     } else {
       addSpecification({
         data: state,
         router,
         path: "/sell-cars/contact-information",
+        setLoading,
       });
     }
   };
@@ -95,6 +100,7 @@ const Specifications = () => {
                   type="button"
                   onClick={() => setActiveStep(activeStep - 1)}
                   disabled={activeStep === 0}
+                  width={120}
                 >
                   <span>Back</span>
                   <span>Back</span>
@@ -103,9 +109,22 @@ const Specifications = () => {
                   className="custom_btn"
                   type="submit"
                   onClick={submitHandler}
+                  width={120}
                 >
-                  <span>Continue</span>
-                  <span>Continue</span>
+                  {loading ? (
+                    <Loading
+                      type="bars"
+                      width={20}
+                      height={20}
+                      color="blue"
+                      className="m-auto"
+                    />
+                  ) : (
+                    <React.Fragment>
+                      <span>Continue</span>
+                      <span>Continue</span>
+                    </React.Fragment>
+                  )}
                 </Button>
               </Stack>
               {/* </form> */}

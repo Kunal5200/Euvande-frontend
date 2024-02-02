@@ -113,4 +113,14 @@ export const vehicleController = {
       throw error;
     }
   },
+  sendForApprovals: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        `/vehicle/api/cars/sendForApproval/${data}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

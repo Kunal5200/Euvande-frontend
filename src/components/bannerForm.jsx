@@ -11,45 +11,51 @@ import {
 import { FaAngleRight } from "react-icons/fa";
 import ReactSelect from "react-select";
 import Button from "./button";
+import { colorStyles } from "@/utils/styles";
+import { useEffect, useState } from "react";
+import {
+  getAllMakePublic,
+  getModelByYear,
+  getPeriod,
+} from "@/api/apiCalling/listingApi";
 const BannerForm = () => {
   const vatDeductionHandler = (e) => {
     console.log(e.target);
   };
-  const colorStyles = {
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      backgroundColor: "transparent",
-      border: "1px solid #fff",
-      boxShadow: "none",
-      fontSize: "12px",
-      width: "100%",
-      fontWeight: "400",
-      color: "#ffffff",
-    }),
-    option: (styles, { isSelected }) => {
-      return {
-        ...styles,
-        textTransform: "capitalize",
-        backgroundColor: isSelected ? "#ff0000" : "#ffffff",
-        zIndex: 999,
-      };
-    },
-    placeholder: (baseStyles, state) => {
-      return {
-        ...baseStyles,
-        color: "white",
-      };
-    },
-    singleValue: (provided, state) => ({
-      ...provided,
-      color: "white",
-      textTransform: "capitalize",
-    }),
-    input: (provided, state) => ({
-      ...provided,
-      color: "#ffffff", 
-    }),
+
+  const [brand, setBrand] = useState([]);
+  const [period, setPeriod] = useState([]);
+  const [model, setModel] = useState([]);
+  const [state, setState] = useState({
+    make: "",
+    period: "",
+    model: "",
+    price: "",
+    mileage: "",
+    vatDeduction: "",
+  });
+
+  const makeHandler = (e) => {
+    setState({ ...state, make: e.value });
+    let data = {
+      makeId: e.value,
+    };
+    getPeriod({ setPeriod, data });
   };
+
+  const periodHandler = (e) => {
+    setState({ ...state, period: e.value });
+    let body = {
+      makeId: state.make,
+      periodYear: e.label,
+    };
+    getModelByYear({ setModel, data: body });
+  };
+
+  useEffect(() => {
+    getAllMakePublic({ setBrand });
+  }, []);
+
   return (
     <Grid container>
       <Grid item xs={12} sm={9} marginLeft={{ lg: "3rem" }}>
@@ -75,10 +81,10 @@ const BannerForm = () => {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <ReactSelect
-                  options={data.brandsSelector.map((val, i) => {
+                  options={brand.map((val, i) => {
                     return {
-                      label: val.name,
-                      value: val.name,
+                      label: val.makeName,
+                      value: val.id,
                     };
                   })}
                   placeholder="Make"
@@ -86,6 +92,7 @@ const BannerForm = () => {
                     IndicatorSeparator: () => null,
                   }}
                   styles={colorStyles}
+                  onChange={makeHandler}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -108,15 +115,16 @@ const BannerForm = () => {
               <Grid item xs={6}>
                 <ReactSelect
                   placeholder="Year"
-                  options={data.Year.map((val) => {
+                  options={period.map((val) => {
                     return {
                       label: val.year,
-                      value: val.year,
+                      value: val.id,
                     };
                   })}
                   components={{
                     IndicatorSeparator: () => null,
                   }}
+                  onChange={periodHandler}
                   styles={colorStyles}
                 />
               </Grid>
@@ -140,10 +148,10 @@ const BannerForm = () => {
             <Grid container spacing={2} className="my-2">
               <Grid item xs={6}>
                 <ReactSelect
-                  options={data.carModel.map((val) => {
+                  options={model.map((val) => {
                     return {
-                      label: val.name,
-                      value: val.name,
+                      label: val.modelName,
+                      value: val.id,
                     };
                   })}
                   placeholder="Choose Model"

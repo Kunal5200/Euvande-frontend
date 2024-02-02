@@ -33,22 +33,26 @@ const CarDetails = () => {
   const handleInput = (e) => {
     setPrice(e.target.value);
   };
+
+  const [priceLoading, setPriceLoading] = useState(false);
   const addPrice = () => {
+    setPriceLoading(true);
     if (price === "") {
       toast.error("Please Enter Price");
+      setPriceLoading(false);
     } else {
       let body = {
         price: parseInt(price),
         id: (carInfo && carInfo.id) || parseInt(localStorage.getItem("carId")),
       };
-      addCar({ dispatch, body });
+      addCar({ dispatch, body, setLoading: setPriceLoading, setCarData });
     }
   };
 
   return (
     <div>
       <Head>
-        <title>Car details</title>
+        <title>Car Preview</title>
       </Head>
       <div className={styles.bg_image}>
         <div className="text-center mt-5">
@@ -63,6 +67,7 @@ const CarDetails = () => {
             loading={loading}
             onChange={handleInput}
             onSubmit={addPrice}
+            priceLoading={priceLoading}
           />
         </Grid>
       </Grid>

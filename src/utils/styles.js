@@ -269,3 +269,39 @@ export const orderTabButton = {
     // borderRadius: "20px",
   },
 };
+
+export const colorStyles = {
+  control: (baseStyles, state) => ({
+    ...baseStyles,
+    backgroundColor: "transparent",
+    border: "1px solid #fff",
+    boxShadow: "none",
+    fontSize: "12px",
+    width: "100%",
+    fontWeight: "400",
+    color: "#ffffff",
+  }),
+  option: (styles, { isSelected }) => {
+    return {
+      ...styles,
+      textTransform: "capitalize",
+      backgroundColor: isSelected ? "#800080" : "#ffffff",
+      zIndex: 999,
+    };
+  },
+  placeholder: (baseStyles, state) => {
+    return {
+      ...baseStyles,
+      color: "white",
+    };
+  },
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: "white",
+    textTransform: "capitalize",
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    color: "#ffffff",
+  }),
+};

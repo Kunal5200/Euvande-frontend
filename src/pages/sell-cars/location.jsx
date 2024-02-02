@@ -19,8 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "react-loading";
 const Location = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
   const [state, setState] = useState({
@@ -67,7 +69,7 @@ const Location = () => {
 
   const submitHandle = (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (state.city === "") {
       toast.error("Please Enter Your City");
       return false;
@@ -90,10 +92,15 @@ const Location = () => {
               },
             };
 
-      addCar({ body, router, path: "/sell-cars/specifications", dispatch });
+      addCar({
+        body,
+        router,
+        path: "/sell-cars/specifications",
+        dispatch,
+        setLoading,
+      });
       return true;
     }
-   
   };
 
   useEffect(() => {
@@ -164,8 +171,20 @@ const Location = () => {
 
                 <div className="text-end my-4">
                   <Button className="custom_btn" width={280}>
-                    <span>Continue</span>
-                    <span>Continue</span>
+                    {loading ? (
+                      <Loading
+                        type="bars"
+                        width={20}
+                        height={20}
+                        color="orange"
+                        className="m-auto"
+                      />
+                    ) : (
+                      <React.Fragment>
+                        <span>Continue</span>
+                        <span>Continue</span>
+                      </React.Fragment>
+                    )}
                   </Button>
                 </div>
               </form>

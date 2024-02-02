@@ -1,3 +1,4 @@
+import { getCars } from "@/api/apiCalling/listingApi";
 import data from "@/assests/data";
 import BoxCar from "@/components/cars-box";
 import Filterbar from "@/components/filter-bar";
@@ -5,12 +6,16 @@ import FilterDialog from "@/components/filter-dialog";
 import { FILTERS } from "@/utils/enum";
 import { ExpandMore } from "@mui/icons-material";
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Loading from "react-loading";
 
 const BuyCars = () => {
   const [selectedValue, setSelectedValue] = useState(FILTERS.NEWESTAD);
-
-  
+  const [loading, setLoading] = useState(true);
+  const [carData, setCarData] = useState([]);
+  useEffect(() => {
+    getCars({ loading: setLoading, setCarData: setCarData });
+  }, []);
   return (
     <div>
       <Box>
@@ -28,7 +33,7 @@ const BuyCars = () => {
             >
               <Stack direction={"row"} alignItems={"center"}>
                 <Typography fontSize={13} fontWeight={600}>
-                  3{" "}
+                  {carData.totalDocs}
                 </Typography>
                 <Typography fontSize={13} ml={0.5}>
                   Results
@@ -50,19 +55,17 @@ const BuyCars = () => {
               </Stack>
             </Stack>
             <Box marginTop={3}>
-              {data.carData.map((val, i) => (
-                <BoxCar
-                  carImages={val.carImages}
-                  carName={val.carName}
-                  specifications={val.specifications}
-                  carAmount={val.carAmount}
-                  amountWithoutVAT={val.amountWithoutAmount}
-                  features={val.features}
-                  deliveryAmount={val.deliveryAmount}
-                  key={i}
-                  countryName={val.countryName}
+              {loading ? (
+                <Loading
+                  type={"bars"}
+                  color="#000"
+                  width={30}
+                  height={30}
+                  className="m-auto"
                 />
-              ))}
+              ) : (
+                <BoxCar data={carData.docs} />
+              )}
             </Box>
           </Grid>
         </Grid>

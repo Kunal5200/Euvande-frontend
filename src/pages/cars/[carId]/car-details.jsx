@@ -11,11 +11,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
-
+import dummyCars from "@/icons/cars.jpg";
 const CarDetails = () => {
   const router = useRouter();
   const [carData, setCarData] = useState(null);
@@ -41,7 +40,7 @@ const CarDetails = () => {
   return (
     <Container>
       <Grid container>
-        <Grid item lg={8} p={2}>
+        <Grid item lg={7} p={2}>
           {loading ? (
             <Skeleton variant="text" width={300} />
           ) : (
@@ -107,14 +106,17 @@ const CarDetails = () => {
             <Skeleton variant="rectangular" width={400} height={400} />
           ) : (
             <Carousel>
-              {carData &&
+              {carData && carData.carImages ? (
                 carData.carImages.map((val, i) => (
                   <img src={val} width={"100%"} height={"100%"} key={i} />
-                ))}
+                ))
+              ) : (
+                <img src={dummyCars.src} />
+              )}
             </Carousel>
           )}
         </Grid>
-        <Grid item lg={4}></Grid>
+        <Grid item lg={5}></Grid>
       </Grid>
     </Container>
   );

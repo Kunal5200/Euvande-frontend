@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 const UploadPicture = () => {
   const inputRefs = useRef({});
   const dispatch = useDispatch();
+  const [carId, setCarId] = useState("");
   const carInfo = useSelector((state) => state.CarInfo);
   const [imagePreviews, setImagePreviews] = useState({});
   const [state, setState] = useState({
@@ -49,7 +50,7 @@ const UploadPicture = () => {
     frontLeftTyre: null,
     backLeftTyre: null,
     backRightTyre: null,
-    carId: carInfo.id,
+    carId: carInfo && carInfo.id ? carInfo.id : carId,
   });
 
   const router = useRouter();
@@ -102,7 +103,7 @@ const UploadPicture = () => {
   useEffect(() => {
     const fetchData = async () => {
       const carId = localStorage.getItem("carId");
-
+      setCarId(carId);
       if (carId) {
         getCarInfo({ data: carId, dispatch });
       }
@@ -184,10 +185,10 @@ const UploadPicture = () => {
                       {loading ? (
                         <Loading
                           type="bars"
-                          width={30}
-                          height={30}
+                          width={20}
+                          height={20}
                           className="m-auto"
-                          color="#ffdb58"
+                          color="#ff0000"
                         />
                       ) : (
                         <>

@@ -26,3 +26,48 @@ export const getSellerPendingCars = ({ setData, setLoading }) => {
       setLoading(true);
     });
 };
+
+export const getAllMakePublic = ({ setBrand }) => {
+  listingController
+    .getPublicMake()
+    .then((res) => {
+      setBrand(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getPeriod = ({ setPeriod, data }) => {
+  listingController
+    .getPublicPeriod(data)
+    .then((res) => {
+      setPeriod(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getModelByYear = ({ setModel, data }) => {
+  listingController
+    .getPublicModel(data)
+    .then((res) => {
+      setModel(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getCars = ({ loading, setCarData }) => {
+  listingController
+    .getCars()
+    .then((res) => {
+      setCarData(res.data.data);
+      loading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
