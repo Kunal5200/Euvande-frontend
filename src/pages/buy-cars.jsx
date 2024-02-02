@@ -3,9 +3,20 @@ import data from "@/assests/data";
 import BoxCar from "@/components/cars-box";
 import Filterbar from "@/components/filter-bar";
 import FilterDialog from "@/components/filter-dialog";
+import FilterSection from "@/components/filterSection";
 import { FILTERS } from "@/utils/enum";
-import { ExpandMore } from "@mui/icons-material";
-import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Delete, ExpandMore } from "@mui/icons-material";
+import {
+  Box,
+  Card,
+  CardHeader,
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Loading from "react-loading";
 
@@ -17,10 +28,30 @@ const BuyCars = () => {
     getCars({ loading: setLoading, setCarData: setCarData });
   }, []);
   return (
-    <div>
+    <Container maxWidth="1400px">
       <Box>
-        <Grid container spacing={2}>
-          <Grid item lg={3}></Grid>
+        <Grid container spacing={6}>
+          <Grid item lg={3}    >
+            <Card >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  p: 3,
+                }}
+              >
+                <Typography variant="h6" fontWeight={550}>
+                  Filter
+                </Typography>
+                <Tooltip title="Clear Filters" placement="top" arrow>
+                  <Delete />
+                </Tooltip>
+              </Box>
+              <Divider sx={{ backgroundColor: "#000" }} />
+              <FilterSection />
+            </Card>
+          </Grid>
           <Grid item lg={9} mt={5} p={10}>
             <Typography fontSize={30} letterSpacing={1} fontWeight={600}>
               Verified Cars
@@ -70,7 +101,7 @@ const BuyCars = () => {
           </Grid>
         </Grid>
       </Box>
-    </div>
+    </Container>
   );
 };
 

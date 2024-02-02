@@ -205,8 +205,8 @@ const BoxCar = ({ data }) => {
                 mt={2}
               >
                 <Box>
-                  <Typography textAlign={"end"} fontSize={18}>
-                    {val && val.price != null ? `${val.price}€` : ""}
+                  <Typography  fontSize={20} fontWeight={550}>
+                    {val && val.price != null ? `${val.price}€` : "Not Disclosed"}
                   </Typography>
                   <Typography fontSize={12}>
                     {val &&
