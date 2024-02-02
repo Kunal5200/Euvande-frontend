@@ -305,13 +305,13 @@ let data = {
       name: "Jessica",
       img: profile4,
       review:
-        "I have sold my car at Euvande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr Nagaraj visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from CarDekho gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr Nagaraj.",
+        "I have sold my car at EuVande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr Nagaraj visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from CarDekho gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr Nagaraj.",
     },
     {
       name: "Sia",
       img: profile5,
       review:
-        "Sold my car to Euvande at there Whitefield branch. It all happened so quickly. Nagaraj came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank Nagaraj for his professionalism and CarDekho for providing me the right price and hassle free selling of my car.",
+        "Sold my car to EuVande at there Whitefield branch. It all happened so quickly. Nagaraj came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank Nagaraj for his professionalism and CarDekho for providing me the right price and hassle free selling of my car.",
     },
   ],
   brandsSelector: [
@@ -720,33 +720,41 @@ let data = {
   list1: [
     {
       label: "Buy",
+      link: "/buy-cars",
     },
     {
       label: "Sell",
+      link: "/sell-cars",
     },
     {
       label: "How it Works?",
+      link: "/how-it-works",
     },
   ],
   list2: [
     {
       label: "Delivery",
+      link: "/delivery",
     },
     {
       label: "Warranty",
+      link: "/warranty",
     },
   ],
   list3: [
     {
       label: "Online Auction",
+      link: "/online-auction",
     },
   ],
   list4: [
     {
       label: "About us",
+      link: "/about-us",
     },
     {
       label: "Contact",
+      link: "/contact",
     },
   ],
   transmissionType: [
@@ -1067,59 +1075,59 @@ let data = {
     {
       name: " Lucian v.",
       testimonial:
-        "Embarking on the journey to find the perfect car became a delightful experience with EUVande. From the moment I navigated theiruser-friendly website, I was captivated by the extensive and diverse inventory that catered to every preference and budget.",
+        "Embarking on the journey to find the perfect car became a delightful experience with EuVande. From the moment I navigated theiruser-friendly website, I was captivated by the extensive and diverse inventory that catered to every preference and budget.",
       img: testimonial1.src,
     },
     {
       name: "Sophie M.",
       testimonial:
-        "  As a discerning buyer, EUVande exceeded my expectations. From the extensive choices to the seamless process, I found my ideal car effortlessly. Kudos to EUVande for making car buying in Europe an absolute pleasure!",
+        "  As a discerning buyer, EuVande exceeded my expectations. From the extensive choices to the seamless process, I found my ideal car effortlessly. Kudos to EuVande for making car buying in Europe an absolute pleasure!",
       img: testimonial2.src,
     },
     {
       name: " Luca P",
       testimonial:
-        "EUVande's website made my car search a breeze. The transparent transactions and helpful customer service made the whole process smooth. Proud owner of a fantastic car, thanks to EUVande!",
+        "EuVande's website made my car search a breeze. The transparent transactions and helpful customer service made the whole process smooth. Proud owner of a fantastic car, thanks to EuVande!",
       img: testimonial3.src,
     },
     {
       name: "Henrik K.",
       testimonial:
-        "EUVande stands out in the crowded online car market. Their user-friendly interface, honest pricing, and dedicated support made my car purchase easy and enjoyable. Highly recommended!",
+        "EuVande stands out in the crowded online car market. Their user-friendly interface, honest pricing, and dedicated support made my car purchase easy and enjoyable. Highly recommended!",
       img: testimonial4.src,
     },
     {
       name: "Emma S.",
       testimonial:
-        "Thumbs up to EUVande for redefining car buying! The comprehensive listings and responsive team made me confident in my choice. I'm now cruising in my dream car, thanks to EUVande's top-notch service.",
+        "Thumbs up to EuVande for redefining car buying! The comprehensive listings and responsive team made me confident in my choice. I'm now cruising in my dream car, thanks to EuVande's top-notch service.",
       img: testimonial5.src,
     },
     {
       name: "Andrei B.",
       testimonial:
-        " EUVande made my car buying journey a delight. The extensive inventory, clear details, and smooth transactions set them apart. I'm a satisfied customer who found the perfect car hassle-free!",
+        " EuVande made my car buying journey a delight. The extensive inventory, clear details, and smooth transactions set them apart. I'm a satisfied customer who found the perfect car hassle-free!",
       img: testimonial6.src,
     },
   ],
   faqs: [
     {
-      question: "Q. What makes EUVande unique in the online car buying market?",
+      question: "Q. What makes EuVande unique in the online car buying market?",
       answer:
-        "EUVande stands out for its extensive and diverse inventory, user-friendly interface, and commitment to transparency. We provide a seamless and enjoyable car-buying experience, setting a new standard in the industry.",
+        "EuVande stands out for its extensive and diverse inventory, user-friendly interface, and commitment to transparency. We provide a seamless and enjoyable car-buying experience, setting a new standard in the industry.",
     },
     {
       question:
-        "Q. How can I be sure of the transparency in pricing and fees on EUVande?",
+        "Q. How can I be sure of the transparency in pricing and fees on EuVande?",
       answer:
-        "At EUVande, we prioritize transparency. The listed prices on our website are clear and inclusive of all fees, ensuring that you know the total cost upfront. No hidden charges, no surprises – just straightforward pricing.",
+        "At EuVande, we prioritize transparency. The listed prices on our website are clear and inclusive of all fees, ensuring that you know the total cost upfront. No hidden charges, no surprises – just straightforward pricing.",
     },
     {
-      question: "Q. What types of vehicles are available on EUVande?",
+      question: "Q. What types of vehicles are available on EuVande?",
       answer:
-        "Our inventory caters to a wide range of preferences and budgets. From compact cars to SUVs and luxury vehicles, EUVande offers a diverse selection. Our goal is to provide options that suit every customer's unique needs and preferences.",
+        "Our inventory caters to a wide range of preferences and budgets. From compact cars to SUVs and luxury vehicles, EuVande offers a diverse selection. Our goal is to provide options that suit every customer's unique needs and preferences.",
     },
     {
-      question: "Q. How does the online transaction process work on EUVande?",
+      question: "Q. How does the online transaction process work on EuVande?",
       answer:
         "Our online transaction process is designed for simplicity and efficiency. Once you've found your ideal car, follow the user-friendly steps to complete the purchase. Our secure platform ensures a safe and smooth transaction, making your car-buying journey hassle-free.",
     },

@@ -71,3 +71,14 @@ export const getCars = ({ loading, setCarData }) => {
       console.log(err);
     });
 };
+
+export const getCarDetailsById = async ({ carId, setLoading, setCarData }) => {
+  listingController
+    .getCarDetailsByCarId(carId)
+    .then((res) => {
+      setCarData(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

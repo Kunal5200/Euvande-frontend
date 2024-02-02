@@ -36,7 +36,6 @@ const CarDetails = () => {
     fetchData();
   }, [router]);
 
-  console.log(carData);
   return (
     <Container>
       <Grid container>

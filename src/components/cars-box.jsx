@@ -27,7 +27,6 @@ import dummyCar from "@/icons/cars.jpg";
 import { OPTION_TYPE } from "@/utils/enum";
 import { useRouter } from "next/router";
 const BoxCar = ({ data }) => {
-  console.log(data);
   const [favourites, setFavourites] = useState(
     new Array(data.length).fill(false)
   );
@@ -39,7 +38,7 @@ const BoxCar = ({ data }) => {
   };
   const router = useRouter();
   const carDetails = (carId) => {
-    router.push(`/cars/${carId}/car-details`);
+    router.push(`/vehicles/${carId}/car-details`);
   };
   return (
     <Box>
@@ -205,8 +204,10 @@ const BoxCar = ({ data }) => {
                 mt={2}
               >
                 <Box>
-                  <Typography  fontSize={20} fontWeight={550}>
-                    {val && val.price != null ? `${val.price}€` : "Not Disclosed"}
+                  <Typography fontSize={20} fontWeight={550}>
+                    {val && val.price != null
+                      ? `${val.price}€`
+                      : "Not Disclosed"}
                   </Typography>
                   <Typography fontSize={12}>
                     {val &&

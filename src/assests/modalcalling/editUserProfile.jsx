@@ -66,6 +66,9 @@ const EditUserProfile = ({ value, setUser }) => {
   const submitHandler = (e) => {
     setLoading(false);
     e.preventDefault();
+    if (!isPhonenumber(state.phoneNo) || !isEmail(state.email)) {
+      return;
+    }
     let body = {
       name: state.name,
       email: state.email,

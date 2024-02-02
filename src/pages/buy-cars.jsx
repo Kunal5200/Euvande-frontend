@@ -31,7 +31,7 @@ const BuyCars = () => {
     <Container maxWidth="1400px">
       <Box>
         <Grid container spacing={6}>
-          <Grid item lg={3}    >
+          <Grid item lg={3} sx={{mt:5}}   >
             <Card >
               <Box
                 sx={{

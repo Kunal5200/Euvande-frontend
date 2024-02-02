@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Loading from "react-loading";
 import { login, loginUser } from "@/api/apiCalling/authenticationApi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import logo from "@/logo/EUVandeLogoBlack.svg";
+import logo from "@/logo/EuVandeLogoBlack.svg";
 import { useDispatch } from "react-redux";
 import styles from "@/styles/Login.module.css";
 import { showModal } from "@/redux/reducers/modal";
@@ -85,7 +85,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     <div>
       {!otpShow ? (
         <form className={`text-center  pb-3 `} onSubmit={loginsubmitHandler}>
-          {/* <h4 className="p-2">🚗 Euvande Login </h4>
+          {/* <h4 className="p-2">🚗 EuVande Login </h4>
           <Divider style={{ backgroundColor: "#000" }} />
           <p className="f-12 p-2">
             ⭐ Rev up your car journey! Unlock a world of effortless buying and
@@ -156,7 +156,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
         </form>
       ) : (
         <div className="p-3">
-          <h5 className="text-center">Euvande Login</h5>
+          <h5 className="text-center">EuVande Login</h5>
           <p className="f-12 text-center">
             Welcome back! To ensure the security of your account, we need to
             verify your identity. Please enter the One-Time Password (OTP) sent

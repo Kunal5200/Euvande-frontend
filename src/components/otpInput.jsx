@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { userVerify } from "@/api/apiCalling/authenticationApi";
 import Loading from "react-loading";
-import logo from "@/logo/EUVandeLogoBlack.svg";
+import logo from "@/logo/EuVandeLogoBlack.svg";
 import { Box } from "@mui/material";
 import Image from "next/image";
 import { useDispatch } from "react-redux";

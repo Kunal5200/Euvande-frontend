@@ -36,7 +36,7 @@ const Subheader = () => {
             </div>
             <div className="d-flex align-items-center">
               <EmailIcon className="me-2" />
-              <span>Euvande@euvande.com</span>
+              <span>EuVande@EuVande.com</span>
             </div>
           </div>
           <div className="d-flex align-items-center">

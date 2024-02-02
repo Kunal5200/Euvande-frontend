@@ -194,7 +194,7 @@ const CarInfoCard = ({
                 {approvalLoading ? (
                   <Loading type="bars" color="red" width={20} height={20} />
                 ) : carData && carData.status === CarStatus.Pending ? (
-                  "Waiting for Euvande Approval"
+                  "Waiting for EuVande Approval"
                 ) : (
                   " Put car up for the Approval"
                 )}

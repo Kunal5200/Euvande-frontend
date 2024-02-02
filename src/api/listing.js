@@ -63,4 +63,14 @@ export const listingController = {
       throw error;
     }
   },
+  getCarDetailsByCarId: async (carId) => {
+    try {
+      let result = await publicAPI.publicAPI.get(
+        `/vehicle/api/newCars/getCarDetailById/${carId}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

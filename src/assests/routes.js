@@ -5,14 +5,14 @@ export const HeaderLinks = [
   },
   {
     title: "About",
-    url: "/about",
+    url: "/about-us",
   },
   {
     title: "Auction",
-    url: "/auction",
+    url: "/online-auction",
   },
   {
     title: "Vehicles",
-    url: "/vehicle-listing",
+    url: "/buy-cars",
   },
 ];
