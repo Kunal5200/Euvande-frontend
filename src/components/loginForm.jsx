@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Loading from "react-loading";
 import { login, loginUser } from "@/api/apiCalling/authenticationApi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import logo from "@/logo/EuVandeLogoBlack.svg";
+import logo from "@/logo/EUVandeLogoBlack.svg";
 import { useDispatch } from "react-redux";
 import styles from "@/styles/Login.module.css";
 import { showModal } from "@/redux/reducers/modal";

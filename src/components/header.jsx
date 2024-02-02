@@ -1,6 +1,6 @@
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
 import { HeaderLinks } from "@/assests/routes";
-import logoBlack from "@/logo/EuVandeLogoBlack.svg";
+import logoBlack from "@/logo/EUVandeLogoBlack.svg";
 import logo from "@/logo/EuVandeLogoWhite.svg";
 import { removeDetails } from "@/redux/reducers/userdetails";
 import styles from "@/styles/Header.module.css";
