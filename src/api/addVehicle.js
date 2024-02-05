@@ -1,10 +1,10 @@
 import securedAPI from "./config";
-
+import vehicleSecuredAPI from "./config";
 export const vehicleController = {
   getMake: async () => {
     try {
-      let result = await securedAPI.securedAPI.get(
-        "vehicle/api/make/getAllMake"
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
+        "/api/make/getAllMake"
       );
       return result;
     } catch (error) {
@@ -13,8 +13,8 @@ export const vehicleController = {
   },
   getPeriodByMake: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.post(
-        "/vehicle/api/period/getPeriodByMake",
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
+        "/api/period/getPeriodByMake",
         data
       );
       return result;
@@ -24,7 +24,7 @@ export const vehicleController = {
   },
   getModels: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.post(
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
         "vehicle/api/model/getModel",
         data
       );
@@ -35,8 +35,8 @@ export const vehicleController = {
   },
   getVariants: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.post(
-        "/vehicle/api/variant/getVariantByModel",
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
+        "/api/variant/getVariantByModel",
         data
       );
       return result;
@@ -47,8 +47,8 @@ export const vehicleController = {
 
   getSpecifications: async () => {
     try {
-      let result = await securedAPI.securedAPI.get(
-        "/vehicle/api/carSpecification/getDefaultSpecification"
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
+        "/api/carSpecification/getDefaultSpecification"
       );
       return result;
     } catch (error) {
@@ -57,8 +57,8 @@ export const vehicleController = {
   },
   addVehicle: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.post(
-        "vehicle/api/cars/addCar",
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
+        "/api/cars/addCar",
         data
       );
       return result;
@@ -68,8 +68,8 @@ export const vehicleController = {
   },
   getCarInfo: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.get(
-        `/vehicle/api/cars/getCarById/${data}`
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
+        `/api/cars/getCarById/${data}`
       );
       return result;
     } catch (error) {
@@ -79,7 +79,7 @@ export const vehicleController = {
   addSpecifications: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "/vehicle/api/cars/addSpecification",
+        "/api/cars/addSpecification",
         data
       );
       return result;
@@ -90,7 +90,7 @@ export const vehicleController = {
   uploadPhotos: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "/vehicle/api/cars/addMedia",
+        "/api/cars/addMedia",
         data,
         {
           headers: {
@@ -106,7 +106,7 @@ export const vehicleController = {
   getVehicleDetails: async (data) => {
     try {
       let result = await securedAPI.securedAPI.get(
-        `/vehicle/api/cars/getCarDetailById/${data}`
+        `/api/cars/getCarDetailById/${data}`
       );
       return result;
     } catch (error) {
@@ -116,7 +116,7 @@ export const vehicleController = {
   sendForApprovals: async (data) => {
     try {
       let result = await securedAPI.securedAPI.get(
-        `/vehicle/api/cars/sendForApproval/${data}`
+        `/api/cars/sendForApproval/${data}`
       );
       return result;
     } catch (error) {

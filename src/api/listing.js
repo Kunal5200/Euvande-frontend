@@ -1,11 +1,11 @@
 import SecuredAPI from "./config";
 import publicAPI from "./config";
+import vehicleSecuredAPI from "./config";
+import vehiclePublicAPI from "./config";
 export const listingController = {
   getuserAddress: async () => {
     try {
-      let result = await SecuredAPI.securedAPI.get(
-        "authentication/api/address/getAddresses"
-      );
+      let result = await SecuredAPI.securedAPI.get("/api/address/getAddresses");
       return result;
     } catch (error) {
       throw error;
@@ -13,8 +13,8 @@ export const listingController = {
   },
   getSellerPendingCars: async () => {
     try {
-      let result = await SecuredAPI.securedAPI.get(
-        "/vehicle/api/cars/getPendingCars"
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
+        "/api/cars/getPendingCars"
       );
       return result;
     } catch (error) {
@@ -23,8 +23,8 @@ export const listingController = {
   },
   getPublicMake: async () => {
     try {
-      let result = await publicAPI.publicAPI.get(
-        "/vehicle/api/make/public/getAllMake"
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        "/api/make/public/getAllMake"
       );
       return result;
     } catch (error) {
@@ -33,8 +33,8 @@ export const listingController = {
   },
   getPublicPeriod: async (data) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "/vehicle/api/period/public/getPeriodByMake",
+      let result = await vehiclePublicAPI.vehcilePublicAPI.post(
+        "/api/period/public/getPeriodByMake",
         data
       );
       return result;
@@ -44,8 +44,8 @@ export const listingController = {
   },
   getPublicModel: async (data) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "/vehicle/api/model/public/getModelByYear",
+      let result = await vehiclePublicAPI.vehcilePublicAPI.post(
+        "/api/model/public/getModelByYear",
         data
       );
       return result;
@@ -55,8 +55,8 @@ export const listingController = {
   },
   getCars: async () => {
     try {
-      let result = await SecuredAPI.securedAPI.post(
-        "/vehicle/api/newCars/getCarList?page=1&&pageSize=50"
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
+        "/api/newCars/getCarList?page=1&&pageSize=50"
       );
       return result;
     } catch (error) {
@@ -65,8 +65,8 @@ export const listingController = {
   },
   getCarDetailsByCarId: async (carId) => {
     try {
-      let result = await publicAPI.publicAPI.get(
-        `/vehicle/api/newCars/getCarDetailById/${carId}`
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        `/api/newCars/getCarDetailById/${carId}`
       );
       return result;
     } catch (error) {

@@ -83,11 +83,11 @@ export const getCarDetails = ({ carId, setCarData, setLoading }) => {
     })
     .catch((error) => {
       console.log(error);
-      setLoading(true);
+      setLoading && setLoading(true);
     });
 };
 
-export const sendForApprovalCar = ({ carId, setLoading,  }) => {
+export const sendForApprovalCar = ({ carId, setLoading }) => {
   vehicleController
     .sendForApprovals(carId)
     .then((res) => {

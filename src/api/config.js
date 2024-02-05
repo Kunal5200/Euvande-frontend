@@ -4,15 +4,8 @@ const { serverconstants } = require("./serverconstant");
 const securedAPI = axios.create({
   baseURL: serverconstants.authenticationServerURL,
 });
-
-const ngRokSecuredAPI = axios.create({
-  baseURL: serverconstants.ngRokURL,
-});
-
-ngRokSecuredAPI.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
-  config.headers.accessToken = `${token}`;
-  return config;
+const vehicleSecuredAPI = axios.create({
+  baseURL: serverconstants.vehicleServerURL,
 });
 
 securedAPI.interceptors.request.use((config) => {
@@ -20,13 +13,17 @@ securedAPI.interceptors.request.use((config) => {
   config.headers.accessToken = `${token}`;
   return config;
 });
-
-const ngROKpublicAPI = axios.create({
-  baseURL: serverconstants.ngRokURL,
+vehicleSecuredAPI.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  config.headers.accessToken = `${token}`;
+  return config;
 });
 
 const publicAPI = axios.create({
   baseURL: serverconstants.authenticationServerURL,
 });
+const vehcilePublicAPI = axios.create({
+  baseURL: serverconstants.vehicleServerURL,
+});
 
-export default { securedAPI, publicAPI, ngRokSecuredAPI, ngROKpublicAPI };
+export default { securedAPI, publicAPI, vehicleSecuredAPI, vehcilePublicAPI };
