@@ -1,6 +1,5 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React, { useState } from "react";
-import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
 const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
@@ -18,27 +17,26 @@ const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
           <Button
             key={i}
             onClick={() => handleChangeDoors(val)}
-            className={
-              val.label === state.doors
-                ? styles.selected_btn
-                : styles.unselected_btn
-            }
+            sx={{
+              color: state.doors === val ? "#fff" : "#000",
+              backgroundColor: state.doors === val ? "#000" : "#fff",
+              border: "1px solid #000",
+              "&:hover": {
+                color: state.doors === val ? "#000" : "#ffffff",
+                backgroundColor: state.doors === val ? "#fff" : "#000",
+                border: "1px solid #000",
+              },
+              textTransform: "capitalize",
+              width: 100,
+            }}
             type="button"
-            width={70}
           >
             {val}
           </Button>
         ))}
       </Stack>
-      <Button
-        className="custom_btn_white mt-2"
-        onClick={() => setActiveStep(activeStep - 1)}
-        type="button"
-        backgroundColor="#000"
-        color="#fff"
-        width="100px"
-      >
-        Back
+      <Button onClick={() => setActiveStep(activeStep - 1)} sx={{ mt: 2 }}>
+        <FaAngleLeft /> Back
       </Button>
     </div>
   );

@@ -1,6 +1,6 @@
 import styles from "@/styles/specifications.module.css";
-import { Stack } from "@mui/material";
-import Button from "../button";
+import { Button, Stack } from "@mui/material";
+import { FaAngleLeft } from "react-icons/fa";
 const DriveType = ({ setActiveStep, activeStep, setState, state, data }) => {
   const handleChangeDriveType = (driveType) => {
     setActiveStep(activeStep + 1);
@@ -12,28 +12,27 @@ const DriveType = ({ setActiveStep, activeStep, setState, state, data }) => {
         {data.map((val, i) => (
           <Button
             key={i}
-            className={
-              state.driveType4WD === val
-                ? styles.selected_btn
-                : styles.unselected_btn
-            }
+            sx={{
+              color: state.driveType4WD === val ? "#fff" : "#000",
+              backgroundColor: state.driveType4WD === val ? "#000" : "#fff",
+              border: "1px solid #000",
+              "&:hover": {
+                color: state.driveType4WD === val ? "#000" : "#ffffff",
+                backgroundColor: state.driveType4WD === val ? "#fff" : "#000",
+                border: "1px solid #000",
+              },
+              textTransform: "capitalize",
+              width: 100,
+            }}
             onClick={() => handleChangeDriveType(val)}
-            width={100}
             type="button"
           >
             {val}
           </Button>
         ))}
       </Stack>
-      <Button
-        className="custom_btn_white mt-2"
-        onClick={() => setActiveStep(activeStep - 1)}
-        type="button"
-        backgroundColor="#000"
-        color="#fff"
-        width="100px"
-      >
-        Back
+      <Button sx={{ mt: 2 }} onClick={() => setActiveStep(activeStep - 1)}>
+        <FaAngleLeft /> Back
       </Button>
     </div>
   );

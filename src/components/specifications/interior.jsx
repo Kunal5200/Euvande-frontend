@@ -1,6 +1,5 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
-import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
 const Interior = ({ setState, state, setActiveStep, activeStep, data }) => {
@@ -16,25 +15,25 @@ const Interior = ({ setState, state, setActiveStep, activeStep, data }) => {
             key={i}
             onClick={() => handelChangeInterior(val)}
             type="button"
-            className={
-              state.interiorMaterial === val
-                ? styles.selected_btn
-                : styles.unselected_btn
-            }
-            textTransform="capitalize"
+            sx={{
+              color: state.interiorMaterial === val ? "#fff" : "#000",
+              backgroundColor: state.interiorMaterial === val ? "#000" : "#fff",
+              border: "1px solid #000",
+              "&:hover": {
+                color: state.interiorMaterial === val ? "#000" : "#ffffff",
+                backgroundColor:
+                  state.interiorMaterial === val ? "#fff" : "#000",
+                border: "1px solid #000",
+              },
+              textTransform: "capitalize",
+              width: 100,
+            }}
           >
             {val}
           </Button>
         ))}
       </Stack>
-      <Button
-        className="custom_btn_white mt-2"
-        onClick={() => setActiveStep(activeStep - 1)}
-        type="button"
-        backgroundColor="#000"
-        color="#fff"
-        width="100px"
-      >
+      <Button onClick={() => setActiveStep(activeStep - 1)} sx={{ mt: 2 }}>
         Back
       </Button>
     </div>

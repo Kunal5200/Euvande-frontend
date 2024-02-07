@@ -64,6 +64,9 @@ const PendingCar = ({ data, loading, handleRoute }) => {
       onClick: handleDeleteModalOpen,
     },
   ];
+  if (data.length === 0) {
+    return <Typography p={3} textAlign={"center"}>There is no Pending Cars</Typography>;
+  }
   return (
     <Box>
       {data.map((val, i) => (

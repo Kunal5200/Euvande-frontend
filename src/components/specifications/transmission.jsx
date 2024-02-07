@@ -1,6 +1,5 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React, { useState } from "react";
-import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import Loading from "react-loading";
 const Transmission = ({
@@ -26,11 +25,16 @@ const Transmission = ({
           {data.map((val, i) => (
             <Button
               key={i}
-              className={
-                state.transmission === val
-                  ? styles.selected_btn
-                  : styles.unselected_btn
-              }
+              sx={{
+                color: state.transmission === val ? "#fff" : "#000",
+                backgroundColor: state.transmission === val ? "#000" : "#fff",
+                border: "1px solid #000",
+                "&:hover": {
+                  color: state.transmission === val ? "#000" : "#ffffff",
+                  backgroundColor: state.transmission === val ? "#fff" : "#000",
+                  border: "1px solid #000",
+                },
+              }}
               type="button"
               onClick={() => onTransmissionSelect(val)}
             >

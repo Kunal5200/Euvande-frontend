@@ -1,12 +1,11 @@
-import { Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import React, { useState } from "react";
-import Button from "../button";
+// import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
 const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
-  const [vehicleType, setVehicleType] = useState("");
+  console.log(state)
   const handleVehicleType = (vehicleType) => {
-    setVehicleType(vehicleType);
     setActiveStep(activeStep + 1);
     setState({ ...state, vehicleType: vehicleType });
   };
@@ -14,17 +13,21 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
     <div>
       <Grid container spacing={1}>
         {data.map((val, i) => (
-          <Grid item xs={3} key={i}>
+          <Grid item lg={3} key={i}>
             <Button
-              className={
-                state.vehicleType === val
-                  ? styles.selected_btn
-                  : styles.unselected_btn
-              }
-              width={150}
+              sx={{
+                color: state.vehicleType === val ? "#fff" : "#000",
+                backgroundColor: state.vehicleType === val ? "#000" : "#fff",
+                border: "1px solid #000",
+                "&:hover": {
+                  color: state.vehicleType === val ? "#000" : "#ffffff",
+                  backgroundColor: state.vehicleType === val ? "#fff" : "#000",
+                  border: "1px solid #000",
+                },
+                textTransform: "capitalize",
+                width: 150,
+              }}
               onClick={() => handleVehicleType(val)}
-              type="button"
-              textTransform="capitalize"
             >
               {val}
             </Button>
@@ -32,6 +35,13 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
         ))}
       </Grid>
       <Button
+        sx={{ mt: 2, width: 150 }}
+        onClick={() => setActiveStep(activeStep - 1)}
+      >
+        {" "}
+        <FaAngleLeft /> Back
+      </Button>
+      {/* <Button
         className="custom_btn_white mt-2"
         onClick={() => setActiveStep(activeStep - 1)}
         type="button"
@@ -40,7 +50,7 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
         width="100px"
       >
         Back
-      </Button>
+      </Button> */}
     </div>
   );
 };

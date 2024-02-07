@@ -25,7 +25,7 @@ export const vehicleController = {
   getModels: async (data) => {
     try {
       let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
-        "vehicle/api/model/getModel",
+        "/api/model/getModel",
         data
       );
       return result;
@@ -78,7 +78,7 @@ export const vehicleController = {
   },
   addSpecifications: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.post(
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
         "/api/cars/addSpecification",
         data
       );
@@ -89,7 +89,7 @@ export const vehicleController = {
   },
   uploadPhotos: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.post(
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
         "/api/cars/addMedia",
         data,
         {
@@ -105,7 +105,7 @@ export const vehicleController = {
   },
   getVehicleDetails: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.get(
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
         `/api/cars/getCarDetailById/${data}`
       );
       return result;
@@ -115,7 +115,7 @@ export const vehicleController = {
   },
   sendForApprovals: async (data) => {
     try {
-      let result = await securedAPI.securedAPI.get(
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
         `/api/cars/sendForApproval/${data}`
       );
       return result;

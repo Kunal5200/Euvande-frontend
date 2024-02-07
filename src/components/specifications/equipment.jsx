@@ -1,6 +1,7 @@
 import { Delete, Done } from "@mui/icons-material";
 import { Box, Button, Chip, Grid } from "@mui/material";
 import React, { useState } from "react";
+import { FaAngleLeft } from "react-icons/fa";
 
 const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
   const [equipment, setEquipment] = useState([]);
@@ -46,11 +47,10 @@ const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
         ))}
       </Grid>
       <Button
-        variant="contained"
-        color="primary"
         sx={{ marginLeft: 2, marginTop: 3 }}
+        onClick={() => setActiveStep(activeStep - 1)}
       >
-        back
+        <FaAngleLeft /> back
       </Button>
     </Box>
   );

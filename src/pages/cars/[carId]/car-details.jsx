@@ -1,20 +1,24 @@
 import { getCarDetails } from "@/api/apiCalling/vehicle";
-import { Done } from "@mui/icons-material";
+import dummyCars from "@/icons/cars.jpg";
+import { OPTION_TYPE } from "@/utils/enum";
+import { Done, LocationOn } from "@mui/icons-material";
 import {
   Avatar,
   Box,
+  Card,
   Chip,
   Container,
   Grid,
   Skeleton,
   Stack,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { BsCalendar, BsFuelPump } from "react-icons/bs";
+import { GiGearStickPattern, GiRoad } from "react-icons/gi";
+import { PiEngine } from "react-icons/pi";
 import { Carousel } from "react-responsive-carousel";
-import dummyCars from "@/icons/cars.jpg";
 const CarDetails = () => {
   const router = useRouter();
   const [carData, setCarData] = useState(null);
@@ -35,6 +39,39 @@ const CarDetails = () => {
 
     fetchData();
   }, [router]);
+
+  console.log(carData);
+
+  const specificationArray = [
+    {
+      icon: <GiRoad />,
+      label: "Mileage",
+      value: carData && carData.odometer,
+    },
+    {
+      icon: <BsCalendar />,
+      label: "First Registration",
+      value: carData && carData.period && carData.period.year,
+    },
+    {
+      icon: <GiGearStickPattern />,
+      label: "Transmission",
+      value:
+        carData && carData.specification && carData.specification.transmission,
+    },
+    {
+      icon: <PiEngine />,
+      label: "Power",
+      value: `${
+        carData && carData.specification && carData.specification.power
+      } kw`,
+    },
+    {
+      icon: <BsFuelPump />,
+      label: "Fuel",
+      value: carData && carData.variant && carData.variant.fuelType,
+    },
+  ];
 
   return (
     <Container>
@@ -58,26 +95,6 @@ const CarDetails = () => {
           {loading ? (
             <Skeleton variant="text" />
           ) : (
-            // <Grid container spacing={1}>
-            //   {carData &&
-            //     carData.specification &&
-            //     carData.specification.equipments.map((val, i) => (
-            //       <Grid item lg={2}>
-            //         <Tooltip title={val}>
-            //           <Chip
-            //             avatar={
-            //               <Avatar sx={{ p: 1, backgroundColor: "#ffffff" }}>
-            //                 <Done sx={{ fontSize: 12, fill: "#800080" }} />
-            //               </Avatar>
-            //             }
-            //             label={val}
-            //             key={i}
-            //             sx={{ backgroundColor: "#800080", color: "#ffffff" }}
-            //           />
-            //         </Tooltip>
-            //       </Grid>
-            //     ))}
-            // </Grid>
             <Box display={"flex"} flexWrap={"wrap"}>
               {carData &&
                 carData.specification &&
@@ -92,10 +109,11 @@ const CarDetails = () => {
                     key={i}
                     sx={{
                       backgroundColor: "#800080",
-                      color: "#ffffff",
+                      color: "#fff",
                       mx: 1,
                       my: 0.3,
                       textTransform: "capitalize",
+                      borderRadius: 0,
                     }}
                   />
                 ))}
@@ -104,10 +122,10 @@ const CarDetails = () => {
           {loading ? (
             <Skeleton variant="rectangular" width={400} height={400} />
           ) : (
-            <Carousel>
+            <Carousel showIndicators={false} showThumbs={false}>
               {carData && carData.carImages ? (
                 carData.carImages.map((val, i) => (
-                  <img src={val} width={"100%"} height={"100%"} key={i} />
+                  <img src={val} width={"100%"} key={i} height={550} />
                 ))
               ) : (
                 <img src={dummyCars.src} />
@@ -115,7 +133,57 @@ const CarDetails = () => {
             </Carousel>
           )}
         </Grid>
-        <Grid item lg={5}></Grid>
+        <Grid item lg={5} p={2}>
+          <Box textAlign={"center"}>
+            <Typography fontSize={30} fontWeight={600}>
+              {carData && carData.price} €
+            </Typography>
+            <Typography fontSize={12}>
+              {carData &&
+              carData.specification &&
+              carData.specification.vatDeduction === OPTION_TYPE.No
+                ? "Without VAT Deduction"
+                : "With VAT Deduction"}
+            </Typography>
+          </Box>
+          <Card sx={{ mt: 5, mb: 2, borderRadius: 4 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                p: 2,
+              }}
+            >
+              <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                <LocationOn />
+                <Typography>Location</Typography>
+              </Stack>
+              <Typography>
+                {carData && carData.location && carData.location.city}
+              </Typography>
+            </Box>
+          </Card>
+          <Card sx={{ p: 2 }}>
+            {specificationArray.map((val, i) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mb: 1,
+                }}
+                key={i}
+              >
+                <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                  {val.icon}
+                  <Typography>{val.label}</Typography>
+                </Stack>
+                <Typography>{val.value}</Typography>
+              </Box>
+            ))}
+          </Card>
+        </Grid>
       </Grid>
     </Container>
   );

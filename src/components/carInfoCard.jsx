@@ -19,6 +19,7 @@ import { sendForApprovalCar } from "@/api/apiCalling/vehicle";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
+import { useRouter } from "next/router";
 
 const CarInfoCard = ({
   carData,
@@ -27,6 +28,7 @@ const CarInfoCard = ({
   onSubmit,
   priceLoading,
 }) => {
+  const router = useRouter();
   const carSpecifications = [
     {
       icon: <GiRoad />,
@@ -75,6 +77,7 @@ const CarInfoCard = ({
       sendForApprovalCar({
         carId: carData.id,
         setLoading: setApprovalLoading,
+        router,
       });
     } else {
       toast.error("Please Enter Price First");

@@ -138,6 +138,7 @@ const SellerLogin = () => {
                   spacing={1}
                   direction={{ xs: "column", sm: "row" }}
                   alignItems={"center"}
+                  justifyContent={"space-between"}
                 >
                   {make.slice(0, 7).map((val, i) => (
                     <Brands

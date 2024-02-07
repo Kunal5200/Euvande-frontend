@@ -47,9 +47,7 @@ const Ownership = () => {
                 {data.carOwnerShip.map((val, i) => (
                   <Card
                     key={i}
-                    className={`p-2 pointer ${
-                      val.ownership === ownership ? styles.year_Selector : ""
-                    }`}
+                    className={`p-2 pointer `}
                     onClick={() => handleClick(val.ownership)}
                     sx={{
                       "&:hover": {

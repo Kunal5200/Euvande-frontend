@@ -24,6 +24,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { AutoPlay, Autoplay } from "swiper/modules";
 import { ExpandMore } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import Carousel from "react-multi-carousel";
+import { responsive } from "@/utils/styles";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -201,14 +203,14 @@ export default function Home() {
               </Typography>
             </Grid>
             <Grid item lg={9}>
-              <Swiper
+              {/* <Swiper
                 breakpoints={{
                   640: {
                     slidesPerView: 2,
                     spaceBetween: 20,
                   },
                   768: {
-                    slidesPerView: 4,
+                    slidesPerView: 2,
                     spaceBetween: 40,
                   },
                   1024: {
@@ -234,7 +236,17 @@ export default function Home() {
                     />
                   </SwiperSlide>
                 ))}
-              </Swiper>
+              </Swiper> */}
+              <Carousel responsive={responsive}>
+                {data.testimonials.map((val, i) => (
+                  <TestimonialCard
+                    testimonial={val.testimonial}
+                    name={val.name}
+                    img={val.img}
+                    key={i}
+                  />
+                ))}
+              </Carousel>
             </Grid>
           </Grid>
         </Container>

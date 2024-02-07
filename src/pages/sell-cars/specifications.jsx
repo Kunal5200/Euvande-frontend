@@ -109,14 +109,14 @@ const Specifications = () => {
                   className="custom_btn"
                   type="submit"
                   onClick={submitHandler}
-                  width={120}
+                  width={150}
                 >
                   {loading ? (
                     <Loading
                       type="bars"
-                      width={20}
-                      height={20}
-                      color="blue"
+                      width={10}
+                      height={10}
+                      color="red"
                       className="m-auto"
                     />
                   ) : (
