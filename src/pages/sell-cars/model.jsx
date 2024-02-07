@@ -119,7 +119,7 @@ const Model = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>hello</Card>
+            <Card>Bar Show</Card>
           </div>
         </div>
       </div>

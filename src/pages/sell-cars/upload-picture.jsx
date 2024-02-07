@@ -50,7 +50,6 @@ const UploadPicture = () => {
     frontLeftTyre: null,
     backLeftTyre: null,
     backRightTyre: null,
-    carId: carInfo && carInfo.id ? carInfo.id : carId,
   });
 
   const router = useRouter();
@@ -93,7 +92,32 @@ const UploadPicture = () => {
       state.rearSeat != null ||
       state.rearView != null
     ) {
-      addImageUpload({ data: state, router, setLoading });
+      let data = {
+        frontView: state.frontView,
+        frontLeft: state.frontLeft,
+        frontRight: state.frontRight,
+        rearView: state.rearView,
+        rearLeft: state.rearLeft,
+        headlamp: state.headlamp,
+        engine: state.engine,
+        driverDoor: state.driverDoor,
+        driverSeat: state.driverSeat,
+        passengerSeat: state.passengerSeat,
+        instrumentPanel: state.instrumentPanel,
+        dashboard: state.dashboard,
+        rearPanelOfCenterConsole: state.rearPanelOfCenterConsole,
+        rearSeat: state.rearSeat,
+        Headlining: state.Headlining,
+        frontLeftWheel: state.frontLeftWheel,
+        backLeftWheel: state.backLeftWheel,
+        backRightWheel: state.backRightWheel,
+        frontRightWheel: state.backRightWheel,
+        frontLeftTyre: state.frontLeftTyre,
+        backLeftTyre: state.backLeftTyre,
+        backRightTyre: state.backRightTyre,
+        carId: carInfo.id,
+      };
+      addImageUpload({ data: data, router, setLoading });
     } else {
       toast.error("Please select Pictures");
       setLoading(false);

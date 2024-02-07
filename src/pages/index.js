@@ -59,7 +59,7 @@ export default function Home() {
             variant="h4"
             fontWeight={600}
           >
-            How it Works ?
+            How it Works?
           </Typography>
         </Divider>
         <Container>

@@ -84,6 +84,8 @@ const CarInfoCard = ({
       setApprovalLoading(false);
     }
   };
+
+  
   return (
     <Card sx={{ position: "relative", bottom: 120 }}>
       <Grid container>
@@ -136,17 +138,26 @@ const CarInfoCard = ({
           </Box>
 
           {carData && carData.price ? (
-            <Box textAlign={"start"}>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData.price} €
-              </Typography>
-              <Typography fontSize={12}>
-                {carData &&
-                carData.specification &&
-                carData.specification.vatDeduction === OPTION_TYPE.No
-                  ? "Without VAT Deduction"
-                  : "Included With VAT Deduction"}
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box textAlign={"start"}>
+                <Typography fontSize={30} fontWeight={600}>
+                  {carData.price} €
+                </Typography>
+                <Typography fontSize={12}>
+                  {carData &&
+                  carData.specification &&
+                  carData.specification.vatDeduction === OPTION_TYPE.No
+                    ? "Without VAT Deduction"
+                    : "Included With VAT Deduction"}
+                </Typography>
+              </Box>
+              <Button >Edit price</Button>
             </Box>
           ) : (
             <Grid container alignItems={"center"} spacing={1}>

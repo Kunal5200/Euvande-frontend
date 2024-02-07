@@ -191,7 +191,9 @@ const Location = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>Hello</Card>
+            <Card>
+              Bar Show
+            </Card>
           </div>
         </div>
       </div>

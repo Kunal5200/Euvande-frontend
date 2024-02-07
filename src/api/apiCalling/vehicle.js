@@ -87,13 +87,14 @@ export const getCarDetails = ({ carId, setCarData, setLoading }) => {
     });
 };
 
-export const sendForApprovalCar = ({ carId, setLoading,router }) => {
+export const sendForApprovalCar = ({ carId, setLoading, router }) => {
   vehicleController
     .sendForApprovals(carId)
     .then((res) => {
       toast.success(res.data.message);
+      localStorage.removeItem("carId");
       setLoading(false);
-      router.push("/user-profile")
+      router.push("/user-profile");
     })
     .catch((err) => {
       let errMessage =

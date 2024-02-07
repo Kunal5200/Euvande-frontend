@@ -63,7 +63,7 @@ const Ownership = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>hello</Card>
+            <Card sx={{ height: 500 }}>Bar Show</Card>
           </div>
         </div>
       </div>

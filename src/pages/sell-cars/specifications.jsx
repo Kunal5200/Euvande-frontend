@@ -12,6 +12,8 @@ const Specifications = () => {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const carInfo = useSelector((state) => state.CarInfo);
+  console.log(carInfo);
+  const [carId, setCarId] = useState("");
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
@@ -23,7 +25,6 @@ const Specifications = () => {
     power: "",
     color: "",
     equipments: [],
-    carId: carInfo.id,
   });
   const {
     transmission,
@@ -49,6 +50,8 @@ const Specifications = () => {
     };
 
     fetchData();
+    const carID = localStorage.getItem("carId");
+    setCarId(carID);
   }, []);
 
   const [loading, setLoading] = useState(false);
@@ -71,8 +74,21 @@ const Specifications = () => {
       setLoading(false);
       return false;
     } else {
+      let data = {
+        transmission: state.transmission,
+        vehicleType: state.vehicleType,
+        driveType4WD: state.driveType4WD,
+        doors: state.doors,
+        seats: state.seats,
+        interiorMaterial: state.interiorMaterial,
+        vatDeduction: state.vatDeduction,
+        power: state.power,
+        color: state.color,
+        equipments: state.equipments,
+        carId: carInfo.id,
+      };
       addSpecification({
-        data: state,
+        data,
         router,
         path: "/sell-cars/contact-information",
         setLoading,
@@ -131,7 +147,7 @@ const Specifications = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>Hello</Card>
+            <Card sx={{ height: 500 }}></Card>
           </div>
         </div>
       </div>

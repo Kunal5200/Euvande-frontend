@@ -73,28 +73,35 @@ const ContactInformation = () => {
   const submitHandler = (e) => {
     setLoading(true);
     e.preventDefault();
-    let body = {
-      name: state.name,
-      countryName: state.country,
-      zipCode: state.zipCode,
-      phoneNo: state.phoneNumber,
-      countryCode: state.countryCode,
-    };
+
     if (contactValidation({ state, error, setError, setLoading })) {
-      let data = {
-        id: carInfo.id,
-        contactInfo: body,
-      };
-      addCar({
-        body: data,
-        router,
-        dispatch,
-        path: "/sell-cars/upload-picture",
-        setLoading,
-      });
+      if (isPhonenumber(state.phoneNumber)) {
+        let body = {
+          name: state.name,
+          countryName: state.country,
+          zipCode: state.zipCode,
+          phoneNo: state.phoneNumber,
+          countryCode: state.countryCode,
+        };
+        let data = {
+          id: carInfo.id,
+          contactInfo: body,
+        };
+        addCar({
+          
+          body: data,
+          router,
+          dispatch,
+          path: "/sell-cars/upload-picture",
+          setLoading,
+        });
+      } else {
+        toast.error("Please Enter valid Mobile Number");
+        setLoading(false);
+      }
     } else {
-      toast.error("Please Enter Details");
       setLoading(false);
+      return;
     }
   };
 
@@ -188,12 +195,18 @@ const ContactInformation = () => {
                     <TextField
                       label="Phone Number*"
                       fullWidth
+                      type="number"
                       sx={loginTextField}
                       onChange={inputHandler}
                       id="phoneNumber"
                       error={Boolean(error.phoneNumber)}
                       helperText={error.phoneNumber}
                       value={state.phoneNumber}
+                      focused={
+                        state.phoneNumber === "" || state.phoneNumber === null
+                          ? false
+                          : true
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -244,6 +257,7 @@ const ContactInformation = () => {
                     <TextField
                       label="Zip Code*"
                       fullWidth
+                      type="number"
                       id="zipCode"
                       onChange={inputHandler}
                       sx={loginTextField}
@@ -274,7 +288,7 @@ const ContactInformation = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>Hello</Card>
+            <Card>Bar Show</Card>
           </div>
         </div>
       </div>

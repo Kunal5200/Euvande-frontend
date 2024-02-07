@@ -29,7 +29,9 @@ const CarDetails = () => {
 
     fetchData();
   }, []);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(
+    carData && carData.price ? carData.price : ""
+  );
   const handleInput = (e) => {
     setPrice(e.target.value);
   };
@@ -68,6 +70,7 @@ const CarDetails = () => {
             onChange={handleInput}
             onSubmit={addPrice}
             priceLoading={priceLoading}
+            price={price}
           />
         </Grid>
       </Grid>

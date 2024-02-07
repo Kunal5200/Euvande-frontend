@@ -17,13 +17,13 @@ const Make = () => {
   const [brand, setBrand] = useState("");
   const [selected, setSelected] = useState(false);
   const carInfo = useSelector((state) => state.CarInfo);
-
+  const [carId, setCarId] = useState("");
   const brandSelectHandler = (brandName) => {
     setBrand(brandName);
-    let body = carInfo.id
+    let body = carId
       ? {
           makeId: brandName,
-          id: JSON.parse(carInfo.id),
+          id: parseInt(carId),
         }
       : {
           makeId: brandName,
@@ -60,6 +60,8 @@ const Make = () => {
   // console.log(carInfo);
   useEffect(() => {
     getMake();
+    const car = localStorage.getItem("carId");
+    setCarId(car);
   }, []);
   return (
     <>
@@ -113,7 +115,7 @@ const Make = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>Helloo</Card>
+            <Card>Bar Show</Card>
           </div>
         </div>
       </div>

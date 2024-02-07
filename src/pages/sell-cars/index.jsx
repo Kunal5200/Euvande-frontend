@@ -9,6 +9,7 @@ import hands from "@/icons/hands.png";
 import wallet from "@/icons/purse.png";
 import certificate from "@/icons/stamp.png";
 import styles from "@/styles/seller.module.css";
+import { isVIN } from "@/utils/regex";
 import { cardStyles, loginTextField, responsive } from "@/utils/styles";
 import { Card, Divider, Grid, Stack, TextField } from "@mui/material";
 import Head from "next/head";
@@ -28,6 +29,28 @@ const SellerLogin = () => {
       makeId: id,
     };
     addCar({ body, router, path: "/sell-cars/period", dispatch });
+  };
+  const [state, setState] = useState({
+    vin: "",
+  });
+  const [error, setError] = useState({
+    vin: "",
+  });
+
+  const vinHandler = (e) => {
+    setState({ ...state, vin: e.target.value });
+    setError({
+      ...error,
+      vin: isVIN(e.target.value) ? "" : "Please Enter Valid VIN",
+    });
+  };
+
+  const VinSubmitHandler = () => {
+    if (state.vin === "") {
+      setError({ ...error, vin: "Please Enter Vin Number" });
+    } else {
+      router.push("/create-demand ");
+    }
   };
 
   useEffect(() => {
@@ -104,6 +127,9 @@ const SellerLogin = () => {
                     label="Enter Your VIN No."
                     variant="outlined"
                     style={{ width: "300px" }}
+                    onChange={vinHandler}
+                    error={Boolean(error.vin)}
+                    helperText={error.vin}
                   />
                   <p className="f-13">
                     Just here to check price?<span>Check Price</span>
@@ -114,7 +140,7 @@ const SellerLogin = () => {
                   width={200}
                   rounded="5px"
                   height="50px"
-                  onClick={() => router.push("/create-demand")}
+                  onClick={VinSubmitHandler}
                 >
                   <span>
                     Sell My Car <FaArrowRight className="ms-2" />

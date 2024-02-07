@@ -8,13 +8,14 @@ import {
   Card,
   Chip,
   Container,
+  Divider,
   Grid,
   Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsCalendar, BsFuelPump } from "react-icons/bs";
 import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
@@ -72,9 +73,53 @@ const CarDetails = () => {
       value: carData && carData.variant && carData.variant.fuelType,
     },
   ];
+  const details = [
+    {
+      label: "Make",
+      value: carData && carData.make && carData.make.makeName,
+    },
+    {
+      label: "Model",
+      value: carData && carData.model && carData.model.modelName,
+    },
+    {
+      label: "Body Color",
+      value: carData && carData.specification && carData.specification.color,
+    },
+    {
+      label: "Interior Material",
+      value:
+        carData &&
+        carData.specification &&
+        carData.specification.interiorMaterial,
+    },
+    {
+      label: "Body",
+      value:
+        carData && carData.specification && carData.specification.vehicleType,
+    },
+    {
+      label: "Doors",
+      value: carData && carData.specification && carData.specification.doors,
+    },
+    {
+      label: "Seats",
+      value: carData && carData.specification && carData.specification.seats,
+    },
+    {
+      label: "VIN",
+      value: (carData && carData.vin) || "Not Published by the Seller",
+    },
+  ];
+  const engine = [
+    {
+      label: "Fuel",
+      value: carData && carData.variant && carData.variant.fuelType,
+    },
+  ];
 
   return (
-    <Container>
+    <Container maxWidth={1400}>
       <Grid container>
         <Grid item lg={7} p={2}>
           {loading ? (
@@ -122,11 +167,14 @@ const CarDetails = () => {
           {loading ? (
             <Skeleton variant="rectangular" width={400} height={400} />
           ) : (
-            <Carousel showIndicators={false} showThumbs={false}>
+            <Carousel
+              dynamicHeight={true}
+              showIndicators={false}
+              autoPlay={true}
+              infiniteLoop={true}
+            >
               {carData && carData.carImages ? (
-                carData.carImages.map((val, i) => (
-                  <img src={val} width={"100%"} key={i} height={550} />
-                ))
+                carData.carImages.map((val, i) => <img src={val} key={i} />)
               ) : (
                 <img src={dummyCars.src} />
               )}
@@ -146,7 +194,7 @@ const CarDetails = () => {
                 : "With VAT Deduction"}
             </Typography>
           </Box>
-          <Card sx={{ mt: 5, mb: 2, borderRadius: 4 }}>
+          <Card sx={{ mt: 6, mb: 2, borderRadius: 4 }}>
             <Box
               sx={{
                 display: "flex",
@@ -171,20 +219,96 @@ const CarDetails = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  mb: 1,
+                  mb: 2,
                 }}
                 key={i}
               >
                 <Stack direction={"row"} alignItems={"center"} spacing={1}>
                   {val.icon}
-                  <Typography>{val.label}</Typography>
+                  <Typography fontSize={14}>{val.label}</Typography>
                 </Stack>
-                <Typography>{val.value}</Typography>
+                <Typography fontSize={15}>{val.value}</Typography>
               </Box>
             ))}
           </Card>
         </Grid>
       </Grid>
+      <Box
+        sx={{
+          backgroundColor: "#eee",
+          p: 3,
+        }}
+      >
+        <Grid container>
+          <Grid item lg={8}>
+            <Typography fontSize={30} fontWeight={600}>
+              Details
+            </Typography>
+            <Grid container mt={3} columnSpacing={2}>
+              <Grid lg={5}>
+                <Card sx={{ p: 2 }}>
+                  <Typography fontSize={15} fontWeight={550}>
+                    VEHICLE DETAIL
+                  </Typography>
+                  <Box sx={{ mt: 3 }}>
+                    {details.map((val, i) => (
+                      <Box key={i}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            mb: 2,
+                            mt: 1,
+                          }}
+                        >
+                          <Typography>{val.label}</Typography>
+                          <Typography>{val.value}</Typography>
+                        </Box>
+
+                        {i !== details.length - 1 && (
+                          <Divider sx={{ backgroundColor: "#000" }} />
+                        )}
+                      </Box>
+                    ))}
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid lg={2}></Grid>
+              <Grid lg={5}>
+                <Card sx={{ p: 2 }}>
+                  <Typography fontSize={15} fontWeight={550}>
+                    Engine
+                  </Typography>
+                  <Box sx={{ mt: 3 }}>
+                    {engine.map((val, i) => (
+                      <Box key={i}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            mb: 2,
+                            mt: 1,
+                          }}
+                        >
+                          <Typography>{val.label}</Typography>
+                          <Typography>{val.value}</Typography>
+                        </Box>
+
+                        {i !== details.length - 1 && (
+                          <Divider sx={{ backgroundColor: "#000" }} />
+                        )}
+                      </Box>
+                    ))}
+                  </Box>
+                </Card>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item lg={4}></Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 };
