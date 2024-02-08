@@ -285,7 +285,7 @@ export const colorStyles = {
     return {
       ...styles,
       textTransform: "capitalize",
-      backgroundColor: isSelected ? "#800080" : "#ffffff",
+      backgroundColor: isSelected ? "#000" : "#ffffff",
       zIndex: 999,
     };
   },

@@ -6,7 +6,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import AddCarDetails from "@/components/carDetails";
 const Ownership = () => {
   const [ownership, setOwnership] = useState("");
   const router = useRouter();
@@ -21,17 +22,22 @@ const Ownership = () => {
     addCar({ body, router, path: "/sell-cars/odometer", dispatch });
   };
 
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const carId = parseInt(localStorage.getItem("carId"));
       if (carId) {
         await getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading });
       } else {
         return () => {};
       }
     };
     fetchData();
   }, []);
+  console.log(">>>>>>", carInfo);
   return (
     <>
       <Head>
@@ -47,13 +53,24 @@ const Ownership = () => {
                 {data.carOwnerShip.map((val, i) => (
                   <Card
                     key={i}
-                    className={`p-2 pointer `}
                     onClick={() => handleClick(val.ownership)}
                     sx={{
+                      p: 1,
+                      cursor: "pointer",
+                      color:
+                        carInfo.ownership === val.ownership ? "#fff" : "#000",
+                      backgroundColor:
+                        carInfo.ownership === val.ownership ? "#000" : "#fff",
+                      border:
+                        carInfo.ownership === val.ownership
+                          ? "1px solid #000"
+                          : "1px solid #fff",
                       "&:hover": {
-                        boxShadow: "0px 10px 15px -7px ",
+                        border: "1px solid #000",
+                        backgroundColor: "#000",
+                        color: "#fff",
+                        transition: "0.5s all",
                       },
-                      mt: 1,
                     }}
                   >
                     {val.ownership}
@@ -63,7 +80,7 @@ const Ownership = () => {
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card sx={{ height: 500 }}>Bar Show</Card>
+            {carData && <AddCarDetails loading={loading} data={carData} />}
           </div>
         </div>
       </div>

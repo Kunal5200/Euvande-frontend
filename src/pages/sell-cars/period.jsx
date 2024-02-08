@@ -3,6 +3,7 @@ import LinkTab from "@/components/linktab";
 import { loginTextField } from "@/utils/styles";
 import { Search } from "@mui/icons-material";
 import {
+  Button,
   Card,
   Grid,
   IconButton,
@@ -14,8 +15,9 @@ import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
-import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import { useDispatch, useSelector } from "react-redux";
+import AddCarDetails from "@/components/carDetails";
 const Period = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -71,6 +73,22 @@ const Period = () => {
     fetchPeriod();
   }, [carInfo]);
 
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        await getCarDetails({ carId, setCarData, setLoading });
+      } else {
+        return null;
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Head>
@@ -102,21 +120,35 @@ const Period = () => {
               <Grid container spacing={2}>
                 {period.map((val, i) => (
                   <Grid item xs={4} key={i}>
-                    <Card
-                      className={`p-2 pointer ${
-                        val.year === selectedYear ? styles.year_Selector : ""
-                      }`}
+                    <Button
+                      sx={{
+                        backgroundColor:
+                          carInfo.period === val.id ? "#000" : "#fff",
+
+                        width: 200,
+                        color: carInfo.period === val.id ? "#fff" : "#000",
+                        fontSize: 15,
+                        "&:hover": {
+                          border: "1px solid #000",
+                          backgroundColor: "#fff",
+                          color: "#000",
+                        },
+                        border:
+                          carInfo.period === val.id
+                            ? "1px solid #000"
+                            : "1px solid #eee",
+                      }}
                       onClick={() => handleSelect(val.id)}
                     >
                       {val.year}
-                    </Card>
+                    </Button>
                   </Grid>
                 ))}
               </Grid>
             </Card>
           </div>
           <div className="col-sm-3">
-            <Card>Hello</Card>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
           </div>
         </div>
       </div>

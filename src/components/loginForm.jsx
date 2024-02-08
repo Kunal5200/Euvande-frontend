@@ -85,13 +85,6 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     <div>
       {!otpShow ? (
         <form className={`text-center  pb-3 `} onSubmit={loginsubmitHandler}>
-          {/* <h4 className="p-2">🚗 EuVande Login </h4>
-          <Divider style={{ backgroundColor: "#000" }} />
-          <p className="f-12 p-2">
-            ⭐ Rev up your car journey! Unlock a world of effortless buying and
-            selling. Dive into our Car Marketplace—your dream car or sale
-            awaits. Login now and drive into the future!
-          </p> */}
           <Image src={logo} width={200} className="" />
 
           <div className="p-3">
@@ -142,7 +135,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                     className="m-auto"
                     width={20}
                     height={20}
-                    color="#ffdb58"
+                    color="#ff0000"
                   />
                 ) : (
                   <>

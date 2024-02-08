@@ -167,13 +167,13 @@ const PendingCar = ({ data, loading, handleRoute }) => {
                     <Chip
                       avatar={
                         <Avatar sx={{ padding: 1, backgroundColor: "#fff" }}>
-                          <Done sx={{ fontSize: 12, fill: "#800080" }} />
+                          <Done sx={{ fontSize: 12, fill: "#000" }} />
                         </Avatar>
                       }
                       label={value}
                       sx={{
                         fontSize: 11,
-                        backgroundColor: "#800080",
+                        backgroundColor: "#000",
                         color: "#fff",
                       }}
                     />
@@ -189,7 +189,7 @@ const PendingCar = ({ data, loading, handleRoute }) => {
                         transition: "0.5s ease all",
                         cursor: "pointer",
                         "&:hover": {
-                          backgroundColor: "#800080",
+                          backgroundColor: "#000",
                           color: "#fff",
                         },
                       }}

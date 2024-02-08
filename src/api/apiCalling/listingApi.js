@@ -77,6 +77,7 @@ export const getCarDetailsById = async ({ carId, setLoading, setCarData }) => {
     .getCarDetailsByCarId(carId)
     .then((res) => {
       setCarData(res.data.data);
+      setLoading(false);
     })
     .catch((err) => {
       console.log(err);

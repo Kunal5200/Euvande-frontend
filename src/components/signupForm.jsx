@@ -77,7 +77,6 @@ const SignupForm = () => {
       console.log("no data found");
     }
   };
-
   const [loading, setLoading] = useState(false);
   const [openPopOverEmail, setOpenPopOverEmail] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);

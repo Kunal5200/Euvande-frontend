@@ -2,14 +2,15 @@ import data from "@/assests/data";
 import LinkTab from "@/components/linktab";
 import TabPanel from "@/components/tabPanel";
 import { varianttabButton } from "@/utils/styles";
-import { Card, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Card, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { vehicleController } from "@/api/addVehicle";
 import { useDispatch, useSelector } from "react-redux";
-import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import AddCarDetails from "@/components/carDetails";
 const Variant = () => {
   const [value, setValue] = useState(0);
   const [fuel, setFuel] = useState([]);
@@ -18,7 +19,6 @@ const Variant = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
-  console.log(carInfo);
   const handleClick = (variant) => {
     setVariant(variant);
     let body = {
@@ -58,11 +58,14 @@ const Variant = () => {
         console.log(err);
       });
   };
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const carId = localStorage.getItem("carId");
       if (carId) {
         await getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading });
       } else {
         return () => {};
       }
@@ -91,9 +94,9 @@ const Variant = () => {
       <Head>
         <title>Variant</title>
       </Head>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9 ">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={8}>
             <LinkTab />
             <Card className="p-3">
               <h5 className="mb-3">Select Variant</h5>
@@ -101,9 +104,10 @@ const Variant = () => {
                 onChange={handleChange}
                 value={value}
                 sx={{
-                  backgroundColor: "#000",
-                  borderRadius: "40px",
-                  padding: "8px",
+                  border: "1px solid #000",
+                  backgroundColor: "#fff",
+                  borderRadius: 8,
+                  padding: 1,
                 }}
               >
                 {data.variantTypes.map((val, i) => (
@@ -111,7 +115,23 @@ const Variant = () => {
                     label={val.label}
                     id={val.id}
                     key={i}
-                    sx={varianttabButton}
+                    sx={{
+                      color: "#000",
+                      width: 100,
+                      "&.Mui-selected": {
+                        color: "#fff",
+                        // border: "#000",
+                        backgroundColor: "#000",
+                        borderRadius: 8,
+                        width: 100,
+                      },
+                      "&:hover": {
+                        color: "#fff",
+                        backgroundColor: "#000",
+                        borderRadius: 8,
+                        width: 100,
+                      },
+                    }}
                   />
                 ))}
               </Tabs>
@@ -123,15 +143,24 @@ const Variant = () => {
                       {fuel.map((val, i) => (
                         <Grid item xs={3} key={i}>
                           <Card
-                            className={`p-2 pointer  ${
-                              val.variant === variant && styles.year_selector
-                            }`}
                             onClick={() => handleClick(val.id)}
                             sx={{
-                              mt: 1,
+                              p: 1,
+                              border:
+                                carInfo.variant === val.id
+                                  ? "1px solid #000"
+                                  : "1px solid #eee",
+                              color:
+                                carInfo.variant === val.id ? "#fff" : "#000",
+                              cursor: "pointer",
                               "&:hover": {
-                                boxShadow: "0px 10px 15px -7px ",
+                                color: "#fff",
+                                backgroundColor: "#000",
+                                border: "1px solid #000",
                               },
+                              mt: 1,
+                              backgroundColor:
+                                carInfo.variant === val.id ? "#000" : "#fff",
                             }}
                           >
                             {val.variantName}
@@ -145,12 +174,12 @@ const Variant = () => {
                 </TabPanel>
               ))}
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card>Hello</Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          <Grid item lg={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };

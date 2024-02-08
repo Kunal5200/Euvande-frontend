@@ -1,21 +1,30 @@
-import data from "@/assests/data";
+import { vehicleController } from "@/api/addVehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import Brands from "@/components/brands";
+import AddCarDetails from "@/components/carDetails";
 import LinkTab from "@/components/linktab";
+import styles from "@/styles/tabs.module.css";
 import { loginTextField } from "@/utils/styles";
 import { Search } from "@mui/icons-material";
-import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Box,
+  Card,
+  Container,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
-import { vehicleController } from "@/api/addVehicle";
-import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const Make = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [brand, setBrand] = useState("");
   const [selected, setSelected] = useState(false);
+
   const carInfo = useSelector((state) => state.CarInfo);
   const [carId, setCarId] = useState("");
   const brandSelectHandler = (brandName) => {
@@ -32,7 +41,7 @@ const Make = () => {
     setSelected(true);
   };
   const [brandSelector, setBrandSelector] = useState([]);
-
+  const [carData, setCarData] = useState(null);
   const getMake = () => {
     vehicleController
       .getMake()
@@ -56,21 +65,37 @@ const Make = () => {
 
     fetchData();
   }, []);
+  const [loading, setLoading] = useState(false);
 
-  // console.log(carInfo);
+  useEffect(() => {
+    const fetchData = async () => {
+      const carId = parseInt(localStorage.getItem("carId"));
+      if (carId) {
+        await getCarDetails({ carId, setCarData, setLoading });
+      } else {
+        return () => {};
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const carinfo = useSelector((state) => state);
+
   useEffect(() => {
     getMake();
     const car = localStorage.getItem("carId");
     setCarId(car);
   }, []);
+
   return (
     <>
       <Head>
         <title>Select bar brand to estimate car selling price</title>
       </Head>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9 ">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={5}>
+          <Grid item xs={8}>
             <LinkTab brandSelected={!brand} />
             <Card className="p-5">
               <h4 className="mb-3">Select Your Car Brand</h4>
@@ -100,25 +125,21 @@ const Make = () => {
                         key={i}
                         brands={val.makeName}
                         onClick={() => brandSelectHandler(val.id)}
-                        className={
-                          val.name === brand && selected
-                            ? styles.brandsSelected
-                            : ""
-                        }
                         width={100}
                         height={100}
+                        selected={val.id === carInfo.make}
                       />
                     </div>
                   ))}
                 </div>
               </div>
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card>Bar Show</Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          <Grid item xs={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };

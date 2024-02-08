@@ -1,15 +1,17 @@
 import { getCarDetails } from "@/api/apiCalling/vehicle";
 import dummyCars from "@/icons/cars.jpg";
 import { OPTION_TYPE } from "@/utils/enum";
-import { Done, LocationOn } from "@mui/icons-material";
+import { Done, Favorite, LocationOn } from "@mui/icons-material";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Chip,
   Container,
   Divider,
   Grid,
+  IconButton,
   Skeleton,
   Stack,
   Typography,
@@ -17,6 +19,7 @@ import {
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { BsCalendar, BsFuelPump } from "react-icons/bs";
+import { FaAngleLeft } from "react-icons/fa";
 import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
 import { Carousel } from "react-responsive-carousel";
@@ -114,12 +117,46 @@ const CarDetails = () => {
   const engine = [
     {
       label: "Fuel",
-      value: carData && carData.variant && carData.variant.fuelType,
+      value:
+        (carData && carData.variant && carData.variant.fuelType) || "Petrol",
+    },
+    {
+      label: "Transmission",
+      value:
+        (carData &&
+          carData.specification &&
+          carData.specification.transmission) ||
+        "Automatic",
+    },
+    {
+      label: "Drive Type",
+      value:
+        (carData && carData.specification && carData.specification.driveType) ||
+        "4x4",
+    },
+    {
+      label: "Power",
+      value:
+        (carData && carData.specification && carData.specification.power) ||
+        "200kw",
+    },
+  ];
+  const vehicleCondition = [
+    {
+      label: "Mileage",
+      value: (carData && carData.odometer) || "35000Km",
+    },
+    {
+      label: "First registration",
+      value: (carData && carData.period && carData.period.year) || "2019",
     },
   ];
 
   return (
     <Container maxWidth={1400}>
+      <Button sx={{ mt: 3,fontSize:12 }} onClick={() => router.back()}>
+        <FaAngleLeft /> Back to results
+      </Button>
       <Grid container>
         <Grid item lg={7} p={2}>
           {loading ? (
@@ -147,13 +184,13 @@ const CarDetails = () => {
                   <Chip
                     avatar={
                       <Avatar sx={{ p: 1, backgroundColor: "#ffffff" }}>
-                        <Done sx={{ fontSize: 12, fill: "#800080" }} />
+                        <Done sx={{ fontSize: 12, fill: "#000" }} />
                       </Avatar>
                     }
                     label={val}
                     key={i}
                     sx={{
-                      backgroundColor: "#800080",
+                      backgroundColor: "#000",
                       color: "#fff",
                       mx: 1,
                       my: 0.3,
@@ -274,9 +311,9 @@ const CarDetails = () => {
                   </Box>
                 </Card>
               </Grid>
-              <Grid lg={2}></Grid>
+              <Grid lg={1}></Grid>
               <Grid lg={5}>
-                <Card sx={{ p: 2 }}>
+                <Card sx={{ p: 2, mb: 2 }}>
                   <Typography fontSize={15} fontWeight={550}>
                     Engine
                   </Typography>
@@ -296,7 +333,34 @@ const CarDetails = () => {
                           <Typography>{val.value}</Typography>
                         </Box>
 
-                        {i !== details.length - 1 && (
+                        {i !== engine.length - 1 && (
+                          <Divider sx={{ backgroundColor: "#000" }} />
+                        )}
+                      </Box>
+                    ))}
+                  </Box>
+                </Card>
+                <Card sx={{ p: 2 }}>
+                  <Typography fontSize={15} fontWeight={550}>
+                    Vehicle Condition
+                  </Typography>
+                  <Box sx={{ mt: 3 }}>
+                    {vehicleCondition.map((val, i) => (
+                      <Box key={i}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            mb: 2,
+                            mt: 1,
+                          }}
+                        >
+                          <Typography>{val.label}</Typography>
+                          <Typography>{val.value}</Typography>
+                        </Box>
+
+                        {i !== vehicleCondition.length - 1 && (
                           <Divider sx={{ backgroundColor: "#000" }} />
                         )}
                       </Box>
@@ -306,7 +370,66 @@ const CarDetails = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item lg={4}></Grid>
+          <Grid item lg={4} sx={{ position: "relative" }}>
+            <Card sx={{ p: 2, backgroundColor: "#000", height: 200 }}>
+              <Typography textAlign={"center"} fontSize={12} color={"#fff"}>
+                TOTAL PRICE OF THE CAR INCL. SERVICES
+              </Typography>
+              <Typography
+                textAlign={"center"}
+                color={"#fff"}
+                my={1}
+                fontSize={30}
+                fontWeight={600}
+              >
+                17042 €
+              </Typography>
+              <Typography textAlign={"center"} fontSize={12} color={"#fff"}>
+                This price is final, with no hidden fees.
+              </Typography>
+            </Card>
+            <Card
+              sx={{
+                width: 300,
+                margin: "auto",
+                p: 2,
+                position: "absolute",
+                left: 60,
+                top: 130,
+              }}
+            >
+              <Typography
+                color={"#000"}
+                textAlign={"center"}
+                fontSize={16}
+                fontWeight={550}
+              >
+                Peugeot 208 81 kW
+              </Typography>
+              <Typography
+                color={"#000"}
+                textAlign={"center"}
+                fontSize={25}
+                fontWeight={550}
+              >
+                17042 €
+              </Typography>
+              {/* <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mt: 2,
+                }}
+              >
+                <IconButton>
+                  <Favorite />
+                </IconButton>
+                <Button fullWidth variant="contained">
+                  Buy
+                </Button>
+              </Box> */}
+            </Card>
+          </Grid>
         </Grid>
       </Box>
     </Container>

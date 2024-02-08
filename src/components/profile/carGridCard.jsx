@@ -54,7 +54,7 @@ const CarGridCard = (props) => {
           </Stack>
           <Typography fontSize={15} mt={1} mb={1} onClick={props.carDetails}>
             Check Car Details{" "}
-            <ArrowCircleRightOutlined sx={{ fill: "#800080" }} />
+            <ArrowCircleRightOutlined sx={{ fill: "#000" }} />
           </Typography>
           <Divider sx={{ backgroundColor: "#000", mt: 1 }} />
           <Typography fontSize={12} mt={1}>

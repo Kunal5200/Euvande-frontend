@@ -48,7 +48,7 @@ const BoxCar = ({ data }) => {
             "&:hover": {
               boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
             },
-            marginBottom: 3,
+            mb: 2,
           }}
           key={i}
         >
@@ -58,13 +58,20 @@ const BoxCar = ({ data }) => {
                 showThumbs={false}
                 swipeable={true}
                 showIndicators={false}
+                dynamicHeight
               >
                 {val && val.carImages ? (
                   val.carImages.map((image, index) => (
-                    <img src={image} width={"100%"} height={220} key={index} />
+                    <img
+                      src={image}
+                      width={"100%"}
+                      key={index}
+                      height={250}
+                      style={{ objectFit: "fill" }}
+                    />
                   ))
                 ) : (
-                  <img src={dummyCar.src} />
+                  <img src={dummyCar.src} height={250} />
                 )}
               </Carousel>
             </Grid>
@@ -127,7 +134,7 @@ const BoxCar = ({ data }) => {
                       fontSize={14}
                     >
                       {(val && val.period && val.period.year) ||
-                        "Not Published by Seller"}
+                        "Not Disclosed"}
                     </Typography>
                   </Box>
                   <Box>
@@ -153,7 +160,7 @@ const BoxCar = ({ data }) => {
                       {(val &&
                         val.specification &&
                         val.specification.transmission) ||
-                        "Not Published by Seller"}
+                        "Not Disclosed"}
                     </Typography>
                   </Box>
                 </Stack>
@@ -206,7 +213,7 @@ const BoxCar = ({ data }) => {
                 <Box>
                   <Typography fontSize={20} fontWeight={550}>
                     {val && val.price != null
-                      ? `${val.price}€`
+                      ? `${val.price} €`
                       : "Not Disclosed"}
                   </Typography>
                   <Typography fontSize={12}>

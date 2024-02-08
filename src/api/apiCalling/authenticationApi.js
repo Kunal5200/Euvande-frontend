@@ -16,7 +16,7 @@ export const userRegister = ({
     .then((res) => {
       toast.success(res.data.message);
       localStorage.setItem("referenceId", res.data.data.referenceId);
-
+      dispatch(setDetails({ ...res.data.data }));
       setLoading(false);
       setEmailVerify(true);
     })
