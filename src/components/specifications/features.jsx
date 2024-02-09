@@ -1,7 +1,8 @@
 import { loginTextField } from "@/utils/styles";
 import { Box, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../button";
+import { useSelector } from "react-redux";
 
 const Features = ({ setActiveStep, activeStep, state, setState }) => {
   const inputHandler = (e) => {
@@ -24,11 +25,20 @@ const Features = ({ setActiveStep, activeStep, state, setState }) => {
       });
       return false;
     } else {
-        setActiveStep(activeStep + 1);
-    //   console.log(state);
+      setActiveStep(activeStep + 1);
+      //   console.log(state);
       return true;
     }
   };
+  const carInfo = useSelector((state) => state.CarInformation);
+
+  useEffect(() => {
+    setState({
+      ...state,
+      power: carInfo && carInfo.specification && carInfo.specification.power,
+      color: carInfo && carInfo.specification && carInfo.specification.color,
+    });
+  }, [carInfo]);
   return (
     <Box>
       <form onSubmit={submitHandler}>

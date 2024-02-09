@@ -4,6 +4,7 @@ import { loginTextField } from "@/utils/styles";
 import {
   Autocomplete,
   Card,
+  Container,
   Grid,
   IconButton,
   InputAdornment,
@@ -16,17 +17,18 @@ import detectloc from "@/icons/detectLoc.svg";
 import { Close } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
+import AddCarDetails from "@/components/carDetails";
 const Location = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
   const [state, setState] = useState({
-    city: "",
+    city: carInfo && carInfo.location && carInfo.location.city,
     lat: "",
     long: "",
   });
@@ -72,6 +74,7 @@ const Location = () => {
     setLoading(true);
     if (state.city === "") {
       toast.error("Please Enter Your City");
+      setLoading(false);
       return false;
     } else {
       let body =
@@ -103,11 +106,13 @@ const Location = () => {
     }
   };
 
+  const [carData, setCarData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       const carId = localStorage.getItem("carId");
       if (carId) {
         await getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading, dispatch });
       } else {
         () => {};
       }
@@ -120,12 +125,12 @@ const Location = () => {
       <Head>
         <title>Location</title>
       </Head>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9 ">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={8}>
             <LinkTab />
 
-            <Card className="p-3">
+            <Card sx={{ p: 3 }}>
               <h5>What is Your Location?</h5>
               <p className="f-12 fw-normal">
                 In which city you are looking to sell your car?
@@ -189,14 +194,12 @@ const Location = () => {
                 </div>
               </form>
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card>
-              Bar Show
-            </Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          <Grid item lg={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };

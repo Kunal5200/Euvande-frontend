@@ -16,7 +16,7 @@ import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
 import CustomButton from "./button2";
 import { sendForApprovalCar } from "@/api/apiCalling/vehicle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
 import { useRouter } from "next/router";
@@ -70,7 +70,7 @@ const CarInfoCard = ({
   ];
 
   const [approvalLoading, setApprovalLoading] = useState(false);
-
+  const [edit, setEdit] = useState(false);
   const approvalSending = () => {
     setApprovalLoading(true);
     if (carData && carData.price) {
@@ -85,7 +85,6 @@ const CarInfoCard = ({
     }
   };
 
-  
   return (
     <Card sx={{ position: "relative", bottom: 120 }}>
       <Grid container>
@@ -157,7 +156,7 @@ const CarInfoCard = ({
                     : "Included With VAT Deduction"}
                 </Typography>
               </Box>
-              <Button >Edit price</Button>
+              <Button>Edit price</Button>
             </Box>
           ) : (
             <Grid container alignItems={"center"} spacing={1}>

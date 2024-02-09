@@ -3,12 +3,13 @@ import React, { useState } from "react";
 // import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
+import { useSelector } from "react-redux";
 const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
-  console.log(state)
   const handleVehicleType = (vehicleType) => {
     setActiveStep(activeStep + 1);
     setState({ ...state, vehicleType: vehicleType });
   };
+  const carInfo = useSelector((state) => state.CarInformation);
   return (
     <div>
       <Grid container spacing={1}>
@@ -16,12 +17,28 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
           <Grid item lg={3} key={i}>
             <Button
               sx={{
-                color: state.vehicleType === val ? "#fff" : "#000",
-                backgroundColor: state.vehicleType === val ? "#000" : "#fff",
+                color: state.vehicleType
+                  ? state.vehicleType === val
+                    ? "#fff"
+                    : "#000"
+                  : carInfo &&
+                    carInfo.specification &&
+                    carInfo.specification.vehicleType === val
+                  ? "#fff"
+                  : "#000",
+                backgroundColor: state.vehicleType
+                  ? state.vehicleType === val
+                    ? "#000"
+                    : "#fff"
+                  : carInfo &&
+                    carInfo.specification &&
+                    carInfo.specification.vehicleType === val
+                  ? "#000"
+                  : "#fff",
                 border: "1px solid #000",
                 "&:hover": {
-                  color: state.vehicleType === val ? "#000" : "#ffffff",
-                  backgroundColor: state.vehicleType === val ? "#fff" : "#000",
+                  color: "#ffffff",
+                  backgroundColor: "#000",
                   border: "1px solid #000",
                 },
                 textTransform: "capitalize",

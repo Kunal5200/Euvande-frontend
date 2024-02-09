@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { vehicleController } from "../addVehicle";
 import { setCarDetails } from "@/redux/reducers/vehicleInformation";
+import { setVehicleInformation } from "@/redux/reducers/carInformation";
 
 export const addCar = ({
   body,
@@ -74,12 +75,13 @@ export const addImageUpload = ({ data, router, setLoading }) => {
     });
 };
 
-export const getCarDetails = ({ carId, setCarData, setLoading }) => {
+export const getCarDetails = ({ carId, setCarData, setLoading, dispatch }) => {
   vehicleController
     .getVehicleDetails(carId)
     .then((res) => {
       setCarData(res.data.data);
       setLoading && setLoading(false);
+      dispatch && dispatch(setVehicleInformation({ ...res.data.data }));
     })
     .catch((error) => {
       console.log(error);

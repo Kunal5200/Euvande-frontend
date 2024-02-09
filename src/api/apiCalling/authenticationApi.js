@@ -64,13 +64,7 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
     });
 };
 
-export const getUserProfile = ({
-  setState,
-  setUser,
-  state,
-  dispatch,
-  setLoading,
-}) => {
+export const getUserProfile = ({ setUser, dispatch, setLoading }) => {
   authControllers
     .getUserDetails()
     .then((res) => {
@@ -79,14 +73,6 @@ export const getUserProfile = ({
       dispatch(setDetails({ ...response, isAuthenticated: true }));
       setLoading && setLoading(false);
       setUser && setUser(res.data.data);
-      setState &&
-        state &&
-        setState({
-          ...state,
-          name: res.data.data.name,
-          email: res.data.data.email,
-          phoneNumber: res.data.data.phoneNo,
-        });
     })
     .catch((err) => {
       console.log(err);

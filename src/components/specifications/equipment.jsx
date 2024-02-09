@@ -2,6 +2,7 @@ import { Delete, Done } from "@mui/icons-material";
 import { Box, Button, Chip, Grid } from "@mui/material";
 import React, { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
   const [equipment, setEquipment] = useState([]);
@@ -18,11 +19,35 @@ const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
       setState({ ...state, equipments: [...state.equipments, data] });
     }
   };
+  const carInfo = useSelector((state) => state.CarInformation);
   const getChipBgColor = (data) => {
-    return equipment.includes(data) ? "#1976d2" : "";
+    if (equipment && equipment.includes(data)) {
+      return "#000000";
+    } else if (
+      carInfo &&
+      carInfo.specification &&
+      carInfo.specification.equipments &&
+      carInfo.specification.equipments.includes(data)
+    ) {
+      return "#000000";
+    } else {
+      return "";
+    }
   };
+
   const getChiptextColor = (data) => {
-    return equipment.includes(data) ? "#ffffff" : "";
+    if (equipment && equipment.includes(data)) {
+      return "#ffffff";
+    } else if (
+      carInfo &&
+      carInfo.specification &&
+      carInfo.specification.equipments &&
+      carInfo.specification.equipments.includes(data)
+    ) {
+      return "#ffffff";
+    } else {
+      return "";
+    }
   };
 
   return (

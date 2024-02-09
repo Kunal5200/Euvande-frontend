@@ -71,7 +71,7 @@ const Make = () => {
     const fetchData = async () => {
       const carId = parseInt(localStorage.getItem("carId"));
       if (carId) {
-        await getCarDetails({ carId, setCarData, setLoading });
+        await getCarDetails({ carId, setCarData, setLoading, dispatch });
       } else {
         return () => {};
       }

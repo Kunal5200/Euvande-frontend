@@ -30,7 +30,7 @@ const Ownership = () => {
       const carId = parseInt(localStorage.getItem("carId"));
       if (carId) {
         await getCarInfo({ data: carId, dispatch });
-        getCarDetails({ carId, setCarData, setLoading });
+        getCarDetails({ carId, setCarData, setLoading, dispatch });
       } else {
         return () => {};
       }

@@ -1,8 +1,14 @@
-import { addSpecification, getCarInfo } from "@/api/apiCalling/vehicle";
+import {
+  addSpecification,
+  getCarDetails,
+  getCarInfo,
+} from "@/api/apiCalling/vehicle";
 import Button from "@/components/button";
+import AddCarDetails from "@/components/carDetails";
 import LinkTab from "@/components/linktab";
 import SpecificationSteps from "@/components/specifications/specificationStep";
-import { Card, Stack } from "@mui/material";
+import { CarInformation } from "@/redux/reducers/carInformation";
+import { Card, Container, Grid, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Loading from "react-loading";
@@ -12,8 +18,7 @@ const Specifications = () => {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const carInfo = useSelector((state) => state.CarInfo);
-  console.log(carInfo);
-  const [carId, setCarId] = useState("");
+  const carInformation = useSelector((state) => state.carInformation);
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
@@ -39,22 +44,23 @@ const Specifications = () => {
     equipments,
   } = state;
   const router = useRouter();
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const carId = localStorage.getItem("carId");
       if (carId) {
         await getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading, dispatch });
       } else {
         return () => {};
       }
     };
 
     fetchData();
-    const carID = localStorage.getItem("carId");
-    setCarId(carID);
   }, []);
 
-  const [loading, setLoading] = useState(false);
   const submitHandler = () => {
     // e.preventDefault();
     setLoading(true);
@@ -96,13 +102,63 @@ const Specifications = () => {
     }
   };
 
+  useEffect(() => {
+    setState({
+      ...state,
+      transmission:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.transmission,
+      vehicleType:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.vehicleType,
+      doors:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.doors,
+      driveType4WD:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.driveType4WD,
+      seats:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.seats,
+      interiorMaterial:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.interiorMaterial,
+      vatDeduction:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.vatDeduction,
+      power:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.power,
+      color:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.color,
+      carId:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.id,
+      equipments:
+        carInformation &&
+        carInformation.specification &&
+        carInformation.specification.equipments,
+    });
+  }, [CarInformation]);
+
   return (
     <div>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9 ">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={8}>
             <LinkTab />
-            <Card className="p-3">
+            <Card sx={{ p: 3 }}>
               {/* <form onSubmit={submitHandler}> */}
               <SpecificationSteps
                 setState={setState}
@@ -130,8 +186,8 @@ const Specifications = () => {
                   {loading ? (
                     <Loading
                       type="bars"
-                      width={10}
-                      height={10}
+                      width={15}
+                      height={15}
                       color="red"
                       className="m-auto"
                     />
@@ -145,12 +201,12 @@ const Specifications = () => {
               </Stack>
               {/* </form> */}
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card sx={{ height: 500 }}></Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          <Grid item lg={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 };

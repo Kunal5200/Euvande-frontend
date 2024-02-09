@@ -5,6 +5,7 @@ import {
 } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import Button from "@/components/button";
+import AddCarDetails from "@/components/carDetails";
 import ImageUpload from "@/components/imageUpload";
 import LinkTab from "@/components/linktab";
 import { ExpandMore } from "@mui/icons-material";
@@ -13,7 +14,9 @@ import {
   AccordionDetails,
   AccordionSummary,
   Card,
+  Container,
   Divider,
+  Grid,
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -124,12 +127,15 @@ const UploadPicture = () => {
     }
   };
 
+  const [carData, setCarData] = useState(null);
+  const [carDataLoading, setCarDataLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const carId = localStorage.getItem("carId");
       setCarId(carId);
       if (carId) {
         getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading: setCarDataLoading });
       }
     };
 
@@ -141,9 +147,9 @@ const UploadPicture = () => {
       <Head>
         <title>Upload Photos-car</title>
       </Head>
-      <div className="container">
-        <div className="row my-5">
-          <div className="col-sm-9">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={8}>
             <LinkTab />
             <form onSubmit={submitHandler}>
               <Card className=" py-3">
@@ -225,12 +231,14 @@ const UploadPicture = () => {
                 </div>
               </Card>
             </form>
-          </div>
-          <div className="col-sm-3">
-            <Card>Hello</Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          <Grid item lg={4}>
+            {carData && (
+              <AddCarDetails data={carData} loading={carDataLoading} />
+            )}
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 };

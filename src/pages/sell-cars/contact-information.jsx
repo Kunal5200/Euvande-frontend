@@ -9,18 +9,28 @@ import { isEmail, isPhonenumber } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
 import { contactValidation } from "@/utils/validation";
 import CheckIcon from "@mui/icons-material/Check";
-import { Autocomplete, Box, Card, Grid, Stack, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Card,
+  Container,
+  Grid,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
-import { addCar, getCarInfo } from "@/api/apiCalling/vehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import AddCarDetails from "@/components/carDetails";
 const ContactInformation = () => {
   const router = useRouter();
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
+  console.log(carInfo);
   const inputHandler = (e) => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
@@ -48,14 +58,17 @@ const ContactInformation = () => {
   const [state, setState] = useState({
     name: "",
     phoneNumber: "",
-    country: "",
+    country: carInfo && carInfo.contactInfo && carInfo.contactInfo.country,
     zipCode: "",
     countryCode: "",
   });
 
   const [loading, setLoading] = useState(false);
 
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({
+    label: state.country,
+    phone: state.countryCode,
+  });
   const handleCountryChange = (event, newValue) => {
     if (newValue) {
       setState({
@@ -88,7 +101,6 @@ const ContactInformation = () => {
           contactInfo: body,
         };
         addCar({
-          
           body: data,
           router,
           dispatch,
@@ -105,10 +117,12 @@ const ContactInformation = () => {
     }
   };
 
+  const [carData, setCarData] = useState(null);
+
   const [show, setShow] = useState(true);
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      getUserProfile({ setState, state, setUser, dispatch });
+      // getUserProfile({ setUser, dispatch });
       setShow(true);
     } else {
       setShow(false);
@@ -118,21 +132,34 @@ const ContactInformation = () => {
       const carId = localStorage.getItem("carId");
       if (carId) {
         getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading });
       } else {
         return () => {};
       }
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    setState({
+      ...state,
+      name: carInfo && carInfo.contactInfo && carInfo.contactInfo.name,
+      phoneNumber:
+        carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo,
+      zipCode: carInfo && carInfo.contactInfo && carInfo.contactInfo.zipCode,
+      country: carInfo && carInfo.contactInfo && carInfo.contactInfo.country,
+      countryCode:
+        carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode,
+    });
+  }, [carInfo]);
 
   return (
     <div>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={8}>
             <LinkTab />
 
-            <Card className="">
+            <Card>
               <h5 className="border-bottom p-4">Contact information</h5>
               {show ? (
                 <Grid
@@ -263,6 +290,12 @@ const ContactInformation = () => {
                       sx={loginTextField}
                       error={Boolean(error.zipCode)}
                       helperText={error.zipCode}
+                      value={state.zipCode}
+                      focused={
+                        state.zipCode === "" || state.zipCode === null
+                          ? false
+                          : true
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -286,12 +319,12 @@ const ContactInformation = () => {
                 </div>
               </form>
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card>Bar Show</Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          <Grid item lg={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 };

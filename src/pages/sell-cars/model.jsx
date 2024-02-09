@@ -53,7 +53,7 @@ const Model = () => {
       const carId = parseInt(localStorage.getItem("carId"));
       if (carId) {
         await getCarInfo({ data: carId, dispatch });
-        getCarDetails({ carId, setCarData, setLoading });
+        getCarDetails({ carId, setCarData, setLoading, dispatch });
       } else {
         console.log("not callinng");
       }
@@ -120,7 +120,8 @@ const Model = () => {
                         backgroundColor:
                           carInfo.model === val.id ? "#000" : "transparent",
                         "&:hover": {
-                          color: "#000",
+                          color: "#fff",
+                          backgroundColor: "#000",
                         },
                       }}
                       onClick={() => handleSelectModel(val.id)}

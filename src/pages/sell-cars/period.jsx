@@ -80,7 +80,7 @@ const Period = () => {
     const fetchData = async () => {
       const carId = localStorage.getItem("carId");
       if (carId) {
-        await getCarDetails({ carId, setCarData, setLoading });
+        await getCarDetails({ carId, setCarData, setLoading, dispatch });
       } else {
         return null;
       }
@@ -130,8 +130,9 @@ const Period = () => {
                         fontSize: 15,
                         "&:hover": {
                           border: "1px solid #000",
-                          backgroundColor: "#fff",
-                          color: "#000",
+                          backgroundColor: "#000",
+
+                          color: "#fff",
                         },
                         border:
                           carInfo.period === val.id
