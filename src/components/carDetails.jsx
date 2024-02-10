@@ -90,7 +90,10 @@ const AddCarDetails = ({ data, loading }) => {
         data.specification.equipments &&
         "Equipments",
       value: `${
-        data && data.specification && data.specification.equipments.slice(0, 2)
+        data &&
+        data.specification &&
+        data.specification.equipments &&
+        data.specification.equipments.slice(0, 2)
       } ...`,
     },
     {

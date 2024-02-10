@@ -1,3 +1,4 @@
+import { vehicleController } from "@/api/addVehicle";
 import {
   addSpecification,
   getCarDetails,
@@ -18,7 +19,7 @@ const Specifications = () => {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const carInfo = useSelector((state) => state.CarInfo);
-  const carInformation = useSelector((state) => state.carInformation);
+  const carInformation = useSelector((state) => state.CarInformation);
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
@@ -103,54 +104,29 @@ const Specifications = () => {
   };
 
   useEffect(() => {
-    setState({
-      ...state,
-      transmission:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.transmission,
-      vehicleType:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.vehicleType,
-      doors:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.doors,
-      driveType4WD:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.driveType4WD,
-      seats:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.seats,
-      interiorMaterial:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.interiorMaterial,
-      vatDeduction:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.vatDeduction,
-      power:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.power,
-      color:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.color,
-      carId:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.id,
-      equipments:
-        carInformation &&
-        carInformation.specification &&
-        carInformation.specification.equipments,
-    });
-  }, [CarInformation]);
+    const carId = localStorage.getItem("carId");
+    if (carId) {
+      vehicleController
+        .getVehicleDetails(carId)
+        .then((res) => {
+          const response = res.data.data;
+          console.log("Response object:", response);
+          if (response && response.specification) {
+            setState((prevState) => ({
+              ...prevState,
+              transmission: response.transmission,
+            }));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return null;
+    }
+  }, []);
+
+  console.log(":::state", state);
 
   return (
     <div>
