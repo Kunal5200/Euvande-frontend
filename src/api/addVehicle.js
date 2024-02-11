@@ -123,4 +123,14 @@ export const vehicleController = {
       throw error;
     }
   },
+  deletePendingCars: async (carId) => {
+    try {
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.delete(
+        `/api/cars/deleteCar/${carId}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 import { vehicleController } from "../addVehicle";
 import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 import { setVehicleInformation } from "@/redux/reducers/carInformation";
+import { getSellerPendingCars } from "./listingApi";
+import { hideModal } from "@/redux/reducers/modal";
 
 export const addCar = ({
   body,
@@ -10,6 +12,7 @@ export const addCar = ({
   dispatch,
   setLoading,
   setCarData,
+  setEdit,
 }) => {
   vehicleController
     .addVehicle(body)
@@ -19,6 +22,7 @@ export const addCar = ({
       getCarDetails({ setCarData, setLoading, carId: res.data.data.id });
       localStorage.setItem("carId", res.data.data.id);
       router && path && router.push(path);
+      setEdit && setEdit(false);
     })
     .catch((err) => {
       let errMessage = err.response ? err.response.data.message : err.message;
@@ -105,5 +109,20 @@ export const sendForApprovalCar = ({ carId, setLoading, router }) => {
         "Network Error";
       toast.error(errMessage);
       setLoading(false);
+    });
+};
+
+export const removePendingCar = ({ carId, dispatch, setData, setLoading }) => {
+  vehicleController
+    .deletePendingCars(carId)
+    .then((res) => {
+      toast.success("Car removed Successfully");
+      getSellerPendingCars({ setData, setLoading });
+      dispatch(hideModal());
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
     });
 };

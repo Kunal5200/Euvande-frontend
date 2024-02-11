@@ -1,13 +1,18 @@
+import { removePendingCar } from "@/api/apiCalling/vehicle";
 import { hideModal } from "@/redux/reducers/modal";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-const DeletePendingCars = () => {
+const DeletePendingCars = ({ id, setData, setLoading }) => {
   const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(hideModal());
+  };
+
+  const deleteCar = () => {
+    removePendingCar({ carId: id, setData, setLoading, dispatch });
   };
   return (
     <div>
@@ -25,7 +30,12 @@ const DeletePendingCars = () => {
           justifyContent={"center"}
           my={2}
         >
-          <Button variant="contained" color="success" sx={{ width: 100 }}>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ width: 100 }}
+            onClick={deleteCar}
+          >
             Yes
           </Button>
           <Button

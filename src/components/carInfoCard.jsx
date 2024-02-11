@@ -16,7 +16,7 @@ import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
 import CustomButton from "./button2";
 import { sendForApprovalCar } from "@/api/apiCalling/vehicle";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
 import { useRouter } from "next/router";
@@ -27,6 +27,9 @@ const CarInfoCard = ({
   onChange,
   onSubmit,
   priceLoading,
+  setEdit,
+  edit,
+  price,
 }) => {
   const router = useRouter();
   const carSpecifications = [
@@ -70,7 +73,6 @@ const CarInfoCard = ({
   ];
 
   const [approvalLoading, setApprovalLoading] = useState(false);
-  const [edit, setEdit] = useState(false);
   const approvalSending = () => {
     setApprovalLoading(true);
     if (carData && carData.price) {
@@ -135,8 +137,39 @@ const CarInfoCard = ({
               ))}
             </Grid>
           </Box>
-
-          {carData && carData.price ? (
+          {edit ? (
+            <Grid container alignItems={"center"} spacing={1}>
+              <Grid item lg={6}>
+                <TextField
+                  label="Enter Desired Amount"
+                  sx={{
+                    "& label": {
+                      fontSize: "13px",
+                    },
+                  }}
+                  fullWidth
+                  value={price}
+                  onChange={onChange}
+                />
+              </Grid>
+              <Grid item lg={6}>
+                <CustomButton
+                  className="custom-btn"
+                  padding="18px"
+                  width="100%"
+                  fs="13px"
+                  border="1px solid #495254"
+                  onClick={onSubmit}
+                >
+                  {priceLoading ? (
+                    <Loading type="bars" width={20} height={20} color="red" />
+                  ) : (
+                    "Add Price"
+                  )}
+                </CustomButton>
+              </Grid>
+            </Grid>
+          ) : carData && carData.price ? (
             <Box
               sx={{
                 display: "flex",
@@ -156,7 +189,7 @@ const CarInfoCard = ({
                     : "Included With VAT Deduction"}
                 </Typography>
               </Box>
-              <Button>Edit price</Button>
+              <Button onClick={() => setEdit(true)}>Edit price</Button>
             </Box>
           ) : (
             <Grid container alignItems={"center"} spacing={1}>

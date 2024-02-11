@@ -27,7 +27,13 @@ const CarsForSell = () => {
           height={30}
         />
       ) : (
-        <PendingCar data={data} loading={loading} handleRoute={handleRoute} />
+        <PendingCar
+          data={data}
+          loading={loading}
+          handleRoute={handleRoute}
+          setData={setData}
+          setLoading={setLoading}
+        />
       )}
     </div>
   );

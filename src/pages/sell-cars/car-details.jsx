@@ -29,6 +29,8 @@ const CarDetails = () => {
 
     fetchData();
   }, []);
+
+  const [edit, setEdit] = useState(false);
   const [price, setPrice] = useState(
     carData && carData.price ? carData.price : ""
   );
@@ -47,9 +49,14 @@ const CarDetails = () => {
         price: parseInt(price),
         id: (carInfo && carInfo.id) || parseInt(localStorage.getItem("carId")),
       };
-      addCar({ dispatch, body, setLoading: setPriceLoading, setCarData });
+      addCar({ dispatch, body, setLoading: setPriceLoading, setCarData,setEdit });
     }
   };
+  useEffect(() => {
+    if (carData && carData.price) {
+      setPrice(carData.price);
+    }
+  }, []);
 
   return (
     <div>
@@ -71,6 +78,8 @@ const CarDetails = () => {
             onSubmit={addPrice}
             priceLoading={priceLoading}
             price={price}
+            edit={edit}
+            setEdit={setEdit}
           />
         </Grid>
       </Grid>

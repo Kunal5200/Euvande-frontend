@@ -58,7 +58,6 @@ const BoxCar = ({ data }) => {
                 showThumbs={false}
                 swipeable={true}
                 showIndicators={false}
-                dynamicHeight
               >
                 {val && val.carImages ? (
                   val.carImages.map((image, index) => (
@@ -66,12 +65,12 @@ const BoxCar = ({ data }) => {
                       src={image}
                       width={"100%"}
                       key={index}
-                      height={250}
-                      style={{ objectFit: "fill" }}
+                      height={230}
+                      // style={{ objectFit: "fill" }}
                     />
                   ))
                 ) : (
-                  <img src={dummyCar.src} height={250} />
+                  <img src={dummyCar.src} height={225} />
                 )}
               </Carousel>
             </Grid>
@@ -169,7 +168,7 @@ const BoxCar = ({ data }) => {
                 {val &&
                   val.specification &&
                   val.specification.equipments &&
-                  val.specification.equipments.slice(0, 3).map((item, id) => (
+                  val.specification.equipments.slice(0, 2).map((item, id) => (
                     <Chip
                       sx={{ bgcolor: "#0000ff75", color: "#fff", fontSize: 12 }}
                       avatar={
@@ -184,7 +183,7 @@ const BoxCar = ({ data }) => {
                 {val &&
                   val.specification &&
                   val.specification.equipments &&
-                  val.specification.equipments.length > 3 && (
+                  val.specification.equipments.length > 2 && (
                     <Chip
                       sx={{
                         bgcolor: "#0000ff75",
@@ -199,7 +198,7 @@ const BoxCar = ({ data }) => {
                         transition: "0.5s ease all",
                         cursor: "pointer",
                       }}
-                      label={`+${val.specification.equipments.length - 3} more`}
+                      label={`+${val.specification.equipments.length - 2} more`}
                     />
                   )}
               </Stack>

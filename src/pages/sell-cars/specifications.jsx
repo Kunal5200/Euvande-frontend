@@ -20,6 +20,7 @@ const Specifications = () => {
   const [activeStep, setActiveStep] = useState(0);
   const carInfo = useSelector((state) => state.CarInfo);
   const carInformation = useSelector((state) => state.CarInformation);
+  // console.log(">>>carinformation", carInformation);
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
@@ -75,7 +76,7 @@ const Specifications = () => {
       vatDeduction === "" ||
       power === "" ||
       color === "" ||
-      equipments === ""
+      equipments.length === 0
     ) {
       toast.error("Please Select All Fields*");
       setLoading(false);
@@ -114,7 +115,16 @@ const Specifications = () => {
           if (response && response.specification) {
             setState((prevState) => ({
               ...prevState,
-              transmission: response.transmission,
+              transmission: response.specification.transmission,
+              color: response.specification.color,
+              doors: response.specification.doors,
+              driveType4WD: response.specification.driveType4WD,
+              equipments: response.specification.equipments,
+              interiorMaterial: response.specification.interiorMaterial,
+              power: response.specification.power,
+              seats: response.specification.seats,
+              vatDeduction: response.specification.vatDeduction,
+              vehicleType: response.specification.vehicleType,
             }));
           }
         })
@@ -127,7 +137,6 @@ const Specifications = () => {
   }, []);
 
   console.log(":::state", state);
-
   return (
     <div>
       <Container sx={{ my: 5 }}>

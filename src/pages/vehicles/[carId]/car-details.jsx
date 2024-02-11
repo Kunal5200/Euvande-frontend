@@ -154,7 +154,7 @@ const CarDetails = () => {
   ];
 
   return (
-    <Container maxWidth={1400} sx={{mb:5}}>
+    <Container maxWidth={1400} sx={{ mb: 5 }}>
       <Box sx={{ p: 2 }}>
         <Button onClick={() => router.back()} sx={{ fontSize: 10 }}>
           <FaAngleLeft />
@@ -166,7 +166,7 @@ const CarDetails = () => {
           {loading ? (
             <Skeleton variant="text" width={300} />
           ) : (
-            <Stack direction={"row"} alignItems={"center"} spacing={1} >
+            <Stack direction={"row"} alignItems={"center"} spacing={1}>
               <Typography fontSize={30} fontWeight={600}>
                 {carData && carData.make && carData.make.makeName}
               </Typography>
@@ -184,7 +184,8 @@ const CarDetails = () => {
             <Box display={"flex"} flexWrap={"wrap"} my={2}>
               {carData &&
                 carData.specification &&
-                carData.specification.equipments.map((val, i) => (
+                carData.specification.equipments &&
+                carData.specification.equipments.slice(0, 5).map((val, i) => (
                   <Chip
                     avatar={
                       <Avatar sx={{ p: 1, backgroundColor: "#ffffff" }}>
@@ -194,8 +195,8 @@ const CarDetails = () => {
                     label={val}
                     key={i}
                     sx={{
-                      backgroundColor: "#0000004d",
-                      color: "#000",
+                      backgroundColor: "#000000",
+                      color: "#fff",
                       mx: 1,
                       my: 0.3,
                       textTransform: "capitalize",
@@ -204,6 +205,7 @@ const CarDetails = () => {
                     }}
                   />
                 ))}
+                
             </Box>
           )}
           {loading ? (

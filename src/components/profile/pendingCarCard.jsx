@@ -36,19 +36,25 @@ import { showModal } from "@/redux/reducers/modal";
 import DeletePendingCars from "@/assests/modalcalling/deletePendingCars";
 import { useRouter } from "next/router";
 import { CarStatus } from "@/utils/enum";
-const PendingCar = ({ data, loading, handleRoute }) => {
+const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handlePopoverOpen = (event) => {
+  const [id, setId] = useState("");
+  const handlePopoverOpen = (event, value) => {
+    setId(value.id);
     setAnchorEl(event.currentTarget);
   };
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
   const handleDeleteModalOpen = () => {
-    dispatch(showModal(<DeletePendingCars />));
+    dispatch(
+      showModal(
+        <DeletePendingCars id={id} setData={setData} setLoading={setLoading} />
+      )
+    );
     setAnchorEl(null);
   };
 
@@ -65,7 +71,11 @@ const PendingCar = ({ data, loading, handleRoute }) => {
     },
   ];
   if (data.length === 0) {
-    return <Typography p={3} textAlign={"center"}>There is no Pending Cars</Typography>;
+    return (
+      <Typography p={3} textAlign={"center"}>
+        There is no Pending Cars
+      </Typography>
+    );
   }
   return (
     <Box>
@@ -113,7 +123,7 @@ const PendingCar = ({ data, loading, handleRoute }) => {
                   {val && val.make && val.make.makeName}{" "}
                   {val && val.model && val.model.modelName}
                 </Typography>
-                <IconButton onClick={handlePopoverOpen}>
+                <IconButton onClick={(event) => handlePopoverOpen(event, val)}>
                   <MoreVert sx={{ cursor: "pointer" }} />
                 </IconButton>
                 <Popover
