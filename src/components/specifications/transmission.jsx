@@ -18,6 +18,7 @@ const Transmission = ({
     setState({ ...state, transmission: transmission });
   };
   const carInfo = useSelector((state) => state.CarInformation);
+
   return (
     <div>
       {loading ? (

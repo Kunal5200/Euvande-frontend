@@ -36,6 +36,7 @@ import { showModal } from "@/redux/reducers/modal";
 import DeletePendingCars from "@/assests/modalcalling/deletePendingCars";
 import { useRouter } from "next/router";
 import { CarStatus } from "@/utils/enum";
+import { Carousel } from "react-responsive-carousel";
 const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -77,6 +78,8 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
       </Typography>
     );
   }
+
+  console.log(">>???data", data);
   return (
     <Box>
       {data.map((val, i) => (
@@ -91,17 +94,24 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                   height={200}
                 />
               ) : (
-                <img
-                  src={
-                    (val &&
-                      val.media &&
-                      val.media.images &&
-                      val.media.images.frontView) ||
-                    dummyCar.src
-                  }
-                  width={"100%"}
-                  height={"100%"}
-                />
+                <Carousel
+                  showThumbs={false}
+                  showStatus={false}
+                  showIndicators={false}
+                >
+                  {val && val.carImages ? (
+                    val.carImages.map((value, index) => (
+                      <img
+                        src={value}
+                        key={index}
+                        width={"100%"}
+                        height={300}
+                      />
+                    ))
+                  ) : (
+                    <img src={dummyCar.src} />
+                  )}
+                </Carousel>
               )}
             </Grid>
             <Grid item lg={7} py={3} p={3}>
@@ -111,11 +121,10 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                 justifyContent={"space-between"}
               >
                 <Typography
-                  fontSize={20}
+                  fontSize={25}
                   fontWeight={600}
-                  color={"#425459"}
+                  color={"#000"}
                   letterSpacing={1}
-                  my={1}
                   sx={{
                     textTransform: "capitalize",
                   }}
@@ -177,12 +186,12 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                     <Chip
                       avatar={
                         <Avatar sx={{ padding: 1, backgroundColor: "#fff" }}>
-                          <Done sx={{ fontSize: 12, fill: "#000" }} />
+                          <Done sx={{ fontSize: 8, fill: "#000" }} />
                         </Avatar>
                       }
                       label={value}
                       sx={{
-                        fontSize: 11,
+                        fontSize: 8,
                         backgroundColor: "#000",
                         color: "#fff",
                       }}
@@ -202,6 +211,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                           backgroundColor: "#000",
                           color: "#fff",
                         },
+                        fontSize: 8,
                       }}
                       onClick={() => handleRoute(val.id)}
                     />
@@ -269,7 +279,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                 </Grid>
               </Grid>
               <Stack direction={"row"} alignItems={"center"}>
-                <Typography fontSize={13} fontWeight={600}>
+                <Typography fontSize={12} fontWeight={600}>
                   {" "}
                   Status :{" "}
                 </Typography>
@@ -280,7 +290,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                   {val && val.status}
                 </Typography>
               </Stack>
-              <Button sx={{ mt: 2 }} onClick={() => handleRoute(val.id)}>
+              <Button onClick={() => handleRoute(val.id)} sx={{ fontSize: 12 }}>
                 View Car Details <ArrowRightOutlined />
               </Button>
             </Grid>

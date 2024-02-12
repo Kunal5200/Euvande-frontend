@@ -107,7 +107,7 @@ const CarInfoCard = ({
           ) : (
             <>
               <Typography
-                fontSize={20}
+                fontSize={18}
                 fontWeight={600}
                 letterSpacing={0.2}
                 color={"#495254"}
@@ -129,7 +129,7 @@ const CarInfoCard = ({
                 <Grid item lg={4} key={i} mb={1}>
                   <Stack direction={"row"} spacing={1} alignItems={"center"}>
                     {val.icon}
-                    <Typography fontSize={13} textTransform={"capitalize"}>
+                    <Typography fontSize={12} textTransform={"capitalize"}>
                       {val.data}
                     </Typography>
                   </Stack>
@@ -230,7 +230,7 @@ const CarInfoCard = ({
                 variant="contained"
                 fullWidth
                 onClick={approvalSending}
-                disabled={carData && carData.status === CarStatus.Pending}
+                disabled={carData && !carData.price ? true : false}
                 sx={{
                   "&.Mui-disabled": {
                     color: "#fff",
