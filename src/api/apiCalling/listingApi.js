@@ -60,16 +60,26 @@ export const getModelByYear = ({ setModel, data }) => {
     });
 };
 
-export const getCars = ({ loading, setCarData }) => {
-  listingController
-    .getCars()
-    .then((res) => {
-      setCarData(res.data.data);
-      loading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+export const getCars = ({ loading, setCarData, body }) => {
+  body
+    ? listingController
+        .getCars(body)
+        .then((res) => {
+          setCarData(res.data.data);
+          loading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    : listingController
+        .getCars()
+        .then((res) => {
+          setCarData(res.data.data);
+          loading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 };
 
 export const getCarDetailsById = async ({ carId, setLoading, setCarData }) => {

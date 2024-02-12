@@ -26,6 +26,7 @@ import { ExpandMore } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import { responsive } from "@/utils/styles";
+import { useRouter } from "next/router";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -35,6 +36,7 @@ export default function Home() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : null);
   };
+  const router = useRouter();
 
   return (
     <>
@@ -43,7 +45,7 @@ export default function Home() {
       </Head>
 
       <div className={styles.bg_home}>
-        <Container>
+        <Container style={{maxWidth:1400}}>
           <Grid container data-aos="fade-right">
             <Grid item xs={12} lg={6}>
               <BannerForm />
@@ -62,8 +64,8 @@ export default function Home() {
             How it Works?
           </Typography>
         </Divider>
-        <Container>
-          <Grid container spacing={2} data-aos="fade-down">
+        <Container style={{maxWidth:1300}}>
+          <Grid container spacing={2}  data-aos="fade-down">
             {data.howWorks.map((val, i) => (
               <Grid item xs={12} lg={4} key={i}>
                 <HowWorks
@@ -76,7 +78,12 @@ export default function Home() {
           </Grid>
 
           <div className="text-center mt-4">
-            <Button className="custom_btn" width={200} rounded={20}>
+            <Button
+              className="custom_btn"
+              width={200}
+              rounded={20}
+              onClick={() => router.push("/about-us")}
+            >
               <span>Know More</span>
               <span>Know More</span>
             </Button>
@@ -94,7 +101,7 @@ export default function Home() {
             Featured Cars
           </Typography>
         </Divider>
-        <Container className="mt-3">
+        <Container className="mt-3" style={{maxWidth:1300}}>
           <Swiper
             breakpoints={{
               640: {
@@ -129,7 +136,12 @@ export default function Home() {
           </Swiper>
 
           <div className="my-4 text-center">
-            <Button className="custom_btn" width={200} rounded={20}>
+            <Button
+              className="custom_btn"
+              width={200}
+              rounded={20}
+              onClick={() => router.push("buy-cars")}
+            >
               <span>View All Cars</span>
               <span>View All Cars</span>
             </Button>
@@ -148,7 +160,7 @@ export default function Home() {
           </Typography>
         </Divider>
 
-        <Container>
+        <Container style={{maxWidth:1300}}>
           <BodyType />
         </Container>
       </Box>

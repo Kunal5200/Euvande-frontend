@@ -74,7 +74,7 @@ const BodyType = () => {
       </Box>
       <Box marginTop={{ xs: 2, lg: 4 }}>
         <TabPanel index={0} value={value}>
-          <Container>
+          <Container style={{maxWidth:1300}}>
             <Grid container spacing={2}>
               {data.suv.map((val) => (
                 <Grid item xs={6} lg={3}>
@@ -98,7 +98,7 @@ const BodyType = () => {
           </Container>
         </TabPanel>
         <TabPanel index={1} value={value}>
-          <Container>
+          <Container style={{maxWidth:1300}}>
             <Grid container spacing={2}>
               {data.suv.map((val) => (
                 <Grid item xs={6} lg={3}>

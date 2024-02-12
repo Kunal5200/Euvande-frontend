@@ -170,7 +170,7 @@ const BoxCar = ({ data }) => {
                   val.specification.equipments &&
                   val.specification.equipments.slice(0, 2).map((item, id) => (
                     <Chip
-                      sx={{ bgcolor: "#0000ff75", color: "#fff", fontSize: 12 }}
+                      sx={{ bgcolor: "#000", color: "#fff", fontSize: 12 }}
                       avatar={
                         <Avatar sx={{ padding: 1, bgcolor: "#fff" }}>
                           <Done sx={{ fill: "blue", fontSize: 15 }} />
@@ -186,7 +186,7 @@ const BoxCar = ({ data }) => {
                   val.specification.equipments.length > 2 && (
                     <Chip
                       sx={{
-                        bgcolor: "#0000ff75",
+                        bgcolor: "#000",
                         color: "#fff",
                         border: "1px solid #0000ff75",
                         fontSize: 12,

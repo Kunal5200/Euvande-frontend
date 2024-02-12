@@ -53,10 +53,11 @@ export const listingController = {
       throw error;
     }
   },
-  getCars: async () => {
+  getCars: async (body) => {
     try {
       let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
-        "/api/newCars/getCarList?page=1&&pageSize=50"
+        "/api/newCars/getCarList?page=1&&pageSize=50",
+        body
       );
       return result;
     } catch (error) {

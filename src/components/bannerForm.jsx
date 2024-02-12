@@ -18,9 +18,16 @@ import {
   getModelByYear,
   getPeriod,
 } from "@/api/apiCalling/listingApi";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setSearchData } from "@/redux/reducers/searchData";
 const BannerForm = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const vatDeductionHandler = (e) => {
-    console.log(e.target);
+    let { id, checked } = e.target;
+    setState({ ...state, [id]: checked });
   };
 
   const [brand, setBrand] = useState([]);
@@ -32,7 +39,7 @@ const BannerForm = () => {
     model: "",
     price: "",
     mileage: "",
-    vatDeduction: "",
+    vatDeduction: false,
   });
 
   const makeHandler = (e) => {
@@ -45,11 +52,47 @@ const BannerForm = () => {
 
   const periodHandler = (e) => {
     setState({ ...state, period: e.value });
+
     let body = {
       makeId: state.make,
       periodYear: e.label,
     };
     getModelByYear({ setModel, data: body });
+  };
+  const modelHandler = (e) => {
+    setState({ ...state, model: e.value });
+  };
+  const priceHandler = (e) => {
+    setState({ ...state, price: e.value });
+  };
+  const mileageHandler = (e) => {
+    setState({ ...state, mileage: e.value });
+  };
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    if (
+      state.make === "" ||
+      state.mileage === "" ||
+      state.model === "" ||
+      state.period === "" ||
+      state.price === ""
+    ) {
+      toast.error("Please Enter details for search");
+      return false;
+    } else {
+      let data = {
+        make: state.make,
+        model: state.model,
+        mileage: state.mileage,
+        period: state.period,
+        vatDeduction: state.vatDeduction,
+        price: state.price,
+      };
+      const body = encodeURIComponent(JSON.stringify(data));
+      // dispatch(setSearchData({ ...searchData }));
+      router.push(`/buy-cars?state=${body}`);
+    }
   };
 
   useEffect(() => {
@@ -59,16 +102,12 @@ const BannerForm = () => {
   return (
     <Grid container>
       <Grid item xs={12} sm={9} marginLeft={{ lg: "3rem" }}>
-        <Paper
-          elevation={3}
-          className="p-4"
-          style={{ backgroundColor: "rgb(0 0 0 / 45%)" }}
-        >
+        <Paper elevation={3} className="p-4" sx={{ backgroundColor: "#fff" }}>
           <Typography
             variant="h1"
             fontSize={{ xs: 18, lg: 25 }}
             lineHeight={{ xs: 1.7, lg: 1.2 }}
-            color={"#ffffff"}
+            color={"#000"}
             fontWeight={600}
             textAlign={"justify"}
             textTransform={"capitalize"}
@@ -77,7 +116,7 @@ const BannerForm = () => {
             Customize, click, and get ready to drive. We deliver your dream car,
             stress-free.
           </Typography>
-          <form className="mt-4">
+          <form className="mt-4" onSubmit={searchHandler}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <ReactSelect
@@ -107,6 +146,7 @@ const BannerForm = () => {
                   components={{
                     IndicatorSeparator: () => null,
                   }}
+                  onChange={mileageHandler}
                   styles={colorStyles}
                 />
               </Grid>
@@ -142,6 +182,7 @@ const BannerForm = () => {
                     IndicatorSeparator: () => null,
                   }}
                   styles={colorStyles}
+                  onChange={priceHandler}
                 />
               </Grid>
             </Grid>
@@ -159,6 +200,7 @@ const BannerForm = () => {
                     IndicatorSeparator: () => null,
                   }}
                   styles={colorStyles}
+                  onChange={modelHandler}
                 />
               </Grid>
 
@@ -167,12 +209,12 @@ const BannerForm = () => {
                   control={
                     <Checkbox
                       onChange={vatDeductionHandler}
-                      id="test"
-                      style={{ color: "#ffffff", borderColor: "#ffffff" }}
+                      id="vatDeduction"
+                      style={{ color: "#000", borderColor: "#000" }}
                     />
                   }
                   label="VAT Deduction"
-                  style={{ color: "#ffffff" }}
+                  style={{ color: "#000" }}
                 />
               </Grid>
             </Grid>
@@ -265,12 +307,12 @@ const BannerForm = () => {
             </Grid> */}
             <Grid container alignItems={"center"} spacing={1} className="my-2">
               <Grid item xs={6}>
-                <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                {/* <Stack direction={"row"} alignItems={"center"} spacing={1}>
                   <Typography color={"#ffffff"} fontSize={12}>
                     Advanced Search
                   </Typography>
                   <FaAngleRight color="#ffffff" size={15} />
-                </Stack>
+                </Stack> */}
               </Grid>
               <Grid item xs={6}>
                 <Button

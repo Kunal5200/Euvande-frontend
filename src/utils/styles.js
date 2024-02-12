@@ -249,8 +249,8 @@ export const varianttabButton = {
 export const bodyTypeTabButton = {
   color: "#000",
   "&.Mui-selected": {
-    color: "#ffffff",
-    backgroundColor: "purple",
+    color: "#000",
+    backgroundColor: "#00000087",
     borderRadius: "8px",
   },
   "&": {
@@ -274,12 +274,12 @@ export const colorStyles = {
   control: (baseStyles, state) => ({
     ...baseStyles,
     backgroundColor: "transparent",
-    border: "1px solid #fff",
+    border: "1px solid #000",
     boxShadow: "none",
     fontSize: "12px",
     width: "100%",
     fontWeight: "400",
-    color: "#ffffff",
+    color: "#000",
   }),
   option: (styles, { isSelected }) => {
     return {
@@ -292,16 +292,16 @@ export const colorStyles = {
   placeholder: (baseStyles, state) => {
     return {
       ...baseStyles,
-      color: "white",
+      color: "#000",
     };
   },
   singleValue: (provided, state) => ({
     ...provided,
-    color: "white",
+    color: "#000",
     textTransform: "capitalize",
   }),
   input: (provided, state) => ({
     ...provided,
-    color: "#ffffff",
+    color: "#000",
   }),
 };

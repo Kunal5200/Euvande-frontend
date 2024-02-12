@@ -4,6 +4,7 @@ import BoxCar from "@/components/cars-box";
 import Filterbar from "@/components/filter-bar";
 import FilterDialog from "@/components/filter-dialog";
 import FilterSection from "@/components/filterSection";
+import { setSearchData } from "@/redux/reducers/searchData";
 import { FILTERS } from "@/utils/enum";
 import { Delete, ExpandMore } from "@mui/icons-material";
 import {
@@ -17,22 +18,46 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Loading from "react-loading";
+import { useDispatch, useSelector } from "react-redux";
 
 const BuyCars = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState(FILTERS.NEWESTAD);
   const [loading, setLoading] = useState(true);
   const [carData, setCarData] = useState([]);
+  // const selector = useSelector((state) => state);
+  // console.log(selector);
   useEffect(() => {
-    getCars({ loading: setLoading, setCarData: setCarData });
+    
+    const fetchData = async () => {
+      const filteredData = router.query.state;
+      console.log(filteredData)
+      if (filteredData) {
+        const data = JSON.parse(filteredData);
+        const priceData = data.price.replace(/[^\d]/g, "");
+        const body = {
+          makeId: data.make,
+          modelId: data.model,
+          periodId: data.period,
+          price: parseInt(priceData),
+        };
+        await getCars({ loading: setLoading, setCarData, body });
+      } else {
+        getCars({ loading: setLoading, setCarData: setCarData });
+      }
+    };
+    fetchData();
   }, []);
   return (
     <Container maxWidth="1400px">
       <Box>
         <Grid container spacing={6}>
-          <Grid item lg={3} sx={{mt:5}}   >
-            <Card >
+          <Grid item lg={3} sx={{ mt: 5 }}>
+            <Card>
               <Box
                 sx={{
                   display: "flex",

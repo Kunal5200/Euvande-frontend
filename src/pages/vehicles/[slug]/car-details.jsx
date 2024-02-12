@@ -31,7 +31,7 @@ const CarDetails = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      const carId = parseInt(router.query.carId);
+      const carId = parseInt(router.query.slug);
       if (carId) {
         await getCarDetailsById({
           carId,

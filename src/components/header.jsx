@@ -11,6 +11,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import {
   Card,
+  Container,
   Divider,
   List,
   ListItem,
@@ -90,8 +91,8 @@ const Navbar = () => {
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
   return (
-    <div className={`container-fluid ${show ? "" : styles.header}`}>
-      <div className={`${show ? styles.mainHeader : ""} container p-2`}>
+    <div  className={`container-fluid ${show ? "" : styles.header}`}>
+      <div  style={{maxWidth:1300}} className={`container ${show ? styles.mainHeader : ""} `}>
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
             <Image src={show ? logo : logoBlack} width={150} alt="logo" />
