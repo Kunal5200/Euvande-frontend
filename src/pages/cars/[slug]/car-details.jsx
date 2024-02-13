@@ -154,7 +154,7 @@ const CarDetails = () => {
 
   return (
     <Container maxWidth={1400}>
-      <Button sx={{ mt: 3,fontSize:12 }} onClick={() => router.back()}>
+      <Button sx={{ mt: 3, fontSize: 12 }} onClick={() => router.back()}>
         <FaAngleLeft /> Back to results
       </Button>
       <Grid container>
@@ -180,6 +180,7 @@ const CarDetails = () => {
             <Box display={"flex"} flexWrap={"wrap"}>
               {carData &&
                 carData.specification &&
+                carData.specification.equipments &&
                 carData.specification.equipments.map((val, i) => (
                   <Chip
                     avatar={

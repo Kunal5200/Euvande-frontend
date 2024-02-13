@@ -398,3 +398,8 @@ input[type="number"]::-webkit-outer-spin-button {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
   }
 }
+
+/* material ui  */
+/* .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+  width: 300px;
+} */

@@ -22,7 +22,7 @@ const EditAddress = ({ value, getAddress }) => {
     city: value.city || "",
     postalCode: value.postalCode || "",
     houseNumber: value.houseNo || "",
-    countryName: value.country || "",
+    country: value.country || "",
     id: value.id,
   });
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const EditAddress = ({ value, getAddress }) => {
     houseNumber: "",
     postalCode: "",
     city: "",
-    countryName: "",
+    country: "",
   });
   const [country, setCountry] = useState({
     label: value.country || "",
@@ -47,7 +47,7 @@ const EditAddress = ({ value, getAddress }) => {
     if (newValue) {
       setState({
         ...state,
-        countryName: newValue.label,
+        country: newValue.label,
       });
       setError({ ...error, countryName: "" });
     }

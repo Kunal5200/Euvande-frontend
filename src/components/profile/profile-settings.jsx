@@ -25,13 +25,31 @@ const ProfileSettings = (props) => {
   const user = props.userDetails;
   const loading = props.loading;
   const setUser = props.setUser;
+  const setLoading = props.setLoading;
   const router = useRouter();
   const dispatch = useDispatch();
   const editProfileModal = () => {
-    dispatch(showModal(<EditUserProfile value={user} setUser={setUser} />));
+    dispatch(
+      showModal(
+        <EditUserProfile
+          value={user}
+          setUser={setUser}
+          setLoading={setLoading}
+        />
+      )
+    );
   };
   const verifyPhoneNumber = (userInfo) => {
-    dispatch(showModal(<VerifyPhone user={userInfo} userDetails={user} />));
+    dispatch(
+      showModal(
+        <VerifyPhone
+          user={userInfo}
+          userDetails={user}
+          setUser={setUser}
+          setLoading={loading}
+        />
+      )
+    );
   };
   return (
     <div>

@@ -10,13 +10,19 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import {
+  Box,
   Card,
   Container,
   Divider,
+  Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemText,
+  Menu,
+  MenuItem,
   Paper,
   Slide,
   Stack,
@@ -25,10 +31,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "./button";
+import { Close } from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -36,10 +44,6 @@ const Navbar = () => {
   const isAuthenticated = useSelector(
     (state) => state.userInfo.isAuthenticated
   );
-
-  const handleShowMenu = () => {
-    setShowMenu(!showMenu);
-  };
 
   useEffect(() => {
     if (
@@ -51,16 +55,21 @@ const Navbar = () => {
       setShow(false);
     }
   }, [router.pathname, show]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const [popOver, setIsPopOver] = useState(false);
   const handleLogout = () => {
     localStorage.clear();
     router.push("/");
-    setIsPopOver(false);
+    setAnchorEl(null);
+    // setIsPopOver(false);
     dispatch(removeDetails());
   };
   const dispatch = useDispatch();
-  const routePage = () => {
-    !isAuthenticated ? router.push("/registerorlogin") : setIsPopOver(!popOver);
+  const routePage = (event) => {
+    !isAuthenticated
+      ? router.push("/registerorlogin")
+      : setAnchorEl(event.currentTarget);
   };
 
   useEffect(() => {
@@ -71,12 +80,12 @@ const Navbar = () => {
 
   const userProfile = () => {
     router.push("/user-profile");
-    setIsPopOver(false);
+    setAnchorEl(null);
   };
 
   const linksList = [
     {
-      name: "Profile",
+      name: "User Profile",
       icon: <PersonIcon />,
       onClick: userProfile,
     },
@@ -91,8 +100,11 @@ const Navbar = () => {
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
   return (
-    <div  className={`container-fluid ${show ? "" : styles.header}`}>
-      <div  style={{maxWidth:1300}} className={`container ${show ? styles.mainHeader : ""} `}>
+    <div className={`container-fluid ${show ? "" : styles.header}`}>
+      <div
+        style={{ maxWidth: 1300 }}
+        className={`container ${show ? styles.mainHeader : ""} p-2 `}
+      >
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
             <Image src={show ? logo : logoBlack} width={150} alt="logo" />
@@ -200,7 +212,22 @@ const Navbar = () => {
                 alignSelf: "center",
               }}
             />
-            <Button
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={() => setAnchorEl(null)}
+              sx={{ width: "100%" }}
+            >
+              {linksList.map((links, index) => (
+                <React.Fragment key={index}>
+                  <MenuItem sx={{p:1}} onClick={links.onClick}>
+                    {links.icon} {links.name}
+                  </MenuItem>
+                  <Divider sx={{ backgroundColor: "#000" }} />
+                </React.Fragment>
+              ))}
+            </Menu>
+            {/* <Button
               border="1px solid #eee"
               rounded="20px"
               backgroundColor="#eee"
@@ -220,28 +247,36 @@ const Navbar = () => {
                   <Typography>Close</Typography>
                 </div>
               )}
-            </Button>
+            </Button> */}
+            <MenuIcon
+              sx={{
+                fill: show ? "#fff" : "#000",
+                fontSize: 30,
+                cursor: "pointer",
+              }}
+              onClick={() => setShowMenu(true)}
+            />
           </Stack>
 
           <FaUser className={styles.mobileView} />
         </div>
-        <div className="text-end">
-          <Slide direction="down" in={showMenu}>
-            <Card className={styles.menuSlider}>
-              {HeaderLinks.map((val, i) => (
-                <Link
-                  key={i}
-                  className={`${styles.headerlinks} w-100 text-start mt-2`}
-                  href={val.url}
-                >
-                  {val.title}
-                </Link>
-              ))}
-            </Card>
-          </Slide>
-        </div>
+        {/* <div className="text-end">
+              <Slide direction="down" in={showMenu}>
+                <Card className={styles.menuSlider}>
+                  {HeaderLinks.map((val, i) => (
+                    <Link
+                      key={i}
+                      className={`${styles.headerlinks} w-100 text-start mt-2`}
+                      href={val.url}
+                    >
+                      {val.title}
+                    </Link>
+                  ))}
+                </Card>
+              </Slide>
+            </div> */}
         <div>
-          <Slide direction="down" in={popOver} style={{ zIndex: 999 }}>
+          {/* <Slide direction="down" in={popOver} style={{ zIndex: 999 }}>
             <Paper
               style={{
                 right: router.pathname === "/" ? "100px" : "180px",
@@ -252,10 +287,10 @@ const Navbar = () => {
               <List>
                 {linksList.map((val, i) => (
                   <div key={i}>
-                    <ListItem button onClick={val.onClick}>
+                    <ListItemButton onClick={val.onClick}>
                       <ListItemAvatar>{val.icon}</ListItemAvatar>
                       <ListItemText primary={val.name} />
-                    </ListItem>
+                    </ListItemButton>
                     {i === val.length - 1 ? (
                       <></>
                     ) : (
@@ -265,7 +300,48 @@ const Navbar = () => {
                 ))}
               </List>
             </Paper>
-          </Slide>
+          </Slide> */}
+
+          <Drawer
+            open={showMenu}
+            onClose={() => setShowMenu(false)}
+            anchor="right"
+            sx={{
+              zIndex: 10000,
+              "& .MuiDrawer-paper": {
+                width: "300px",
+                boxSizing: "border-box",
+              },
+            }}
+          >
+            <Box textAlign={"end"} p={1}>
+              <IconButton onClick={() => setShowMenu(false)}>
+                <Close />
+              </IconButton>
+            </Box>
+            <Divider sx={{ backgroundColor: "#000" }} />
+            <Box>
+              <List>
+                {HeaderLinks.map((item, index) => (
+                  <Link
+                    href={item.url}
+                    key={index}
+                    className=" link"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    <ListItemButton disablePadding sx={{ fontSize: 40 }}>
+                      <ListItemAvatar>{item.icon}</ListItemAvatar>
+                      <ListItemText
+                        primary={item.title}
+                        style={{ fontSize: 40 }}
+                      />
+                    </ListItemButton>
+                    <Divider sx={{ backgroundColor: "#000" }} />
+                  </Link>
+                ))}
+              </List>
+            </Box>
+          </Drawer>
         </div>
       </div>
     </div>

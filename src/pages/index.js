@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import { responsive } from "@/utils/styles";
 import { useRouter } from "next/router";
+import { getCars } from "@/api/apiCalling/listingApi";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -37,7 +38,14 @@ export default function Home() {
     setExpanded(isExpanded ? panel : null);
   };
   const router = useRouter();
+  const [carData, setCarData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getCars({ setCarData, loading: setLoading });
+  }, []);
+
+  console.log(carData)
   return (
     <>
       <Head>
@@ -45,7 +53,7 @@ export default function Home() {
       </Head>
 
       <div className={styles.bg_home}>
-        <Container style={{maxWidth:1400}}>
+        <Container style={{ maxWidth: 1400 }}>
           <Grid container data-aos="fade-right">
             <Grid item xs={12} lg={6}>
               <BannerForm />
@@ -64,8 +72,8 @@ export default function Home() {
             How it Works?
           </Typography>
         </Divider>
-        <Container style={{maxWidth:1300}}>
-          <Grid container spacing={2}  data-aos="fade-down">
+        <Container style={{ maxWidth: 1300 }}>
+          <Grid container spacing={2} data-aos="fade-down">
             {data.howWorks.map((val, i) => (
               <Grid item xs={12} lg={4} key={i}>
                 <HowWorks
@@ -101,7 +109,7 @@ export default function Home() {
             Featured Cars
           </Typography>
         </Divider>
-        <Container className="mt-3" style={{maxWidth:1300}}>
+        <Container className="mt-3" style={{ maxWidth: 1300 }}>
           <Swiper
             breakpoints={{
               640: {
@@ -160,7 +168,7 @@ export default function Home() {
           </Typography>
         </Divider>
 
-        <Container style={{maxWidth:1300}}>
+        <Container style={{ maxWidth: 1300 }}>
           <BodyType />
         </Container>
       </Box>
@@ -176,7 +184,7 @@ export default function Home() {
             Find Your Perfect Ride in Our Car Marketplace
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={3} marginTop={2} marginBottom={2}>
             {data.brandsSelector.slice(0, 12).map((val, i) => (
               <Grid item lg={2} key={i}>
@@ -207,7 +215,7 @@ export default function Home() {
             What do our customers think?
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           <Grid container alignItems={"center"}>
             <Grid item lg={3}>
               <Typography variant="h4" fontWeight={600} fontSize={30}>
@@ -274,7 +282,7 @@ export default function Home() {
             Frequently Asked Questions
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           {data.faqs.map((val, i) => (
             <Accordion
               key={i}

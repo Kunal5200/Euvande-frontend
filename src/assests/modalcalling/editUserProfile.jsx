@@ -118,6 +118,7 @@ const EditUserProfile = ({ value, setUser }) => {
                 id="email"
                 error={error.email}
                 helperText={error.email}
+                disabled
               />
             </Grid>
           </Grid>

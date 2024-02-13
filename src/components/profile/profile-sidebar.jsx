@@ -111,6 +111,7 @@ const ProfileSidebar = () => {
               userDetails={user}
               loading={placeholderLoading}
               setUser={setUser}
+              setLoading={setPlaceholderLoading}
             />
           </TabPanel>
         </div>
