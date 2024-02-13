@@ -3,11 +3,16 @@ import { countries } from "@/assests/country";
 import Button from "@/components/button";
 import { hideModal } from "@/redux/reducers/modal";
 import { loginTextField } from "@/utils/styles";
+import { addAddressValidation } from "@/utils/validation";
 import {
   Autocomplete,
   Box,
   Divider,
+  FormControlLabel,
+  FormLabel,
   Grid,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
@@ -24,6 +29,7 @@ const EditAddress = ({ value, getAddress }) => {
     houseNumber: value.houseNo || "",
     country: value.country || "",
     id: value.id,
+    addressType: value.addressType || "",
   });
   const dispatch = useDispatch();
   const [error, setError] = useState({
@@ -33,6 +39,14 @@ const EditAddress = ({ value, getAddress }) => {
     city: "",
     country: "",
   });
+  const handleAddressType = (e) => {
+    let { checked, value } = e.target;
+    if (value === "home" || value === "office") {
+      setState({ ...state, addressType: value });
+    } else {
+      setState({ ...state, addressType: value });
+    }
+  };
   const [country, setCountry] = useState({
     label: value.country || "",
     code: value.countryCode || "",
@@ -57,19 +71,24 @@ const EditAddress = ({ value, getAddress }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
-    authControllers
-      .editAddress(state)
-      .then((res) => {
-        toast.success(res.data.data);
-        setLoading(false);
-        dispatch(hideModal());
-        getAddress();
-      })
-      .catch((err) => {
-        let errMessage = err.response.data.message || err.message;
-        toast.error(errMessage);
-        setLoading(false);
-      });
+    if (addAddressValidation({ setError, error, state })) {
+      authControllers
+        .editAddress(state)
+        .then((res) => {
+          toast.success(res.data.data);
+          setLoading(false);
+          dispatch(hideModal());
+          getAddress();
+        })
+        .catch((err) => {
+          let errMessage = err.response.data.message || err.message;
+          toast.error(errMessage);
+          setLoading(false);
+        });
+    } else {
+      toast.error("Please Enter Details");
+      setLoading(false);
+    }
   };
   return (
     <div>
@@ -183,7 +202,41 @@ const EditAddress = ({ value, getAddress }) => {
                 />
               </Grid>
             </Grid>
-
+            <FormLabel>Address Type*</FormLabel>
+            <RadioGroup
+              row
+              defaultValue={state.addressType}
+              onChange={handleAddressType}
+              id="addressType"
+            >
+              <FormControlLabel
+                value={"home"}
+                control={<Radio defaultValue={"home"} />}
+                label="Home"
+              />
+              <FormControlLabel
+                value={"office"}
+                control={<Radio defaultValue={"office"} />}
+                label="Office"
+              />
+              <FormControlLabel
+                value={"other"}
+                control={<Radio />}
+                label="Other"
+              />
+            </RadioGroup>
+            {state.addressType === "home" || state.addressType === "office" ? (
+              <></>
+            ) : (
+              <TextField
+                type="text"
+                label="Address Type*"
+                sx={loginTextField}
+                id="addressType"
+                className="mb-3"
+                onChange={handleAddressType}
+              />
+            )}
             <div className="text-center ">
               <Button className="custom_btn" width={250} disabled={loading}>
                 {loading ? (

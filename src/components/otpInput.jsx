@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { userVerify } from "@/api/apiCalling/authenticationApi";
 import Loading from "react-loading";
 import logo from "@/logo/EUVandeLogoBlack.svg";
-import { Box } from "@mui/material";
+import { Box, FormHelperText } from "@mui/material";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 const OTPinput = () => {
@@ -47,6 +47,11 @@ const OTPinput = () => {
         <Box textAlign={"center"} marginBottom={4}>
           <Image src={logo} width={200} />
         </Box>
+        <FormHelperText
+          sx={{ textAlign: "center", fontSize: 15, color: "#000" }}
+        >
+          Please Enter OTP sent to your entered Mail
+        </FormHelperText>
         <OTPInput
           numInputs={6}
           renderSeparator={<span>-</span>}
@@ -63,7 +68,7 @@ const OTPinput = () => {
           {loading ? (
             <Loading
               type="bars"
-              color="#ffdb58"
+              color="#ff0000"
               width={20}
               height={20}
               className="m-auto"

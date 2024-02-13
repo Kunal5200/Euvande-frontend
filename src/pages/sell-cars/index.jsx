@@ -132,7 +132,7 @@ const SellerLogin = () => {
                     helperText={error.vin}
                   />
                   <p className="f-13">
-                    Just here to check price?<span>Check Price</span>
+                    Just here to check price?  <span>Check Price</span>
                   </p>
                 </div>
                 <Button

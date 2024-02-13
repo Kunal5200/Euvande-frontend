@@ -24,33 +24,6 @@ const RegisterorLogin = () => {
       <div className={styles.bg_image}>
         <Grid container spacing={2}>
           <Grid item xs={8} margin={"auto"}>
-            {/* <Card className={`p-2  pb-5 ${styles.loginForm}`}>
-              <Grid container>
-                <Grid item lg={6} padding={2}>
-                  <ReactCardFlip isFlipped={flip}>
-                    <Box>
-                      <Typography variant="h6" font textAlign={"center"}>
-                        Ready to make car dreams a reality? Whether selling or
-                        buying, our platform is where it happens. Let's get
-                        started quickly!
-                      </Typography>
-                      <Button onClick={handleClick} border="1px solid ">
-                        Sign up
-                      </Button>
-                    </Box>
-                    <Typography variant="h4" onClick={handleClick}>
-                      Hello
-                    </Typography>
-                  </ReactCardFlip>
-                </Grid>
-                <Grid item lg={6}>
-                  <ReactCardFlip isFlipped={flip}>
-                    <LoginForm />
-                    <SignupForm />
-                  </ReactCardFlip>
-                </Grid>
-              </Grid>
-            </Card> */}
             <Grid container>
               <Grid item lg={6}>
                 <ReactCardFlip isFlipped={flip}>

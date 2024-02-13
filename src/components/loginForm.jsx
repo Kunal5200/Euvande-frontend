@@ -10,6 +10,7 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -84,8 +85,14 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
   return (
     <div>
       {!otpShow ? (
-        <form className={`text-center  pb-3 `} onSubmit={loginsubmitHandler}>
-          <Image src={logo} width={200} className="" />
+        <form className={`text-center`} onSubmit={loginsubmitHandler}>
+          {/* <Image src={logo} width={200} className="" /> */}
+          <Box textAlign={"center"}>
+            <Typography fontWeight={600} fontSize={20}>Welcome Back to EuVande!</Typography>
+            <Typography fontSize={12}>
+              If you're already a member, logging in is a breeze.
+            </Typography>
+          </Box>
 
           <div className="p-3">
             <TextField

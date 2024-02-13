@@ -18,9 +18,9 @@ const Brands = (props) => {
           placeContent: "center",
           cursor: "pointer",
           "&:hover": {
-            border: "1px solid #000",
-            backgroundColor: "#000",
-            color: "#fff",
+            border: "1px solid #00000038",
+            backgroundColor: "#00000038",
+            color: "#000",
           },
 
           border: borderStyle,

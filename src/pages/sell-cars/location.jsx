@@ -28,7 +28,7 @@ const Location = () => {
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
   const [state, setState] = useState({
-    city: carInfo && carInfo.location && carInfo.location.city,
+    city: (carInfo && carInfo.location && carInfo.location.city) || "",
     lat: "",
     long: "",
   });

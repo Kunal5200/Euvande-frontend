@@ -116,8 +116,17 @@ const SignupForm = () => {
                 our platform is where it happens. Let's get started quickly!
               </Typography>
             </div> */}
-            <Box marginBottom={4} textAlign={"center"}>
+            {/* <Box marginBottom={4} textAlign={"center"}>
               <Image src={logo} width={200} />
+            </Box> */}
+            <Box textAlign={"center"} mb={3}>
+              <Typography fontWeight={600} fontSize={25}>
+                Welcome to EuVande!
+              </Typography>
+              <Typography fontSize={12}>
+                {" "}
+                Ready to get started? Signing up is quick and easy.
+              </Typography>
             </Box>
             <TextField
               label="Name*"
@@ -251,7 +260,7 @@ const SignupForm = () => {
               ) : (
                 <Loading
                   type="bars"
-                  color="#ffdb58"
+                  color="#ff0000"
                   height={20}
                   width={20}
                   className="m-auto"
