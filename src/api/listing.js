@@ -74,4 +74,14 @@ export const listingController = {
       throw error;
     }
   },
+  getDefaultSpecificationPublic: async (data) => {
+    try {
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        "/api/carSpecification/public/getDefaultSpecification"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

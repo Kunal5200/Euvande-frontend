@@ -48,6 +48,15 @@ const BannerForm = () => {
       makeId: e.value,
     };
     getPeriod({ setPeriod, data });
+    let body = state.period
+      ? {
+          makeId: e.value,
+          period: state.period,
+        }
+      : {
+          makeId: e.value,
+        };
+    getModelByYear({ setModel, data: body });
   };
 
   const periodHandler = (e) => {
@@ -102,7 +111,7 @@ const BannerForm = () => {
   return (
     <Grid container>
       <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
-        <Paper elevation={3}  sx={{ backgroundColor: "#fff",p:4 }}>
+        <Paper elevation={3} sx={{ backgroundColor: "#fff", p: 4 }}>
           <Typography
             variant="h1"
             fontSize={{ xs: 18, lg: 25 }}

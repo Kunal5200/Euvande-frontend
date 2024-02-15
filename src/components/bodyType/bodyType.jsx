@@ -4,48 +4,69 @@ import sedan from "@/icons/bodyType/sedan.svg";
 import suv from "@/icons/bodyType/suv.svg";
 import { bodyTypeTabButton } from "@/utils/styles";
 import { Box, ButtonBase, Container, Grid, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TabPanel from "../tabPanel";
 import Icons from "./icons";
 import SmallCarCard from "./smallCardCar";
 import data from "@/assests/data";
 import Button from "../button";
+import { getPublicDefaultSpecification } from "@/api/apiCalling/listingApi";
+import { listingController } from "@/api/listing";
 const BodyType = () => {
   const [value, setValue] = useState(0);
   const tabs = [
     {
-      label: "Suv",
-      icon: suv,
+      icon: suv.src,
     },
     {
-      label: "Family Car",
-      icon: hatchback,
+      icon: hatchback.src,
     },
     {
-      label: "Estate",
-      icon: sedan,
+      icon: sedan.src,
     },
 
     {
-      label: "City",
-      icon: suv,
+      icon: suv.src,
     },
     {
-      label: "Luxury",
-      icon: muv,
+      icon: muv.src,
     },
     {
-      label: "Nearly new",
-      icon: muv,
+      icon: muv.src,
     },
     {
-      label: "Sport",
-      icon: muv,
+      icon: muv.src,
+    },
+    {
+      icon: muv.src,
     },
   ];
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
+  const [tabData, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      listingController
+        .getDefaultSpecificationPublic()
+        .then((res) => {
+          const response = res.data.data.vehicleType;
+          const transformedResponse = response.map((item) => ({ label: item }));
+
+          const mergedData = transformedResponse.map((item, i) => ({
+            ...item,
+            icons: tabs[i] ? tabs[i].icon : null,
+          }));
+          setData(mergedData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    fetchData();
+  }, []);
+
   return (
     <Box className="my-4">
       <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
@@ -62,10 +83,10 @@ const BodyType = () => {
             border: "1px solid #000",
           }}
         >
-          {tabs.map((val, i) => (
+          {tabData.map((val, i) => (
             <Tab
               label={val.label}
-              icon={<Icons img={val.icon} />}
+              icon={<Icons img={val.icons} />}
               sx={bodyTypeTabButton}
               key={i}
             />
@@ -74,7 +95,7 @@ const BodyType = () => {
       </Box>
       <Box marginTop={{ xs: 2, lg: 4 }}>
         <TabPanel index={0} value={value}>
-          <Container style={{maxWidth:1300}}>
+          <Container style={{ maxWidth: 1300 }}>
             <Grid container spacing={2}>
               {data.suv.map((val) => (
                 <Grid item xs={6} lg={3}>
@@ -98,7 +119,7 @@ const BodyType = () => {
           </Container>
         </TabPanel>
         <TabPanel index={1} value={value}>
-          <Container style={{maxWidth:1300}}>
+          <Container style={{ maxWidth: 1300 }}>
             <Grid container spacing={2}>
               {data.suv.map((val) => (
                 <Grid item xs={6} lg={3}>
