@@ -150,6 +150,7 @@ const CarInfoCard = ({
                   fullWidth
                   value={price}
                   onChange={onChange}
+                  type="number"
                 />
               </Grid>
               <Grid item lg={6}>
@@ -203,6 +204,7 @@ const CarInfoCard = ({
                   }}
                   fullWidth
                   onChange={onChange}
+                  type="number"
                 />
               </Grid>
               <Grid item lg={6}>

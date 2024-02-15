@@ -101,8 +101,8 @@ const BannerForm = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={9} marginLeft={{ lg: "3rem" }}>
-        <Paper elevation={3} className="p-4" sx={{ backgroundColor: "#fff" }}>
+      <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
+        <Paper elevation={3}  sx={{ backgroundColor: "#fff",p:4 }}>
           <Typography
             variant="h1"
             fontSize={{ xs: 18, lg: 25 }}

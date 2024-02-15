@@ -21,13 +21,14 @@ import Aos from "aos";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { AutoPlay, Autoplay } from "swiper/modules";
+import { AutoPlay, Autoplay, Navigation } from "swiper/modules";
 import { ExpandMore } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import { responsive } from "@/utils/styles";
 import { useRouter } from "next/router";
 import { getCars } from "@/api/apiCalling/listingApi";
+import "swiper/css/navigation";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -45,7 +46,6 @@ export default function Home() {
     getCars({ setCarData, loading: setLoading });
   }, []);
 
-  console.log(carData)
   return (
     <>
       <Head>
@@ -126,21 +126,18 @@ export default function Home() {
               },
             }}
             spaceBetween={5}
+            modules={[Navigation]}
+            navigation={true}
             className="py-2 px-1"
+            loop
           >
-            {data.carDataList.map((val, i) => (
-              <SwiperSlide key={i}>
-                <CarCard
-                  img={val.img.src}
-                  carName={val.carName}
-                  driven={val.driven}
-                  transmission={val.transmission}
-                  variant={val.variant}
-                  amount={val.amount}
-                  emi={val.emi}
-                />
-              </SwiperSlide>
-            ))}
+            {carData &&
+              carData.docs &&
+              carData.docs.map((val, i) => (
+                <SwiperSlide key={i}>
+                  <CarCard data={val} />
+                </SwiperSlide>
+              ))}
           </Swiper>
 
           <div className="my-4 text-center">
