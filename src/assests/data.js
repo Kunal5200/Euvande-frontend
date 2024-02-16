@@ -105,6 +105,9 @@ import car3Image12 from "@/cars/car3/image12.jpeg";
 import car3Image13 from "@/cars/car3/image13.jpeg";
 import car3Image14 from "@/cars/car3/image14.jpeg";
 import car3Image15 from "@/cars/car3/image15.jpeg";
+import doorStep from "@/icons/howItWorks/doorstep.svg";
+import europeanDreams from "@/icons/howItWorks/europeanDreams.svg";
+import expertEyes from "@/icons/howItWorks/expertEyes.svg";
 let data = {
   photoUpload: [
     {
@@ -1019,20 +1022,23 @@ let data = {
   ],
   howWorks: [
     {
-      img: choose.src,
-      heading: "European Dreams, Driven Reality.",
+      img: europeanDreams.src,
+      heading1: "European Dreams ",
+      heading2: "Driven Reality.",
       description:
         "Turn your European dreams into reality with the perfect car. Explore iconic destinations, scenic routes, and cityscapes on your terms. Your dream ride awaits.",
     },
     {
-      img: choose.src,
-      heading: "Expert Eyes, Thorough Inspection.",
+      img: expertEyes.src,
+      heading1: "Expert Eyes ",
+      heading2: "Thorough Inspection.",
       description:
         "Our expert eyes ensure a meticulous inspection, guaranteeing your peace of mind.",
     },
     {
-      img: choose.src,
-      heading: "Delivered to Your Doorstep.",
+      img: doorStep.src,
+      heading1: "Delivered to",
+      heading2: "Your Doorstep.",
       description:
         "Experience seamless convenience with our direct-to-your-door delivery service – your dream car, delivered effortlessly to your home.",
     },

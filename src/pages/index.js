@@ -78,7 +78,8 @@ export default function Home() {
               <Grid item xs={12} lg={4} key={i}>
                 <HowWorks
                   img={val.img}
-                  heading={val.heading}
+                  heading1={val.heading1}
+                  heading2={val.heading2}
                   description={val.description}
                 />
               </Grid>
