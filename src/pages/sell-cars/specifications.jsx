@@ -111,7 +111,6 @@ const Specifications = () => {
         .getVehicleDetails(carId)
         .then((res) => {
           const response = res.data.data;
-          console.log("Response object:", response);
           if (response && response.specification) {
             setState((prevState) => ({
               ...prevState,
