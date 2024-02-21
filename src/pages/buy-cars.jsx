@@ -1,4 +1,8 @@
-import { getCars } from "@/api/apiCalling/listingApi";
+import {
+  getAllMakePublic,
+  getCars,
+  getPeriod,
+} from "@/api/apiCalling/listingApi";
 import BoxCar from "@/components/cars-box";
 import Filterbar from "@/components/filter-bar";
 import FilterSection from "@/components/filterSection";
@@ -32,11 +36,55 @@ const BuyCars = () => {
 
   const pageChangeHandler = (e, newValue) => {
     setPage(newValue);
-    getCars({ loading: setLoading, setCarData, page: newValue, pageSize });
+    getCars({ loading: setLoading, setCarData, page: newValue + 1, pageSize });
   };
 
   const rowsChangeHandler = (event) => {
     setPageSize(event.target.value);
+    getCars({
+      loading: setLoading,
+      setCarData,
+      page: page + 1,
+      pageSize: event.target.value,
+    });
+  };
+
+  const [make, setMake] = useState([]);
+  const [selectedPeriod, setSelectedPeriod] = useState("");
+
+  const [selectedMake, setSelectedMake] = useState("");
+  const [period, setPeriod] = useState([]);
+  const [selectedModel, setSelectedModel] = useState("");
+  const [model, setModel] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      getAllMakePublic({ setBrand: setMake });
+    };
+    fetchData();
+  }, []);
+  const handlePeriodSelector = (e) => {
+    setSelectedPeriod(e.target.value);
+    let body = {
+      makeId: parseInt(selectedMake),
+      periodId: parseInt(e.target.value),
+    };
+    getCars({ body, loading: setLoading, setCarData, page, pageSize });
+  };
+
+  const handleMakeSelector = (e) => {
+    setSelectedMake(e.target.value);
+    let body = {
+      makeId: parseInt(e.target.value),
+    };
+    getCars({ body, setCarData, page, pageSize, loading: setLoading });
+    getPeriod({ data: body, setPeriod });
+  };
+
+  const removeFilter = () => {
+    setSelectedMake("");
+    setSelectedPeriod("");
+    setSelectedModel("");
+    getCars({ loading: setLoading, setCarData, pageSize, page });
   };
 
   useEffect(() => {
@@ -90,11 +138,18 @@ const BuyCars = () => {
                   Filter
                 </Typography>
                 <Tooltip title="Clear Filters" placement="top" arrow>
-                  <Delete />
+                  <Delete onClick={removeFilter} sx={{ cursor: "pointer" }} />
                 </Tooltip>
               </Box>
               <Divider sx={{ backgroundColor: "#000" }} />
-              <FilterSection />
+              <FilterSection
+                make={make}
+                selectedMake={selectedMake}
+                makeHandleChange={handleMakeSelector}
+                period={period}
+                periodHandler={handlePeriodSelector}
+                selectedPeriod={selectedPeriod}
+              />
             </Card>
           </Grid>
           <Grid item lg={9} mt={5} p={10}>
@@ -150,8 +205,12 @@ const BuyCars = () => {
                   height={30}
                   className="m-auto"
                 />
-              ) : (
+              ) : carData.docs.length ? (
                 <BoxCar data={carData.docs} />
+              ) : (
+                <Typography fontSize={20} textAlign={"center"}>
+                  No Car Found
+                </Typography>
               )}
             </Box>
           </Grid>

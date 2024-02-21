@@ -94,6 +94,7 @@ export const loginWhiteTextField = {
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       border: "1px solid #ffffff",
+      color: "#fff",
     },
     "&:hover fieldset": {
       borderColor: "#ffffff",
@@ -102,7 +103,9 @@ export const loginWhiteTextField = {
       border: "1px solid #ffffff",
     },
   },
-
+  "& .MuiInputBase-input": {
+    color: "#ffffff",
+  },
   "& .Mui-error": {
     "& fieldset": {
       border: "1px solid #d32f2f",
@@ -121,6 +124,7 @@ export const loginWhiteTextField = {
     color: "#d32f2f",
   },
 };
+
 export const phonetextField = {
   "& label.Mui-focused": {
     color: "#000000",
@@ -274,34 +278,34 @@ export const colorStyles = {
   control: (baseStyles, state) => ({
     ...baseStyles,
     backgroundColor: "transparent",
-    border: "1px solid #000",
+    border: "1px solid #fff",
     boxShadow: "none",
     fontSize: "12px",
     width: "100%",
     fontWeight: "400",
-    color: "#000",
+    color: "#fff",
   }),
   option: (styles, { isSelected }) => {
     return {
       ...styles,
       textTransform: "capitalize",
-      backgroundColor: isSelected ? "#000" : "#ffffff",
+      backgroundColor: isSelected ? "#fff" : "#ffffff",
       zIndex: 999,
     };
   },
   placeholder: (baseStyles, state) => {
     return {
       ...baseStyles,
-      color: "#000",
+      color: "#fff",
     };
   },
   singleValue: (provided, state) => ({
     ...provided,
-    color: "#000",
+    color: "#fff",
     textTransform: "capitalize",
   }),
   input: (provided, state) => ({
     ...provided,
-    color: "#000",
+    color: "#fff",
   }),
 };

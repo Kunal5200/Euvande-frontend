@@ -5,23 +5,23 @@ import Subheader from "./subHeader";
 import { useRouter } from "next/router";
 
 const Layout = ({ children }) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const router = useRouter();
   useEffect(() => {
     const pathName = router.pathname;
 
-    if (pathName === "/") {
-      setShow(true);
-    } else {
+    if (pathName === "/registerorlogin") {
       setShow(false);
+    } else {
+      setShow(true);
     }
   }, [router.pathname]);
   return (
     <div>
       {/* {show ? <Subheader /> : <></>} */}
-      <Navbar />
+      {show ? <Navbar /> : <></>}
       {children}
-      <Footer />
+      {show ? <Footer /> : <></>}
     </div>
   );
 };

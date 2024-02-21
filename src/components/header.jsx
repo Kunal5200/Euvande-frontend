@@ -122,12 +122,12 @@ const Navbar = () => {
                   fill: show ? "#fff" : "#000",
                   border: show ? "1px solid #fff" : "1px solid #000",
                   borderRadius: "50%",
-                  width: "30px",
-                  height: "30px",
+                  width: "25px",
+                  height: "25px",
                   padding: "5px",
                 }}
               />
-              <Typography color={show ? "#ffffff" : "#000000"}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
                 +1 9845751252
               </Typography>
             </Stack>
@@ -139,12 +139,12 @@ const Navbar = () => {
               sx={{
                 backgroundColor: "#fff",
                 opacity: 1,
-                height: 25,
+                height: 20,
                 alignSelf: "center",
               }}
             />
             <Link href={"/buy-cars"} className="link">
-              <Typography color={show ? "#ffffff" : "#000000"}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
                 Buy Car
               </Typography>
             </Link>
@@ -155,7 +155,7 @@ const Navbar = () => {
               sx={{
                 backgroundColor: "#fff",
                 opacity: 1,
-                height: 25,
+                height: 20,
                 alignSelf: "center",
               }}
             />
@@ -163,7 +163,7 @@ const Navbar = () => {
               href={isAuthenticated ? "/sell-cars" : "/registerorlogin"}
               className="link"
             >
-              <Typography color={show ? "#ffffff" : "#000000"}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
                 Sell Car
               </Typography>
             </Link>
@@ -174,7 +174,7 @@ const Navbar = () => {
               sx={{
                 backgroundColor: "#fff",
                 opacity: 1,
-                height: 25,
+                height: 20,
                 alignSelf: "center",
               }}
             />
@@ -191,11 +191,12 @@ const Navbar = () => {
                 <Typography
                   color={show ? "#ffffff" : "#000000"}
                   className="text-capitalize"
+                  fontSize={12}
                 >
                   Hello, {name}{" "}
                 </Typography>
               ) : (
-                <Typography color={show ? "#ffffff" : "#000000"}>
+                <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
                   Login/Register
                 </Typography>
               )}
@@ -208,7 +209,7 @@ const Navbar = () => {
               sx={{
                 backgroundColor: "#fff",
                 opacity: 1,
-                height: 25,
+                height: 20,
                 alignSelf: "center",
               }}
             />
@@ -220,7 +221,7 @@ const Navbar = () => {
             >
               {linksList.map((links, index) => (
                 <React.Fragment key={index}>
-                  <MenuItem sx={{p:1}} onClick={links.onClick}>
+                  <MenuItem sx={{ p: 1 }} onClick={links.onClick}>
                     {links.icon} {links.name}
                   </MenuItem>
                   <Divider sx={{ backgroundColor: "#000" }} />
@@ -251,7 +252,7 @@ const Navbar = () => {
             <MenuIcon
               sx={{
                 fill: show ? "#fff" : "#000",
-                fontSize: 30,
+                fontSize: 25,
                 cursor: "pointer",
               }}
               onClick={() => setShowMenu(true)}
@@ -333,7 +334,7 @@ const Navbar = () => {
                       <ListItemAvatar>{item.icon}</ListItemAvatar>
                       <ListItemText
                         primary={item.title}
-                        style={{ fontSize: 40 }}
+                        style={{ fontSize: 30 }}
                       />
                     </ListItemButton>
                     <Divider sx={{ backgroundColor: "#000" }} />

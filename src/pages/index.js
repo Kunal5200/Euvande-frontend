@@ -52,7 +52,7 @@ export default function Home() {
         <title>Home</title>
       </Head>
 
-      <div className={styles.bg_home}>
+      <Box className={styles.bg_home}>
         <Container style={{ maxWidth: 1400 }}>
           <Grid container data-aos="fade-right">
             <Grid item xs={12} lg={6}>
@@ -60,7 +60,7 @@ export default function Home() {
             </Grid>
           </Grid>
         </Container>
-      </div>
+      </Box>
 
       <div className={`${styles.howItWorks} py-5`}>
         <Divider className="mb-3">

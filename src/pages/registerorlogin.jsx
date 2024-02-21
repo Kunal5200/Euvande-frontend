@@ -1,127 +1,87 @@
+import { useState } from "react";
+import styles from "../styles/Login.module.css";
+import { Box } from "@mui/material";
 import LoginForm from "@/components/loginForm";
-import { Box, Card, Divider, Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
-import ReactCardFlip from "react-card-flip";
-import styles from "@/styles/Login.module.css";
 import SignupForm from "@/components/signupForm";
-import { useDispatch } from "react-redux";
-import { showModal } from "@/redux/reducers/modal";
-import ForgotPassword from "@/assests/modalcalling/forgot-password";
-import Button from "@/components/button";
-const RegisterorLogin = () => {
-  const dispatch = useDispatch();
 
-  const forgotPassword = () => {
-    dispatch(showModal(<ForgotPassword />));
-  };
-  const [flip, setFlip] = useState(false);
+export default function SignInUpForm() {
+  const [signup, setsignup] = useState(false);
 
-  const handleClick = () => {
-    setFlip(!flip);
+  const handlesignup = () => {
+    setsignup(true);
   };
+
+  const handlesignin = () => {
+    setsignup(false);
+  };
+
   return (
-    <div>
-      <div className={styles.bg_image}>
-        <Grid container spacing={2}>
-          <Grid item xs={8} margin={"auto"}>
-            <Grid container>
-              <Grid item lg={6}>
-                <ReactCardFlip isFlipped={flip}>
-                  <Box
-                    sx={{
-                      backgroundColor: "#000",
-                      height: "500px",
-                      color: "#fff",
-                      display: "grid",
-                      placeItems: "center",
-                    }}
-                  >
-                    <Box textAlign={"center"}>
-                      <Typography
-                        paddingX={2}
-                        variant="h6"
-                        fontSize={20}
-                        textAlign={"center"}
-                      >
-                        Ready to make car dreams a reality? Whether selling or
-                        buying, our platform is where it happens. Let's get
-                        started quickly!
-                      </Typography>
-                      <Button
-                        onClick={handleClick}
-                        border="1px solid white "
-                        color="#fff"
-                        backgroundColor="transparent"
-                        padding="10px"
-                        width="120px"
-                        rounded="20px"
-                        className="mt-4"
-                      >
-                        Sign Up
-                      </Button>
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      backgroundColor: "#000",
-                      height: "500px",
-                      color: "#fff",
-                      display: "grid",
-                      placeItems: "center",
-                    }}
-                  >
-                    <Box textAlign={"center"}>
-                      <Typography
-                        paddingX={2}
-                        variant="h6"
-                        fontSize={20}
-                        textAlign={"center"}
-                      >
-                        Ready to embark on your car journey? Whether selling or
-                        buying, our platform is your gateway. Let's get you
-                        logged in quickly!
-                      </Typography>
-                      <Button
-                        onClick={handleClick}
-                        border="1px solid white "
-                        color="#fff"
-                        backgroundColor="transparent"
-                        padding="10px"
-                        width="120px"
-                        rounded="20px"
-                        className="mt-4"
-                      >
-                        Sign In
-                      </Button>
-                    </Box>
-                  </Box>
-                </ReactCardFlip>
-              </Grid>
-              <Grid item lg={6}>
-                <ReactCardFlip isFlipped={flip}>
-                  <Card className={styles.loginForm} sx={{ padding: 2 }}>
-                    <LoginForm />
-                    <Typography
-                      fontSize={"12px"}
-                      paddingRight={2}
-                      fontWeight={500}
-                      className="pointer text-decoration-underline"
-                      onClick={forgotPassword}
-                    >
-                      Forgot Password?
-                    </Typography>
-                  </Card>
-                  <Card className={styles.loginForm} sx={{ padding: 2 }}>
-                    <SignupForm />
-                  </Card>
-                </ReactCardFlip>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
+    <Box sx={{ position: "relative" }}>
+      <Box
+        sx={{
+          width: "100%",
+          position: "absolute",
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
+        <video width={"100%"} autoPlay={true} muted loop>
+          <source src="https://euvande-dev.s3.eu-central-1.amazonaws.com/videos/04.mp4" />
+        </video>
+      </Box>
+      <Box
+        sx={{
+          height: "100vh",
+          display: "grid",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          className={` ${styles.container_wrapper} ${
+            signup ? styles.right_panel_active : ""
+          }`}
+        >
+          <div
+            className={`${styles.form_container} ${styles.sign_up_container}`}
+          >
+            <SignupForm />
+          </div>
+          <div
+            className={`${styles.form_container} ${styles.sign_in_container}`}
+          >
+            <LoginForm />
+          </div>
+          <div className={styles.overlay_container}>
+            <div className={styles.overlay}>
+              <div className={`${styles.overlay_panel} ${styles.overlay_left}`}>
+                <h1>Welcome Back!</h1>
+                <p className={styles.loginText}>
+                  To keep connected with us please login with your personal info
+                </p>
+                <button
+                  className={styles.login_btn}
+                  onClick={handlesignin}
+                  width={200}
+                >
+                  Sign In
+                </button>
+              </div>
+              <div
+                className={`${styles.overlay_panel} ${styles.overlay_right}`}
+              >
+                <h1>Hello, User!</h1>
+                <p className={styles.loginText}>
+                  Enter your personal details and start a journey with us
+                </p>
+                <button className={styles.login_btn} onClick={handlesignup}>
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </Box>
+    </Box>
   );
-};
-
-export default RegisterorLogin;
+}

@@ -72,7 +72,6 @@ export const getCars = ({
         .getCars({ body, page, pageSize })
         .then((res) => {
           const response = res.data;
-          console.log(response);
           setCarData(res.data.data);
           loading(false);
         })

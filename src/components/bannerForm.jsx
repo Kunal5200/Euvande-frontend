@@ -111,12 +111,12 @@ const BannerForm = () => {
   return (
     <Grid container>
       <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
-        <Paper elevation={3} sx={{ backgroundColor: "#fff", p: 4 }}>
+        <Paper elevation={3} sx={{ backgroundColor: "#ffffff30", p: 4 }}>
           <Typography
             variant="h1"
             fontSize={{ xs: 18, lg: 25 }}
             lineHeight={{ xs: 1.7, lg: 1.2 }}
-            color={"#000"}
+            color={"#fff"}
             fontWeight={600}
             textAlign={"justify"}
             textTransform={"capitalize"}
@@ -219,11 +219,20 @@ const BannerForm = () => {
                     <Checkbox
                       onChange={vatDeductionHandler}
                       id="vatDeduction"
-                      style={{ color: "#000", borderColor: "#000" }}
+                      sx={{
+                        color: "#fff",
+                        "& .MuiSvgIcon-root": {
+                          color: "#fff",
+                        },
+                      }}
                     />
                   }
                   label="VAT Deduction"
-                  style={{ color: "#000" }}
+                  // style={{ color: "#fff" }}
+                  sx={{
+                    fontSize: 12,
+                    color: "#fff",
+                  }}
                 />
               </Grid>
             </Grid>
