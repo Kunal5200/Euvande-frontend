@@ -10,6 +10,7 @@ import { authControllers } from "@/api/authentication";
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
 import { useDispatch } from "react-redux";
 import Order from "./order";
+import ShortListedVehicle from "./shortListedVehicle";
 const ProfileSidebar = () => {
   const [user, setUser] = useState({});
   const [placeholderLoading, setPlaceholderLoading] = useState(true);
@@ -104,7 +105,7 @@ const ProfileSidebar = () => {
             <Order />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Short listed vehicle
+            <ShortListedVehicle />
           </TabPanel>
           <TabPanel value={value} index={2}>
             <ProfileSettings

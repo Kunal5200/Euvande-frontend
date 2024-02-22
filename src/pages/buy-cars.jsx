@@ -1,6 +1,7 @@
 import {
   getAllMakePublic,
   getCars,
+  getModelByYear,
   getPeriod,
 } from "@/api/apiCalling/listingApi";
 import BoxCar from "@/components/cars-box";
@@ -78,6 +79,22 @@ const BuyCars = () => {
     };
     getCars({ body, setCarData, page, pageSize, loading: setLoading });
     getPeriod({ data: body, setPeriod });
+    getModelByYear({ setModel, data: body });
+  };
+  const handleModelSelector = (e) => {
+    setSelectedModel(e.target.value);
+
+    let body = {
+      makeId: parseInt(selectedMake),
+      modelId: parseInt(e.target.value),
+      periodId: parseInt(selectedPeriod),
+    };
+    let data = {
+      makeId: parseInt(selectedMake),
+      periodId: parseInt(selectedPeriod),
+    };
+    getCars({ body, setCarData, page, pageSize, loading: setLoading });
+    getModelByYear({ setModel, data });
   };
 
   const removeFilter = () => {
@@ -149,6 +166,9 @@ const BuyCars = () => {
                 period={period}
                 periodHandler={handlePeriodSelector}
                 selectedPeriod={selectedPeriod}
+                model={model}
+                selectedModel={selectedModel}
+                modelHandler={handleModelSelector}
               />
             </Card>
           </Grid>
@@ -206,7 +226,13 @@ const BuyCars = () => {
                   className="m-auto"
                 />
               ) : carData.docs.length ? (
-                <BoxCar data={carData.docs} />
+                <BoxCar
+                  data={carData.docs}
+                  setCarData={setCarData}
+                  setLoading={setLoading}
+                  page={page}
+                  pageSize={pageSize}
+                />
               ) : (
                 <Typography fontSize={20} textAlign={"center"}>
                   No Car Found

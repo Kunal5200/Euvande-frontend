@@ -30,7 +30,7 @@ const CarCard = ({ data }) => {
     router.push(`vehicles/${carId}/car-details`);
   };
   return (
-    <Card>
+    <Card sx={{ height: 350 }}>
       <Carousel
         showThumbs={false}
         showArrows={false}
@@ -113,14 +113,16 @@ const CarCard = ({ data }) => {
           )}
         </Stack>
       </Box>
-      <Divider sx={{ backgroundColor: "#000" }} />
-      <Button
-        fullWidth
-        sx={{ color: "#000", fontSize: 13 }}
-        onClick={() => details(data.id)}
-      >
-        View Details <ChevronRightTwoTone />{" "}
-      </Button>
+      <Box sx={{ position: "absolute", bottom: 0,width:"100%"}}>
+        <Divider sx={{ backgroundColor: "#000" }} />
+        <Button
+          fullWidth
+          sx={{ color: "#000", fontSize: 13 }}
+          onClick={() => details(data.id)}
+        >
+          View Details <ChevronRightTwoTone />{" "}
+        </Button>
+      </Box>
     </Card>
   );
 };

@@ -133,4 +133,25 @@ export const vehicleController = {
       throw error;
     }
   },
+  favoriteCars: async (data) => {
+    try {
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
+        "api/favouriteCar/favourite",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getFavoriteCars: async () => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        "api/favouriteCar/getFavouriteCars"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

@@ -127,7 +127,7 @@ const Navbar = () => {
                   padding: "5px",
                 }}
               />
-              <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 +1 9845751252
               </Typography>
             </Stack>
@@ -144,7 +144,7 @@ const Navbar = () => {
               }}
             />
             <Link href={"/buy-cars"} className="link">
-              <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 Buy Car
               </Typography>
             </Link>
@@ -163,7 +163,7 @@ const Navbar = () => {
               href={isAuthenticated ? "/sell-cars" : "/registerorlogin"}
               className="link"
             >
-              <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 Sell Car
               </Typography>
             </Link>
@@ -191,12 +191,12 @@ const Navbar = () => {
                 <Typography
                   color={show ? "#ffffff" : "#000000"}
                   className="text-capitalize"
-                  fontSize={12}
+                  fontSize={14}
                 >
                   Hello, {name}{" "}
                 </Typography>
               ) : (
-                <Typography color={show ? "#ffffff" : "#000000"} fontSize={12}>
+                <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                   Login/Register
                 </Typography>
               )}
@@ -322,7 +322,13 @@ const Navbar = () => {
             </Box>
             <Divider sx={{ backgroundColor: "#000" }} />
             <Box>
-              <List>
+              <List
+                sx={{
+                  "& .MuiButtonBase-root-MuiMenuItem-root": {
+                    fontSize: 12,
+                  },
+                }}
+              >
                 {HeaderLinks.map((item, index) => (
                   <Link
                     href={item.url}
@@ -330,7 +336,7 @@ const Navbar = () => {
                     className=" link"
                     onClick={() => setShowMenu(false)}
                   >
-                    <ListItemButton disablePadding sx={{ fontSize: 40 }}>
+                    <ListItemButton disablePadding>
                       <ListItemAvatar>{item.icon}</ListItemAvatar>
                       <ListItemText
                         primary={item.title}

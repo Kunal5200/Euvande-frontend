@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { vehicleController } from "../addVehicle";
 import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 import { setVehicleInformation } from "@/redux/reducers/carInformation";
-import { getSellerPendingCars } from "./listingApi";
+import { getCars, getSellerPendingCars } from "./listingApi";
 import { hideModal } from "@/redux/reducers/modal";
 
 export const addCar = ({
@@ -124,5 +124,27 @@ export const removePendingCar = ({ carId, dispatch, setData, setLoading }) => {
       let errMessage =
         (err.response && err.response.data.message) || err.message;
       toast.error(errMessage);
+    });
+};
+
+export const addCarsToFavorite = ({
+  data,
+  setCarData,
+  setLoading,
+  page,
+  pageSize,
+  setFavoriteLoading,
+}) => {
+  vehicleController
+    .favoriteCars(data)
+    .then((res) => {
+      setFavoriteLoading(false);
+      getCars({ setCarData, loading: setLoading, page, pageSize });
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setFavoriteLoading(false);
     });
 };

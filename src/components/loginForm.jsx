@@ -16,6 +16,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import OTPinput from "./otpInput";
+import { showModal } from "@/redux/reducers/modal";
+import ForgotPassword from "@/assests/modalcalling/forgot-password";
+import Loading from "react-loading";
 const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
@@ -46,6 +49,10 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     countryCode: "",
     password: "",
   });
+
+  const ForgotPasswordModal = () => {
+    dispatch(showModal(<ForgotPassword />));
+  };
 
   const [loading, setLoading] = useState(false);
 
@@ -143,7 +150,11 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                 fullWidth
                 type="submit"
               >
-                Sign In
+                {loading ? (
+                  <Loading type="bars" width={20} height={20} color="#fff" />
+                ) : (
+                  "Sign In"
+                )}
               </Button>
               <Box textAlign={"start"}>
                 <Typography
@@ -151,6 +162,8 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
                   color={"#fff"}
                   fontSize={12}
                   mt={1}
+                  sx={{ cursor: "pointer" }}
+                  onClick={ForgotPasswordModal}
                 >
                   Forgot Password ?
                 </Typography>
