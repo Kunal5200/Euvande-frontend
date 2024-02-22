@@ -101,22 +101,7 @@ const Period = () => {
 
             <Card className="p-3">
               <h5 className="mb-3">Select the registration year</h5>
-              <TextField
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <Search />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={loginTextField}
-                label="Search Year"
-                className="mb-3"
-              />
+
               <Grid container spacing={2}>
                 {period.map((val, i) => (
                   <Grid item xs={4} key={i}>

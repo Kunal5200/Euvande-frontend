@@ -207,11 +207,13 @@ export const tabButton = {
   fontWeight: "500",
   minHeight: "0",
   "&.Mui-selected": {
-    color: "#FFF ",
+    color: "#000 ",
     border: "1px solid #000",
     textDecoration: "none",
     borderRadius: "20px",
-    backgroundColor: "#000",
+    // backgroundColor: "#fff",
+    background: "#e0e0e0",
+    boxShadow: "20px -20px 40px #bebebe -20px 20px 40px #ffffff",
   },
   "&.MuiTabs-indicator": {
     backgroundColor: "#ffffff",

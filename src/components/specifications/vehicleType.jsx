@@ -52,8 +52,9 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
         ))}
       </Grid>
       <Button
-        sx={{ mt: 2, width: 150 }}
+        sx={{ mt: 2 }}
         onClick={() => setActiveStep(activeStep - 1)}
+        color="inherit"
       >
         {" "}
         <FaAngleLeft /> Back

@@ -58,11 +58,18 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
     );
     setAnchorEl(null);
   };
+  const handleEditCar = () => {
+    if (id) {
+      localStorage.setItem("carId", id);
+      router.push("/sell-cars/make");
+    }
+  };
 
   const listRoutes = [
     {
       name: "Edit",
       icon: <Edit sx={{ fill: "green" }} />,
+      onClick:handleEditCar
     },
 
     {

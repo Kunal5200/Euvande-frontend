@@ -31,16 +31,17 @@ import { OPTION_TYPE } from "@/utils/enum";
 import { useRouter } from "next/router";
 import { addCarsToFavorite } from "@/api/apiCalling/vehicle";
 import Loading from "react-loading";
+import { useSelector } from "react-redux";
 const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
   const [favourites, setFavourites] = useState(
     new Array(data.length).fill(false)
   );
+  const user = useSelector((state) => state.user);
+  console.log("wertyu", user);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const favouriteHandler = (carId, index, favourite) => {
     setFavoriteLoading(true);
-    // const updatedFavourites = [...favourites];
-    // updatedFavourites[index] = !updatedFavourites[index];
-    // setFavourites(updatedFavourites);
+
     let body = {
       favourite: favourite ? false : true,
       carId: carId,

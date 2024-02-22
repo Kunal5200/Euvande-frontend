@@ -53,7 +53,11 @@ const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
           </Button>
         ))}
       </Stack>
-      <Button onClick={() => setActiveStep(activeStep - 1)} sx={{ mt: 2 }}>
+      <Button
+        onClick={() => setActiveStep(activeStep - 1)}
+        sx={{ mt: 2 }}
+        color="inherit"
+      >
         <FaAngleLeft /> Back
       </Button>
     </div>

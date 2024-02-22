@@ -50,7 +50,10 @@ const Interior = ({ setState, state, setActiveStep, activeStep, data }) => {
           </Button>
         ))}
       </Stack>
-      <Button onClick={() => setActiveStep(activeStep - 1)} sx={{ mt: 2 }}>
+      <Button
+        onClick={() => setActiveStep(activeStep - 1)}
+        sx={{ mt: 2, color: "#000" }}
+      >
         <FaAngleLeft /> Back
       </Button>
     </div>

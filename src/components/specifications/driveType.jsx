@@ -50,7 +50,11 @@ const DriveType = ({ setActiveStep, activeStep, setState, state, data }) => {
           </Button>
         ))}
       </Stack>
-      <Button sx={{ mt: 2 }} onClick={() => setActiveStep(activeStep - 1)}>
+      <Button
+        sx={{ mt: 2 }}
+        color="inherit"
+        onClick={() => setActiveStep(activeStep - 1)}
+      >
         <FaAngleLeft /> Back
       </Button>
     </div>

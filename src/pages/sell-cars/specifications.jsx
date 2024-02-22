@@ -4,12 +4,11 @@ import {
   getCarDetails,
   getCarInfo,
 } from "@/api/apiCalling/vehicle";
-import Button from "@/components/button";
 import AddCarDetails from "@/components/carDetails";
 import LinkTab from "@/components/linktab";
 import SpecificationSteps from "@/components/specifications/specificationStep";
 import { CarInformation } from "@/redux/reducers/carInformation";
-import { Card, Container, Grid, Stack } from "@mui/material";
+import { Button, Card, Container, Grid, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Loading from "react-loading";
@@ -20,7 +19,6 @@ const Specifications = () => {
   const [activeStep, setActiveStep] = useState(0);
   const carInfo = useSelector((state) => state.CarInfo);
   const carInformation = useSelector((state) => state.CarInformation);
-  // console.log(">>>carinformation", carInformation);
   const [state, setState] = useState({
     transmission: "",
     vehicleType: "",
@@ -31,8 +29,9 @@ const Specifications = () => {
     vatDeduction: "",
     power: "",
     color: "",
-    equipments: [],
+    equipments: [], // This is supposed to be an array
   });
+
   const {
     transmission,
     vehicleType,
@@ -135,7 +134,6 @@ const Specifications = () => {
     }
   }, []);
 
-  console.log(":::state", state);
   return (
     <div>
       <Container sx={{ my: 5 }}>
@@ -151,7 +149,7 @@ const Specifications = () => {
                 setActiveStep={setActiveStep}
               />
               <Stack direction="row" spacing={2} className="my-3">
-                <Button
+                {/* <Button
                   className="custom_btn"
                   type="button"
                   onClick={() => setActiveStep(activeStep - 1)}
@@ -160,9 +158,18 @@ const Specifications = () => {
                 >
                   <span>Back</span>
                   <span>Back</span>
-                </Button>
+                </Button> */}
                 <Button
-                  className="custom_btn"
+                  sx={{
+                    backgroundColor: "#000",
+                    color: "#fff",
+                    ":hover": {
+                      color: "#000",
+                      backgroundColor: "#fff",
+                    },
+                    border: "1px solid #000",
+                    transition: "0.5s ease all",
+                  }}
                   type="submit"
                   onClick={submitHandler}
                   width={150}
@@ -176,10 +183,7 @@ const Specifications = () => {
                       className="m-auto"
                     />
                   ) : (
-                    <React.Fragment>
-                      <span>Continue</span>
-                      <span>Continue</span>
-                    </React.Fragment>
+                    "Continue"
                   )}
                 </Button>
               </Stack>

@@ -43,7 +43,7 @@ export const registerValidation = ({ state, error, setError }) => {
 };
 
 export const contactValidation = ({ state, error, setError, setLoading }) => {
-  let { name, phoneNumber, country, zipCode } = state;
+  let { name, phoneNumber, country, zipCode, email } = state;
 
   if (name === "" || phoneNumber === "" || country === "" || zipCode === "") {
     setError({
@@ -52,6 +52,7 @@ export const contactValidation = ({ state, error, setError, setLoading }) => {
       phoneNumber: phoneNumber === "" && "Please Enter Phone Number",
       country: country === "" && "Please Select Country",
       zipCode: zipCode === "" && "Please Enter Zip Code",
+      email: email === "" && "Please Enter Valid Email",
     });
     setLoading(false);
     return false;

@@ -3,7 +3,6 @@ import {
   updateUserDetails,
 } from "@/api/apiCalling/authenticationApi";
 import { countries } from "@/assests/country";
-import Button from "@/components/button";
 import LinkTab from "@/components/linktab";
 import { isEmail, isPhonenumber } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
@@ -12,6 +11,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import {
   Autocomplete,
   Box,
+  Button,
   Card,
   Container,
   Grid,
@@ -19,29 +19,68 @@ import {
   TextField,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
 import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import AddCarDetails from "@/components/carDetails";
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
+import { countriesflag } from "@/assests/countries";
 const ContactInformation = () => {
   const router = useRouter();
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
-  console.log(carInfo);
+  const [error, setError] = useState({
+    name: "",
+    phoneNumber: "",
+    country: "",
+    zipCode: "",
+    email: "",
+  });
+  const [state, setState] = useState({
+    name: "",
+    phoneNumber: "",
+    country: "",
+    zipCode: "",
+    countryCode: "",
+    email: "",
+  });
+  const inputRef = useRef();
+  const [phone, setPhone] = useState("");
+  const handlePhoneNumber = (newphone, countryData) => {
+    setPhone(newphone);
+    setState({ ...state, phoneNumber: countryData.nationalNumber });
+
+    const isValid = matchIsValidTel(newphone);
+    if (isValid) {
+      setError({ ...error, phoneNumber: "" });
+      const data = countriesflag.find((val) => {
+        return val.country_code === countryData.countryCode;
+      });
+      if (data) {
+        setState((prevState) => ({
+          ...prevState,
+          country: data.country_name,
+          countryCode: data.idd_code,
+        }));
+      } else {
+      }
+    } else {
+      setError((prevError) => ({
+        ...prevError,
+        phoneNumber: "Please Enter Valid Phone Number",
+      }));
+    }
+  };
   const inputHandler = (e) => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
     setError({
       ...error,
       [id]:
-        id === "phoneNumber"
-          ? isPhonenumber(value)
-            ? ""
-            : "Please Enter Valid Phone Number"
-          : id === "email"
+        id === "email"
           ? isEmail(value)
             ? ""
             : "Please Enter Valid Email Id"
@@ -49,68 +88,36 @@ const ContactInformation = () => {
     });
   };
 
-  const [error, setError] = useState({
-    name: "",
-    phoneNumber: "",
-    country: "",
-    zipCode: "",
-  });
-  const [state, setState] = useState({
-    name: "",
-    phoneNumber: "",
-    country: carInfo && carInfo.contactInfo && carInfo.contactInfo.country,
-    zipCode: "",
-    countryCode: "",
-  });
-
   const [loading, setLoading] = useState(false);
 
-  const [country, setCountry] = useState({
-    label: state.country,
-    phone: state.countryCode,
-  });
-  const handleCountryChange = (event, newValue) => {
-    if (newValue) {
-      setState({
-        ...state,
-        country: newValue.label,
-        countryCode: newValue.phone,
-      });
-      setCountry(newValue);
-
-      setError({ ...error, country: "" });
-    } else {
-      setState({ ...state, country: "" });
-    }
-  };
   const submitHandler = (e) => {
     setLoading(true);
     e.preventDefault();
+    if (matchIsValidTel(state.phoneNumber)) {
+      setError({ ...error, phoneNumber: "Please Enter Phone Number" });
+      return;
+    }
 
     if (contactValidation({ state, error, setError, setLoading })) {
-      if (isPhonenumber(state.phoneNumber)) {
-        let body = {
-          name: state.name,
-          countryName: state.country,
-          zipCode: state.zipCode,
-          phoneNo: state.phoneNumber,
-          countryCode: state.countryCode,
-        };
-        let data = {
-          id: carInfo.id,
-          contactInfo: body,
-        };
-        addCar({
-          body: data,
-          router,
-          dispatch,
-          path: "/sell-cars/upload-picture",
-          setLoading,
-        });
-      } else {
-        toast.error("Please Enter valid Mobile Number");
-        setLoading(false);
-      }
+      let body = {
+        name: state.name,
+        countryName: state.country,
+        zipCode: state.zipCode,
+        phoneNo: state.phoneNumber,
+        countryCode: state.countryCode,
+      };
+      let data = {
+        id: carInfo.id,
+        contactInfo: body,
+      };
+
+      addCar({
+        body: data,
+        router,
+        dispatch,
+        path: "/sell-cars/upload-picture",
+        setLoading,
+      });
     } else {
       setLoading(false);
       return;
@@ -122,7 +129,6 @@ const ContactInformation = () => {
   const [show, setShow] = useState(true);
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      // getUserProfile({ setUser, dispatch });
       setShow(true);
     } else {
       setShow(false);
@@ -142,16 +148,30 @@ const ContactInformation = () => {
   useEffect(() => {
     setState({
       ...state,
-      name: carInfo && carInfo.contactInfo && carInfo.contactInfo.name,
+      name: (carInfo && carInfo.contactInfo && carInfo.contactInfo.name) || "",
       phoneNumber:
-        carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo,
-      zipCode: carInfo && carInfo.contactInfo && carInfo.contactInfo.zipCode,
-      country: carInfo && carInfo.contactInfo && carInfo.contactInfo.country,
-      countryCode:
-        carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode,
-    });
-  }, [carInfo]);
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo) || "",
 
+      zipCode:
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.zipCode) || "",
+      country:
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.country) || "",
+      countryCode:
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode) ||
+        "",
+      email: carInfo && carInfo.contactInfo && carInfo.contactInfo.email,
+    });
+    setPhone(
+      `${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${
+        carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo
+      } || "" `
+    );
+  }, [carInfo]);
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [state.phoneNo]);
   return (
     <div>
       <Container sx={{ my: 5 }}>
@@ -173,14 +193,6 @@ const ContactInformation = () => {
                       <CheckIcon className="me-2" />
                       <p className="mb-0">Please Confirm Your Details</p>
                     </Stack>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <p className="mb-0 text-success f-12">
-                      YOU ARE LOGGED IN WITH THE E-MAIL:
-                    </p>
-                    <span className="text-success f-13 fw-bold">
-                      {state && user.email ? user.email : ""}
-                    </span>
                   </Grid>
                 </Grid>
               ) : (
@@ -219,27 +231,28 @@ const ContactInformation = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <TextField
-                      label="Phone Number*"
+                    <MuiTelInput
+                      inputRef={inputRef}
                       fullWidth
-                      type="number"
-                      sx={loginTextField}
-                      onChange={inputHandler}
-                      id="phoneNumber"
+                      value={phone}
+                      onChange={handlePhoneNumber}
+                      label="Enter Phone Number"
+                      defaultCountry="DE"
+                      continents={["EU"]}
                       error={Boolean(error.phoneNumber)}
                       helperText={error.phoneNumber}
-                      value={state.phoneNumber}
-                      focused={
-                        state.phoneNumber === "" || state.phoneNumber === null
-                          ? false
-                          : true
-                      }
+                      sx={{
+                        ".MuiHelperText-root": {
+                          color: "#ff0000",
+                        },
+                      }}
+                      id="phoneNumber"
                     />
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} className=" p-3">
                   <Grid item xs={6}>
-                    <Autocomplete
+                    {/* <Autocomplete
                       id="country"
                       options={countries}
                       autoHighlight
@@ -278,6 +291,21 @@ const ContactInformation = () => {
                           helperText={error.country}
                         />
                       )}
+                    /> */}
+                    <TextField
+                      label="Email"
+                      onChange={inputHandler}
+                      sx={loginTextField}
+                      id="email"
+                      error={Boolean(error.email)}
+                      helperText={error.email}
+                      value={state.email}
+                      focused={
+                        state.email === "" || state.email === null
+                          ? false
+                          : true
+                      }
+                      fullWidth
                     />
                   </Grid>
                   <Grid item xs={6}>
@@ -300,7 +328,19 @@ const ContactInformation = () => {
                   </Grid>
                 </Grid>
                 <div className="text-end my-3 p-3">
-                  <Button className="custom_btn" width="200px">
+                  <Button
+                    type="submit"
+                    sx={{
+                      backgroundColor: "#000",
+                      color: "#fff",
+                      border: "1px solid #000",
+                      ":hover": {
+                        color: "#000",
+                        backgroundColor: "#fff",
+                      },
+                      width: 150,
+                    }}
+                  >
                     {loading ? (
                       <Loading
                         type="bars"
@@ -310,10 +350,7 @@ const ContactInformation = () => {
                         height={20}
                       />
                     ) : (
-                      <>
-                        <span>Continue</span>
-                        <span>Continue</span>
-                      </>
+                      "Submit"
                     )}
                   </Button>
                 </div>

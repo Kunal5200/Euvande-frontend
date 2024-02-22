@@ -49,7 +49,10 @@ const SellerLogin = () => {
     if (state.vin === "") {
       setError({ ...error, vin: "Please Enter Vin Number" });
     } else {
-      router.push("/create-demand ");
+      let body = {
+        vin: state.vin,
+      };
+      addCar({ body, router, path: "/sell-cars/make", dispatch });
     }
   };
 
@@ -132,7 +135,7 @@ const SellerLogin = () => {
                     helperText={error.vin}
                   />
                   <p className="f-13">
-                    Just here to check price?  <span>Check Price</span>
+                    Just here to check price? <span>Check Price</span>
                   </p>
                 </div>
                 <Button

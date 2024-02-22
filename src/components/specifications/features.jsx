@@ -1,7 +1,6 @@
 import { loginTextField } from "@/utils/styles";
-import { Box, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Button from "../button";
 import { useSelector } from "react-redux";
 
 const Features = ({ setActiveStep, activeStep, state, setState }) => {
@@ -72,20 +71,36 @@ const Features = ({ setActiveStep, activeStep, state, setState }) => {
           alignItems={"center"}
           spacing={2}
         >
-          <Button className="custom_btn" width="100px">
-            <span>Submit</span>
-            <span>Submit</span>
+          <Button
+            sx={{
+              width: 100,
+              backgroundColor: "#000",
+              color: "#fff",
+              ":hover": {
+                color: "#000",
+                backgroundColor: "#fff",
+              },
+              border: "1px solid #000",
+              transition: "0.5s ease all",
+            }}
+            type="submit"
+          >
+            Submit
           </Button>
           <Button
-            className="custom_btn_white"
-            type="button"
-            backgroundColor="#000"
-            color="#fff"
-            width="100px"
             onClick={() => setActiveStep(activeStep - 1)}
+            sx={{
+              color: "#000",
+              backgroundColor: "#fff",
+              ":hover": {
+                color: "#fff",
+                backgroundColor: "#000",
+              },
+              border: "1px solid #000",
+              width: 100,
+            }}
           >
-            <span>Back</span>
-            <span>Back</span>
+            Back
           </Button>
         </Stack>
       </form>

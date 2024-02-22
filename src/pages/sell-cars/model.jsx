@@ -89,22 +89,6 @@ const Model = () => {
 
             <Card className="p-3">
               <h5 className="mb-3">Select Your Car Model</h5>
-              <TextField
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <Search />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={loginTextField}
-                label="Search Your Car Model"
-                className="mb-3"
-              />
 
               <Grid container spacing={2}>
                 {modelName.map((val, i) => (

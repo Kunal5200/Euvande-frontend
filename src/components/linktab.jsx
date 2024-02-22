@@ -1,6 +1,7 @@
 import Ownership from "@/pages/sell-cars/ownership";
 import { tabButton } from "@/utils/styles";
-import { Tab, Tabs } from "@mui/material";
+import { Done } from "@mui/icons-material";
+import { Avatar, Tab, Tabs, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -16,6 +17,7 @@ const LinkTab = (props) => {
   const [disableLocation, setDisableLocation] = useState(true);
   const [disableSpecifications, setDisableSpecifiations] = useState(true);
   const [disablecontact, setDisableContact] = useState(true);
+  const [disablePhotos, setDisablePhotos] = useState(true);
   const tabData = [
     { label: "Make", route: "/sell-cars/make" },
     { label: "Period", route: "/sell-cars/period", disable: disablePeriod },
@@ -46,7 +48,11 @@ const LinkTab = (props) => {
       route: "/sell-cars/contact-information",
       disable: disablecontact,
     },
-    { label: "Photos", route: "/sell-cars/upload-picture" },
+    {
+      label: "Photos",
+      route: "/sell-cars/upload-picture",
+      disable: disablePhotos,
+    },
   ];
 
   useEffect(() => {
@@ -76,6 +82,7 @@ const LinkTab = (props) => {
     const odometer = carInfo && carInfo.odometer;
     const location = carInfo && carInfo.location && carInfo.location.city;
     const specifications = carInfo && carInfo.specification;
+    const contact = carInfo && carInfo.contactInfo;
 
     if (make) {
       setDisablePeriod(false);
@@ -101,6 +108,9 @@ const LinkTab = (props) => {
     if (specifications) {
       setDisableContact(false);
     }
+    if (contact) {
+      setDisableContact(false);
+    }
   }, [carInfo]);
 
   return (
@@ -108,7 +118,8 @@ const LinkTab = (props) => {
       <Tabs
         value={value}
         onChange={handleChange}
-        scrollButtons="auto"
+        variant="scrollable"
+        scrollButtons
         sx={{
           border: "1px solid #ccc",
           borderRadius: "40px",
@@ -118,9 +129,49 @@ const LinkTab = (props) => {
       >
         {tabData.map((tab, index) => (
           <Tab
+            icon={
+              <Avatar
+                sx={{
+                  width: 20,
+                  height: 20,
+                  backgroundColor: !tab.disable && "#000",
+                }}
+              >
+                {tab.disable ? (
+                  <Typography sx={{ fontSize: 12 }}>{index + 1}</Typography>
+                ) : (
+                  <Done sx={{ fontSize: 12 }} />
+                )}
+              </Avatar>
+            }
+            iconPosition="start"
             key={index}
             label={tab.label}
-            sx={tabButton}
+            sx={{
+              color: "#000",
+              fontSize: "12px",
+              fontWeight: "500",
+              minHeight: "0",
+              my: 0.3,
+              mx: 0.5,
+              "&.Mui-selected": {
+                color: "#000 ",
+                boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                // border: "1px solid #000",
+                textDecoration: "none",
+                borderRadius: "20px",
+                // backgroundColor: "#fff",
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#ffffff",
+              },
+              ":hover": {
+                boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                borderRadius: 20,
+                scale: 1.2,
+                zIndex: 9999,
+              },
+            }}
             disabled={tab.disable}
           />
         ))}

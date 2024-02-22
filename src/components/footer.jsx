@@ -12,7 +12,7 @@ import data from "@/assests/data";
 const Footer = () => {
   return (
     <Box className={`${styles.footer_bg}`} paddingY={10}>
-      <div className="container">
+      <div className="container" style={{ maxWidth: 1200 }}>
         <Grid container spacing={6}>
           <Grid item xs={12} lg={4}>
             <img src={whitelogo.src} width={150} />
@@ -22,7 +22,6 @@ const Footer = () => {
               buy, sell, and even participate in exciting auctions for the most
               coveted vehicles.
             </Typography>
-            {/* <p className="mb-0 mt-3">EuVande 2023. All Rights Reserved</p> */}
 
             <Stack direction="row" className="mt-3" spacing={2}>
               <FaYoutube size={20} />

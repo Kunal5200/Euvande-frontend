@@ -100,22 +100,6 @@ const Make = () => {
             <Card className="p-5">
               <h4 className="mb-3">Select Your Car Brand</h4>
 
-              <TextField
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <Search />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={loginTextField}
-                label="Search Your Brand"
-                className="mb-3"
-              />
               <div className={styles.overflow_wrapper}>
                 <div className="row ">
                   {brandSelector.map((val, i) => (

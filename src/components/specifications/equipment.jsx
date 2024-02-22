@@ -1,7 +1,6 @@
-import { Delete, Done } from "@mui/icons-material";
+import { ChevronLeft, Delete, Done } from "@mui/icons-material";
 import { Box, Button, Chip, Grid } from "@mui/material";
 import React, { useState } from "react";
-import { FaAngleLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
@@ -19,7 +18,9 @@ const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
       setState({ ...state, equipments: [...state.equipments, data] });
     }
   };
+
   const carInfo = useSelector((state) => state.CarInformation);
+  // const selector = useSelector((state) => state);
   const getChipBgColor = (data) => {
     if (equipment && equipment.includes(data)) {
       return "#000000";
@@ -49,6 +50,7 @@ const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
       return "";
     }
   };
+  console.log("carInfo", carInfo);
 
   return (
     <Box>
@@ -71,11 +73,13 @@ const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
           </Grid>
         ))}
       </Grid>
+
       <Button
-        sx={{ marginLeft: 2, marginTop: 3 }}
+        color="inherit"
         onClick={() => setActiveStep(activeStep - 1)}
+        sx={{ marginTop: 2 }}
       >
-        <FaAngleLeft /> back
+        <ChevronLeft /> Back
       </Button>
     </Box>
   );
