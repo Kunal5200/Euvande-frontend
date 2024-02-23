@@ -20,6 +20,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
 import { useRouter } from "next/router";
+import { Carousel } from "react-responsive-carousel";
+import { loginTextField } from "@/utils/styles";
 
 const CarInfoCard = ({
   carData,
@@ -94,11 +96,17 @@ const CarInfoCard = ({
           {loading ? (
             <Skeleton variant="rectangular" width={300} height={300} />
           ) : (
-            <img
-              src={carData.media.images.frontView}
-              width={"100%"}
-              height={"100%"}
-            />
+            // <img
+            //   src={carData.media.images.frontView}
+            //   width={"100%"}
+            //   height={"100%"}
+            // />
+            <Carousel showThumbs={false} showIndicators={false}>
+              {carData &&
+                carData.carImages.map((val) => (
+                  <img src={val} height={"100%"} />
+                ))}
+            </Carousel>
           )}
         </Grid>
         <Grid item lg={7} p={2}>
@@ -142,11 +150,7 @@ const CarInfoCard = ({
               <Grid item lg={6}>
                 <TextField
                   label="Enter Desired Amount"
-                  sx={{
-                    "& label": {
-                      fontSize: "13px",
-                    },
-                  }}
+                  sx={loginTextField}
                   fullWidth
                   value={price}
                   onChange={onChange}
@@ -197,11 +201,7 @@ const CarInfoCard = ({
               <Grid item lg={6}>
                 <TextField
                   label="Enter Desired Amount"
-                  sx={{
-                    "& label": {
-                      fontSize: "13px",
-                    },
-                  }}
+                  sx={loginTextField}
                   fullWidth
                   onChange={onChange}
                   type="number"

@@ -1,3 +1,4 @@
+import { vehicleController } from "@/api/addVehicle";
 import {
   addImageUpload,
   getCarDetails,
@@ -57,73 +58,59 @@ const UploadPicture = () => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const handleImageUpload = (id) => {
+  const [progress, setProgress] = useState({});
+  const handleImageUpload = async (id) => {
     const file = inputRefs.current[id].files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
+
       setImagePreviews((prevPreviews) => ({
         ...prevPreviews,
         [id]: imageUrl,
       }));
       setState({ ...state, [id]: file });
+      const formData = new FormData();
+      formData.append(id, file);
+      formData.append("carId", carInfo && carInfo.id);
+
+      try {
+        const result = await vehicleController.uploadPhotos(
+          formData,
+          (progressEvent) => {
+            const progress = Math.round(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            setProgress((prevProgress) => ({
+              ...prevProgress,
+              [id]: progress,
+            }));
+          }
+        );
+
+        setProgress((prevProgress) => {
+          const updatedProgress = { ...prevProgress };
+          delete updatedProgress[id];
+          return updatedProgress;
+        });
+      } catch (error) {
+        console.log(error);
+        // Handle errors
+        // console.error(`${id} upload failed:`, error);
+      }
     }
   };
   const submitHandler = (e) => {
-    setLoading(true);
     e.preventDefault();
-    if (
-      state.Headlining != null ||
-      state.backLeftTyre != null ||
-      state.backLeftWheel != null ||
-      state.backRightTyre != null ||
-      state.backRightWheel != null ||
-      state.dashboard != null ||
-      state.driverDoor != null ||
-      state.driverSeat != null ||
-      state.engine != null ||
-      state.frontLeft != null ||
-      state.frontLeftTyre != null ||
-      state.frontLeftWheel != null ||
-      state.frontRight != null ||
-      state.frontRightWheel != null ||
-      state.frontView != null ||
-      state.headlamp != null ||
-      state.instrumentPanel != null ||
-      state.passengerSeat != null ||
-      state.rearLeft != null ||
-      state.rearPanelOfCenterConsole != null ||
-      state.rearSeat != null ||
-      state.rearView != null
-    ) {
-      let data = {
-        frontView: state.frontView,
-        frontLeft: state.frontLeft,
-        frontRight: state.frontRight,
-        rearView: state.rearView,
-        rearLeft: state.rearLeft,
-        headlamp: state.headlamp,
-        engine: state.engine,
-        driverDoor: state.driverDoor,
-        driverSeat: state.driverSeat,
-        passengerSeat: state.passengerSeat,
-        instrumentPanel: state.instrumentPanel,
-        dashboard: state.dashboard,
-        rearPanelOfCenterConsole: state.rearPanelOfCenterConsole,
-        rearSeat: state.rearSeat,
-        Headlining: state.Headlining,
-        frontLeftWheel: state.frontLeftWheel,
-        backLeftWheel: state.backLeftWheel,
-        backRightWheel: state.backRightWheel,
-        frontRightWheel: state.backRightWheel,
-        frontLeftTyre: state.frontLeftTyre,
-        backLeftTyre: state.backLeftTyre,
-        backRightTyre: state.backRightTyre,
-        carId: carInfo.id,
-      };
-      addImageUpload({ data: data, router, setLoading });
+    const isAtLeastOneImageUploaded = Object.values(state).some(
+      (image) => image !== null
+    );
+    if (!isAtLeastOneImageUploaded) {
+      // Notify the user to upload at least one image
+      toast.error("Please upload at least one image before submitting.");
+      return;
     } else {
-      toast.error("Please select Pictures");
-      setLoading(false);
+      setLoading(true);
+      router.push("/sell-cars/car-details");
     }
   };
 
@@ -140,6 +127,85 @@ const UploadPicture = () => {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        vehicleController
+          .getVehicleDetails(carId)
+          .then((res) => {
+            const response = res.data.data.media.images;
+            if (response) {
+              setImagePreviews((prevPreviews) => ({
+                ...prevPreviews,
+                frontLeft: response.frontLeft || null,
+                frontView: response.frontView || null,
+                frontRight: response.frontRight || null,
+                rearRight: response.rearRight || null,
+                rearView: response.rearView || null,
+                rearLeft: response.rearLeft || null,
+                Headlining: response.Headlining || null,
+                headlamp: response.headlamp || null,
+                engine: response.engine || null,
+                driverDoor: response.driverDoor || null,
+                backLeftTyre: response.backLeftTyre || null,
+                backLeftWheel: response.backLeftWheel || null,
+                backRightTyre: response.backRightTyre || null,
+                backRightWheel: response.backRightWheel || null,
+                dashboard: response.dashboard || null,
+                driverDoor: response.driverDoor || null,
+                driverSeat: response.driverSeat || null,
+                engine: response.engine || null,
+                frontLeftTyre: response.frontLeftTyre || null,
+                frontLeftWheel: response.frontLeftWheel || null,
+                frontRightTyre: response.frontRightTyre || null,
+                frontRightWheel: response.frontRightWheel || null,
+                instrumentPanel: response.instrumentPanel || null,
+                passengerSeat: response.passengerSeat || null,
+                rearPanelOfCenterConsole:
+                  response.rearPanelOfCenterConsole || null,
+                rearSeat: response.rearSeat || null,
+              }));
+              setState((state) => ({
+                ...state,
+                frontLeft: response.frontLeft || null,
+                frontView: response.frontView || null,
+                frontRight: response.frontRight || null,
+                rearRight: response.rearRight || null,
+                rearView: response.rearView || null,
+                rearLeft: response.rearLeft || null,
+                Headlining: response.Headlining || null,
+                headlamp: response.headlamp || null,
+                engine: response.engine || null,
+                driverDoor: response.driverDoor || null,
+                backLeftTyre: response.backLeftTyre || null,
+                backLeftWheel: response.backLeftWheel || null,
+                backRightTyre: response.backRightTyre || null,
+                backRightWheel: response.backRightWheel || null,
+                dashboard: response.dashboard || null,
+                driverDoor: response.driverDoor || null,
+                driverSeat: response.driverSeat || null,
+                engine: response.engine || null,
+                frontLeftTyre: response.frontLeftTyre || null,
+                frontLeftWheel: response.frontLeftWheel || null,
+                frontRightTyre: response.frontRightTyre || null,
+                frontRightWheel: response.frontRightWheel || null,
+                instrumentPanel: response.instrumentPanel || null,
+                passengerSeat: response.passengerSeat || null,
+                rearPanelOfCenterConsole:
+                  response.rearPanelOfCenterConsole || null,
+                rearSeat: response.rearSeat || null,
+              }));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    };
+    fetchImages();
   }, []);
 
   return (
@@ -172,9 +238,10 @@ const UploadPicture = () => {
                       <AccordionDetails>
                         <ImageUpload
                           data={data.photoUpload}
-                          handleImage={handleImageUpload}
+                          handleImageUpload={handleImageUpload}
                           imagePreviews={imagePreviews}
                           inputRefs={inputRefs}
+                          progress={progress}
                         />
                       </AccordionDetails>
                     </Accordion>
@@ -185,9 +252,10 @@ const UploadPicture = () => {
                       <AccordionDetails>
                         <ImageUpload
                           data={data.interiorPhotoUpload}
-                          handleImage={handleImageUpload}
+                          handleImageUpload={handleImageUpload}
                           imagePreviews={imagePreviews}
                           inputRefs={inputRefs}
+                          progress={progress}
                         />
                       </AccordionDetails>
                     </Accordion>
@@ -198,9 +266,10 @@ const UploadPicture = () => {
                       <AccordionDetails>
                         <ImageUpload
                           data={data.tyres}
-                          handleImage={handleImageUpload}
+                          handleImageUpload={handleImageUpload}
                           imagePreviews={imagePreviews}
                           inputRefs={inputRefs}
+                          progress={progress}
                         />
                       </AccordionDetails>
                     </Accordion>

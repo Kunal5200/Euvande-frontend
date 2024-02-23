@@ -69,7 +69,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
     {
       name: "Edit",
       icon: <Edit sx={{ fill: "green" }} />,
-      onClick:handleEditCar
+      onClick: handleEditCar,
     },
 
     {
@@ -86,11 +86,10 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
     );
   }
 
-  console.log(">>???data", data);
   return (
     <Box>
       {data.map((val, i) => (
-        <Card key={i} sx={{ my: 3 }}>
+        <Card key={i} sx={{ my: 3, height: 250 }}>
           <Grid container spacing={2}>
             <Grid item lg={5}>
               {loading ? (
@@ -112,11 +111,11 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                         src={value}
                         key={index}
                         width={"100%"}
-                        height={300}
+                        height={250}
                       />
                     ))
                   ) : (
-                    <img src={dummyCar.src} />
+                    <img src={dummyCar.src} height={250} />
                   )}
                 </Carousel>
               )}
@@ -128,7 +127,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                 justifyContent={"space-between"}
               >
                 <Typography
-                  fontSize={25}
+                  fontSize={20}
                   fontWeight={600}
                   color={"#000"}
                   letterSpacing={1}
@@ -184,7 +183,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                 </Popover>
               </Stack>
               <Typography fontSize={12}>
-                {(val && val.vin) || "Not Disclosed"}
+                {(val && val.vin) || "VIN not Disclosed"}
               </Typography>
               <Stack direction={"row"} spacing={1} my={1}>
                 {val.specification &&
@@ -193,14 +192,15 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                     <Chip
                       avatar={
                         <Avatar sx={{ padding: 1, backgroundColor: "#fff" }}>
-                          <Done sx={{ fontSize: 8, fill: "#000" }} />
+                          <Done sx={{ fontSize: 10, fill: "#000" }} />
                         </Avatar>
                       }
                       label={value}
                       sx={{
-                        fontSize: 8,
+                        fontSize: 10,
                         backgroundColor: "#000",
                         color: "#fff",
+                        textTransform: "capitalize",
                       }}
                     />
                   ))}
@@ -214,11 +214,12 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                       sx={{
                         transition: "0.5s ease all",
                         cursor: "pointer",
-                        "&:hover": {
-                          backgroundColor: "#000",
-                          color: "#fff",
-                        },
-                        fontSize: 8,
+                        // "&:hover": {
+                        //   backgroundColor: "#000",
+                        //   color: "#fff",
+                        // },
+                        fontSize: 10,
+                        width:100
                       }}
                       onClick={() => handleRoute(val.id)}
                     />
@@ -297,9 +298,21 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                   {val && val.status}
                 </Typography>
               </Stack>
-              <Button onClick={() => handleRoute(val.id)} sx={{ fontSize: 12 }}>
-                View Car Details <ArrowRightOutlined />
-              </Button>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                mt={2}
+              >
+                {val.price && <Typography fontSize={25} fontWeight={600}>{val.price} €</Typography>}
+                <Button
+                  onClick={() => handleRoute(val.id)}
+                  sx={{ fontSize: 12 }}
+                  color="inherit"
+                >
+                  View Car Details <ArrowRightOutlined />
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
         </Card>

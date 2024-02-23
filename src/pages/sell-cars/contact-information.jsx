@@ -155,14 +155,14 @@ const ContactInformation = () => {
       zipCode:
         (carInfo && carInfo.contactInfo && carInfo.contactInfo.zipCode) || "",
       country:
-        (carInfo && carInfo.contactInfo && carInfo.contactInfo.country) || "",
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryName) || "",
       countryCode:
         (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode) ||
         "",
       email: carInfo && carInfo.contactInfo && carInfo.contactInfo.email,
     });
     setPhone(
-      `${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${
+      `+${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${
         carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo
       } || "" `
     );

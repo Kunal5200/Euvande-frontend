@@ -10,6 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import {
+  Avatar,
   Box,
   Card,
   Container,
@@ -179,7 +180,43 @@ const Navbar = () => {
               }}
             />
 
-            <Stack
+            <Box onClick={routePage} sx={{ cursor: "pointer" }}>
+              {isAuthenticated ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      fontSize: 12,
+                      width: 20,
+                      height: 20,
+                      mr: 1,
+                      // backgroundColor: show ? "#fff" : "#000",
+                      // color: show ? "#fff" : "#000",
+                    }}
+                  >
+                    {name.slice(0, 1)}
+                  </Avatar>
+                  <Typography fontSize={14} color={show ? "#fff" : "#000"}>
+                    {name}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <PersonIcon
+                    sx={{ fill: show ? "#fff" : "#000", fontSize: 20 }}
+                  />
+                  <Typography color={show ? "#fff" : "#000"} fontSize={14}>
+                    Sign In
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+
+            {/* <Stack
               spacing={1}
               alignItems={"center"}
               direction={"row"}
@@ -200,7 +237,7 @@ const Navbar = () => {
                   Login/Register
                 </Typography>
               )}
-            </Stack>
+            </Stack> */}
 
             <Divider
               flexItem

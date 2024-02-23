@@ -1,4 +1,4 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid, LinearProgress, Paper } from "@mui/material";
 import React, { useRef, useState } from "react";
 
 const ImageUpload = (props) => {
@@ -19,7 +19,7 @@ const ImageUpload = (props) => {
               <input
                 type="file"
                 style={{ display: "none" }}
-                onChange={() => props.handleImage(val.id)}
+                onChange={() => props.handleImageUpload(val.id)}
                 id={val.id}
                 ref={(el) => (props.inputRefs.current[val.id] = el)}
               />
@@ -78,6 +78,12 @@ const ImageUpload = (props) => {
                 </div>
               </div>
             </Paper>
+            {props.progress[val.id] !== undefined && (
+              <LinearProgress
+                variant="determinate"
+                value={props.progress[val.id]}
+              />
+            )}
           </Grid>
         ))}
       </Grid>

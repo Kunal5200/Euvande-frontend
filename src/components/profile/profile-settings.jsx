@@ -63,7 +63,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Person />
-                    <Typography variant="h6" fontWeight={500}>
+                    <Typography variant="h6" fontWeight={600} fontSize={18}>
                       Contact Information
                     </Typography>
                   </Stack>
@@ -135,7 +135,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Lock />
-                    <Typography variant="h6">Change Password</Typography>
+                    <Typography variant="h6" fontWeight={600} fontSize={18}>Change Password</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />
@@ -147,7 +147,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1} alignItems={"center"}>
                     <ContactMailIcon />
-                    <Typography variant="h6">Address</Typography>
+                    <Typography variant="h6" fontWeight={600} fontSize={18}>Address</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />

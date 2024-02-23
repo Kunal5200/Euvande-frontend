@@ -230,7 +230,7 @@ let data = {
       id: "backRightTyre",
     },
     {
-      label: "Front Left Tyre",
+      label: "Front Right Tyre",
       image: frontleftTyre.src,
       id: "frontRightTyre",
     },
