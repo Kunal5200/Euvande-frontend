@@ -24,7 +24,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Loading from "react-loading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const BuyCars = () => {
   const router = useRouter();
@@ -104,6 +104,8 @@ const BuyCars = () => {
     getCars({ loading: setLoading, setCarData, pageSize, page });
   };
 
+  const user = useSelector((state) => state.userInfo);
+
   useEffect(() => {
     const fetchData = async () => {
       const filteredData = router.query.state;
@@ -124,16 +126,24 @@ const BuyCars = () => {
           pageSize,
         });
       } else {
-        getCars({
-          loading: setLoading,
-          setCarData: setCarData,
-          page,
-          pageSize,
-        });
+        user.isAuthenticated
+          ? getCars({
+              loading: setLoading,
+              setCarData: setCarData,
+              page,
+              pageSize,
+              body: { userId: user.id },
+            })
+          : getCars({
+              loading: setLoading,
+              setCarData: setCarData,
+              page,
+              pageSize,
+            });
       }
     };
     fetchData();
-  }, []);
+  }, [user]);
   return (
     <Container maxWidth="1400px">
       <Head>

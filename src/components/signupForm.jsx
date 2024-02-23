@@ -98,7 +98,9 @@ const SignupForm = () => {
       {emailverify ? (
         <OTPinput />
       ) : (
-        <Box sx={{ p: 2, display: "grid", placeItems: "center",height:"100%" }}>
+        <Box
+          sx={{ p: 2, display: "grid", placeItems: "center", height: "100%" }}
+        >
           <form onSubmit={submitHandler}>
             <Box textAlign={"center"} mb={3}>
               <Typography fontWeight={600} fontSize={25} color={"#fff"}>
@@ -174,7 +176,11 @@ const SignupForm = () => {
               fullWidth
               type="submit"
             >
-              {loading ? <Loading /> : "Sign UP"}
+              {loading ? (
+                <Loading type="bars" width={20} height={20} />
+              ) : (
+                "Sign UP"
+              )}
             </Button>
           </form>
         </Box>

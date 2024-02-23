@@ -36,8 +36,7 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
   const [favourites, setFavourites] = useState(
     new Array(data.length).fill(false)
   );
-  const user = useSelector((state) => state.user);
-  console.log("wertyu", user);
+  const user = useSelector((state) => state.userInfo);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const favouriteHandler = (carId, index, favourite) => {
     setFavoriteLoading(true);
@@ -54,6 +53,7 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
       page,
       pageSize,
       setFavoriteLoading,
+      user,
     });
   };
   const router = useRouter();

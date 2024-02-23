@@ -155,7 +155,8 @@ const ContactInformation = () => {
       zipCode:
         (carInfo && carInfo.contactInfo && carInfo.contactInfo.zipCode) || "",
       country:
-        (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryName) || "",
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryName) ||
+        "",
       countryCode:
         (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode) ||
         "",
@@ -164,7 +165,7 @@ const ContactInformation = () => {
     setPhone(
       `+${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${
         carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo
-      } || "" `
+      }  ` || "+49"
     );
   }, [carInfo]);
   useEffect(() => {

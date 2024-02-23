@@ -11,7 +11,14 @@ import certificate from "@/icons/stamp.png";
 import styles from "@/styles/seller.module.css";
 import { isVIN } from "@/utils/regex";
 import { cardStyles, loginTextField, responsive } from "@/utils/styles";
-import { Card, Divider, Grid, Stack, TextField } from "@mui/material";
+import {
+  Card,
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  TextField,
+} from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -200,10 +207,12 @@ const SellerLogin = () => {
           </Grid>
           <Grid xs={2} item></Grid>
         </Grid>
-        <div className="container">
-          <h4 className="text-capitalize mb-4 text-center f-30 ">
-            Easy auto sales
-          </h4>
+        <Container style={{ maxWidth: "1300px" }}>
+          <Divider sx={{ mb: 4 }}>
+            <h4 className="text-capitalize  text-center f-30 ">
+              Easy auto sales
+            </h4>
+          </Divider>
           <Grid container>
             {data.selling.map((val, i) => (
               <Grid item xs={4} key={i}>
@@ -219,7 +228,7 @@ const SellerLogin = () => {
                     {val.para}
                   </p>
                   <div className=" text-center">
-                    <Button className="custom_btn" width="200px">
+                    <Button className="custom_btn" width="200px" rounded={20}>
                       <span className="f-12">{val.btn}</span>
                       <span className="f-12">{val.btn}</span>
                     </Button>
@@ -228,9 +237,11 @@ const SellerLogin = () => {
               </Grid>
             ))}
           </Grid>
-        </div>
-        <div className="container mt-5">
-          <h4 className="text-center mb-3 f-30">Customer Reviews</h4>
+        </Container>
+        <Container style={{ maxWidth: 1300 }}>
+          <Divider sx={{ my: 4 }}>
+            <h4 className="text-center  f-30">Customer Reviews</h4>
+          </Divider>
           <Carousel responsive={responsive}>
             {data.reviews.map((val, i) => (
               <Review
@@ -241,11 +252,13 @@ const SellerLogin = () => {
               />
             ))}
           </Carousel>
-        </div>
-        <div className="container mt-5">
-          <h4 className="text-center mb-3 f-30">FAQs</h4>
+        </Container>
+        <Container style={{ maxWidth: 1300 }}>
+          <Divider>
+            <h4 className="text-center  f-30">FAQs</h4>
+          </Divider>
           <FAQ />
-        </div>
+        </Container>
       </div>
     </>
   );

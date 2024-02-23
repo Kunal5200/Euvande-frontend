@@ -116,7 +116,7 @@ const AddCarDetails = ({ data, loading }) => {
         <Skeleton variant="rectangular" />
       ) : (
         <Card sx={{ p: 2 }}>
-          <Divider sx={{ fontSize: 13, fontWeight: 600 }}>Car Details</Divider>
+          <Divider sx={{ fontSize: 20, fontWeight: 600 }}>Car Details</Divider>
           {details.map((val, i) => (
             <React.Fragment key={i}>
               {val.label && (

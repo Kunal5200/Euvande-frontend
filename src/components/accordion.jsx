@@ -45,16 +45,14 @@ const FAQ = () => {
           <AccordionSummary
             expandIcon={
               expanded === val.panel ? (
-                <Remove className="text-white" />
+                <Remove  />
               ) : (
                 <Add />
               )
             }
-            className={`p-2 border-bottom ${
-              expanded === val.panel ? styles.header : ""
-            }`}
+            className={" border-bottom "}
           >
-           {i+1}. {val.title}
+            {i + 1}. {val.title}
           </AccordionSummary>
           <AccordionDetails>{val.summary}</AccordionDetails>
         </Accordion>

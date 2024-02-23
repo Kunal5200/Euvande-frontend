@@ -1,4 +1,4 @@
-import { CarRental, Gavel, Home, Info } from "@mui/icons-material";
+import { CarRental, Gavel, Home, Info, Person } from "@mui/icons-material";
 
 export const HeaderLinks = [
   {
@@ -21,4 +21,5 @@ export const HeaderLinks = [
     url: "/buy-cars",
     icon: <CarRental />,
   },
+  // { title: "Login", url: "/login", icon: <Person /> },
 ];

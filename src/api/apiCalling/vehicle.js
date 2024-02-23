@@ -134,17 +134,47 @@ export const addCarsToFavorite = ({
   page,
   pageSize,
   setFavoriteLoading,
+  user,
 }) => {
   vehicleController
     .favoriteCars(data)
     .then((res) => {
       setFavoriteLoading(false);
-      getCars({ setCarData, loading: setLoading, page, pageSize });
+      getCars({
+        setCarData,
+        loading: setLoading,
+        page,
+        pageSize,
+        body: { userId: user.id },
+      });
     })
     .catch((err) => {
       let errMessage =
         (err.response && err.response.data.message) || err.message;
       toast.error(errMessage);
       setFavoriteLoading(false);
+    });
+};
+
+export const getFavouriteCars = ({ setCarData, loading }) => {
+  vehicleController
+    .getFavoriteCars()
+    .then((res) => {
+      setCarData(res.data.data);
+      loading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getFuelType = ({ setFuelType, modelId }) => {
+  vehicleController
+    .getFuelType(modelId)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };

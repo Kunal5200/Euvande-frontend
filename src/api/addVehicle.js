@@ -1,5 +1,6 @@
 import securedAPI from "./config";
 import vehicleSecuredAPI from "./config";
+import vehiclePublicAPI from "./config";
 export const vehicleController = {
   getMake: async () => {
     try {
@@ -146,8 +147,18 @@ export const vehicleController = {
   },
   getFavoriteCars: async () => {
     try {
-      let result = await securedAPI.securedAPI.get(
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
         "api/favouriteCar/getFavouriteCars"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getFuelType: async (modelId) => {
+    try {
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        `api/variant/public/getFuelType/${modelId}`
       );
       return result;
     } catch (error) {

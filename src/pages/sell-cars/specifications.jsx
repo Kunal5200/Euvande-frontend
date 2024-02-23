@@ -169,16 +169,16 @@ const Specifications = () => {
                     },
                     border: "1px solid #000",
                     transition: "0.5s ease all",
+                    width:150
                   }}
                   type="submit"
                   onClick={submitHandler}
-                  width={150}
                 >
                   {loading ? (
                     <Loading
                       type="bars"
-                      width={15}
-                      height={15}
+                      width={20}
+                      height={20}
                       color="red"
                       className="m-auto"
                     />

@@ -26,7 +26,6 @@ const Variant = () => {
       variantId: variant,
     };
     addCar({ body, router, path: "/sell-cars/ownership", dispatch });
-    // router.push("/sell-cars/ownership");
   };
 
   const handleChange = (e, newvalue) => {
@@ -38,16 +37,7 @@ const Variant = () => {
     };
     getModel(body);
   };
-  // const tabs = [
-  //   {
-  //     name: "petrol variant",
-  //     id: "Petrol",
-  //   },
-  //   {
-  //     name: "diesel variant",
-  //     id: "Diesel",
-  //   },
-  // ];
+
   const getModel = (body) => {
     vehicleController
       .getVariants(body)
@@ -86,6 +76,7 @@ const Variant = () => {
         return () => {};
       }
     };
+
     fetchVariant();
   }, [carInfo.id]);
 

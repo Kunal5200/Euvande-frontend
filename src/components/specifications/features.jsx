@@ -35,9 +35,11 @@ const Features = ({ setActiveStep, activeStep, state, setState }) => {
     setState({
       ...state,
       power:
-        (carInfo && carInfo.specification && carInfo.specification.power) || "",
+        (carInfo && carInfo.specification && carInfo.specification.power) ||
+        state.power,
       color:
-        (carInfo && carInfo.specification && carInfo.specification.color) || "",
+        (carInfo && carInfo.specification && carInfo.specification.color) ||
+        state.color,
     });
   }, [carInfo]);
   return (

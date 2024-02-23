@@ -96,16 +96,9 @@ const CarInfoCard = ({
           {loading ? (
             <Skeleton variant="rectangular" width={300} height={300} />
           ) : (
-            // <img
-            //   src={carData.media.images.frontView}
-            //   width={"100%"}
-            //   height={"100%"}
-            // />
             <Carousel showThumbs={false} showIndicators={false}>
               {carData &&
-                carData.carImages.map((val) => (
-                  <img src={val} height={"100%"} />
-                ))}
+                carData.carImages.map((val) => <img src={val} height={350} />)}
             </Carousel>
           )}
         </Grid>
@@ -229,7 +222,6 @@ const CarInfoCard = ({
           <Grid container mt={2}>
             <Grid lg={12}>
               <Button
-                variant="contained"
                 fullWidth
                 onClick={approvalSending}
                 disabled={carData && !carData.price ? true : false}
@@ -237,10 +229,18 @@ const CarInfoCard = ({
                   "&.Mui-disabled": {
                     color: "#fff",
                   },
+                  color: "#000",
+                  backgroundColor: "#fff",
+                  border: "1px solid #d7d7d7",
+                  padding: 1,
+                  ":hover": {
+                    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                  },
+                  transition: "0.5s ease all",
                 }}
               >
                 {approvalLoading ? (
-                  <Loading type="bars" color="red" width={20} height={20} />
+                  <Loading type="bars" color="#000" width={20} height={20} />
                 ) : carData && carData.status === CarStatus.Pending ? (
                   "Waiting for EuVande Approval"
                 ) : (
