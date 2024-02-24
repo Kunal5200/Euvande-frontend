@@ -2,15 +2,31 @@ import data from "@/assests/data";
 import LinkTab from "@/components/linktab";
 import TabPanel from "@/components/tabPanel";
 import { varianttabButton } from "@/utils/styles";
-import { Card, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Container,
+  Grid,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { vehicleController } from "@/api/addVehicle";
 import { useDispatch, useSelector } from "react-redux";
-import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import {
+  addCar,
+  getCarDetails,
+  getCarInfo,
+  getFuelType,
+} from "@/api/apiCalling/vehicle";
 import AddCarDetails from "@/components/carDetails";
+import { showModal } from "@/redux/reducers/modal";
+import Addvariant from "@/assests/modalcalling/addVariant";
 const Variant = () => {
   const [value, setValue] = useState(0);
   const [fuel, setFuel] = useState([]);
@@ -64,6 +80,10 @@ const Variant = () => {
     fetchData();
   }, []);
 
+  const handleAddVariantModal = () => {
+    dispatch(showModal(<Addvariant />));
+  };
+
   useEffect(() => {
     const fetchVariant = async () => {
       if (carInfo.id) {
@@ -79,6 +99,12 @@ const Variant = () => {
 
     fetchVariant();
   }, [carInfo.id]);
+  const [fuelType, setFuelType] = useState([]);
+  useEffect(() => {
+    if (carInfo.model) {
+      getFuelType({ setFuelType, modelId: carInfo.model });
+    }
+  }, [carInfo.model]);
 
   return (
     <>
@@ -101,10 +127,10 @@ const Variant = () => {
                   padding: 1,
                 }}
               >
-                {data.variantTypes.map((val, i) => (
+                {fuelType.map((val, i) => (
                   <Tab
-                    label={val.label}
-                    id={val.id}
+                    label={val}
+                    id={val}
                     key={i}
                     sx={{
                       color: "#000",
@@ -160,7 +186,21 @@ const Variant = () => {
                       ))}
                     </Grid>
                   ) : (
-                    <Typography marginTop={2}>No Variants Found</Typography>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                    >
+                      <Typography marginTop={2}>No Variants Found</Typography>
+                      <Button
+                        color="inherit"
+                        sx={{ fontSize: 12 }}
+                        onClick={handleAddVariantModal}
+                      >
+                        {" "}
+                        Add Variant +
+                      </Button>
+                    </Stack>
                   )}
                 </TabPanel>
               ))}

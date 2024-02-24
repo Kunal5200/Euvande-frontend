@@ -172,7 +172,7 @@ export const getFuelType = ({ setFuelType, modelId }) => {
   vehicleController
     .getFuelType(modelId)
     .then((res) => {
-      console.log(res);
+      setFuelType(res.data.data.fuelType);
     })
     .catch((err) => {
       console.log(err);

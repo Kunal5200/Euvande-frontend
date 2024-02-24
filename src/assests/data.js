@@ -1449,6 +1449,10 @@ let data = {
       label: "LPG",
       id: "LPG",
     },
+    {
+      label: "Gasoline",
+      id: "Gasoline",
+    },
   ],
   variants: [
     {

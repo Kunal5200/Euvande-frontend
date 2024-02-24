@@ -136,6 +136,7 @@ const ShortListedVehicle = () => {
                 </Stack>
                 {val &&
                   val.specification &&
+                  val.specification.equipments &&
                   val.specification.equipments.slice(0, 3).map((label) => (
                     <Chip
                       label={label}
@@ -150,6 +151,7 @@ const ShortListedVehicle = () => {
                   ))}
                 {val &&
                   val.specification &&
+                  val.specification.equipments &&
                   val.specification.equipments.length > 3 && (
                     <Chip
                       label={`+ ${
