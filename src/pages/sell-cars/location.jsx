@@ -1,8 +1,9 @@
-import Button from "@/components/button";
+// import Button from "@/components/button";
 import LinkTab from "@/components/linktab";
 import { loginTextField } from "@/utils/styles";
 import {
   Autocomplete,
+  Button,
   Card,
   Container,
   Grid,
@@ -157,38 +158,41 @@ const Location = () => {
                   </Grid>
                   <Grid item xs={5}>
                     <Button
-                      className="custom_btn"
-                      width="100%"
-                      padding="18px"
-                      type="button"
+                      sx={{ color: "#000", border: "1px solid #d8d8d8", p: 2 }}
                       onClick={handleClick}
+                      fullWidth
                     >
                       <span>
                         <img src={detectloc.src} /> Use Current Location
-                      </span>
-                      <span>
-                        <img src={detectloc.src} color="#ffffff" />
-                        Use Current Location
                       </span>
                     </Button>
                   </Grid>
                 </Grid>
 
                 <div className="text-end my-4">
-                  <Button className="custom_btn" width={280}>
+                  <Button
+                    sx={{
+                      border: "1px solid #d7d7d7",
+                      width: 290,
+                      color: "#000",
+                      ":hover": {
+                        boxShadow: "0px 0px 2px 2px #00000040",
+                      },
+                      transition: "0.5s ease all",
+                      p: 1.2,
+                    }}
+                    type="submit"
+                  >
                     {loading ? (
                       <Loading
                         type="bars"
                         width={20}
                         height={20}
-                        color="orange"
+                        color="#000"
                         className="m-auto"
                       />
                     ) : (
-                      <React.Fragment>
-                        <span>Continue</span>
-                        <span>Continue</span>
-                      </React.Fragment>
+                      "Continue"
                     )}
                   </Button>
                 </div>

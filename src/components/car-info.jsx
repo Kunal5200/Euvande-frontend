@@ -1,6 +1,6 @@
 import { Box, Card, Skeleton, Stack, Typography } from "@mui/material";
 import Dot from "./dot";
-
+import logo from "@/logo/EUVandeLogoBlack.svg";
 const CarInfo = ({ carData, loading }) => {
   return (
     <div>
@@ -9,7 +9,7 @@ const CarInfo = ({ carData, loading }) => {
           <Skeleton variant="rectangular" width={100} height={100} />
         ) : (
           <Card sx={{ p: 2 }}>
-            <img src={carData.make.logo} width={100} />
+            <img src={carData.make.logo || logo.src} width={100} />
           </Card>
         )}
         {loading ? (
@@ -27,7 +27,7 @@ const CarInfo = ({ carData, loading }) => {
             </Typography>
             <Stack direction={"row"} alignItems={"center"} spacing={1}>
               <Typography fontSize={12}>
-              {carData.vin || "VIN not Disclosed"}
+                {carData.vin || "VIN not Disclosed"}
               </Typography>
               <Dot height={5} width={5} bgColor={"#fff"} />
               <Typography fontSize={12}>

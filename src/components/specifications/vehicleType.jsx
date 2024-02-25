@@ -10,6 +10,7 @@ const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
     setState({ ...state, vehicleType: vehicleType });
   };
   const carInfo = useSelector((state) => state.CarInformation);
+  console.log(carInfo)
   return (
     <div>
       <Grid container spacing={1}>

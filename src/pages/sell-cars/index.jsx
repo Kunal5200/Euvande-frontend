@@ -3,7 +3,7 @@ import { addCar } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import FAQ from "@/components/accordion";
 import Brands from "@/components/brands";
-import Button from "@/components/button";
+// import Button from "@/components/button";
 import Review from "@/components/review";
 import hands from "@/icons/hands.png";
 import wallet from "@/icons/purse.png";
@@ -11,7 +11,9 @@ import certificate from "@/icons/stamp.png";
 import styles from "@/styles/seller.module.css";
 import { isVIN } from "@/utils/regex";
 import { cardStyles, loginTextField, responsive } from "@/utils/styles";
+import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import {
+  Button,
   Card,
   Container,
   Divider,
@@ -24,6 +26,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import Loading from "react-loading";
 import Carousel from "react-multi-carousel";
 import { useDispatch } from "react-redux";
 const SellerLogin = () => {
@@ -43,6 +46,7 @@ const SellerLogin = () => {
   const [error, setError] = useState({
     vin: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const vinHandler = (e) => {
     setState({ ...state, vin: e.target.value });
@@ -56,10 +60,11 @@ const SellerLogin = () => {
     if (state.vin === "") {
       setError({ ...error, vin: "Please Enter Vin Number" });
     } else {
+      setLoading(true);
       let body = {
         vin: state.vin,
       };
-      addCar({ body, router, path: "/sell-cars/make", dispatch });
+      addCar({ body, router, path: "/sell-cars/make", dispatch, setLoading });
     }
   };
 
@@ -129,6 +134,7 @@ const SellerLogin = () => {
                 spacing={3}
                 direction={{ xs: "column", sm: "row" }}
                 className="mt-4"
+                alignItems={"center"}
               >
                 <div>
                   <TextField
@@ -141,29 +147,37 @@ const SellerLogin = () => {
                     error={Boolean(error.vin)}
                     helperText={error.vin}
                   />
-                  <p className="f-13">
-                    Just here to check price? <span>Check Price</span>
-                  </p>
                 </div>
                 <Button
-                  className="custom_btn"
-                  width={200}
-                  rounded="5px"
-                  height="50px"
                   onClick={VinSubmitHandler}
+                  sx={{
+                    width: 200,
+                    border: "1px solid #d7d7d7",
+                    p: 2,
+                    color: "#000",
+                    ":hover": {
+                      boxShadow: "0px 0px 2px 2px #eee",
+                      backgroundColor: "transparent",
+                    },
+                    transition: "0.5s ease all",
+                  }}
+                  disabled={loading}
                 >
-                  <span>
-                    Sell My Car <FaArrowRight className="ms-2" />
-                  </span>
-                  <span className="d-flex align-items-center">
-                    Sell My Car <FaArrowRight className="ms-2" />
-                  </span>
+                  {loading ? (
+                    <Loading
+                      type="bars"
+                      width={20}
+                      height={20}
+                      color="#000"
+                      className="m-auto"
+                    />
+                  ) : (
+                    "Sell Car"
+                  )}
                 </Button>
               </Stack>
 
-              <Divider>
-                <span className={styles.divider_text}>OR</span>
-              </Divider>
+              <Divider sx={{ fontSize: 20, fontWeight: 550 }}>Or</Divider>
 
               <div className="mt-4">
                 <h3 className="text-center mb-3">
@@ -228,7 +242,7 @@ const SellerLogin = () => {
                     {val.para}
                   </p>
                   <div className=" text-center">
-                    <Button className="custom_btn" width="200px" rounded={20}>
+                    <Button className="custom_btn">
                       <span className="f-12">{val.btn}</span>
                       <span className="f-12">{val.btn}</span>
                     </Button>

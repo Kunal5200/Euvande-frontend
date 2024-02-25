@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 
 const Equipment = ({ setActiveStep, activeStep, setState, state, data }) => {
   const [equipment, setEquipment] = useState([]);
+
+  state.equipments = Array.isArray(state.equipments) ? state.equipments : [];
+
   const handleSelectEquipment = (data) => {
     const previousEquipment = equipment.includes(data);
     if (previousEquipment) {

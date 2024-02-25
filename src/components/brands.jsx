@@ -1,4 +1,5 @@
 import { Box, Card } from "@mui/material";
+import logo from "@/logo/EUVandeLogoBlack.svg";
 const Brands = (props) => {
   const borderStyle = props.selected ? "1px solid #000" : "1px solid #eee";
   return (
@@ -28,7 +29,7 @@ const Brands = (props) => {
         className={`${props.className} `}
       >
         <div className="text-center">
-          <img src={props.img} width={50} className="mb-1" />
+          <img src={props.img || logo.src} width={50} className="mb-1" />
           <p className="text-uppercase f-10 mb-0">{props.brands}</p>
         </div>
       </Card>

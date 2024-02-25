@@ -151,7 +151,7 @@ const CarInfoCard = ({
                 />
               </Grid>
               <Grid item lg={6}>
-                <CustomButton
+                {/* <CustomButton
                   className="custom-btn"
                   padding="18px"
                   width="100%"
@@ -164,7 +164,32 @@ const CarInfoCard = ({
                   ) : (
                     "Add Price"
                   )}
-                </CustomButton>
+                </CustomButton> */}
+                <Button
+                  sx={{
+                    border: "1px solid #d7d7d7",
+                    color: "#000",
+                    p: 2,
+                    ":hover": {
+                      boxShadow: "0px 0px 2px 2px #eee",
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                  onClick={onSubmit}
+                  fullWidth
+                >
+                  {priceLoading ? (
+                    <Loading
+                      type="bars"
+                      width={20}
+                      height={20}
+                      color="#000"
+                      className="m-auto"
+                    />
+                  ) : (
+                    "Add Price"
+                  )}
+                </Button>
               </Grid>
             </Grid>
           ) : carData && carData.price ? (
@@ -201,7 +226,7 @@ const CarInfoCard = ({
                 />
               </Grid>
               <Grid item lg={6}>
-                <CustomButton
+                {/* <CustomButton
                   className="custom-btn"
                   padding="18px"
                   width="100%"
@@ -214,7 +239,32 @@ const CarInfoCard = ({
                   ) : (
                     "Add Price"
                   )}
-                </CustomButton>
+                </CustomButton> */}
+                <Button
+                  sx={{
+                    border: "1px solid #d7d7d7",
+                    color: "#000",
+                    p: 2,
+                    ":hover": {
+                      boxShadow: "0px 0px 2px 2px #eee",
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                  onClick={onSubmit}
+                  fullWidth
+                >
+                  {priceLoading ? (
+                    <Loading
+                      type="bars"
+                      width={20}
+                      height={20}
+                      color="#000"
+                      className="m-auto"
+                    />
+                  ) : (
+                    "Add Price"
+                  )}
+                </Button>
               </Grid>
             </Grid>
           )}
@@ -227,7 +277,7 @@ const CarInfoCard = ({
                 disabled={carData && !carData.price ? true : false}
                 sx={{
                   "&.Mui-disabled": {
-                    color: "#fff",
+                    color: "#d7d7d7",
                   },
                   color: "#000",
                   backgroundColor: "#fff",
@@ -249,7 +299,7 @@ const CarInfoCard = ({
               </Button>
             </Grid>
           </Grid>
-          <Grid container>
+          {/* <Grid container>
             <Stack direction={"row"} alignItems={"center"} spacing={0.5}>
               <Checkbox id="terms" />
               <label htmlFor="terms" className="f-12">
@@ -268,7 +318,7 @@ const CarInfoCard = ({
                 with the terms & conditions
               </a>
             </Stack>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Card>

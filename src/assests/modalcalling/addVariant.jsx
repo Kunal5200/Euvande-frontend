@@ -1,6 +1,7 @@
 import { vehicleController } from "@/api/addVehicle";
 import { loginTextField } from "@/utils/styles";
 import {
+  Autocomplete,
   Box,
   Button,
   Divider,
@@ -15,8 +16,14 @@ import { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import data from "../data";
 import Loading from "react-loading";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { hideModal } from "@/redux/reducers/modal";
 
 const Addvariant = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     modelId: "",
     modelName: "",
@@ -31,20 +38,49 @@ const Addvariant = () => {
   const inputHandler = (e) => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
+    setError({ ...error, [id]: "" });
   };
 
-  const fuelTypeHandler = (e) => {
-    setState({ ...state, fuelType: e.value });
+  const fuelTypeHandler = (e, newValue) => {
+    if (newValue) {
+      setState({ ...state, fuelType: newValue.id });
+      setError({ ...error, fuelType: "" });
+    } else {
+      setState({ ...state, fuelType: "" });
+    }
   };
   const [loading, setLoading] = useState(false);
   const submitHandler = (e) => {
     e.preventDefault();
+
     if (state.fuelType === "" || state.variantName === "") {
       setError({
         ...error,
         variantName: state.variantName === "" && "Please Enter  Variant Name",
         fuelType: state.fuelType === "" && "Please Select Fuel Type",
       });
+    } else {
+      setLoading(true);
+      let body = {
+        variantName: state.variantName,
+        modelId: state.modelId,
+        id: state.carId,
+        fuelType: state.fuelType,
+      };
+      vehicleController
+        .addVehicle(body)
+        .then((res) => {
+          setLoading(false);
+
+          router.push("/sell-cars/ownership");
+          dispatch(hideModal())
+        })
+        .catch((err) => {
+          let errMessage =
+            (err.response && err.response.data.message) || err.message;
+          toast.error(errMessage);
+          setLoading(false);
+        });
     }
   };
 
@@ -95,16 +131,15 @@ const Addvariant = () => {
               error={Boolean(error.variantName)}
               helperText={error.variantName}
             />
-            <ReactSelect
+            {/* <ReactSelect
               styles={{
-                control: (baseStyles) => ({
+                control: (baseStyles, state) => ({
                   ...baseStyles,
                   padding: 8,
                   border: "1px solid #000",
                   boxShadow: "none",
                   ":hover": {
                     border: "1px solid #000",
-                    boxShadow: "none",
                   },
                   zIndex: 999,
                 }),
@@ -119,6 +154,14 @@ const Addvariant = () => {
                 };
               })}
               placeholder="Select Fuel Type"
+              onChange={fuelTypeHandler}
+            /> */}
+            <Autocomplete
+              renderInput={(params) => (
+                <TextField {...params} label="Select Fuel Type" />
+              )}
+              options={data.variantTypes}
+              getOptionLabel={(option) => option.label}
               onChange={fuelTypeHandler}
             />
             <FormHelperText sx={{ color: "#ff0000" }}>
