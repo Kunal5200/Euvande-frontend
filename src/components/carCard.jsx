@@ -31,7 +31,7 @@ const CarCard = ({ data }) => {
   return (
     <Card
       sx={{
-        height: 400,
+        height: 420,
         ":hover": {
           // transform: "scale(1.1)",
           // zIndex: 999,
@@ -110,6 +110,7 @@ const CarCard = ({ data }) => {
           direction={"row"}
           alignItems={"center"}
           justifyContent={"space-between"}
+          sx={{ mb: 2 }}
         >
           {data && data.status && (
             <Typography

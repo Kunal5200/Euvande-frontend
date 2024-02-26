@@ -126,10 +126,10 @@ const AddCarDetails = ({ data, loading }) => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      p: 1,
+                      p: 2,
                     }}
                   >
-                    <Typography fontSize={12}>{val.label}</Typography>
+                    <Typography fontSize={13}>{val.label}</Typography>
                     <Typography fontSize={12}>{val.value}</Typography>
                   </Box>
                   <Divider sx={{ backgroundColor: "#000" }} />

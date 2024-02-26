@@ -256,11 +256,17 @@ export const bodyTypeTabButton = {
   color: "#000",
   "&.Mui-selected": {
     color: "#000",
-    backgroundColor: "#00000087",
+    // border: "1px solid #000",
     borderRadius: "8px",
+    boxShadow: "0px 0px 2px 2px #d7d7d7",
   },
-  "&": {
-    transition: "s ease-in-out",
+  borderRadius: "8px",
+  transition: "0.5s ease-in-out",
+  // width: 1,
+  mx: 1,
+  my: 1,
+  ":hover": {
+    boxShadow: "0px 0px 2px 2px #d7d7d7",
   },
 };
 
