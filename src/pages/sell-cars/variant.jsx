@@ -30,19 +30,26 @@ import Addvariant from "@/assests/modalcalling/addVariant";
 const Variant = () => {
   const [value, setValue] = useState(0);
   const [fuel, setFuel] = useState([]);
-  const [variant, setVariant] = useState("");
-  const [variantType, setVariantType] = useState("Petrol");
+  // const [variantType, setVariantType] = useState();
   const router = useRouter();
   const dispatch = useDispatch();
   const carInfo = useSelector((state) => state.CarInfo);
   const handleClick = (variant) => {
-    setVariant(variant);
+    setVariantType(variant);
     let body = {
       id: carInfo.id,
       variantId: variant,
     };
     addCar({ body, router, path: "/sell-cars/ownership", dispatch });
   };
+  const [fuelType, setFuelType] = useState([]);
+  const [variantType, setVariantType] = useState(null);
+
+  useEffect(() => {
+    if (fuelType && fuelType.length > 0) {
+      setVariantType(fuelType[0]);
+    }
+  }, [fuelType]);
 
   const handleChange = (e, newvalue) => {
     setValue(newvalue);
@@ -98,8 +105,8 @@ const Variant = () => {
     };
 
     fetchVariant();
-  }, [carInfo.id]);
-  const [fuelType, setFuelType] = useState([]);
+  }, [variantType]);
+
   useEffect(() => {
     if (carInfo.model) {
       getFuelType({ setFuelType, modelId: carInfo.model });
@@ -124,7 +131,7 @@ const Variant = () => {
                   border: "1px solid #000",
                   backgroundColor: "#fff",
                   borderRadius: 8,
-                  padding: 1,
+                  padding: 0.8,
                 }}
               >
                 {fuelType.map((val, i) => (
@@ -134,27 +141,33 @@ const Variant = () => {
                     key={i}
                     sx={{
                       color: "#000",
-                      width: 100,
+                      width: 150,
+                      fontSize: 12,
                       "&.Mui-selected": {
-                        color: "#fff",
+                        color: "#000",
                         // border: "#000",
-                        backgroundColor: "#000",
+                        // backgroundColor: "#000",
                         borderRadius: 8,
-                        width: 100,
+                        width: 150,
+                        border: "1px solid #eee",
+                        boxShadow:
+                          " -20px -20px 60px #bebebe, 20px 20px 60px #ffffff",
                       },
                       "&:hover": {
                         color: "#fff",
                         backgroundColor: "#000",
                         borderRadius: 8,
-                        width: 100,
+                        width: 150,
                       },
+                      my: 0.3,
+                      padding: 2,
                     }}
                   />
                 ))}
               </Tabs>
               {data.variants.map((val, i) => (
                 <TabPanel value={value} index={i} className="mt-3 p-2">
-                  <h6>{val.label}</h6>
+                  {/* <h6>{val.label}</h6> */}
                   {fuel.length ? (
                     <Grid container spacing={3}>
                       {fuel.map((val, i) => (

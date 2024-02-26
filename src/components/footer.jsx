@@ -12,8 +12,8 @@ import data from "@/assests/data";
 const Footer = () => {
   return (
     <Box className={`${styles.footer_bg}`} paddingY={10}>
-      <div className="container" style={{ maxWidth: 1200 }}>
-        <Grid container spacing={6}>
+      <div className="container" style={{ maxWidth: 1250,padding:0}}>
+        <Grid container spacing={3}>
           <Grid item xs={12} lg={4}>
             <img src={whitelogo.src} width={150} />
             <Typography fontSize={12} marginY={3} textAlign={"justify"}>

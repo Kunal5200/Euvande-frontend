@@ -2,7 +2,6 @@ import data from "@/assests/data";
 import BannerForm from "@/components/bannerForm";
 import BodyType from "@/components/bodyType/bodyType";
 import BrandCard from "@/components/brandCard";
-import Button from "@/components/button";
 import CarCard from "@/components/carCard";
 import HowWorks from "@/components/howItWorks";
 import TestimonialCard from "@/components/testimonialCard";
@@ -12,6 +11,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Container,
   Divider,
   Grid,
@@ -29,6 +29,7 @@ import { responsive } from "@/utils/styles";
 import { useRouter } from "next/router";
 import { getCars } from "@/api/apiCalling/listingApi";
 import "swiper/css/navigation";
+import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -41,10 +42,12 @@ export default function Home() {
   const router = useRouter();
   const [carData, setCarData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [make, setMake] = useState([]);
   useEffect(() => {
     getCars({ setCarData, loading: setLoading });
+    vehicleMakeCount({ setMake });
   }, []);
+  console.log("dfghj", make);
 
   return (
     <>
@@ -87,7 +90,25 @@ export default function Home() {
           </Grid>
 
           <div className="text-center mt-4">
-            <Button
+            {/* <Button
+              sx={{
+                backgroundColor: "#000",
+                width: 200,
+                color: "#fff",
+                ":hover": {
+                  color: "#000",
+                  backgroundColor: "#fff",
+                },
+                border: "1px solid #000",
+                fontSize: 12,
+                p: 1,
+                transition: "0.5s ease all",
+              }}
+              onClick={() => router.push("/about-us")}
+            >
+              Know More
+            </Button> */}
+            {/* <Button
               className="custom_btn"
               width={200}
               rounded={20}
@@ -95,7 +116,7 @@ export default function Home() {
             >
               <span>Know More</span>
               <span>Know More</span>
-            </Button>
+            </Button> */}
           </div>
         </Container>
       </div>
@@ -110,7 +131,7 @@ export default function Home() {
             Featured Cars
           </Typography>
         </Divider>
-        <Container className="mt-3" style={{ maxWidth: 1300 }}>
+        <Container className="mt-3" style={{ maxWidth: 1300, p: 0 }}>
           <Swiper
             breakpoints={{
               640: {
@@ -143,13 +164,20 @@ export default function Home() {
 
           <div className="my-4 text-center">
             <Button
-              className="custom_btn"
-              width={200}
-              rounded={20}
+              sx={{
+                width: 200,
+                border: "1px solid #000",
+                color: "#fff",
+                backgroundColor: "#000",
+                ":hover": {
+                  color: "#000",
+                  backgroundColor: "#fff",
+                },
+                transition: "0.5s ease all",
+              }}
               onClick={() => router.push("buy-cars")}
             >
-              <span>View All Cars</span>
-              <span>View All Cars</span>
+              View All Cars
             </Button>
           </div>
         </Container>
@@ -184,26 +212,37 @@ export default function Home() {
         </Divider>
         <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={3} marginTop={2} marginBottom={2}>
-            {data.brandsSelector.slice(0, 12).map((val, i) => (
+            {make.map((val, i) => (
               <Grid item lg={2} key={i}>
                 <BrandCard
-                  brandName={val.name}
+                  brandName={val.makeName}
                   img={val.logo}
-                  carNumber={val.carNumber}
+                  carNumber={val.carCount}
                 />
               </Grid>
             ))}
           </Grid>
           <Box textAlign={"center"} marginY={4}>
-            <Button className="custom_btn" rounded={20} width={200}>
-              <span>View All Cars</span>
-              <span>View All Cars</span>
+            <Button
+              sx={{
+                color: "#fff",
+                backgroundColor: "#000",
+                width: 200,
+                ":hover": {
+                  color: "#000",
+                  backgroundColor: "#fff",
+                },
+                border: "1px solid #000",
+                transition:"0.5s ease all"
+              }}
+            >
+              View All Cars
             </Button>
           </Box>
         </Container>
       </Box>
-      <Box marginTop={3} marginBottom={3}>
-        <Divider>
+      <Box sx={{ my: 3 }}>
+        <Divider sx={{ mb: 3 }}>
           <Typography
             variant="h4"
             fontSize={{ xs: 18, lg: 25 }}
@@ -221,40 +260,6 @@ export default function Home() {
               </Typography>
             </Grid>
             <Grid item lg={9}>
-              {/* <Swiper
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  768: {
-                    slidesPerView: 2,
-                    spaceBetween: 40,
-                  },
-                  1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 10,
-                  },
-                }}
-                className="py-3 px-3"
-                autoplay={{
-                  delay: 2500,
-                  disableOnInteraction: false,
-                }}
-                modules={[Autoplay]}
-                grabCursor={true}
-                loop={true}
-              >
-                {data.testimonials.map((val, i) => (
-                  <SwiperSlide key={i}>
-                    <TestimonialCard
-                      testimonial={val.testimonial}
-                      name={val.name}
-                      img={val.img}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper> */}
               <Carousel responsive={responsive}>
                 {data.testimonials.map((val, i) => (
                   <TestimonialCard

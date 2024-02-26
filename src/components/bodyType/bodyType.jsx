@@ -63,7 +63,6 @@ const BodyType = () => {
     getCars({ setCarData, loading: setLoading, body });
   };
 
-  console.log("....carData", carData);
   const [tabData, setData] = useState([]);
 
   useEffect(() => {
@@ -158,22 +157,24 @@ const BodyType = () => {
                   </Swiper>
 
                   <Box textAlign={"center"}>
-                    <Button
+                    {/* <Button
                       sx={{
-                        width: 250,
-                        borderRadius: 20,
+                        width: 200,
+
                         mt: 3,
                         border: "1px solid #000",
-                        color: "#000",
+                        color: "#fff",
+                        backgroundColor: "#000",
                         "&:hover": {
-                          color: "#fff",
-                          backgroundColor: "#000",
+                          color: "#000",
+                          backgroundColor: "#fff",
                         },
+                        transition: "0.5s ease all",
                       }}
                       onClick={() => router.push("/buy-cars")}
                     >
-                      <span>View All Cars</span>
-                    </Button>
+                      View All Cars
+                    </Button> */}
                   </Box>
                 </>
               ) : (
@@ -191,7 +192,7 @@ const BodyType = () => {
                     }}
                     onClick={() => router.push("/buy-cars")}
                   >
-                    Brwose Cars
+                    Browse Cars
                   </Button>
                 </Box>
               )}

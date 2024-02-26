@@ -53,7 +53,7 @@ export const listingController = {
       throw error;
     }
   },
-  getCars: async ({body, page, pageSize}) => {
+  getCars: async ({ body, page, pageSize }) => {
     try {
       let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
         `/api/newCars/getCarList?page=${(page && page) || "1"}&&pageSize=${
@@ -80,6 +80,17 @@ export const listingController = {
     try {
       let result = await vehiclePublicAPI.vehcilePublicAPI.get(
         "/api/carSpecification/public/getDefaultSpecification"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getMakeCarsCount: async () => {
+    try {
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        "api/newCars/public/getCountWithMake"
       );
       return result;
     } catch (error) {

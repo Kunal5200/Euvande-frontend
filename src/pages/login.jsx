@@ -1,12 +1,14 @@
 import { useState } from "react";
 import styles from "../styles/Login.module.css";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import LoginForm from "@/components/loginForm";
 import SignupForm from "@/components/signupForm";
+import { Close } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 export default function SignInUpForm() {
   const [signup, setsignup] = useState(false);
-
+  const router = useRouter();
   const handlesignup = () => {
     setsignup(true);
   };
@@ -56,7 +58,7 @@ export default function SignInUpForm() {
             <div className={styles.overlay}>
               <div className={`${styles.overlay_panel} ${styles.overlay_left}`}>
                 <h1>Welcome Back!</h1>
-                <p className={styles.loginText}>
+                <p className={`${styles.loginText} mb-4`}>
                   To keep connected with us please login with your personal info
                 </p>
                 <button
@@ -67,16 +69,33 @@ export default function SignInUpForm() {
                   Sign In
                 </button>
               </div>
+              <Box sx={{ position: "relative" }}>
+                <IconButton
+                  sx={{
+                    border: "1px solid #fff",
+                    position: "absolute",
+                    right: 0,
+                    zIndex: 999,
+                  }}
+                  onClick={() => router.back()}
+                >
+                  <Close sx={{ fill: "#fff" }} />
+                </IconButton>
+              </Box>
               <div
                 className={`${styles.overlay_panel} ${styles.overlay_right}`}
               >
-                <h1>Hello, User!</h1>
-                <p className={styles.loginText}>
-                  Enter your personal details and start a journey with us
-                </p>
-                <button className={styles.login_btn} onClick={handlesignup}>
-                  Sign Up
-                </button>
+                <Box>
+                  <Box>
+                    <h1>Hello, User!</h1>
+                    <p className={`${styles.loginText} mb-4`}>
+                      Enter your personal details and start a journey with us
+                    </p>
+                    <button className={styles.login_btn} onClick={handlesignup}>
+                      Sign Up
+                    </button>
+                  </Box>
+                </Box>
               </div>
             </div>
           </div>

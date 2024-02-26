@@ -8,7 +8,7 @@ const List = (props) => {
       <ul className="list">
         {props.data.map((val, i) => (
           <Link href={val.link} className="link">
-            <li key={i} className="mb-2 pointer fw-normal">
+            <li key={i} className="mb-2 pointer fw-normal f-12">
               {val.label}
             </li>
           </Link>

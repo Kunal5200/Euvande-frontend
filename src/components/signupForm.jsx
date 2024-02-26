@@ -3,7 +3,7 @@ import countryData from "@/assests/countries.json";
 import { isEmail, isPhonenumber } from "@/utils/regex";
 import { loginWhiteTextField } from "@/utils/styles";
 import { registerValidation } from "@/utils/validation";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Close, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -98,91 +98,102 @@ const SignupForm = () => {
       {emailverify ? (
         <OTPinput />
       ) : (
-        <Box
-          sx={{ p: 2, display: "grid", placeItems: "center", height: "100%" }}
-        >
-          <form onSubmit={submitHandler}>
-            <Box textAlign={"center"} mb={3}>
-              <Typography fontWeight={600} fontSize={25} color={"#fff"}>
-                Welcome to EuVande!
-              </Typography>
-              <Typography fontSize={12} color={"#fff"}>
-                {" "}
-                Ready to get started? Signing up is quick and easy.
-              </Typography>
-            </Box>
-            <TextField
-              label="Name*"
-              variant="outlined"
-              fullWidth
-              sx={loginWhiteTextField}
-              className="mb-3"
-              onChange={inputChangeHandler}
-              id="name"
-              error={error.name}
-              helperText={error.name}
-            />
-            <TextField
-              label="Email*"
-              variant="outlined"
-              fullWidth
-              sx={loginWhiteTextField}
-              className="mb-3"
-              id="email"
-              onChange={inputChangeHandler}
-              error={error.email}
-              helperText={error.email}
-            />
-
-            <TextField
-              label="Password*"
-              variant="outlined"
-              fullWidth
-              type={!togglePassword ? "text" : "password"}
-              sx={loginWhiteTextField}
-              className="mb-3"
-              id="password"
-              onChange={inputChangeHandler}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setTogglePassword(!togglePassword)}
-                    >
-                      {togglePassword ? (
-                        <Visibility sx={{ fill: "#fff" }} />
-                      ) : (
-                        <VisibilityOff sx={{ fill: "#fff" }} />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={error.password}
-              helperText={error.password}
-            />
-
-            <Button
-              sx={{
-                backgroundColor: "#000",
-                p: 1.5,
-                color: "#fff",
-                ":hover": {
-                  backgroundColor: "transparent",
-                  border: "1px solid #fff",
-                },
-                border: "1px solid #000",
-              }}
-              fullWidth
-              type="submit"
+        <Box sx={{ height: "100%" }}>
+          <Box sx={{ position: "relative" }}>
+            <IconButton
+              sx={{ border: "1px solid #fff", position: "absolute", right: 6 }}
+              onClick={() => router.back()}
             >
-              {loading ? (
-                <Loading type="bars" width={20} height={20} />
-              ) : (
-                "Sign UP"
-              )}
-            </Button>
-          </form>
+              <Close sx={{ fill: "#fff" }} />
+            </IconButton>
+          </Box>
+
+          <Box
+            sx={{ p: 2, display: "grid", placeItems: "center", height: "100%" }}
+          >
+            <form onSubmit={submitHandler}>
+              <Box textAlign={"center"} mb={3}>
+                <Typography fontWeight={600} fontSize={25} color={"#fff"}>
+                  Welcome to EuVande!
+                </Typography>
+                <Typography fontSize={12} color={"#fff"}>
+                  {" "}
+                  Ready to get started? Signing up is quick and easy.
+                </Typography>
+              </Box>
+              <TextField
+                label="Name*"
+                variant="outlined"
+                fullWidth
+                sx={loginWhiteTextField}
+                className="mb-3"
+                onChange={inputChangeHandler}
+                id="name"
+                error={error.name}
+                helperText={error.name}
+              />
+              <TextField
+                label="Email*"
+                variant="outlined"
+                fullWidth
+                sx={loginWhiteTextField}
+                className="mb-3"
+                id="email"
+                onChange={inputChangeHandler}
+                error={error.email}
+                helperText={error.email}
+              />
+
+              <TextField
+                label="Password*"
+                variant="outlined"
+                fullWidth
+                type={!togglePassword ? "text" : "password"}
+                sx={loginWhiteTextField}
+                className="mb-3"
+                id="password"
+                onChange={inputChangeHandler}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setTogglePassword(!togglePassword)}
+                      >
+                        {togglePassword ? (
+                          <Visibility sx={{ fill: "#fff" }} />
+                        ) : (
+                          <VisibilityOff sx={{ fill: "#fff" }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={error.password}
+                helperText={error.password}
+              />
+
+              <Button
+                sx={{
+                  backgroundColor: "#000",
+                  p: 1.5,
+                  color: "#fff",
+                  ":hover": {
+                    backgroundColor: "transparent",
+                    border: "1px solid #fff",
+                  },
+                  border: "1px solid #000",
+                }}
+                fullWidth
+                type="submit"
+              >
+                {loading ? (
+                  <Loading type="bars" width={20} height={20} />
+                ) : (
+                  "Sign UP"
+                )}
+              </Button>
+            </form>
+          </Box>
         </Box>
       )}
     </Box>

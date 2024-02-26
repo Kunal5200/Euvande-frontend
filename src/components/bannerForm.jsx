@@ -1,6 +1,7 @@
 import data from "@/assests/data";
 
 import {
+  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -10,7 +11,6 @@ import {
 } from "@mui/material";
 import { FaAngleRight } from "react-icons/fa";
 import ReactSelect from "react-select";
-import Button from "./button";
 import { colorStyles } from "@/utils/styles";
 import { useEffect, useState } from "react";
 import {
@@ -334,6 +334,21 @@ const BannerForm = () => {
               </Grid>
               <Grid item xs={6}>
                 <Button
+                  fullWidth
+                  sx={{
+                    color: "#000",
+                    backgroundColor: "#fff",
+                    ":hover": {
+                      color: "#fff",
+                      backgroundColor: "#000",
+                    },
+                    border: "1px solid #fff",
+                  }}
+                  type="submit"
+                >
+                  Search
+                </Button>
+                {/* <Button
                   className="custom_btn_white"
                   backgroundColor="#000"
                   color="#ffffff"
@@ -341,7 +356,7 @@ const BannerForm = () => {
                 >
                   <span>Search</span>
                   <span>Search</span>
-                </Button>
+                </Button> */}
               </Grid>
             </Grid>
           </form>

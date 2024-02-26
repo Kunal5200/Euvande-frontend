@@ -105,7 +105,7 @@ const LinkTab = (props) => {
     if (location) {
       setDisableSpecifiations(false);
     }
-    if (specifications) {
+    if (specifications && location && ownerShip && odometer) {
       setDisableContact(false);
     }
     if (contact) {

@@ -34,19 +34,33 @@ const BuyCars = () => {
   const [carData, setCarData] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const user = useSelector((state) => state.userInfo);
 
   const pageChangeHandler = (e, newValue) => {
     setPage(newValue);
-    getCars({ loading: setLoading, setCarData, page: newValue + 1, pageSize });
+    let body = {
+      userId: user.id,
+    };
+    getCars({
+      loading: setLoading,
+      setCarData,
+      page: newValue + 1,
+      pageSize,
+      body,
+    });
   };
 
   const rowsChangeHandler = (event) => {
     setPageSize(event.target.value);
+    let body = {
+      userId: user.id,
+    };
     getCars({
       loading: setLoading,
       setCarData,
       page: page + 1,
       pageSize: event.target.value,
+      body,
     });
   };
 
@@ -103,8 +117,6 @@ const BuyCars = () => {
     setSelectedModel("");
     getCars({ loading: setLoading, setCarData, pageSize, page });
   };
-
-  const user = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -52,16 +52,16 @@ const CarCard = ({ data }) => {
         >
           <Typography
             textTransform={"capitalize"}
-            fontSize={17}
+            fontSize={18}
             fontWeight={550}
           >
             {data && data.make && data.make.makeName}{" "}
             {data && data.model && data.model.modelName}
           </Typography>
-          <Favorite
+          {/* <Favorite
             sx={{ fill: favourite ? "#ff0000" : "", cursor: "pointer" }}
             onClick={favouriteHandler}
-          />
+          /> */}
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
           {data && data.variant && data.variant.fuelType && (

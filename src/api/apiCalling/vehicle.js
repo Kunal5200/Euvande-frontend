@@ -4,6 +4,7 @@ import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 import { setVehicleInformation } from "@/redux/reducers/carInformation";
 import { getCars, getSellerPendingCars } from "./listingApi";
 import { hideModal } from "@/redux/reducers/modal";
+import { listingController } from "../listing";
 
 export const addCar = ({
   body,
@@ -173,6 +174,16 @@ export const getFuelType = ({ setFuelType, modelId }) => {
     .getFuelType(modelId)
     .then((res) => {
       setFuelType(res.data.data.fuelType);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const vehicleMakeCount = ({ setMake }) => {
+  listingController
+    .getMakeCarsCount()
+    .then((res) => {
+      setMake(res.data.data);
     })
     .catch((err) => {
       console.log(err);
