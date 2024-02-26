@@ -76,6 +76,7 @@ export default function SignInUpForm() {
                     position: "absolute",
                     right: 0,
                     zIndex: 999,
+                    m:1
                   }}
                   onClick={() => router.back()}
                 >

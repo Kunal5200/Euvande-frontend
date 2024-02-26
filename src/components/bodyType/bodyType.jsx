@@ -113,6 +113,7 @@ const BodyType = () => {
             <Tab
               label={val.label}
               icon={<Icons img={val.icons} />}
+              iconPosition="top"
               sx={bodyTypeTabButton}
               key={i}
               onClick={() => getCarsbyVehicleType(val)}
@@ -144,7 +145,6 @@ const BodyType = () => {
                       },
                     }}
                     spaceBetween={5}
-                    // modules={[Navigation]}
                     navigation={true}
                   >
                     {carData &&

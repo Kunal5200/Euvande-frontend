@@ -1,12 +1,9 @@
 import { forgotPassword } from "@/api/apiCalling/authenticationApi";
-import Button from "@/components/button";
 import { isEmail } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
-import { Box, Divider, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
-import Loading from "react-loading";
+import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -71,22 +68,22 @@ const ForgotPassword = () => {
             error={error}
             helperText={error}
           />
-          <Box textAlign={"center"}>
-            <Button className="custom_btn mt-3" width={200}>
-              {loading ? (
-                <Loading
-                  type="bars"
-                  color="#fff"
-                  className="m-auto"
-                  width={20}
-                  height={20}
-                />
-              ) : (
-                <>
-                  <span>Submit</span>
-                  <span>Submit</span>
-                </>
-              )}
+          <Box textAlign={"center"} mt={2}>
+            <Button
+              sx={{
+                border: "1px solid #d7d7d7",
+                p: 1.3,
+                color: "#000",
+                ":hover": {
+                  color: "#fff",
+                  backgroundColor: "#000",
+                },
+                transition: "0.5s ease all",
+              }}
+              type="submit"
+              fullWidth
+            >
+              Submit
             </Button>
           </Box>
         </form>

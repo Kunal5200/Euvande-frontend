@@ -1,12 +1,13 @@
 import { userVerify } from "@/api/apiCalling/authenticationApi";
 import styles from "@/styles/Login.module.css";
-import { Box, Button, Typography } from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "react-loading";
 import OTPInput from "react-otp-input";
 import { useDispatch } from "react-redux";
-const OTPinput = () => {
+const OTPinput = (props) => {
   const dispatch = useDispatch();
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
@@ -30,6 +31,14 @@ const OTPinput = () => {
   };
   return (
     <Box sx={{ height: "100%" }}>
+      <Box sx={{ position: "relative", m: 1 }}>
+        <IconButton
+          sx={{ position: "absolute", border: "1px solid #fff", right: 0 }}
+          onClick={props.onClose}
+        >
+          <Close sx={{ fill: "#fff" }} />
+        </IconButton>
+      </Box>
       <form
         onSubmit={submitHandler}
         style={{

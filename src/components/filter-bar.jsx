@@ -16,18 +16,6 @@ const Filterbar = () => {
       label: FILTERS.NEWESTAD,
       value: FILTERS.NEWESTAD,
     },
-    {
-      label: FILTERS.RECOMMENDED,
-      value: FILTERS.RECOMMENDED,
-    },
-    {
-      label: FILTERS.LOWESTMILEAGE,
-      value: FILTERS.LOWESTMILEAGE,
-    },
-    {
-      label: FILTERS.HIGHESTDISCOUNT,
-      value: FILTERS.HIGHESTDISCOUNT,
-    },
   ];
 
   const colorStyles = {

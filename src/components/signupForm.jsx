@@ -96,10 +96,10 @@ const SignupForm = () => {
   return (
     <Box sx={{ height: "100%" }}>
       {emailverify ? (
-        <OTPinput />
+        <OTPinput onClose={() => setEmailVerify(false)} />
       ) : (
         <Box sx={{ height: "100%" }}>
-          <Box sx={{ position: "relative" }}>
+          <Box sx={{ position: "relative",m:1 }}>
             <IconButton
               sx={{ border: "1px solid #fff", position: "absolute", right: 6 }}
               onClick={() => router.back()}

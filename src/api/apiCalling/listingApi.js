@@ -60,13 +60,7 @@ export const getModelByYear = ({ setModel, data }) => {
     });
 };
 
-export const getCars = ({
-  loading,
-  setCarData,
-  body,
-  pageSize,
-  page,
-}) => {
+export const getCars = ({ loading, setCarData, body, pageSize, page }) => {
   body
     ? listingController
         .getCars({ body, page, pageSize })
@@ -90,14 +84,29 @@ export const getCars = ({
         });
 };
 
-export const getCarDetailsById = async ({ carId, setLoading, setCarData }) => {
-  listingController
-    .getCarDetailsByCarId(carId)
-    .then((res) => {
-      setCarData(res.data.data);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+export const getCarDetailsById = async ({
+  carId,
+  setLoading,
+  setCarData,
+  userId,
+}) => {
+  userId
+    ? listingController
+        .getCarDetailsByCarId({carId, userId})
+        .then((res) => {
+          setCarData(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    : listingController
+        .getCarDetailsByCarId({carId})
+        .then((res) => {
+          setCarData(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 };

@@ -25,12 +25,22 @@ const CarCard = ({ data }) => {
     setFavourite(!favourite);
   };
   const router = useRouter();
-  // console.log("data", data);
   const details = (carId) => {
     router.push(`vehicles/${carId}/car-details`);
   };
   return (
-    <Card sx={{ height: 350 }}>
+    <Card
+      sx={{
+        height: 400,
+        ":hover": {
+          // transform: "scale(1.1)",
+          // zIndex: 999,
+          boxShadow:
+            "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
+        },
+        transition: "0.5s ease all",
+      }}
+    >
       <Carousel
         showThumbs={false}
         showArrows={false}
@@ -39,9 +49,9 @@ const CarCard = ({ data }) => {
         swipeable={false}
       >
         {data && data.carImages ? (
-          data.carImages.map((val, i) => <img src={val} key={i} height={200} />)
+          data.carImages.map((val, i) => <img src={val} key={i} height={230} />)
         ) : (
-          <img src={dummyCars.src} />
+          <img src={dummyCars.src} height={230} />
         )}
       </Carousel>
       <Box sx={{ p: 1.2 }}>
@@ -58,12 +68,18 @@ const CarCard = ({ data }) => {
             {data && data.make && data.make.makeName}{" "}
             {data && data.model && data.model.modelName}
           </Typography>
-          {/* <Favorite
-            sx={{ fill: favourite ? "#ff0000" : "", cursor: "pointer" }}
-            onClick={favouriteHandler}
-          /> */}
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
+          <Typography fontSize={12}>
+            {data.vin || "VIN not disclosed"}
+          </Typography>
+          <Dot width={3} height={3} bgColor={"#000"} />
+          <Typography fontSize={12}>
+            {(data && data.specification && data.specification.transmission) ||
+              "Not Disclosed"}
+          </Typography>
+        </Stack>
+        <Stack direction={"row"} alignItems={"center"} spacing={1} my={1}>
           {data && data.variant && data.variant.fuelType && (
             <Typography fontSize={12}>
               {data && data.variant && data.variant.fuelType}
@@ -113,7 +129,7 @@ const CarCard = ({ data }) => {
           )}
         </Stack>
       </Box>
-      <Box sx={{ position: "absolute", bottom: 0,width:"100%"}}>
+      <Box sx={{ position: "absolute", bottom: 0, width: "100%" }}>
         <Divider sx={{ backgroundColor: "#000" }} />
         <Button
           fullWidth

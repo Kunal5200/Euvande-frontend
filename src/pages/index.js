@@ -47,8 +47,10 @@ export default function Home() {
     getCars({ setCarData, loading: setLoading });
     vehicleMakeCount({ setMake });
   }, []);
-  console.log("dfghj", make);
 
+  const handleMake = (val) => {
+    console.log(val);
+  };
   return (
     <>
       <Head>
@@ -218,6 +220,7 @@ export default function Home() {
                   brandName={val.makeName}
                   img={val.logo}
                   carNumber={val.carCount}
+                  onClick={() => handleMake(val)}
                 />
               </Grid>
             ))}
@@ -233,7 +236,7 @@ export default function Home() {
                   backgroundColor: "#fff",
                 },
                 border: "1px solid #000",
-                transition:"0.5s ease all"
+                transition: "0.5s ease all",
               }}
             >
               View All Cars

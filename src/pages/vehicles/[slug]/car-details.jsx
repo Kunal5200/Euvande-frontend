@@ -24,29 +24,36 @@ import { BsCalendar, BsFuelPump } from "react-icons/bs";
 import { FaAngleLeft } from "react-icons/fa";
 import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
+import { useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 const CarDetails = () => {
   const router = useRouter();
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.userInfo);
   useEffect(() => {
     const fetchData = async () => {
       const carId = parseInt(router.query.slug);
       if (carId) {
-        await getCarDetailsById({
-          carId,
-          setCarData,
-          setLoading,
-        });
+        user.isAuthenticated
+          ? await getCarDetailsById({
+              carId,
+              setCarData,
+              setLoading,
+              userId: user.id,
+            })
+          : await getCarDetailsById({
+              carId,
+              setCarData,
+              setLoading,
+            });
       } else {
         return () => {};
       }
     };
 
     fetchData();
-  }, [router]);
-
-  console.log(carData);
+  }, [router, user]);
 
   const specificationArray = [
     {
@@ -205,7 +212,6 @@ const CarDetails = () => {
                     }}
                   />
                 ))}
-                
             </Box>
           )}
           {loading ? (
@@ -290,8 +296,10 @@ const CarDetails = () => {
             )}
           </Card>
           <Stack direction={"row"} alignItems={"center"} mt={3} spacing={2}>
-            <IconButton sx={{ border: "1px solid #eee", borderRadius: 0 }}>
-              <Favorite />
+            <IconButton sx={{ border: "1px solid #eee" }}>
+              <Favorite
+                sx={{ fill: carData && carData.favourite ? "#ff0000" : "" }}
+              />
             </IconButton>
             <Button
               fullWidth
@@ -420,7 +428,9 @@ const CarDetails = () => {
               </FormHelperText>
               <Stack direction={"row"} alignItems={"center"} spacing={2}>
                 <IconButton sx={{ border: "1px solid #eee" }}>
-                  <Favorite />
+                  <Favorite
+                    sx={{ fill: carData && carData.favourite ? "#ff0000" : "" }}
+                  />
                 </IconButton>
                 <Button
                   fullWidth
