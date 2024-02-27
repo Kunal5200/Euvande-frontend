@@ -165,7 +165,7 @@ const Navbar = () => {
               }}
             />
             <Link
-              href={isAuthenticated ? "/sell-cars" : "/registerorlogin"}
+              href={isAuthenticated ? "/sell-cars" : "/login"}
               className="link"
             >
               <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>

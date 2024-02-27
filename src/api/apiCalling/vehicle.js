@@ -113,13 +113,21 @@ export const sendForApprovalCar = ({ carId, setLoading, router }) => {
     });
 };
 
-export const removePendingCar = ({ carId, dispatch, setData, setLoading }) => {
+export const removePendingCar = ({
+  carId,
+  dispatch,
+  setData,
+  setLoading,
+  page,
+  pageSize,
+}) => {
   vehicleController
     .deletePendingCars(carId)
     .then((res) => {
       toast.success("Car removed Successfully");
-      getSellerPendingCars({ setData, setLoading });
+      getSellerPendingCars({ setData, setLoading, page, pageSize });
       dispatch(hideModal());
+      localStorage.removeItem("carId");
     })
     .catch((err) => {
       let errMessage =

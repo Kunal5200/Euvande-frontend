@@ -1,10 +1,9 @@
-import OTPInput from "react-otp-input";
+import { OtpphoneVerification } from "@/api/apiCalling/authenticationApi";
+import Button from "@/components/button";
 import styles from "@/styles/Login.module.css";
 import { useState } from "react";
-import Button from "@/components/button";
-import { toast } from "react-toastify";
+import OTPInput from "react-otp-input";
 import { useDispatch } from "react-redux";
-import { OtpphoneVerification, phoneNumberOTPVerification } from "@/api/apiCalling/authenticationApi";
 export const VerifyPhoneOTP = () => {
   const dispatch = useDispatch();
   const [otp, setOTP] = useState("");

@@ -14,17 +14,34 @@ export const getUserInfo = ({ dispatch, setUser }) => {
     });
 };
 
-export const getSellerPendingCars = ({ setData, setLoading }) => {
-  listingController
-    .getSellerPendingCars()
-    .then((res) => {
-      setData(res.data.data);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-      setLoading(true);
-    });
+export const getSellerPendingCars = ({
+  status,
+  page,
+  pageSize,
+  setData,
+  setLoading,
+}) => {
+  status
+    ? listingController
+        .getSellerPendingCars({ status, page, pageSize })
+        .then((res) => {
+          setData(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(true);
+        })
+    : listingController
+        .getSellerPendingCars({ page, pageSize })
+        .then((res) => {
+          setData(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(true);
+        });
 };
 
 export const getAllMakePublic = ({ setBrand }) => {
@@ -92,7 +109,7 @@ export const getCarDetailsById = async ({
 }) => {
   userId
     ? listingController
-        .getCarDetailsByCarId({carId, userId})
+        .getCarDetailsByCarId({ carId, userId })
         .then((res) => {
           setCarData(res.data.data);
           setLoading(false);
@@ -101,7 +118,7 @@ export const getCarDetailsById = async ({
           console.log(err);
         })
     : listingController
-        .getCarDetailsByCarId({carId})
+        .getCarDetailsByCarId({ carId })
         .then((res) => {
           setCarData(res.data.data);
           setLoading(false);

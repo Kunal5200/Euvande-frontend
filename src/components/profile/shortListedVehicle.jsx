@@ -22,7 +22,7 @@ import { BsFuelPump } from "react-icons/bs";
 import { GiGearStickPattern } from "react-icons/gi";
 import Loading from "react-loading";
 import { Carousel } from "react-responsive-carousel";
-
+import dummyCars from "@/icons/cars.jpg";
 const ShortListedVehicle = () => {
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -73,9 +73,13 @@ const ShortListedVehicle = () => {
             <Grid container spacing={3}>
               <Grid item lg={4}>
                 <Carousel showThumbs={false} showIndicators={false}>
-                  {val.carImages.map((image, index) => (
-                    <img src={image} key={index} height={200} />
-                  ))}
+                  {val.carImages ? (
+                    val.carImages.map((image, index) => (
+                      <img src={image} key={index} height={200} />
+                    ))
+                  ) : (
+                    <img src={dummyCars.src} height={200} />
+                  )}
                 </Carousel>
               </Grid>
               <Grid item lg={8}>

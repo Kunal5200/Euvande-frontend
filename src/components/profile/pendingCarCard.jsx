@@ -37,7 +37,15 @@ import DeletePendingCars from "@/assests/modalcalling/deletePendingCars";
 import { useRouter } from "next/router";
 import { CarStatus } from "@/utils/enum";
 import { Carousel } from "react-responsive-carousel";
-const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
+const PendingCar = ({
+  data,
+  loading,
+  handleRoute,
+  setData,
+  setLoading,
+  page,
+  pageSize,
+}) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -53,7 +61,13 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
   const handleDeleteModalOpen = () => {
     dispatch(
       showModal(
-        <DeletePendingCars id={id} setData={setData} setLoading={setLoading} />
+        <DeletePendingCars
+          id={id}
+          setData={setData}
+          setLoading={setLoading}
+          page={page}
+          pageSize={pageSize}
+        />
       )
     );
     setAnchorEl(null);
@@ -219,7 +233,7 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                         //   color: "#fff",
                         // },
                         fontSize: 10,
-                        width:100
+                        width: 100,
                       }}
                       onClick={() => handleRoute(val.id)}
                     />
@@ -304,7 +318,11 @@ const PendingCar = ({ data, loading, handleRoute, setData, setLoading }) => {
                 justifyContent={"space-between"}
                 mt={2}
               >
-                {val.price && <Typography fontSize={25} fontWeight={600}>{val.price} €</Typography>}
+                {val.price && (
+                  <Typography fontSize={25} fontWeight={600}>
+                    {val.price} €
+                  </Typography>
+                )}
                 <Button
                   onClick={() => handleRoute(val.id)}
                   sx={{ fontSize: 12 }}

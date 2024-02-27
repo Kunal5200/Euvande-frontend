@@ -157,10 +157,8 @@ const LinkTab = (props) => {
               "&.Mui-selected": {
                 color: "#000 ",
                 boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                // border: "1px solid #000",
                 textDecoration: "none",
                 borderRadius: "20px",
-                // backgroundColor: "#fff",
               },
               "& .MuiTabs-indicator": {
                 backgroundColor: "#ffffff",

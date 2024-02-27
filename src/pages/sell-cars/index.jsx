@@ -1,4 +1,5 @@
 import { vehicleController } from "@/api/addVehicle";
+import { getSellerPendingCars } from "@/api/apiCalling/listingApi";
 import { addCar } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import FAQ from "@/components/accordion";
@@ -78,6 +79,10 @@ const SellerLogin = () => {
         console.log(err);
       });
   }, []);
+
+  // useEffect(()=>{
+  //   getSellerPendingCars
+  // },[])
   return (
     <>
       <Head>

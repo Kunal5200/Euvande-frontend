@@ -11,10 +11,14 @@ export const listingController = {
       throw error;
     }
   },
-  getSellerPendingCars: async () => {
+  getSellerPendingCars: async ({ status, page, pageSize }) => {
     try {
-      let result = await vehicleSecuredAPI.vehicleSecuredAPI.get(
-        "/api/cars/getPendingCars"
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
+        status
+          ? `/api/cars/getSellerCars?status=${status}&page=${
+              page === 0 ? 1 : page
+            }&pageSize=${pageSize}`
+          : `/api/cars/getSellerCars?page=${page}&pageSize=${pageSize}`
       );
       return result;
     } catch (error) {

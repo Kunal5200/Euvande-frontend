@@ -4,7 +4,7 @@ import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-const DeletePendingCars = ({ id, setData, setLoading }) => {
+const DeletePendingCars = ({ id, setData, setLoading, page, pageSize }) => {
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -12,7 +12,14 @@ const DeletePendingCars = ({ id, setData, setLoading }) => {
   };
 
   const deleteCar = () => {
-    removePendingCar({ carId: id, setData, setLoading, dispatch });
+    removePendingCar({
+      carId: id,
+      setData,
+      setLoading,
+      dispatch,
+      page,
+      pageSize,
+    });
   };
   return (
     <div>

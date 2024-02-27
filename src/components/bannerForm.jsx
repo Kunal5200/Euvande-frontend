@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { FaAngleRight } from "react-icons/fa";
 import ReactSelect from "react-select";
-import { colorStyles } from "@/utils/styles";
 import { useEffect, useState } from "react";
 import {
   getAllMakePublic,
@@ -87,7 +86,7 @@ const BannerForm = () => {
       state.period === "" ||
       state.price === ""
     ) {
-      toast.error("Please Enter details for search");
+      toast.error("Please Enter Details for Search");
       return false;
     } else {
       let data = {
@@ -108,6 +107,42 @@ const BannerForm = () => {
     getAllMakePublic({ setBrand });
   }, []);
 
+  const colorStyles = {
+    control: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: "transparent",
+      border: "1px solid #fff",
+      boxShadow: "none",
+      fontSize: "12px",
+      width: "100%",
+      fontWeight: "400",
+      color: "#fff",
+    }),
+    option: (styles, { isSelected }) => {
+      return {
+        ...styles,
+        textTransform: "capitalize",
+        backgroundColor: isSelected ? "#000" : "#ffffff",
+        zIndex: 999,
+        color: isSelected ? "#fff" : "#000",
+      };
+    },
+    placeholder: (baseStyles, state) => {
+      return {
+        ...baseStyles,
+        color: "#fff",
+      };
+    },
+    singleValue: (provided, state) => ({
+      ...provided,
+      color: "#fff",
+      textTransform: "capitalize",
+    }),
+    input: (provided, state) => ({
+      ...provided,
+      color: "#fff",
+    }),
+  };
   return (
     <Grid container>
       <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
@@ -348,15 +383,6 @@ const BannerForm = () => {
                 >
                   Search
                 </Button>
-                {/* <Button
-                  className="custom_btn_white"
-                  backgroundColor="#000"
-                  color="#ffffff"
-                  width={"100%"}
-                >
-                  <span>Search</span>
-                  <span>Search</span>
-                </Button> */}
               </Grid>
             </Grid>
           </form>

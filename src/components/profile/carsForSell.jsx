@@ -4,7 +4,8 @@ import PendingCar from "./pendingCarCard";
 import Loading from "react-loading";
 import { useRouter } from "next/router";
 import CarGridCard from "./carGridCard";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import { CarStatus } from "@/utils/enum";
 
 const CarsForSell = () => {
   const [data, setData] = useState([]);
@@ -13,8 +14,11 @@ const CarsForSell = () => {
   const handleRoute = (carId) => {
     router.push(`/cars/${carId}/car-details`);
   };
+  const [status, setStatus] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
-    getSellerPendingCars({ setData, setLoading });
+    getSellerPendingCars({ status, page, pageSize, setData, setLoading });
   }, []);
   return (
     <div>
@@ -27,13 +31,17 @@ const CarsForSell = () => {
           height={30}
         />
       ) : (
-        <PendingCar
-          data={data}
-          loading={loading}
-          handleRoute={handleRoute}
-          setData={setData}
-          setLoading={setLoading}
-        />
+        <Box>
+          <PendingCar
+            data={data && data.docs}
+            loading={loading}
+            handleRoute={handleRoute}
+            setData={setData}
+            setLoading={setLoading}
+            page={page}
+            pageSize={pageSize}
+          />
+        </Box>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import { isEmail } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
 import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import Loading from "react-loading";
 import { useDispatch } from "react-redux";
 
 const ForgotPassword = () => {
@@ -75,15 +76,25 @@ const ForgotPassword = () => {
                 p: 1.3,
                 color: "#000",
                 ":hover": {
-                  color: "#fff",
-                  backgroundColor: "#000",
+                  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                  backgroundColor: "#fff",
                 },
                 transition: "0.5s ease all",
               }}
               type="submit"
               fullWidth
             >
-              Submit
+              {loading ? (
+                <Loading
+                  color="#000"
+                  width={20}
+                  height={20}
+                  className="m-auto"
+                />
+              ) : (
+                "Submit"
+              )}
+              
             </Button>
           </Box>
         </form>

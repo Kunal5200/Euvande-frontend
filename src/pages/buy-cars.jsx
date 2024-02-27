@@ -129,6 +129,7 @@ const BuyCars = () => {
           modelId: data.model,
           periodId: data.period,
           price: parseInt(priceData),
+          userId: user.id,
         };
         await getCars({
           loading: setLoading,
