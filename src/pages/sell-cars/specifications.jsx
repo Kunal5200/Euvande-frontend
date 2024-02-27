@@ -113,16 +113,16 @@ const Specifications = () => {
           if (response && response.specification) {
             setState((prevState) => ({
               ...prevState,
-              transmission: response.specification.transmission,
-              color: response.specification.color,
-              doors: response.specification.doors,
-              driveType4WD: response.specification.driveType4WD,
-              equipments: response.specification.equipments,
-              interiorMaterial: response.specification.interiorMaterial,
-              power: response.specification.power,
-              seats: response.specification.seats,
-              vatDeduction: response.specification.vatDeduction,
-              vehicleType: response.specification.vehicleType,
+              transmission: response.specification.transmission || "",
+              color: response.specification.color || "",
+              doors: response.specification.doors || "",
+              driveType4WD: response.specification.driveType4WD || "",
+              equipments: response.specification.equipments || [],
+              interiorMaterial: response.specification.interiorMaterial || "",
+              power: response.specification.power || "",
+              seats: response.specification.seats || "",
+              vatDeduction: response.specification.vatDeduction || "",
+              vehicleType: response.specification.vehicleType || "",
             }));
           }
         })
@@ -169,7 +169,7 @@ const Specifications = () => {
                     },
                     border: "1px solid #000",
                     transition: "0.5s ease all",
-                    width:150
+                    width: 150,
                   }}
                   type="submit"
                   onClick={submitHandler}
