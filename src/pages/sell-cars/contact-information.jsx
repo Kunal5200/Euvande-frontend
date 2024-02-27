@@ -160,7 +160,8 @@ const ContactInformation = () => {
       countryCode:
         (carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode) ||
         "",
-      email: carInfo && carInfo.contactInfo && carInfo.contactInfo.email,
+      email:
+        (carInfo && carInfo.contactInfo && carInfo.contactInfo.email) || "",
     });
     setPhone(
       `+${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${

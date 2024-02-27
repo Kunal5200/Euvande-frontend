@@ -40,16 +40,22 @@ const CarDetails = () => {
 
   const [priceLoading, setPriceLoading] = useState(false);
   const addPrice = () => {
-    setPriceLoading(true);
     if (price === "") {
       toast.error("Please Enter Price");
       setPriceLoading(false);
     } else {
+      setPriceLoading(true);
       let body = {
         price: parseInt(price),
         id: (carInfo && carInfo.id) || parseInt(localStorage.getItem("carId")),
       };
-      addCar({ dispatch, body, setLoading: setPriceLoading, setCarData,setEdit });
+      addCar({
+        dispatch,
+        body,
+        setLoading: setPriceLoading,
+        setCarData,
+        setEdit,
+      });
     }
   };
   useEffect(() => {

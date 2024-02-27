@@ -76,7 +76,7 @@ const Location = () => {
     if (state.city === "") {
       toast.error("Please Enter Your City");
       setLoading(false);
-      return false;
+      return;
     } else {
       let body =
         state.lat && state.long != ""
