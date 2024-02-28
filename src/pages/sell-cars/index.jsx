@@ -58,8 +58,8 @@ const SellerLogin = () => {
   };
 
   const VinSubmitHandler = () => {
-    if (state.vin === "") {
-      setError({ ...error, vin: "Please Enter Vin Number" });
+    if (state.vin === "" || !isVIN(state.vin)) {
+      setError({ ...error, vin: "Please Enter Valid VIN Number" });
     } else {
       setLoading(true);
       let body = {
@@ -247,9 +247,16 @@ const SellerLogin = () => {
                     {val.para}
                   </p>
                   <div className=" text-center">
-                    <Button className="custom_btn">
-                      <span className="f-12">{val.btn}</span>
-                      <span className="f-12">{val.btn}</span>
+                    <Button
+                      sx={{
+                        color: "#000",
+                        backgroundColor: "#fff",
+                        border: "1px solid #000",
+                        fontSize: 12,
+                      }}
+                      onClick={() => router.push("/sell-cars")}
+                    >
+                      {val.btn}
                     </Button>
                   </div>
                 </Card>
@@ -272,12 +279,12 @@ const SellerLogin = () => {
             ))}
           </Carousel>
         </Container>
-        <Container style={{ maxWidth: 1300 }}>
+        {/* <Container style={{ maxWidth: 1300 }}>
           <Divider>
             <h4 className="text-center  f-30">FAQs</h4>
           </Divider>
           <FAQ />
-        </Container>
+        </Container> */}
       </div>
     </>
   );

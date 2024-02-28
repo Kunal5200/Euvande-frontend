@@ -296,11 +296,11 @@ const CarDetails = () => {
             )}
           </Card>
           <Stack direction={"row"} alignItems={"center"} mt={3} spacing={2}>
-            <IconButton sx={{ border: "1px solid #eee" }}>
+            {/* <IconButton sx={{ border: "1px solid #eee" }}>
               <Favorite
                 sx={{ fill: carData && carData.favourite ? "#ff0000" : "" }}
               />
-            </IconButton>
+            </IconButton> */}
             <Button
               fullWidth
               sx={{
@@ -427,11 +427,11 @@ const CarDetails = () => {
                   : "Without VAT Deduction"}
               </FormHelperText>
               <Stack direction={"row"} alignItems={"center"} spacing={2}>
-                <IconButton sx={{ border: "1px solid #eee" }}>
+                {/* <IconButton sx={{ border: "1px solid #eee" }}>
                   <Favorite
                     sx={{ fill: carData && carData.favourite ? "#ff0000" : "" }}
                   />
-                </IconButton>
+                </IconButton> */}
                 <Button
                   fullWidth
                   sx={{

@@ -1,22 +1,33 @@
-import { Card, Stack } from "@mui/material";
+import { Box, Card, Stack, Typography } from "@mui/material";
 import React from "react";
 import styles from "@/styles/review.module.css";
 const Review = (props) => {
   return (
     <div>
-      <Card className="p-2 my-3" sx={{ width: "95%" }}>
-        <Stack spacing={2} direction={"row"}>
-          <img className={styles.reviewer_image} src={props.img} />
-          <div>
-            <p>{props.name}</p>
-          </div>
-        </Stack>
+      <Card sx={{ width: "95%", my: 3, p: 2, height: 200 }}>
+        {/* <Typography sx={{ fontSize: 12 }}>
+          {props.review.slice(0, 550)}
+        </Typography> */}
+
         <p className="f-12 fw-normal px-1">
-          {props.review.slice(0, 100)}...
-          <span onClick={props.onClick} className={styles.readMore}>
+          {props.review.slice(0, 500)}.
+          {/* <span onClick={props.onClick} className={styles.readMore}>
             Read More
-          </span>
+          </span> */}
         </p>
+        {/* <Box sx={{ position: "relative" }}>
+          <Stack
+            spacing={2}
+            direction={"row"}
+            alignItems={"center"}
+            sx={{ position: "absolute" }}
+          >
+            <img className={styles.reviewer_image} src={props.img} />
+            <div>
+              <p>{props.name}</p>
+            </div>
+          </Stack>
+        </Box> */}
       </Card>
     </div>
   );

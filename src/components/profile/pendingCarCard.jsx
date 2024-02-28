@@ -152,9 +152,13 @@ const PendingCar = ({
                   {val && val.make && val.make.makeName}{" "}
                   {val && val.model && val.model.modelName}
                 </Typography>
-                <IconButton onClick={(event) => handlePopoverOpen(event, val)}>
-                  <MoreVert sx={{ cursor: "pointer" }} />
-                </IconButton>
+                {val.status === CarStatus["In-Progress"] && (
+                  <IconButton
+                    onClick={(event) => handlePopoverOpen(event, val)}
+                  >
+                    <MoreVert sx={{ cursor: "pointer" }} />
+                  </IconButton>
+                )}
                 <Popover
                   open={open}
                   anchorEl={anchorEl}
