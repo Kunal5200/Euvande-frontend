@@ -133,7 +133,7 @@ const Navbar = () => {
                 }}
               />
               <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
-                +1 9845751252
+                +49 6542682861
               </Typography>
             </Stack>
 

@@ -1,6 +1,8 @@
 import { getCarDetailsById } from "@/api/apiCalling/listingApi";
+import Thankyou from "@/assests/modalcalling/thankyou";
 import FeatureCard from "@/components/featureCard";
 import dummyCars from "@/icons/cars.jpg";
+import { showModal } from "@/redux/reducers/modal";
 import { OPTION_TYPE } from "@/utils/enum";
 import { Done, Favorite, LocationOn } from "@mui/icons-material";
 import {
@@ -24,10 +26,11 @@ import { BsCalendar, BsFuelPump } from "react-icons/bs";
 import { FaAngleLeft } from "react-icons/fa";
 import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 const CarDetails = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.userInfo);
@@ -159,6 +162,10 @@ const CarDetails = () => {
       value: carData && carData.period && carData.period.year,
     },
   ];
+
+  const handleOpenThank = () => {
+    router.push("/thankyou");
+  };
 
   return (
     <Container maxWidth={1400} sx={{ mb: 5 }}>
@@ -314,6 +321,7 @@ const CarDetails = () => {
                   border: "1px solid #000",
                 },
               }}
+              onClick={handleOpenThank}
             >
               Buy
             </Button>
@@ -444,6 +452,7 @@ const CarDetails = () => {
                     },
                     fontWeight: 550,
                   }}
+                  onClick={handleOpenThank}
                 >
                   Buy
                 </Button>
