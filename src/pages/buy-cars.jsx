@@ -117,6 +117,7 @@ const BuyCars = () => {
     setSelectedModel("");
     getCars({ loading: setLoading, setCarData, pageSize, page });
   };
+  const [sortingValue, setSortingValue] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,6 +158,59 @@ const BuyCars = () => {
     };
     fetchData();
   }, [user]);
+
+  // sorting
+  const sortingHandler = (e) => {
+    if (e) {
+      setSortingValue(sortingValue);
+      if (e.value === FILTERS.NEWESTAD) {
+        if (user.isAuthenticated) {
+          getCars({
+            body: { sortBy: { createdAT: "ASC" }, userId: user.id },
+            loading: setLoading,
+            setCarData,
+            page,
+            pageSize,
+          });
+        } else {
+          getCars({
+            body: { sortBy: { createdAT: "ASC" } },
+            loading: setLoading,
+            setCarData,
+            page,
+            pageSize,
+          });
+        }
+      } else {
+        if (user.isAuthenticated) {
+          getCars({
+            body: {
+              sortBy: {
+                price: e.value === FILTERS.HIGHESTPRICE ? "DESC" : "ASC",
+              },
+              userId: user.id,
+            },
+            loading: setLoading,
+            setCarData,
+            page,
+            pageSize,
+          });
+        } else {
+          getCars({
+            body: {
+              sortBy: {
+                price: e.value === FILTERS.HIGHESTPRICE ? "DESC" : "ASC",
+              },
+            },
+            loading: setLoading,
+            setCarData,
+            page,
+            pageSize,
+          });
+        }
+      }
+    }
+  };
   return (
     <Container maxWidth="1400px">
       <Head>
@@ -225,7 +279,7 @@ const BuyCars = () => {
                     ml: 1,
                   }}
                 />
-                <Filterbar />
+                <Filterbar onChange={sortingHandler} />
               </Stack>
               {!loading && (
                 <Box>

@@ -2,7 +2,7 @@ import { FILTERS } from "@/utils/enum";
 import React from "react";
 import Select from "react-select";
 
-const Filterbar = () => {
+const Filterbar = (props) => {
   const filterItem = [
     {
       label: FILTERS.LOWESTPRICE,
@@ -34,6 +34,7 @@ const Filterbar = () => {
       fontSize: "12px",
     }),
   };
+
   return (
     <div>
       <Select
@@ -44,6 +45,7 @@ const Filterbar = () => {
           IndicatorSeparator: () => null,
         }}
         isSearchable={false}
+        onChange={props.onChange}
       />
     </div>
   );

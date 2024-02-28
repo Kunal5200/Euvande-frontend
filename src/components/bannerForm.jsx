@@ -121,7 +121,7 @@ const BannerForm = () => {
     option: (styles, { isSelected }) => {
       return {
         ...styles,
-        textTransform: "capitalize",
+        textTransform: "upperCase",
         backgroundColor: isSelected ? "#000" : "#ffffff",
         zIndex: 999,
         color: isSelected ? "#fff" : "#000",

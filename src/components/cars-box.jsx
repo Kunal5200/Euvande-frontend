@@ -1,11 +1,12 @@
-import { loginTextField } from "@/utils/styles";
+import { addCarsToFavorite } from "@/api/apiCalling/vehicle";
+import dummyCar from "@/icons/cars.jpg";
+import { OPTION_TYPE } from "@/utils/enum";
 import {
   CalendarMonth,
   ChevronRight,
   Done,
   Favorite,
   FavoriteBorderOutlined,
-  Public,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -14,24 +15,17 @@ import {
   Button,
   Card,
   Chip,
-  CircularProgress,
   Grid,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { BsFuelPump } from "react-icons/bs";
 import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
-import { Carousel } from "react-responsive-carousel";
-import dummyCar from "@/icons/cars.jpg";
-import { OPTION_TYPE } from "@/utils/enum";
-import { useRouter } from "next/router";
-import { addCarsToFavorite } from "@/api/apiCalling/vehicle";
 import Loading from "react-loading";
 import { useSelector } from "react-redux";
+import { Carousel } from "react-responsive-carousel";
 const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
   const [favourites, setFavourites] = useState(
     new Array(data.length).fill(false)
@@ -78,7 +72,7 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
             key={i}
           >
             <Grid container>
-              <Grid item lg={4}>
+              <Grid item lg={4} xs={4}>
                 <Carousel
                   showThumbs={false}
                   swipeable={true}
@@ -99,7 +93,7 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                   )}
                 </Carousel>
               </Grid>
-              <Grid item lg={8} p={2}>
+              <Grid item lg={8} p={2} xs={8}>
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
@@ -249,7 +243,7 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                       val.specification &&
                       val.specification.vatDeduction === OPTION_TYPE.No
                         ? "Without VAT Deduction"
-                        : "Including VAT Dedcution"}
+                        : "Including VAT Deduction"}
                     </Typography>
                   </Box>
                   <Button
