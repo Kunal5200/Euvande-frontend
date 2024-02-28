@@ -238,10 +238,10 @@ const Navbar = () => {
               },
             }}
           >
-            <Box textAlign={"end"} p={0.3}>
+            <Box textAlign={"end"} >
               <IconButton
                 onClick={() => setShowMenu(false)}
-                sx={{ width: 25, height: 25 }}
+                // sx={{ width: 25, height: 25 }}
               >
                 <Close />
               </IconButton>
