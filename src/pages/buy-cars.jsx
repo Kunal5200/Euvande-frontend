@@ -143,9 +143,15 @@ const BuyCars = () => {
         // Set selected make and other filters
         if (data.make) {
           setSelectedMake(data.make);
+          getPeriod({ data: { makeId: data.make }, setPeriod });
+          getModelByYear({ data: { makeId: data.make }, setPeriod });
         }
         if (data.period) {
           setSelectedPeriod(data.period);
+          getModelByYear({
+            data: { makeId: data.make, periodId: data.period },
+            setModel,
+          });
         }
         if (data.model) {
           setSelectedModel(data.model);
@@ -165,7 +171,6 @@ const BuyCars = () => {
     };
     fetchData();
   }, [user]);
-
   // sorting
   const sortingHandler = (e) => {
     if (e) {
