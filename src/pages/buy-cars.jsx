@@ -124,12 +124,13 @@ const BuyCars = () => {
       const filteredData = router.query.state;
       if (filteredData) {
         const data = JSON.parse(filteredData);
-        const priceData = data.price.replace(/[^\d]/g, "");
+        const priceData =
+          data && data.price && data.price.replace(/[^\d]/g, "");
         const body = {
           makeId: data.make,
-          modelId: data.model,
-          periodId: data.period,
-          price: parseInt(priceData),
+          ...(data.modelId && { modelId: data.model }),
+          ...(data.periodId && { periodId: data.period }),
+          ...(priceData && { price: parseInt(priceData) }),
           userId: user.id,
         };
         await getCars({
@@ -139,21 +140,27 @@ const BuyCars = () => {
           page,
           pageSize,
         });
+        // Set selected make and other filters
+        if (data.make) {
+          setSelectedMake(data.make);
+        }
+        if (data.period) {
+          setSelectedPeriod(data.period);
+        }
+        if (data.model) {
+          setSelectedModel(data.model);
+        }
       } else {
-        user.isAuthenticated
-          ? getCars({
-              loading: setLoading,
-              setCarData: setCarData,
-              page,
-              pageSize,
-              body: { userId: user.id },
-            })
-          : getCars({
-              loading: setLoading,
-              setCarData: setCarData,
-              page,
-              pageSize,
-            });
+        const body = {
+          ...(user.isAuthenticated && { userId: user.id }),
+        };
+        await getCars({
+          loading: setLoading,
+          setCarData,
+          body,
+          page,
+          pageSize,
+        });
       }
     };
     fetchData();

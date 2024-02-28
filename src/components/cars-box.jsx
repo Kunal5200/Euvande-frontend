@@ -30,27 +30,33 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
   const [favourites, setFavourites] = useState(
     new Array(data.length).fill(false)
   );
+  const router = useRouter();
+
   const user = useSelector((state) => state.userInfo);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const favouriteHandler = (carId, index, favourite) => {
-    setFavoriteLoading(true);
+    if (user.isAuthenticated) {
+      setFavoriteLoading(true);
 
-    let body = {
-      favourite: favourite ? false : true,
-      carId: carId,
-    };
+      let body = {
+        favourite: favourite ? false : true,
+        carId: carId,
+      };
 
-    addCarsToFavorite({
-      data: body,
-      setCarData,
-      setLoading,
-      page,
-      pageSize,
-      setFavoriteLoading,
-      user,
-    });
+      addCarsToFavorite({
+        data: body,
+        setCarData,
+        setLoading,
+        page,
+        pageSize,
+        setFavoriteLoading,
+        user,
+      });
+    } else {
+      router.push("/login");
+    }
   };
-  const router = useRouter();
+
   const carDetails = (carId) => {
     router.push(`/vehicles/${carId}/car-details`);
   };

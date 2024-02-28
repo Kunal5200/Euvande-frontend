@@ -49,7 +49,12 @@ export default function Home() {
   }, []);
 
   const handleMake = (val) => {
-    console.log(val);
+    const data = {
+      make: val.id,
+    };
+
+    const body = encodeURIComponent(JSON.stringify(data));
+    router.push(`/buy-cars?state=${body}`);
   };
   return (
     <>
