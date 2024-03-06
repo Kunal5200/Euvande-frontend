@@ -1,26 +1,23 @@
 import data from "@/assests/data";
 
 import {
+  getAllMakePublic,
+  getModelByYear,
+  getPeriod,
+} from "@/api/apiCalling/listingApi";
+import {
   Button,
   Checkbox,
   FormControlLabel,
   Grid,
   Paper,
-  Stack,
   Typography,
 } from "@mui/material";
-import { FaAngleRight } from "react-icons/fa";
-import ReactSelect from "react-select";
-import { useEffect, useState } from "react";
-import {
-  getAllMakePublic,
-  getModelByYear,
-  getPeriod,
-} from "@/api/apiCalling/listingApi";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSearchData } from "@/redux/reducers/searchData";
+import ReactSelect from "react-select";
+import { toast } from "react-toastify";
 const BannerForm = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -111,12 +108,13 @@ const BannerForm = () => {
     control: (baseStyles, state) => ({
       ...baseStyles,
       backgroundColor: "transparent",
-      border: "1px solid #fff",
+      borderColor: "#fff",
       boxShadow: "none",
       fontSize: "12px",
       width: "100%",
       fontWeight: "400",
       color: "#fff",
+      borderWidth: 0.2,
     }),
     option: (styles, { isSelected }) => {
       return {
@@ -147,19 +145,32 @@ const BannerForm = () => {
     <Grid container>
       <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
         <Paper elevation={3} sx={{ backgroundColor: "#ffffff17", p: 4 }}>
-          <Typography
-            variant="h1"
-            fontSize={{ xs: 18, lg: 25 }}
-            lineHeight={{ xs: 1.7, lg: 1.2 }}
-            color={"#fff"}
-            fontWeight={600}
-            textAlign={"justify"}
-            textTransform={"capitalize"}
-            className="my-3"
-          >
-            Customize, click, and get ready to drive. We deliver your dream car,
-            stress-free.
-          </Typography>
+          <Grid container>
+            <Grid lg={7}>
+              <Typography
+                variant="h1"
+                fontSize={{ xs: 18, lg: 26 }}
+                lineHeight={{ xs: 1.7, lg: 1.2 }}
+                color={"#fff"}
+                fontWeight={600}
+                textAlign={"justify"}
+                textTransform={"capitalize"}
+                // className="my-3"
+              >
+                Customize, click, & get ready to drive.
+              </Typography>
+            </Grid>
+            <Grid lg={1}></Grid>
+            <Grid lg={4}>
+              <Typography
+                color={"#fff"}
+                sx={{ fontSize: { xs: 18, lg: 13 }, fontWeight: "normal" }}
+              >
+                We deliver <br /> your dream car, <br />
+                stress-free.
+              </Typography>
+            </Grid>
+          </Grid>
           <form className="mt-4" onSubmit={searchHandler}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -367,7 +378,7 @@ const BannerForm = () => {
                   <FaAngleRight color="#ffffff" size={15} />
                 </Stack> */}
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Button
                   fullWidth
                   sx={{
@@ -378,6 +389,8 @@ const BannerForm = () => {
                       backgroundColor: "#000",
                     },
                     border: "1px solid #fff",
+                    fontSize: 12,
+                    fontWeight:550
                   }}
                   type="submit"
                 >

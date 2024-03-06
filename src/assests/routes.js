@@ -17,9 +17,15 @@ export const HeaderLinks = [
     icon: <Gavel />,
   },
   {
-    title: "Vehicles",
+    title: "Buy Cars",
     url: "/buy-cars",
     icon: <CarRental />,
   },
+  {
+    title: "Sell Cars",
+    url: "/sell-cars",
+    icon: <CarRental />,
+  },
+
   // { title: "Login", url: "/login", icon: <Person /> },
 ];

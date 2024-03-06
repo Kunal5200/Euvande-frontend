@@ -45,6 +45,7 @@ const PendingCar = ({
   setLoading,
   page,
   pageSize,
+  totalDocs,
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();

@@ -56,6 +56,7 @@ const BodyType = () => {
   };
   const [vehicleType, setVehicleType] = useState("coupe");
   const getCarsbyVehicleType = (value) => {
+    setLoading(true);
     let body = {
       vehicleType: value.label,
     };
@@ -124,7 +125,7 @@ const BodyType = () => {
       <Box marginTop={{ xs: 2, lg: 4 }}>
         <TabPanel index={value} value={value}>
           {loading ? (
-            <Loading type="bars" color={"#000"} className="loader" />
+            <Loading type="bars" color={"#000"} className="m-auto" width={20} height={20} />
           ) : (
             <Container style={{ maxWidth: 1300 }}>
               {carData && carData.docs && carData.docs.length ? (
@@ -179,16 +180,18 @@ const BodyType = () => {
                 </>
               ) : (
                 <Box textAlign={"center"}>
-                  <Typography fontSize={20}>No Car Found</Typography>
+                  {/* <Typography fontSize={20}>No Car Found</Typography> */}
                   <Button
                     sx={{
                       border: "1px solid #000",
-                      color: "#000",
+                      color: "#fff",
                       "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#000",
+                        color: "#000",
+                        backgroundColor: "#fff",
                       },
                       mt: 2,
+                      width: 200,
+                      backgroundColor: "#000",
                     }}
                     onClick={() => router.push("/buy-cars")}
                   >

@@ -3,6 +3,7 @@ import Navbar from "./header";
 import Footer from "./footer";
 import Subheader from "./subHeader";
 import { useRouter } from "next/router";
+import Header from "./header2";
 
 const Layout = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -18,8 +19,9 @@ const Layout = ({ children }) => {
   }, [router.pathname]);
   return (
     <div>
-      {/* {show ? <Subheader /> : <></>} */}
-      {show ? <Navbar /> : <></>}
+      {show ? <Subheader /> : <></>}
+      {/* {show ? <Navbar /> : <></>} */}
+      {show && <Header />}
       {children}
       {show ? <Footer /> : <></>}
     </div>

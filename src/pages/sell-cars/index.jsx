@@ -1,18 +1,15 @@
 import { vehicleController } from "@/api/addVehicle";
-import { getSellerPendingCars } from "@/api/apiCalling/listingApi";
 import { addCar } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
-import FAQ from "@/components/accordion";
 import Brands from "@/components/brands";
+import Testimonials from "@/components/testimonials";
 // import Button from "@/components/button";
-import Review from "@/components/review";
 import hands from "@/icons/hands.png";
 import wallet from "@/icons/purse.png";
 import certificate from "@/icons/stamp.png";
 import styles from "@/styles/seller.module.css";
 import { isVIN } from "@/utils/regex";
-import { cardStyles, loginTextField, responsive } from "@/utils/styles";
-import { ArrowLeft, ArrowRight } from "@mui/icons-material";
+import { cardStyles, loginTextField } from "@/utils/styles";
 import {
   Button,
   Card,
@@ -26,7 +23,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
 import Loading from "react-loading";
 import Carousel from "react-multi-carousel";
 import { useDispatch } from "react-redux";
@@ -264,11 +260,11 @@ const SellerLogin = () => {
             ))}
           </Grid>
         </Container>
-        <Container style={{ maxWidth: 1300 }}>
+        <Container style={{ maxWidth: 1300, mb: 4 }}>
           <Divider sx={{ my: 4 }}>
             <h4 className="text-center  f-30">Customer Reviews</h4>
           </Divider>
-          <Carousel responsive={responsive}>
+          {/* <Carousel responsive={responsive}>
             {data.reviews.map((val, i) => (
               <Review
                 img={val.img.src}
@@ -277,14 +273,9 @@ const SellerLogin = () => {
                 key={i}
               />
             ))}
-          </Carousel>
+          </Carousel> */}
+          <Testimonials data={data.reviews} />
         </Container>
-        {/* <Container style={{ maxWidth: 1300 }}>
-          <Divider>
-            <h4 className="text-center  f-30">FAQs</h4>
-          </Divider>
-          <FAQ />
-        </Container> */}
       </div>
     </>
   );

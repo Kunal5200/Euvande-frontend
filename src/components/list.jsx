@@ -6,7 +6,7 @@ const List = (props) => {
   const user = useSelector((state) => state.userInfo);
   return (
     <div>
-      <h5 className="mb-4 fw-bold">{props.heading}</h5>
+      <h5 className="mb-4 fw-bold text-white">{props.heading}</h5>
       <ul className="list">
         {props.data.map((val, i) => (
           <Link
@@ -19,7 +19,7 @@ const List = (props) => {
             }
             className="link"
           >
-            <li key={i} className="mb-2 pointer fw-normal f-12">
+            <li key={i} className="mb-2 pointer fw-normal f-12 text-white">
               {val.label}
             </li>
           </Link>

@@ -8,11 +8,11 @@ const Thankyou = () => {
   return (
     <div>
       <div>
-        {/* <Head>
+        <Head>
           <script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script>
-        </Head> */}
+        </Head>
       </div>
-      {/* <div
+      <div
         class="visme_d"
         data-title="Custom Form"
         data-url="319eo1jq-custom-form?fullPage=true"
@@ -20,8 +20,8 @@ const Thankyou = () => {
         data-full-page="true"
         data-min-height="100vh"
         data-form-id="30273"
-      ></div> */}
-      <Box
+      ></div>
+      {/* <Box
         sx={{
           height: "100vh",
           display: "flex",
@@ -52,7 +52,7 @@ const Thankyou = () => {
             Browse More Cars
           </Button>
         </Card>
-      </Box>
+      </Box> */}
     </div>
   );
 };

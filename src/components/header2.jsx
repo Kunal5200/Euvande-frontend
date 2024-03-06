@@ -14,6 +14,7 @@ import {
   Box,
   Button,
   Card,
+  Chip,
   Container,
   Divider,
   Drawer,
@@ -27,6 +28,7 @@ import {
   Menu,
   MenuItem,
   Paper,
+  Popover,
   Slide,
   Stack,
   Typography,
@@ -40,7 +42,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import Button from "./button";
 import { Close, Logout, MenuOpen, Person } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
-const Navbar = () => {
+const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -66,14 +68,11 @@ const Navbar = () => {
     router.push("/");
     setAnchorEl(null);
     setShowMenu(false);
-    // setIsPopOver(false);
     dispatch(removeDetails());
   };
   const dispatch = useDispatch();
   const routePage = (event) => {
-    !isAuthenticated
-      ? router.push("/registerorlogin")
-      : setAnchorEl(event.currentTarget);
+    !isAuthenticated ? router.push("/login") : setAnchorEl(event.currentTarget);
   };
 
   useEffect(() => {
@@ -85,7 +84,6 @@ const Navbar = () => {
   const userProfile = () => {
     router.push("/user-profile");
     setAnchorEl(null);
-    setShowMenu(false);
   };
 
   const linksList = [
@@ -104,6 +102,7 @@ const Navbar = () => {
 
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
+  const email = selector.email;
   return (
     <div className={`container-fluid ${show ? "" : styles.header} `}>
       <div
@@ -117,26 +116,21 @@ const Navbar = () => {
 
           <Stack
             direction={"row"}
-            spacing={1}
+            spacing={2}
             alignItems={"center"}
             className={styles.desktopView}
           >
-            {/* <Stack direction="row" alignItems={"center"} spacing={1}>
-              <LocalPhoneOutlinedIcon
-                style={{
-                  fill: show ? "#fff" : "#000",
-                  border: show ? "1px solid #fff" : "1px solid #000",
-                  borderRadius: "50%",
-                  width: "25px",
-                  height: "25px",
-                  padding: "5px",
-                }}
-              />
-              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
-                +49 6542682861
-              </Typography>
-            </Stack> */}
-
+            {HeaderLinks.map((val, i) => (
+              <Link href={val.url} className="link" key={i}>
+                <Typography
+                  fontSize={14}
+                  color={show ? "#fff" : "#000"}
+                  letterSpacing={1}
+                >
+                  {val.title}
+                </Typography>
+              </Link>
+            ))}
             <Divider
               flexItem
               orientation="vertical"
@@ -148,80 +142,31 @@ const Navbar = () => {
                 alignSelf: "center",
               }}
             />
-            <Link href={"/buy-cars"} className="link">
-              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
-                Buy Car
-              </Typography>
-            </Link>
-            {/* <Divider
-              flexItem
-              orientation="vertical"
-              variant="middle"
+            <Chip
+              avatar={
+                <Person
+                  sx={{
+                    fill: show ? "#fff" : "#000",
+                    fontSize: 12,
+                    letterSpacing: 1,
+                  }}
+                />
+              }
+              label={`Hello, ${isAuthenticated ? name : "Sign In"} `}
               sx={{
-                backgroundColor: "#fff",
-                opacity: 1,
-                height: 20,
-                alignSelf: "center",
-              }}
-            /> */}
-            <Link href={"/sell-cars"} className="link">
-              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
-                Sell Car
-              </Typography>
-            </Link>
-            {/* <Divider
-              flexItem
-              orientation="vertical"
-              variant="middle"
-              sx={{
-                backgroundColor: "#fff",
-                opacity: 1,
-                height: 20,
-                alignSelf: "center",
-              }}
-            /> */}
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                border: show ? "1px solid #fff" : "1px solid #000",
+                color: show ? "#fff" : "#000",
+                fontSize: 14,
                 cursor: "pointer",
-                padding: 0.2,
-                width: 90,
-                justifyContent: "center",
-                borderRadius: 20,
+                backgroundColor: "transparent",
               }}
-              onClick={() => setShowMenu(true)}
-            >
-              <MenuOpen
-                sx={{
-                  fill: show ? "#fff" : "#000",
-                  fontSize: 25,
-                }}
-              />
-              <Avatar
-                sx={{
-                  width: 25,
-                  height: 25,
-                  backgroundColor: isAuthenticated && "#000",
-                  border: !show ? "1px solid #000" : "1px solid #fff",
-                  ml: 0.5,
-                }}
-              >
-                {isAuthenticated ? (
-                  <Typography fontSize={12}>{name.slice(0, 1)}</Typography>
-                ) : (
-                  <Person sx={{ fontSize: 20 }} />
-                )}
-              </Avatar>
-            </Box>
+              onClick={routePage}
+            />
           </Stack>
 
           <FaUser className={styles.mobileView} />
         </div>
 
-        <div>
+        {/* <div>
           <Drawer
             open={showMenu}
             onClose={() => setShowMenu(false)}
@@ -236,10 +181,7 @@ const Navbar = () => {
             }}
           >
             <Box textAlign={"end"}>
-              <IconButton
-                onClick={() => setShowMenu(false)}
-                // sx={{ width: 25, height: 25 }}
-              >
+              <IconButton onClick={() => setShowMenu(false)}>
                 <Close />
               </IconButton>
             </Box>
@@ -267,15 +209,11 @@ const Navbar = () => {
                   <Button
                     sx={{
                       fontSize: 10,
-                      // border: "1px solid #000",
                       p: 0.3,
                       color: "#000",
                       borderRadius: 20,
-                      // width: 100,
                       textAlign: "center",
                       ":hover": {
-                        // color: "#fff",
-                        // backgroundColor: "#000",
                         textDecoration: "underline",
                       },
                       transition: "0.5s ease all",
@@ -321,7 +259,6 @@ const Navbar = () => {
                         style={{ fontSize: 30 }}
                       />
                     </ListItemButton>
-                    {/* <Divider sx={{ backgroundColor: "#000" }} /> */}
                   </Link>
                 ))}
                 {isAuthenticated ? (
@@ -368,10 +305,55 @@ const Navbar = () => {
               </List>
             </Box>
           </Drawer>
-        </div>
+        </div> */}
+        <Popover
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => setAnchorEl(null)}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          sx={{
+            "& .MuiPopover-paper": {
+              width: 150,
+              p: 1,
+            },
+          }}
+        >
+          <Stack>
+            <Typography fontSize={12}>Hello, {name}</Typography>
+            <Typography fontSize={10}>{email}</Typography>
+          </Stack>
+          <Divider sx={{ backgroundColor: "#000" }} />
+          <List disablePadding>
+            <ListItemButton
+              onClick={userProfile}
+              sx={{
+                "& .MuiTypography-root": {
+                  fontSize: 14,
+                  //   fontWeight: 550,
+                },
+              }}
+            >
+              <ListItemText primary="Profile" />
+            </ListItemButton>
+            <Divider sx={{ backgroundColor: "#000" }} />
+            <ListItemButton
+              onClick={handleLogout}
+              sx={{
+                "& .MuiTypography-root": {
+                  fontSize: 14,
+                },
+              }}
+            >
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          </List>
+        </Popover>
       </div>
     </div>
   );
 };
 
-export default Navbar;
+export default Header;

@@ -65,7 +65,7 @@ export default function Home() {
       <Box className={styles.bg_home}>
         <Container style={{ maxWidth: 1400 }}>
           <Grid container data-aos="fade-right">
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={6} mt={10}>
               <BannerForm />
             </Grid>
           </Grid>
@@ -182,7 +182,7 @@ export default function Home() {
                 },
                 transition: "0.5s ease all",
               }}
-              onClick={() => router.push("buy-cars")}
+              onClick={() => router.push("/buy-cars")}
             >
               View All Cars
             </Button>
@@ -243,6 +243,7 @@ export default function Home() {
                 border: "1px solid #000",
                 transition: "0.5s ease all",
               }}
+              onClick={() => router.push("/buy-cars")}
             >
               View All Cars
             </Button>
@@ -297,15 +298,20 @@ export default function Home() {
           {data.faqs.map((val, i) => (
             <Accordion
               key={i}
-              sx={{ marginY: 1 }}
+              sx={{ marginY: 4 }}
               expanded={expanded === `panel${i}`}
               onChange={handleChange(`panel${i}`)}
             >
               <AccordionSummary
                 expandIcon={<ExpandMore />}
-                sx={{ borderBottom: "1px solid #eee" }}
+                sx={{
+                  borderBottom:
+                    expanded === `panel${i}`
+                      ? "1px solid #000"
+                      : "1px solid #eee",
+                }}
               >
-                <Typography variant="h5" fontSize={15} fontWeight={500}>
+                <Typography variant="h5" fontSize={14} fontWeight={600}>
                   {val.question}
                 </Typography>
               </AccordionSummary>

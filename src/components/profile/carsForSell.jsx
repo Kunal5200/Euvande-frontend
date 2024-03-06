@@ -1,34 +1,31 @@
-import { getSellerPendingCars } from "@/api/apiCalling/listingApi";
-import React, { useEffect, useState } from "react";
-import PendingCar from "./pendingCarCard";
-import Loading from "react-loading";
+import { Box } from "@mui/material";
 import { useRouter } from "next/router";
-import CarGridCard from "./carGridCard";
-import { Box, Grid } from "@mui/material";
-import { CarStatus } from "@/utils/enum";
+import Loading from "react-loading";
+import PendingCar from "./pendingCarCard";
 
-const CarsForSell = () => {
-  const [data, setData] = useState([]);
+const CarsForSell = ({
+  status,
+  data,
+  loading,
+  setLoading,
+  page,
+  pageSize,
+  setData,
+}) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const handleRoute = (carId) => {
     router.push(`/cars/${carId}/car-details`);
   };
-  const [status, setStatus] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  useEffect(() => {
-    getSellerPendingCars({ status, page, pageSize, setData, setLoading });
-  }, []);
+
   return (
     <div>
       {loading ? (
         <Loading
           type="bars"
           className="m-auto my-3"
-          color="purple"
-          width={30}
-          height={30}
+          color="000"
+          width={20}
+          height={20}
         />
       ) : (
         <Box>
@@ -40,6 +37,7 @@ const CarsForSell = () => {
             setLoading={setLoading}
             page={page}
             pageSize={pageSize}
+            totalDocs={data && data.totalDocs}
           />
         </Box>
       )}

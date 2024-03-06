@@ -51,7 +51,7 @@ const CarCard = ({ data }) => {
         {data && data.carImages ? (
           data.carImages.map((val, i) => <img src={val} key={i} height={230} />)
         ) : (
-          <img src={dummyCars.src} height={230} />
+          <img src={dummyCars.src} height={230} loading="lazy" />
         )}
       </Carousel>
       <Box sx={{ p: 1.2 }}>

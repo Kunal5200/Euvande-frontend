@@ -288,35 +288,41 @@ let data = {
   reviews: [
     {
       name: "Joe",
+      heading: "Timely inspection, good price, minor payment delay.",
       review:
-        " Very good experience dealing with them and it's hassle free experience as well. Reached my home on time for my car inspection and was given good price compared to other dealers. Best part is there is hidden charges and also they will take care of documentation for RC transfer. Well done, keep it up! Edit: Would have given 5 🌟 had if the payment was processed on the same day!. I understand your server was down for the whole day!. Also I waited for more than half an hour when your agent come to pick my car just to get the payment processed!!. Overall it was good experience and 4 🌟 is what I felt is fair! Thank you.",
+        "Very good experience dealing with them and it's hassle free experience as well. Reached my home on time for my car inspection and was given good price compared to other dealers. Best part is there is no hidden charges and also they will take care of documentation for RC transfer. Well done, keep it up! Edit: Would have given 5 🌟 had if the payment was processed on the same day!. I understand your server was down for the whole day!. Also I waited for more than half an hour when your agent came to pick my car just to get the payment processed!!. Overall it was good experience and 4 🌟 is what I felt is fair! Thank you.",
       img: profile1,
     },
     {
       name: "John",
-      img: profile2,
+      heading: "Best value, excellent customer service, home inspection.",
       review:
-        "I would like to share an exceptional and seamless experience I had with EuVande white field branch while I sold my 2018 model Car. I not only received the best value of my car but also an excellent customer experience by Mr Sam, who explained me step by step process and closed the deal successfully. Also a shout out to the car inspector Mr Sunny who made a home visit to inspect the car and explained the inspection details. I highly recommend to visit this branch and experience the difference. ThanksEuVande team",
+        "I would like to share an exceptional and seamless experience I had with EuVande Whitefield branch while I sold my 2018 model Car. I not only received the best value of my car but also an excellent customer experience by Mr. Sam, who explained me step by step process and closed the deal successfully. Also, a shout out to the car inspector Mr. Sunny who made a home visit to inspect the car and explained the inspection details. I highly recommend visiting this branch and experiencing the difference. Thanks EuVande team",
+      img: profile2,
     },
     {
       name: "Robert",
-      img: profile3,
+      heading: "Quick sale, good price, friendly staff.",
       review:
-        "Best place to sell your car. Visited and sold the car in a time span of 2-3 hours. We got very good price for our car, Transaction was also very smooth and seamless. staff are very friendly with us and very helpful and good knowledgeable persons. Thanks to Mr.Sam and Mr.John. Great service guys. I strongly recommend to go visit EuVande Gaadi store- Whitefield, if anyone want to sell their car.",
+        "Best place to sell your car. Visited and sold the car in a time span of 2-3 hours. We got a very good price for our car, Transaction was also very smooth and seamless. Staff are very friendly with us and very helpful and good knowledgeable persons. Thanks to Mr. Sam and Mr. John. Great service guys. I strongly recommend going to visit EuVande Gaadi store- Whitefield, if anyone wants to sell their car.",
+      img: profile3,
     },
     {
       name: "Jessica",
-      img: profile4,
+      heading: "Home inspection, instant payment, responsive team.",
       review:
-        "I have sold my car at EuVande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr John visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from EuVande gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr John.",
+        "I have sold my car at EuVande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr. John visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from EuVande gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, the entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr. John.",
+      img: profile4,
     },
     {
       name: "Sia",
-      img: profile5,
+      heading: "Home inspection, rapid sale, right price offered.",
       review:
-        "Sold my car to EuVande at there Whitefield branch. It all happened so quickly. John came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank John for his professionalism and EuVande for providing me the right price and hassle free selling of my car.",
+        "Sold my car to EuVande at their Whitefield branch. It all happened so quickly. John came for an inspection to my home at 3 PM and I sold the car to him by 7 PM. The service is very good, quick and got the price almost what I asked for. I would like to thank John for his professionalism and EuVande for providing me the right price and hassle-free selling of my car.",
+      img: profile5,
     },
   ],
+
   brandsSelector: [
     {
       name: "Rolls Royce",

@@ -6,7 +6,7 @@
 .bg_home {
     background-image: url('../../public/images/banner_image/banner_01.webp');
     background-repeat: no-repeat;
-    height: 99vh;
+    height: 100vh;
     background-position: center;
     background-size: cover;
     display: flex;

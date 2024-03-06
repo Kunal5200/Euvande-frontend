@@ -265,7 +265,7 @@ h6 {
 .absolute__header {
   position: absolute;
   z-index: 999;
-  height: 50px;
+  height: 45px;
 }
 
 ::-webkit-scrollbar {
