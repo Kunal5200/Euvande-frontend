@@ -37,7 +37,6 @@ const Ownership = () => {
     };
     fetchData();
   }, []);
-  console.log(">>>>>>", carInfo);
   return (
     <>
       <Head>
@@ -45,7 +44,7 @@ const Ownership = () => {
       </Head>
       <div className="container my-5">
         <div className="row">
-          <div className="col-sm-9 ">
+          <div className="col-sm-12 ">
             <LinkTab />
             <Card className="p-3">
               <h5>Select Car Ownership</h5>
@@ -79,9 +78,9 @@ const Ownership = () => {
               </Stack>
             </Card>
           </div>
-          <div className="col-sm-3">
+          {/* <div className="col-sm-3">
             {carData && <AddCarDetails loading={loading} data={carData} />}
-          </div>
+          </div> */}
         </div>
       </div>
     </>

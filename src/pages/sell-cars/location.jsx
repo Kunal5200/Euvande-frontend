@@ -128,7 +128,7 @@ const Location = () => {
       </Head>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={4}>
-          <Grid item lg={8}>
+          <Grid item lg={12}>
             <LinkTab />
 
             <Card sx={{ p: 3 }}>
@@ -138,7 +138,7 @@ const Location = () => {
               </p>
               <form onSubmit={submitHandle} className="mt-3">
                 <Grid container alignItems={"center"} spacing={2}>
-                  <Grid item xs={7}>
+                  <Grid item xs={6}>
                     <TextField
                       sx={loginTextField}
                       onChange={handleChange}
@@ -199,9 +199,9 @@ const Location = () => {
               </form>
             </Card>
           </Grid>
-          <Grid item lg={4}>
+          {/* <Grid item lg={4}>
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>

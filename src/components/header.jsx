@@ -164,7 +164,7 @@ const Navbar = () => {
                 alignSelf: "center",
               }}
             /> */}
-            <Link href={"/sell-cars"} className="link">
+            <Link href={ "/sell-cars"} className="link">
               <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 Sell Car
               </Typography>

@@ -43,6 +43,12 @@ const BodyType = () => {
     {
       icon: muv.src,
     },
+    {
+      icon: sedan.src,
+    },
+    {
+      icon: suv.src,
+    },
   ];
   const [carData, setCarData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -107,7 +113,7 @@ const BodyType = () => {
             backgroundColor: "#fff",
             borderRadius: "8px",
             padding: "8px",
-            border: "1px solid #000",
+            border: "1px solid #eee",
           }}
         >
           {tabData.map((val, i) => (
@@ -125,7 +131,13 @@ const BodyType = () => {
       <Box marginTop={{ xs: 2, lg: 4 }}>
         <TabPanel index={value} value={value}>
           {loading ? (
-            <Loading type="bars" color={"#000"} className="m-auto" width={20} height={20} />
+            <Loading
+              type="bars"
+              color={"#000"}
+              className="m-auto"
+              width={20}
+              height={20}
+            />
           ) : (
             <Container style={{ maxWidth: 1300 }}>
               {carData && carData.docs && carData.docs.length ? (

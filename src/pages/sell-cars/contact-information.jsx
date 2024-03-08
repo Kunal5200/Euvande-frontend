@@ -164,7 +164,7 @@ const ContactInformation = () => {
         (carInfo && carInfo.contactInfo && carInfo.contactInfo.email) || "",
     });
     setPhone(
-      `+${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${
+      `${carInfo && carInfo.contactInfo && carInfo.contactInfo.countryCode} ${
         carInfo && carInfo.contactInfo && carInfo.contactInfo.phoneNo
       }  ` || "+49"
     );
@@ -178,7 +178,7 @@ const ContactInformation = () => {
     <div>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={4}>
-          <Grid item lg={8}>
+          <Grid item lg={12}>
             <LinkTab />
 
             <Card>
@@ -346,7 +346,7 @@ const ContactInformation = () => {
                     {loading ? (
                       <Loading
                         type="bars"
-                        color="red"
+                        color="#d7d7d7"
                         className="m-auto"
                         width={20}
                         height={20}
@@ -359,9 +359,9 @@ const ContactInformation = () => {
               </form>
             </Card>
           </Grid>
-          <Grid item lg={4}>
+          {/* <Grid item lg={4}>
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </div>

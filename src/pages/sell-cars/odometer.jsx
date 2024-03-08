@@ -44,7 +44,7 @@ const Odometer = () => {
       </Head>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={4}>
-          <Grid item lg={8}>
+          <Grid item lg={12}>
             <LinkTab />
 
             <Card sx={{ p: 1 }}>
@@ -78,9 +78,9 @@ const Odometer = () => {
               </Stack>
             </Card>
           </Grid>
-          <Grid item lg={4}>
+          {/* <Grid item lg={4}>
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>

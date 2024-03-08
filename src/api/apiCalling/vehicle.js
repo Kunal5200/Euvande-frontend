@@ -148,7 +148,7 @@ export const addCarsToFavorite = ({
   vehicleController
     .favoriteCars(data)
     .then((res) => {
-      setFavoriteLoading(false);
+      setFavoriteLoading && setFavoriteLoading(false);
       getCars({
         setCarData,
         loading: setLoading,
@@ -161,7 +161,7 @@ export const addCarsToFavorite = ({
       let errMessage =
         (err.response && err.response.data.message) || err.message;
       toast.error(errMessage);
-      setFavoriteLoading(false);
+      setFavoriteLoading && setFavoriteLoading(false);
     });
 };
 

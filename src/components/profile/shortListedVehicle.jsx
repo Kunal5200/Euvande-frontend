@@ -1,4 +1,4 @@
-import { getFavouriteCars } from "@/api/apiCalling/vehicle";
+import { addCarsToFavorite, getFavouriteCars } from "@/api/apiCalling/vehicle";
 import {
   AddRoad,
   CalendarMonth,
@@ -23,6 +23,8 @@ import { GiGearStickPattern } from "react-icons/gi";
 import Loading from "react-loading";
 import { Carousel } from "react-responsive-carousel";
 import dummyCars from "@/icons/cars.jpg";
+import { useSelector } from "react-redux";
+import { vehicleController } from "@/api/addVehicle";
 const ShortListedVehicle = () => {
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,6 +37,35 @@ const ShortListedVehicle = () => {
       loading: setLoading,
     });
   }, []);
+
+  const user = useSelector((state) => state.userInfo);
+  const removefavourite = (value) => {
+    setLoading(true);
+    let body = {
+      favourite: false,
+      carId: value.id,
+    };
+    vehicleController
+      .favoriteCars(body)
+      .then((res) => {
+        getFavouriteCars({ setCarData, loading: setLoading });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // addCarsToFavorite({
+    //   data: {
+    //     favourite: false,
+    //     carId: value.id,
+    //   },
+    //   setCarData,
+    //   setLoading,
+    //   page,
+    //   pageSize,
+    //   user,
+    // });
+  };
 
   const routerPage = (id) => {
     router.push(`/vehicles/${id}/car-details`);
@@ -49,7 +80,7 @@ const ShortListedVehicle = () => {
         }}
       >
         <Typography fontSize={20} fontWeight={600}>
-          ShortListed Vehicles
+          Shortlisted Vehicles
         </Typography>
         <TablePagination
           count={carData && carData.totalDocs}
@@ -98,7 +129,7 @@ const ShortListedVehicle = () => {
                     {val && val.model && val.model.modelName}
                   </Typography>
 
-                  <IconButton>
+                  <IconButton onClick={() => removefavourite(val)}>
                     <Favorite sx={{ fill: val.favourite ? "#ff0000" : "" }} />
                   </IconButton>
                 </Stack>

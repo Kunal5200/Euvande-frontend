@@ -749,11 +749,19 @@ let data = {
       label: "Warranty",
       link: "/warranty",
     },
+    {
+      label: "Financing",
+      link: "/financing",
+    },
   ],
   list3: [
     {
       label: "Online Auction",
       link: "/online-auction",
+    },
+    {
+      label: "Inspection",
+      link: "/inspection",
     },
   ],
   list4: [
@@ -764,6 +772,14 @@ let data = {
     {
       label: "Contact",
       link: "/contact",
+    },
+    {
+      label: "Career With Us",
+      link: "/carrer-with-us",
+    },
+    {
+      label: "Terms of Use",
+      link: "/terms-of-use",
     },
   ],
   transmissionType: [

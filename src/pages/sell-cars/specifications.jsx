@@ -138,7 +138,7 @@ const Specifications = () => {
     <div>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={4}>
-          <Grid item lg={8}>
+          <Grid item lg={12}>
             <LinkTab />
             <Card sx={{ p: 3 }}>
               {/* <form onSubmit={submitHandler}> */}
@@ -179,7 +179,7 @@ const Specifications = () => {
                       type="bars"
                       width={20}
                       height={20}
-                      color="red"
+                      color="#"
                       className="m-auto"
                     />
                   ) : (
@@ -190,9 +190,9 @@ const Specifications = () => {
               {/* </form> */}
             </Card>
           </Grid>
-          <Grid item lg={4}>
+          {/* <Grid item lg={4}>
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </div>

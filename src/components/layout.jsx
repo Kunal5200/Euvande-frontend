@@ -4,6 +4,8 @@ import Footer from "./footer";
 import Subheader from "./subHeader";
 import { useRouter } from "next/router";
 import Header from "./header2";
+import { Box, Divider } from "@mui/material";
+import SubFooter from "./subFooter";
 
 const Layout = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -23,7 +25,11 @@ const Layout = ({ children }) => {
       {/* {show ? <Navbar /> : <></>} */}
       {show && <Header />}
       {children}
-      {show ? <Footer /> : <></>}
+      <Box sx={{ backgroundColor: "#000" }}>
+        <Footer />
+        <Divider sx={{ backgroundColor: "#fff" }} />
+        <SubFooter />
+      </Box>
     </div>
   );
 };

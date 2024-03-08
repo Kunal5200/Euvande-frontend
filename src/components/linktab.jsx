@@ -134,13 +134,20 @@ const LinkTab = (props) => {
                 sx={{
                   width: 20,
                   height: 20,
-                  backgroundColor: !tab.disable && "#000",
+                  backgroundColor: tab.disable
+                    ? ""
+                    : value === index
+                    ? "green"
+                    : "#000",
                 }}
               >
                 {tab.disable ? (
                   <Typography sx={{ fontSize: 12 }}>{index + 1}</Typography>
                 ) : (
-                  <Done sx={{ fontSize: 12 }} />
+                  // <Done sx={{ fontSize: 12 }} />
+                  <Typography sx={{ fontSize: 12, color: "#fff" }}>
+                    {index + 1}
+                  </Typography>
                 )}
               </Avatar>
             }

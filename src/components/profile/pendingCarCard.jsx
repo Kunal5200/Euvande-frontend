@@ -96,7 +96,7 @@ const PendingCar = ({
   if (data.length === 0) {
     return (
       <Typography p={3} textAlign={"center"}>
-        There is no Pending Cars
+        No Car Found
       </Typography>
     );
   }

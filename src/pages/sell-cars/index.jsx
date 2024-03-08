@@ -1,5 +1,6 @@
 import { vehicleController } from "@/api/addVehicle";
 import { addCar } from "@/api/apiCalling/vehicle";
+import { listingController } from "@/api/listing";
 import data from "@/assests/data";
 import Brands from "@/components/brands";
 import Testimonials from "@/components/testimonials";
@@ -66,8 +67,8 @@ const SellerLogin = () => {
   };
 
   useEffect(() => {
-    vehicleController
-      .getMake()
+    listingController
+      .getPublicMake()
       .then((res) => {
         setMake(res.data.data);
       })

@@ -17,12 +17,13 @@ export const FILTERS = {
 
 export const CarStatus = {
   "In-Progress": "In-Progress",
-  Pending: "Pending",
-  Available: "Available",
+  Pending: "Pending For Approval",
+  Available: "Approved",
   Sold: "Sold",
   Reserved: "Reserved", //buyer has expressed interest
   Expired: "Expired",
   Withdrawn: "Withdrawn", //seller has withdrawn
   "On Hold": "On Hold",
   "Not Available": "Not Available", //maintenance, repairs .etc
+  Approved: "Approved",
 };

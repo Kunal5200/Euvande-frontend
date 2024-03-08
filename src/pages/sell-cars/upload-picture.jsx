@@ -215,7 +215,7 @@ const UploadPicture = () => {
       </Head>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={4}>
-          <Grid item lg={8}>
+          <Grid item lg={12}>
             <LinkTab />
             <form onSubmit={submitHandler}>
               <Card className=" py-3">
@@ -301,11 +301,11 @@ const UploadPicture = () => {
               </Card>
             </form>
           </Grid>
-          <Grid item lg={4}>
+          {/* <Grid item lg={4}>
             {carData && (
               <AddCarDetails data={carData} loading={carDataLoading} />
             )}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </div>

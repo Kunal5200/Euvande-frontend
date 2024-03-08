@@ -341,7 +341,7 @@ const CarDetails = () => {
             </Typography>
             <Grid container mt={3} columnSpacing={2}>
               <Grid lg={5}>
-                <Card sx={{ p: 2 }}>
+                <Card sx={{ p: 2,height:"100%" }}>
                   <Typography fontSize={15} fontWeight={550}>
                     VEHICLE DETAIL
                   </Typography>
@@ -409,16 +409,6 @@ const CarDetails = () => {
                 top: 80,
               }}
             >
-              {/* <Typography
-                color={"#000"}
-                textAlign={"center"}
-                fontSize={16}
-                fontWeight={550}
-              >
-                {carData && carData.make && carData.make.makeName}{" "}
-                {carData && carData.variant && carData.variant.variantName}{" "}
-                {carData && carData.model && carData.model.modelName}
-              </Typography> */}
               <Typography
                 color={"#000"}
                 textAlign={"center"}

@@ -7,7 +7,7 @@ const UserProfile = () => {
       <Head>
         <title>User Profile</title>
       </Head>
-      <div className="container my-5">
+      <div className="container my-5" style={{ maxWidth: 1300 }}>
         <ProfileSidebar />
       </div>
     </div>

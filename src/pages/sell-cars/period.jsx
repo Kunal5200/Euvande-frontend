@@ -96,7 +96,7 @@ const Period = () => {
       </Head>
       <div className="container my-5">
         <div className="row">
-          <div className="col-sm-9 ">
+          <div className="col-sm-12 ">
             <LinkTab />
 
             <Card className="p-3">
@@ -133,9 +133,9 @@ const Period = () => {
               </Grid>
             </Card>
           </div>
-          <div className="col-sm-3">
+          {/* <div className="col-sm-3">
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </div>
+          </div> */}
         </div>
       </div>
     </>

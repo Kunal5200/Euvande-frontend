@@ -31,7 +31,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
   return (
     <div>
       <Stepper activeStep={activeStep} orientation="vertical">
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Transmission</h6>
           </StepLabel>
@@ -63,7 +63,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             )}
           </StepContent>
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Doors</h6>
           </StepLabel>
@@ -79,7 +79,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             </StepContent>
           )}
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Drive Type 4x4</h6>
           </StepLabel>
@@ -95,7 +95,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             </StepContent>
           )}
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Seats</h6>
           </StepLabel>
@@ -111,7 +111,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             )}
           </StepContent>
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Interior Material</h6>
           </StepLabel>
@@ -127,7 +127,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             )}
           </StepContent>
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">POSSIBILITY OF VAT DEDUCTION</h6>
           </StepLabel>
@@ -143,7 +143,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             )}
           </StepContent>
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Features</h6>
           </StepLabel>
@@ -156,7 +156,7 @@ const SpecificationSteps = ({ setState, state, activeStep, setActiveStep }) => {
             />
           </StepContent>
         </Step>
-        <Step >
+        <Step>
           <StepLabel>
             <h6 className="mb-0">Equipment</h6>
           </StepLabel>

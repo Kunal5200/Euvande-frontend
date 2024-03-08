@@ -1,5 +1,6 @@
 import { vehicleController } from "@/api/addVehicle";
 import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import { listingController } from "@/api/listing";
 import Brands from "@/components/brands";
 import AddCarDetails from "@/components/carDetails";
 import LinkTab from "@/components/linktab";
@@ -43,8 +44,8 @@ const Make = () => {
   const [brandSelector, setBrandSelector] = useState([]);
   const [carData, setCarData] = useState(null);
   const getMake = () => {
-    vehicleController
-      .getMake()
+    listingController
+      .getPublicMake()
       .then((res) => {
         setBrandSelector(res.data.data);
       })
@@ -95,7 +96,7 @@ const Make = () => {
       </Head>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={5}>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <LinkTab brandSelected={!brand} />
             <Card className="p-5">
               <h4 className="mb-3">Select Your Car Brand</h4>
@@ -119,9 +120,9 @@ const Make = () => {
               </div>
             </Card>
           </Grid>
-          <Grid item xs={4}>
+          {/* <Grid item xs={4}>
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>

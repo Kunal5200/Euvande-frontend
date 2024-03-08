@@ -143,7 +143,7 @@ const Order = () => {
                 my: 0.4,
                 borderRadius: 8,
                 mx: 2,
-                width: 150,
+                width: 200,
               }}
             />
           ))}

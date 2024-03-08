@@ -1,6 +1,7 @@
+import { getCarDetailsById } from "@/api/apiCalling/listingApi";
 import { getCarDetails } from "@/api/apiCalling/vehicle";
 import dummyCars from "@/icons/cars.jpg";
-import { OPTION_TYPE } from "@/utils/enum";
+import { CarStatus, OPTION_TYPE } from "@/utils/enum";
 import { Done, Favorite, LocationOn } from "@mui/icons-material";
 import {
   Avatar,
@@ -27,24 +28,39 @@ const CarDetails = () => {
   const router = useRouter();
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
+  useEffect(() => {
+    if (router.query.status) {
+      setStatus(router.query.status);
+    }
+  }, [router.query.status]);
+
   useEffect(() => {
     const fetchData = async () => {
       const carId = parseInt(router.query.slug);
-      if (carId) {
-        await getCarDetails({
-          carId,
-          setCarData,
-          setLoading,
-        });
+      if (carId && status) {
+        status === CarStatus.Approved
+          ? await getCarDetailsById({
+              carId,
+              setCarData,
+              setLoading,
+            })
+          : await getCarDetails({
+              carId,
+              setCarData,
+              setLoading,
+            });
       } else {
         return () => {};
       }
     };
 
-    fetchData();
-  }, [router]);
+    if (status) {
+      fetchData();
+    }
+  }, [status, router.query.slug]);
 
-  console.log(carData);
+  // console.log(carData);
 
   const specificationArray = [
     {

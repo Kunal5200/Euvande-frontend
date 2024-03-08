@@ -230,7 +230,7 @@ export default function Home() {
               </Grid>
             ))}
           </Grid>
-          <Box textAlign={"center"} marginY={4}>
+          {/* <Box textAlign={"center"} marginY={4}>
             <Button
               sx={{
                 color: "#fff",
@@ -247,7 +247,7 @@ export default function Home() {
             >
               View All Cars
             </Button>
-          </Box>
+          </Box> */}
         </Container>
       </Box>
       <Box sx={{ my: 3 }}>

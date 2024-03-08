@@ -14,7 +14,7 @@ const CarsForSell = ({
 }) => {
   const router = useRouter();
   const handleRoute = (carId) => {
-    router.push(`/cars/${carId}/car-details`);
+    router.push(`/cars/${carId}/car-details?status=${status}`);
   };
 
   return (

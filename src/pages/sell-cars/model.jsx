@@ -84,7 +84,7 @@ const Model = () => {
       </Head>
       <Container sx={{ my: 5 }}>
         <Grid container spacing={4}>
-          <Grid item lg={8}>
+          <Grid item lg={12}>
             <LinkTab />
 
             <Card className="p-3">
@@ -117,9 +117,9 @@ const Model = () => {
               </Grid>
             </Card>
           </Grid>
-          <Grid item lg={4}>
+          {/* <Grid item lg={4}>
             {carData && <AddCarDetails data={carData} loading={loading} />}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>
