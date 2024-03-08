@@ -5,7 +5,7 @@ import sliderImage4 from "@/banner_image/sliderImage4.webp";
 import astonMartin from "@/brandImage/Aston-Martin.webp";
 import audi from "@/brandImage/Audi.webp";
 import bwm from "@/brandImage/BMW.webp";
-import chrysler from "@/brandImage/Chrysler.webp";
+import chrysler from "@/brandImage/chrysler.webp";
 import citroen from "@/brandImage/Citroen.webp";
 import daewoo from "@/brandImage/Daewoo.webp";
 import datsun from "@/brandImage/Datsun.webp";
@@ -15,22 +15,22 @@ import hummer from "@/brandImage/Hummer.webp";
 import nissan from "@/brandImage/Nissan.webp";
 import ashokleyland from "@/brandImage/ashokleyland.webp";
 import bentley from "@/brandImage/bentley.webp";
-import bugatti from "@/brandImage/bugatti.webp";
-import cadillac from "@/brandImage/cadillac.webp";
+import bugatti from "@/brandImage/Bugatti.webp";
+import cadillac from "@/brandImage/Cadillac.webp";
 import caterham from "@/brandImage/caterham.webp";
 import chevrolet from "@/brandImage/chevrolet.webp";
 import conquest from "@/brandImage/conquest.webp";
 import dc from "@/brandImage/dc.webp";
 import dodge from "@/brandImage/dodge.webp";
 import ferrari from "@/brandImage/ferrari.webp";
-import fiat from "@/brandImage/fiat.webp";
+import fiat from "@/brandImage/Fiat.webp";
 import force from "@/brandImage/force.webp";
 import hindustanmotors from "@/brandImage/hindustanmotors.webp";
-import hyundai from "@/brandImage/hyundai.webp";
+import hyundai from "@/brandImage/Hyundai.webp";
 import lamborghini from "@/brandImage/lamborghini.webp";
 import mahindra from "@/brandImage/mahindra.webp";
 import rollyroyce from "@/brandImage/rollsroyce.webp";
-import tata from "@/brandImage/tata.webp";
+import tata from "@/brandImage/TATA.webp";
 import toyota from "@/brandImage/toyota.webp";
 import image2 from "@/icons/doorstep.webp";
 import image3 from "@/icons/payment.jpg";
@@ -70,6 +70,44 @@ import testimonial3 from "@/testimonials/testimonial3.jpg";
 import testimonial5 from "@/testimonials/testimonial5.jpg";
 import testimonial6 from "@/testimonials/testimonial6.jpg";
 import testimonial4 from "@/testimonials/testimonial4.jpeg";
+import car1Image1 from "@/cars/car1/image1.jpeg";
+import car1Image2 from "@/cars/car1/image2.jpeg";
+import car1Image3 from "@/cars/car1/image3.jpeg";
+import car1Image4 from "@/cars/car1/image4.jpeg";
+import car1Image5 from "@/cars/car1/image5.jpeg";
+import car1Image6 from "@/cars/car1/image6.jpeg";
+import car1Image7 from "@/cars/car1/image7.jpeg";
+import car1Image8 from "@/cars/car1/image8.jpeg";
+import car2Image1 from "@/cars/car2/image1.jpeg";
+import car2Image2 from "@/cars/car2/image2.jpeg";
+import car2Image3 from "@/cars/car2/image3.jpeg";
+import car2Image4 from "@/cars/car2/image4.jpeg";
+import car2Image5 from "@/cars/car2/image5.jpeg";
+import car2Image6 from "@/cars/car2/image6.jpeg";
+import car2Image7 from "@/cars/car2/image7.jpeg";
+import car2Image8 from "@/cars/car2/image8.jpeg";
+import car2Image9 from "@/cars/car2/image9.jpeg";
+import car2Image10 from "@/cars/car2/image10.jpeg";
+import car2Image11 from "@/cars/car2/image11.jpeg";
+import car2Image12 from "@/cars/car2/image12.jpeg";
+import car3Image1 from "@/cars/car3/image1.jpeg";
+import car3Image2 from "@/cars/car3/image2.jpeg";
+import car3Image3 from "@/cars/car3/image3.jpeg";
+import car3Image4 from "@/cars/car3/image4.jpeg";
+import car3Image5 from "@/cars/car3/image5.jpeg";
+import car3Image6 from "@/cars/car3/image6.jpeg";
+import car3Image7 from "@/cars/car3/image7.jpeg";
+import car3Image8 from "@/cars/car3/image8.jpeg";
+import car3Image9 from "@/cars/car3/image9.jpeg";
+import car3Image10 from "@/cars/car3/image10.jpeg";
+import car3Image11 from "@/cars/car3/image11.jpeg";
+import car3Image12 from "@/cars/car3/image12.jpeg";
+import car3Image13 from "@/cars/car3/image13.jpeg";
+import car3Image14 from "@/cars/car3/image14.jpeg";
+import car3Image15 from "@/cars/car3/image15.jpeg";
+import doorStep from "@/icons/howItWorks/doorstep.svg";
+import europeanDreams from "@/icons/howItWorks/europeanDreams.svg";
+import expertEyes from "@/icons/howItWorks/expertEyes.svg";
 let data = {
   photoUpload: [
     {
@@ -117,7 +155,7 @@ let data = {
     {
       image: driversdoor.src,
       label: "Driver Door",
-      id: "driversDoor",
+      id: "driverDoor",
     },
     {
       image: driverSeat.src,
@@ -132,7 +170,7 @@ let data = {
     {
       image: instrumentPanel.src,
       label: "Instrument Panel",
-      id: "instrumentpanel",
+      id: "instrumentPanel",
     },
     {
       image: dashboard.src,
@@ -142,17 +180,17 @@ let data = {
     {
       image: rearPanel.src,
       label: "Rear Panel of Center Console",
-      id: "rearPanel",
+      id: "rearPanelOfCenterConsole",
     },
     {
       image: rearseats.src,
       label: "Rear Seats",
-      id: "rearSeats",
+      id: "rearSeat",
     },
     {
       image: headlining.src,
       label: "Headlining",
-      id: "headlining",
+      id: "Headlining",
     },
   ],
   tyres: [
@@ -169,7 +207,7 @@ let data = {
     {
       label: "Back Right Wheel",
       image: tyres.src,
-      id: "backgRightWheel",
+      id: "backRightWheel",
     },
     {
       label: "Front Right Wheel",
@@ -192,7 +230,7 @@ let data = {
       id: "backRightTyre",
     },
     {
-      label: "Front Left Tyre",
+      label: "Front Right Tyre",
       image: frontleftTyre.src,
       id: "frontRightTyre",
     },
@@ -250,35 +288,41 @@ let data = {
   reviews: [
     {
       name: "Joe",
+      heading: "Timely inspection, good price, minor payment delay.",
       review:
-        " Very good experience dealing with them and it's hassle free experience as well. Reached my home on time for my car inspection and was given good price compared to other dealers. Best part is there is hidden charges and also they will take care of documentation for RC transfer. Well done, keep it up! Edit: Would have given 5 🌟 had if the payment was processed on the same day!. I understand your server was down for the whole day!. Also I waited for more than half an hour when your agent come to pick my car just to get the payment processed!!. Overall it was good experience and 4 🌟 is what I felt is fair! Thank you.",
+        "Very good experience dealing with them and it's hassle free experience as well. Reached my home on time for my car inspection and was given good price compared to other dealers. Best part is there is no hidden charges and also they will take care of documentation for RC transfer. Well done, keep it up! Edit: Would have given 5 🌟 had if the payment was processed on the same day!. I understand your server was down for the whole day!. Also I waited for more than half an hour when your agent came to pick my car just to get the payment processed!!. Overall it was good experience and 4 🌟 is what I felt is fair! Thank you.",
       img: profile1,
     },
     {
       name: "John",
-      img: profile2,
+      heading: "Best value, excellent customer service, home inspection.",
       review:
-        "I would like to share an exceptional and seamless experience I had with Car dekho white field branch while I sold my 2018 model Car. I not only received the best value of my car but also an excellent customer experience by Mr Vishal, who explained me step by step process and closed the deal successfully. Also a shout out to the car inspector Mr Raghu who made a home visit to inspect the car and explained the inspection details. I highly recommend to visit this branch and experience the difference. Thanks car dekho team",
+        "I would like to share an exceptional and seamless experience I had with EuVande Whitefield branch while I sold my 2018 model Car. I not only received the best value of my car but also an excellent customer experience by Mr. Sam, who explained me step by step process and closed the deal successfully. Also, a shout out to the car inspector Mr. Sunny who made a home visit to inspect the car and explained the inspection details. I highly recommend visiting this branch and experiencing the difference. Thanks EuVande team",
+      img: profile2,
     },
     {
       name: "Robert",
-      img: profile3,
+      heading: "Quick sale, good price, friendly staff.",
       review:
-        "Best place to sell your car. Visited and sold the car in a time span of 2-3 hours. We got very good price for our car, Transaction was also very smooth and seamless. staff are very friendly with us and very helpful and good knowledgeable persons. Thanks to Mr.Vishal and Mr.Nagaraj. Great service guys. I strongly recommend to go visit CarDekho Gaadi store- Whitefield, if anyone want to sell their car.",
+        "Best place to sell your car. Visited and sold the car in a time span of 2-3 hours. We got a very good price for our car, Transaction was also very smooth and seamless. Staff are very friendly with us and very helpful and good knowledgeable persons. Thanks to Mr. Sam and Mr. John. Great service guys. I strongly recommend going to visit EuVande Gaadi store- Whitefield, if anyone wants to sell their car.",
+      img: profile3,
     },
     {
       name: "Jessica",
-      img: profile4,
+      heading: "Home inspection, instant payment, responsive team.",
       review:
-        "I have sold my car at Euvande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr Nagaraj visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from CarDekho gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr Nagaraj.",
+        "I have sold my car at EuVande. I didn't even have to visit the place. Everything was done at the comfort of home. The TRA at Whitefield center, Mr. John visited my apartment, done the inspection and got the instant payment without any hassle. I had earlier visited cars24 and was not happy with the price. But, I got the expected price from EuVande gaadi store. I would really recommend it to anyone who is planning to sell the car. Not just the car price, the entire process was really seamless and very responsive. Kudos to the team, and special thanks to Mr. John.",
+      img: profile4,
     },
     {
       name: "Sia",
-      img: profile5,
+      heading: "Home inspection, rapid sale, right price offered.",
       review:
-        "Sold my car to Euvande at there Whitefield branch. It all happened so quickly. Nagaraj came for an inspection to my home at 3 PM and I sold the car to him by 7 PM.. The service is very good, quick and got the price almost what I asked for. I would like to thank Nagaraj for his professionalism and CarDekho for providing me the right price and hassle free selling of my car.",
+        "Sold my car to EuVande at their Whitefield branch. It all happened so quickly. John came for an inspection to my home at 3 PM and I sold the car to him by 7 PM. The service is very good, quick and got the price almost what I asked for. I would like to thank John for his professionalism and EuVande for providing me the right price and hassle-free selling of my car.",
+      img: profile5,
     },
   ],
+
   brandsSelector: [
     {
       name: "Rolls Royce",
@@ -685,33 +729,57 @@ let data = {
   list1: [
     {
       label: "Buy",
+      link: "/buy-cars",
     },
     {
       label: "Sell",
+      link: "/sell-cars",
     },
     {
       label: "How it Works?",
+      link: "/how-it-works",
     },
   ],
   list2: [
     {
       label: "Delivery",
+      link: "/delivery",
     },
     {
       label: "Warranty",
+      link: "/warranty",
+    },
+    {
+      label: "Financing",
+      link: "/financing",
     },
   ],
   list3: [
     {
       label: "Online Auction",
+      link: "/online-auction",
+    },
+    {
+      label: "Inspection",
+      link: "/inspection",
     },
   ],
   list4: [
     {
       label: "About us",
+      link: "/about-us",
     },
     {
       label: "Contact",
+      link: "/contact",
+    },
+    {
+      label: "Career With Us",
+      link: "/carrer-with-us",
+    },
+    {
+      label: "Terms of Use",
+      link: "/terms-of-use",
     },
   ],
   transmissionType: [
@@ -976,20 +1044,23 @@ let data = {
   ],
   howWorks: [
     {
-      img: choose.src,
-      heading: "European Dreams, Driven Reality.",
+      img: europeanDreams.src,
+      heading1: "European Dreams ",
+      heading2: "Driven Reality.",
       description:
         "Turn your European dreams into reality with the perfect car. Explore iconic destinations, scenic routes, and cityscapes on your terms. Your dream ride awaits.",
     },
     {
-      img: choose.src,
-      heading: "Expert Eyes, Thorough Inspection.",
+      img: expertEyes.src,
+      heading1: "Expert Eyes ",
+      heading2: "Thorough Inspection.",
       description:
         "Our expert eyes ensure a meticulous inspection, guaranteeing your peace of mind.",
     },
     {
-      img: choose.src,
-      heading: "Delivered to Your Doorstep.",
+      img: doorStep.src,
+      heading1: "Delivered to",
+      heading2: "Your Doorstep.",
       description:
         "Experience seamless convenience with our direct-to-your-door delivery service – your dream car, delivered effortlessly to your home.",
     },
@@ -1032,59 +1103,59 @@ let data = {
     {
       name: " Lucian v.",
       testimonial:
-        "Embarking on the journey to find the perfect car became a delightful experience with EUVande. From the moment I navigated theiruser-friendly website, I was captivated by the extensive and diverse inventory that catered to every preference and budget.",
+        "Embarking on the journey to find the perfect car became a delightful experience with EuVande. From the moment I navigated theiruser-friendly website, I was captivated by the extensive and diverse inventory that catered to every preference and budget.",
       img: testimonial1.src,
     },
     {
       name: "Sophie M.",
       testimonial:
-        "  As a discerning buyer, EUVande exceeded my expectations. From the extensive choices to the seamless process, I found my ideal car effortlessly. Kudos to EUVande for making car buying in Europe an absolute pleasure!",
+        "  As a discerning buyer, EuVande exceeded my expectations. From the extensive choices to the seamless process, I found my ideal car effortlessly. Kudos to EuVande for making car buying in Europe an absolute pleasure!",
       img: testimonial2.src,
     },
     {
       name: " Luca P",
       testimonial:
-        "EUVande's website made my car search a breeze. The transparent transactions and helpful customer service made the whole process smooth. Proud owner of a fantastic car, thanks to EUVande!",
+        "EuVande's website made my car search a breeze. The transparent transactions and helpful customer service made the whole process smooth. Proud owner of a fantastic car, thanks to EuVande!",
       img: testimonial3.src,
     },
     {
       name: "Henrik K.",
       testimonial:
-        "EUVande stands out in the crowded online car market. Their user-friendly interface, honest pricing, and dedicated support made my car purchase easy and enjoyable. Highly recommended!",
+        "EuVande stands out in the crowded online car market. Their user-friendly interface, honest pricing, and dedicated support made my car purchase easy and enjoyable. Highly recommended!",
       img: testimonial4.src,
     },
     {
       name: "Emma S.",
       testimonial:
-        "Thumbs up to EUVande for redefining car buying! The comprehensive listings and responsive team made me confident in my choice. I'm now cruising in my dream car, thanks to EUVande's top-notch service.",
+        "Thumbs up to EuVande for redefining car buying! The comprehensive listings and responsive team made me confident in my choice. I'm now cruising in my dream car, thanks to EuVande's top-notch service.",
       img: testimonial5.src,
     },
     {
       name: "Andrei B.",
       testimonial:
-        " EUVande made my car buying journey a delight. The extensive inventory, clear details, and smooth transactions set them apart. I'm a satisfied customer who found the perfect car hassle-free!",
+        " EuVande made my car buying journey a delight. The extensive inventory, clear details, and smooth transactions set them apart. I'm a satisfied customer who found the perfect car hassle-free!",
       img: testimonial6.src,
     },
   ],
   faqs: [
     {
-      question: "Q. What makes EUVande unique in the online car buying market?",
+      question: "Q. What makes EuVande unique in the online car buying market?",
       answer:
-        "EUVande stands out for its extensive and diverse inventory, user-friendly interface, and commitment to transparency. We provide a seamless and enjoyable car-buying experience, setting a new standard in the industry.",
+        "EuVande stands out for its extensive and diverse inventory, user-friendly interface, and commitment to transparency. We provide a seamless and enjoyable car-buying experience, setting a new standard in the industry.",
     },
     {
       question:
-        "Q. How can I be sure of the transparency in pricing and fees on EUVande?",
+        "Q. How can I be sure of the transparency in pricing and fees on EuVande?",
       answer:
-        "At EUVande, we prioritize transparency. The listed prices on our website are clear and inclusive of all fees, ensuring that you know the total cost upfront. No hidden charges, no surprises – just straightforward pricing.",
+        "At EuVande, we prioritize transparency. The listed prices on our website are clear and inclusive of all fees, ensuring that you know the total cost upfront. No hidden charges, no surprises – just straightforward pricing.",
     },
     {
-      question: "Q. What types of vehicles are available on EUVande?",
+      question: "Q. What types of vehicles are available on EuVande?",
       answer:
-        "Our inventory caters to a wide range of preferences and budgets. From compact cars to SUVs and luxury vehicles, EUVande offers a diverse selection. Our goal is to provide options that suit every customer's unique needs and preferences.",
+        "Our inventory caters to a wide range of preferences and budgets. From compact cars to SUVs and luxury vehicles, EuVande offers a diverse selection. Our goal is to provide options that suit every customer's unique needs and preferences.",
     },
     {
-      question: "Q. How does the online transaction process work on EUVande?",
+      question: "Q. How does the online transaction process work on EuVande?",
       answer:
         "Our online transaction process is designed for simplicity and efficiency. Once you've found your ideal car, follow the user-friendly steps to complete the purchase. Our secure platform ensures a safe and smooth transaction, making your car-buying journey hassle-free.",
     },
@@ -1126,6 +1197,306 @@ let data = {
     },
     {
       label: "Blind spot assist",
+    },
+  ],
+  carData: [
+    {
+      carImages: [
+        {
+          img: car1Image1,
+        },
+        {
+          img: car1Image2,
+        },
+        {
+          img: car1Image3,
+        },
+        {
+          img: car1Image4,
+        },
+        {
+          img: car1Image5,
+        },
+        {
+          img: car1Image6,
+        },
+        {
+          img: car1Image7,
+        },
+        {
+          img: car1Image8,
+        },
+      ],
+      carName: "Opel Astra 1.2 Turbo Edition 81 kW",
+      specifications: [
+        {
+          driven: "34 400 km",
+          registration: "01/2020",
+          engine: "110hp",
+          transmission: "Manual",
+          fuelType: "Petrol",
+        },
+      ],
+      features: [
+        {
+          label: "Heated front seats",
+        },
+        {
+          label: "Apple CarPlay",
+        },
+        {
+          label: "Android auto",
+        },
+        {
+          label: "Integrated music streaming",
+        },
+        {
+          label: "Voice control",
+        },
+        {
+          label: "Heated steering wheel",
+        },
+        {
+          label: "Bluetooth",
+        },
+        {
+          label: "Rain sensor",
+        },
+        {
+          label: "Light sensor",
+        },
+        {
+          label: "Hill-start assist",
+        },
+      ],
+      countryName: "Germany",
+      deliveryAmount: "965",
+      carAmount: "15 749",
+      amountWithoutAmount: "13 234",
+    },
+    {
+      carImages: [
+        {
+          img: car2Image1,
+        },
+        {
+          img: car2Image2,
+        },
+        {
+          img: car2Image3,
+        },
+        {
+          img: car2Image4,
+        },
+        {
+          img: car2Image5,
+        },
+        {
+          img: car2Image6,
+        },
+        {
+          img: car2Image7,
+        },
+        {
+          img: car2Image8,
+        },
+        {
+          img: car2Image9,
+        },
+        {
+          img: car2Image10,
+        },
+        {
+          img: car2Image11,
+        },
+        {
+          img: car2Image12,
+        },
+      ],
+      carName: "Jeep Renegade 1.6 96 kW",
+      specifications: [
+        {
+          driven: "69000 km",
+          registration: "04/2021",
+          engine: "131hp",
+          transmission: "Manual",
+          fuelType: "Diesel",
+        },
+      ],
+      features: [
+        {
+          label: "Head-up display",
+        },
+        {
+          label: "Bluetooth",
+        },
+        {
+          label: "Multifunctional steering wheel",
+        },
+        {
+          label: "Daytime running lights",
+        },
+        {
+          label: "Front electric windows",
+        },
+        {
+          label: "Alloy wheels",
+        },
+      ],
+      countryName: "Italy",
+      deliveryAmount: "1315",
+      carAmount: "22 699",
+    },
+    {
+      carImages: [
+        {
+          img: car3Image1,
+        },
+        {
+          img: car3Image2,
+        },
+        {
+          img: car3Image3,
+        },
+        {
+          img: car3Image4,
+        },
+        {
+          img: car3Image5,
+        },
+        {
+          img: car3Image6,
+        },
+        {
+          img: car3Image7,
+        },
+        {
+          img: car3Image8,
+        },
+        {
+          img: car3Image9,
+        },
+        {
+          img: car3Image10,
+        },
+        {
+          img: car3Image11,
+        },
+        {
+          img: car3Image12,
+        },
+        {
+          img: car3Image13,
+        },
+        {
+          img: car3Image14,
+        },
+        {
+          img: car3Image15,
+        },
+      ],
+      carName: "BMW 330 185 kW",
+      specifications: [
+        {
+          driven: "44 606 km",
+          registration: "10/2020",
+          engine: "252hp",
+          transmission: "Automatic",
+          fuelType: "Hybrid",
+        },
+      ],
+      features: [
+        {
+          label: "Digital cockpit",
+        },
+        {
+          label: "Electric adjustable front seats",
+        },
+        {
+          label: "Heated front seats",
+        },
+        {
+          label: "Head-up display",
+        },
+        {
+          label: "Apple CarPlay",
+        },
+        {
+          label: "WLAN/Wifi hotspot",
+        },
+        {
+          label: "Integrated music streaming",
+        },
+        {
+          label: "Voice control",
+        },
+        {
+          label: "Navigation system",
+        },
+        {
+          label: "Glare-free high beam headlights",
+        },
+      ],
+      countryName: "Germany",
+      deliveryAmount: "1315",
+      carAmount: "22 699",
+    },
+  ],
+  variantTypes: [
+    {
+      label: "Petrol",
+      id: "Petrol",
+    },
+    {
+      label: "Diesel",
+      id: "Diesel",
+    },
+    {
+      label: "EV",
+      id: "EV",
+    },
+    {
+      label: "CNG",
+      id: "CNG",
+    },
+    {
+      label: "LNG",
+      id: "LNG",
+    },
+    {
+      label: "FCV",
+      id: "FCV",
+    },
+    {
+      label: "LPG",
+      id: "LPG",
+    },
+    {
+      label: "Gasoline",
+      id: "Gasoline",
+    },
+  ],
+  variants: [
+    {
+      label: "Petrol Variants",
+    },
+    {
+      label: "Diesel Variants",
+    },
+    {
+      label: "EV Variants",
+    },
+    {
+      label: "CNG Variants",
+    },
+    {
+      label: "LNG Variants",
+    },
+    {
+      label: "FCV Variants",
+    },
+    {
+      label: "LPG Variants",
     },
   ],
 };

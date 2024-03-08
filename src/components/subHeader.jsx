@@ -5,9 +5,11 @@ import { TiSocialFacebook } from "react-icons/ti";
 import twitter from "@/icons/xicon_white.svg";
 import twitterblack from "@/icons/xicon_black.svg";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Avatar, Chip, Stack } from "@mui/material";
+import { FacebookOutlined, Mail } from "@mui/icons-material";
 const Subheader = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -27,30 +29,59 @@ const Subheader = () => {
         show ? "absolute__header text-white" : "text-dark"
       }  `}
     >
-      <div className="container">
+      <div className="container" style={{ maxWidth: "1300px" }}>
         <div className="d-flex align-items-center justify-content-between ">
           <div className="d-flex align-items-center">
-            <div className="d-flex align-items-center me-3">
-              <LocalPhoneIcon className="me-2" />
-              <span>+1 8977396272</span>
-            </div>
-            <div className="d-flex align-items-center">
-              <EmailIcon className="me-2" />
-              <span>Euvande@euvande.com</span>
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <TiSocialFacebook size={20} />
-            <Image
-              src={show ? twitter : twitterblack}
-              alt=""
-              width={15}
-              height={15}
-              className="mx-2"
+            <Chip
+              sx={{
+                border: "none",
+                backgroundColor: "transparent",
+                color: show ? "#fff" : "#000",
+                fontSize: 11,
+                letterSpacing: 2,
+              }}
+              avatar={
+                <Avatar
+                  sx={{
+                    backgroundColor: "transparent",
+                    border: show ? "1px solid #fff" : "1px solid #000",
+                  }}
+                >
+                  <LocalPhoneIcon
+                    sx={{ fill: show ? "#fff" : "#000", fontSize: 10 }}
+                  />
+                </Avatar>
+              }
+              label="+45 65736291"
             />
-            <InstagramIcon />
-            <FaLinkedinIn className="mx-2" />
+            <Chip
+              sx={{
+                border: "none",
+                backgroundColor: "transparent",
+                color: show ? "#fff" : "#000",
+                fontSize: 11,
+                letterSpacing: 2,
+              }}
+              avatar={
+                <Avatar
+                  sx={{
+                    backgroundColor: "transparent",
+                    border: show ? "1px solid #fff" : "1px solid #000",
+                  }}
+                >
+                  <Mail sx={{ fill: show ? "#fff" : "#000", fontSize: 12 }} />
+                </Avatar>
+              }
+              label="info@euvande.com"
+            />
           </div>
+
+          <Stack direction="row" alignItems={"center"} spacing={2}>
+            <FacebookOutlined sx={{ fill: show ? "#fff" : "#000" }} />
+            <FaInstagram color={show ? "#fff" : "#000"} size={20} />
+            <FaLinkedinIn color={show ? "#fff" : "#000"} size={20} />
+            <FaYoutube color={show ? "#fff" : "#000"} size={20} />
+          </Stack>
         </div>
       </div>
     </div>

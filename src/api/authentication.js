@@ -1,11 +1,10 @@
 import securedAPI from "./config";
 import publicAPI from "./config";
-import ngRokpublicAPI from "./config";
 export const authControllers = {
   RegisterUser: async (body) => {
     try {
       let result = await publicAPI.publicAPI.post(
-        "authentication/api/user/register",
+        "api/user/register",
         body
       );
       return result;
@@ -16,7 +15,7 @@ export const authControllers = {
   verifyOtp: async (body) => {
     try {
       let result = await publicAPI.publicAPI.post(
-        "authentication/api/user/verify",
+        "api/user/verify",
         body
       );
       return result;
@@ -27,7 +26,7 @@ export const authControllers = {
   loginUser: async (body) => {
     try {
       let result = await publicAPI.publicAPI.post(
-        "authentication/api/user/login",
+        "/api/user/login",
         body
       );
       return result;
@@ -38,7 +37,7 @@ export const authControllers = {
   getUserDetails: async () => {
     try {
       let result = await securedAPI.securedAPI.get(
-        "/authentication/api/user/getUserDetail"
+        "/api/user/getUserDetail"
       );
       return result;
     } catch (error) {
@@ -48,7 +47,7 @@ export const authControllers = {
   updateUserDetails: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "authentication/api/user/updateUserDetail",
+        "/api/user/updateUserDetail",
         data
       );
       return result;
@@ -59,7 +58,7 @@ export const authControllers = {
   changePassword: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "authentication/api/user/changePassword",
+        "/api/user/changePassword",
         data
       );
       return result;
@@ -70,7 +69,7 @@ export const authControllers = {
   forgotPassword: async (data) => {
     try {
       let result = await publicAPI.publicAPI.post(
-        "authentication/api/forgotPassword",
+        "/api/forgotPassword",
         data
       );
       return result;
@@ -81,7 +80,7 @@ export const authControllers = {
   verifyForgotPasswordOTP: async (data) => {
     try {
       let result = await publicAPI.publicAPI.post(
-        "authentication/api/forgotPassword/verify",
+        "/api/forgotPassword/verify",
         data
       );
       return result;
@@ -92,7 +91,7 @@ export const authControllers = {
   addAddress: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "authentication/api/address/addAddress",
+        "/api/address/addAddress",
         data
       );
       return result;
@@ -103,7 +102,7 @@ export const authControllers = {
   updatePhoneNumber: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "authentication/api/updatePhone/addOrUpdatePhone",
+        "/api/updatePhone/addOrUpdatePhone",
         data
       );
       return result;
@@ -114,7 +113,7 @@ export const authControllers = {
   removeAddress: async (data) => {
     try {
       let result = await securedAPI.securedAPI.get(
-        `/authentication/api/address/removeAddress/${data}`
+        `/api/address/removeAddress/${data}`
       );
       return result;
     } catch (error) {
@@ -124,7 +123,18 @@ export const authControllers = {
   verifyPhoneOTP: async (data) => {
     try {
       let result = await securedAPI.securedAPI.post(
-        "/authentication/api/updatePhone/phoneNoVerification",
+        "/api/updatePhone/phoneNoVerification",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  editAddress: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "/api/address/editAddress",
         data
       );
       return result;

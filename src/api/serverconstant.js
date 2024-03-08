@@ -1,5 +1,9 @@
+const baseURl = "http://3.78.154.29";
+// const baseURl = "http://192.168.1.45";
+// const baseURl = "http://3.76.210.11";
 export const serverconstants = {
-  authenticationServerURL: "http://3.78.154.29/",
-  ngRokURL:
-    "https://3c37-2401-4900-1f31-d6cd-5aa3-7151-90d3-4a2.ngrok-free.app/",
+  authenticationServerURL: `${baseURl}/authentication`,
+  vehicleServerURL: `${baseURl}/vehicle`,
+  // authenticationServerURL: `${baseURl}:8085/`,
+  // vehicleServerURL: `${baseURl}:8087/`,
 };

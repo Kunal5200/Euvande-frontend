@@ -1,75 +1,88 @@
 import data from "@/assests/data";
 import LinkTab from "@/components/linktab";
-import { Card, Stack } from "@mui/material";
+import { Card, Container, Grid, Stack } from "@mui/material";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
+import { useDispatch, useSelector } from "react-redux";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import AddCarDetails from "@/components/carDetails";
 const Odometer = () => {
   const [driven, setDriven] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
+  const carInfo = useSelector((state) => state.CarInfo);
   const handleClick = (driven) => {
     setDriven(driven);
-    router.push("/sell-cars/location");
-    localStorage.setItem("driven", driven);
+    let body = {
+      id: carInfo.id,
+      odometer: driven.driven,
+    };
+    addCar({ body, router, path: "/sell-cars/location", dispatch });
   };
   const [odometer, setOdoMeter] = useState([]);
-
-  const getOdoMeter = (body) => {
-    vehicleController
-      .getOdometer(body)
-      .then((res) => {
-        setOdoMeter(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    const variant = localStorage.getItem("variant");
-
-    if (variant) {
-      let body = {
-        variantId: parseInt(variant),
-      };
-      getOdoMeter(body);
-    } else {
-    }
+    const fetchData = async () => {
+      const carId = localStorage.getItem("carId");
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+        getCarDetails({ setCarData, setLoading, carId, dispatch });
+      } else {
+        return () => {};
+      }
+    };
+    fetchData();
   }, []);
   return (
     <>
       <Head>
         <title>Odometer</title>
       </Head>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9 ">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={12}>
             <LinkTab />
 
-            <Card className={`p-3 ${styles.overflow_wrapper}`}>
+            <Card sx={{ p: 1 }}>
               <h5 className="mb-2">Select Km Driven</h5>
               <Stack spacing={3}>
                 {data.odometer.map((val, i) => (
                   <Card
-                    className={`p-2 pointer ${
-                      val.driven === driven && styles.year_Selector
-                    }`}
                     key={i}
-                    onClick={() => handleClick(val.id)}
+                    sx={{
+                      cursor: "pointer",
+                      p: 1,
+                      border:
+                        carInfo.odometer === val.driven
+                          ? "1px solid #000"
+                          : "1px solid #fff",
+                      color: carInfo.odometer === val.driven ? "#fff" : "#000",
+                      backgroundColor:
+                        carInfo.odometer === val.driven ? "#000" : "#fff",
+                      "&:hover": {
+                        color: "#fff",
+                        backgroundColor: "#000",
+                        border: "1px solid #000",
+                        transition: "0.5s all",
+                      },
+                    }}
+                    onClick={() => handleClick(val)}
                   >
                     {val.driven}
                   </Card>
                 ))}
               </Stack>
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card>Hello</Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          {/* <Grid item lg={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid> */}
+        </Grid>
+      </Container>
     </>
   );
 };

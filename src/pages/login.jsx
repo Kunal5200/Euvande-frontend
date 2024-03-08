@@ -1,83 +1,107 @@
-import ForgotPassword from "@/assests/modalcalling/forgot-password";
-import LoginForm from "@/components/loginForm";
-import { showModal } from "@/redux/reducers/modal";
-import styles from "@/styles/Login.module.css";
-import { Card, Grid, Typography } from "@mui/material";
-import { useSpring } from "@react-spring/web";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-const RegisterLogin = () => {
-  const [position, setPosition] = useState(0);
-  const [viaOTP, setViaOtp] = useState(false);
-  const [springs, api] = useSpring(() => ({
-    from: { x: position },
-  }));
-  const dispatch = useDispatch();
+import styles from "../styles/Login.module.css";
+import { Box, IconButton } from "@mui/material";
+import LoginForm from "@/components/loginForm";
+import SignupForm from "@/components/signupForm";
+import { Close } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
-  const forgotPassword = () => {
-    dispatch(showModal(<ForgotPassword />));
-  };
-
+export default function SignInUpForm() {
+  const [signup, setsignup] = useState(false);
   const router = useRouter();
-  const handleClick = () => {
-    // const targetPosition = position === 0 ? 380 : 0;
-    // api.start({
-    //   from: { x: position },
-    //   to: { x: targetPosition },
-    // });
-    // setPosition(targetPosition);
-    router.push("/signup");
+  const handlesignup = () => {
+    setsignup(true);
   };
 
-  const [otpShow, setOtpShow] = useState(false);
+  const handlesignin = () => {
+    setsignup(false);
+  };
 
   return (
-    <div>
-      <Head>
-        <title>Login</title>
-      </Head>
-      <div className={styles.bg_image}>
-        <Grid container alignItems={"center"}>
-          <Grid item xs={5}></Grid>
-          <Grid item xs={7}>
-            <Grid container>
-              <Grid item xs="7" className="m-auto">
-                <Card className={`p-2  pb-5 ${styles.loginForm}`}>
-                  <LoginForm />
-                  <Grid container spacing={6}>
-                    <Grid item xs={6}>
-                      <p className="f-12 px-3">
-                        New User?{" "}
-                        <span
-                          className={styles.registerButton}
-                          onClick={handleClick}
-                        >
-                          Register Yourself{" "}
-                        </span>
-                      </p>
-                    </Grid>
-                    <Grid item xs={6} textAlign={"end"}>
-                      <Typography
-                        fontSize={"12px"}
-                        paddingRight={2}
-                        fontWeight={500}
-                        className="pointer text-decoration-underline"
-                        onClick={forgotPassword}
-                      >
-                        Forgot Password?
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Card>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
+    <Box sx={{ position: "relative" }}>
+      <Box
+        sx={{
+          width: "100%",
+          position: "absolute",
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
+        <video width={"100%"} autoPlay={true} muted loop>
+          <source src="https://euvande-dev.s3.eu-central-1.amazonaws.com/videos/04.mp4" />
+        </video>
+      </Box>
+      <Box
+        sx={{
+          height: "100vh",
+          display: "grid",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          className={` ${styles.container_wrapper} ${
+            signup ? styles.right_panel_active : ""
+          }`}
+        >
+          <div
+            className={`${styles.form_container} ${styles.sign_up_container}`}
+          >
+            <SignupForm />
+          </div>
+          <div
+            className={`${styles.form_container} ${styles.sign_in_container}`}
+          >
+            <LoginForm />
+          </div>
+          <div className={styles.overlay_container}>
+            <div className={styles.overlay}>
+              <div className={`${styles.overlay_panel} ${styles.overlay_left}`}>
+                <h1>Welcome Back!</h1>
+                <p className={`${styles.loginText} mb-4`}>
+                  To keep connected with us please login with your personal info
+                </p>
+                <button
+                  className={styles.login_btn}
+                  onClick={handlesignin}
+                  width={200}
+                >
+                  Sign In
+                </button>
+              </div>
+              <Box sx={{ position: "relative" }}>
+                <IconButton
+                  sx={{
+                    border: "1px solid #fff",
+                    position: "absolute",
+                    right: 0,
+                    zIndex: 999,
+                    m:1
+                  }}
+                  onClick={() => router.back()}
+                >
+                  <Close sx={{ fill: "#fff" }} />
+                </IconButton>
+              </Box>
+              <div
+                className={`${styles.overlay_panel} ${styles.overlay_right}`}
+              >
+                <Box>
+                  <Box>
+                    <h1>Hello, User!</h1>
+                    <p className={`${styles.loginText} mb-4`}>
+                      Enter your personal details and start a journey with us
+                    </p>
+                    <button className={styles.login_btn} onClick={handlesignup}>
+                      Sign Up
+                    </button>
+                  </Box>
+                </Box>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </Box>
+    </Box>
   );
-};
-
-export default RegisterLogin;
+}

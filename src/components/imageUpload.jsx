@@ -1,21 +1,8 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid, LinearProgress, Paper } from "@mui/material";
 import React, { useRef, useState } from "react";
 
 const ImageUpload = (props) => {
-  const inputRefs = useRef({});
-  const [imagePreviews, setImagePreviews] = useState({});
   const [hoveredItemId, setHoveredItemId] = useState(null);
-
-  const handleImageUpload = (id) => {
-    const file = inputRefs.current[id].files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreviews((prevPreviews) => ({
-        ...prevPreviews,
-        [id]: imageUrl,
-      }));
-    }
-  };
 
   return (
     <div>
@@ -32,13 +19,15 @@ const ImageUpload = (props) => {
               <input
                 type="file"
                 style={{ display: "none" }}
-                onChange={() => handleImageUpload(val.id)}
+                onChange={() => props.handleImageUpload(val.id)}
                 id={val.id}
-                ref={(el) => (inputRefs.current[val.id] = el)}
+                ref={(el) => (props.inputRefs.current[val.id] = el)}
               />
               <div
                 style={{
-                  backgroundImage: `url(${imagePreviews[val.id] || val.image})`,
+                  backgroundImage: `url(${
+                    props.imagePreviews[val.id] || val.image
+                  })`,
                   height: "150px",
                   width: "100%",
                   backgroundRepeat: "no-repeat",
@@ -47,7 +36,7 @@ const ImageUpload = (props) => {
                   position: "relative",
                   cursor: "pointer",
                 }}
-                onClick={() => inputRefs.current[val.id].click()}
+                onClick={() => props.inputRefs.current[val.id].click()}
               >
                 {hoveredItemId === val.id && (
                   <div
@@ -89,6 +78,12 @@ const ImageUpload = (props) => {
                 </div>
               </div>
             </Paper>
+            {props.progress[val.id] !== undefined && (
+              <LinearProgress
+                variant="determinate"
+                value={props.progress[val.id]}
+              />
+            )}
           </Grid>
         ))}
       </Grid>

@@ -17,6 +17,7 @@ const Button = (props) => {
           borderRadius: props.rounded,
           fontSize: props.fs,
           fontWeight: props.fw,
+          textTransform: props.textTransform,
         }}
         onClick={props.onClick}
         disabled={props.disabled}

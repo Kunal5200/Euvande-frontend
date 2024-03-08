@@ -38,7 +38,68 @@
   touch-action: manipulation;
 } */
 
+/* css */
 
+/* CSS */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* CSS */
+.custom-btn {
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.custom-btn:hover,
+.custom-btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.link {
+  color: inherit;
+}
+
+.custom-btn:hover {
+  transform: translateY(-1px);
+}
+
+.custom-btn:active {
+  background-color: #f0f0f1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+/* css */
 
 p {
   margin-bottom: 0 !important;
@@ -130,9 +191,6 @@ h6 {
   background-color: #eee;
 }
 
-
-
-
 /* second button */
 .custom_btn_white {
   position: relative;
@@ -207,27 +265,26 @@ h6 {
 .absolute__header {
   position: absolute;
   z-index: 999;
-  height: 50px;
+  height: 45px;
 }
 
-
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 5px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  border: 1px solid transparent;
+  border: 5px solid #333;
   background: #ccc;
   border-radius: 5px;
 }
-
 
 .ReactFlagsSelect-module_flagsSelect__2pfa2 {
   padding-bottom: 0 !important;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -268,8 +325,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* font-size */
 
-
-
 .brands:hover {
   transition: 1s ease all;
   transform: scale(1);
@@ -280,11 +335,10 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .custom_btn {
     width: 100% !important;
   }
-
 }
 
 .text-justify {
@@ -292,7 +346,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .link {
-  text-decoration: none
+  text-decoration: none;
 }
 
 .MuiTabs-indicator {
@@ -303,10 +357,8 @@ input[type=number]::-webkit-outer-spin-button {
   width: 100%;
 }
 
-
 .icon-container {
   transition: box-shadow 0.3s ease-in-out;
-
 }
 
 .heartbeat {
@@ -318,16 +370,12 @@ input[type=number]::-webkit-outer-spin-button {
   padding-left: 0;
 }
 
-
 .dot {
   border-radius: 50%;
   background: #000;
   width: 10px;
   height: 10px;
 }
-
-
-
 
 @keyframes heartbeat {
   0% {
@@ -351,6 +399,29 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+/* material ui  */
+/* .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+  width: 300px;
+} */
+
+/* swiper css */
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 20px !important;
+  color: #fff;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  border: 1px solid #000;
+  border-radius: 50%;
+  height: 50px !important;
+  width: 50px !important;
+  background-color: #00000041;
+}
 
 
 
+
+.css-1aquho2-MuiTabs-indicator {
+  display: none;
+}

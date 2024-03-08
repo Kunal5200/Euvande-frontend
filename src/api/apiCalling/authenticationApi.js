@@ -16,13 +16,14 @@ export const userRegister = ({
     .then((res) => {
       toast.success(res.data.message);
       localStorage.setItem("referenceId", res.data.data.referenceId);
-
+      dispatch(setDetails({ ...res.data.data }));
       setLoading(false);
       setEmailVerify(true);
     })
     .catch((err) => {
       setLoading(false);
-      toast.error(err.response.data.message);
+      let errMessage = err.response ? err.response.data.message : err.message;
+      toast.error(errMessage);
     });
 };
 
@@ -31,7 +32,7 @@ export const userVerify = ({ body, setLoading, router, dispatch }) => {
     .verifyOtp(body)
     .then((res) => {
       toast.success(res.data.message);
-      dispatch(setDetails({ ...res.data.data }));
+      dispatch(setDetails({ ...res.data.data, isAuthenticated: true }));
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);
@@ -48,7 +49,7 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
     .loginUser(body)
     .then((res) => {
       const response = res.data.data;
-      dispatch(setDetails({ ...response }));
+      dispatch(setDetails({ ...response, isAuthenticated: true }));
       toast.success(res.data.message);
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
@@ -57,34 +58,21 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
     })
     .catch((err) => {
       setLoading(false);
-      toast.error(err.response.data.message);
+      let errMessage = err.response ? err.response.data.message : err.message;
+      toast.error(errMessage);
       console.log(err);
     });
 };
 
-export const getUserProfile = ({
-  setState,
-  setUser,
-  state,
-  dispatch,
-  setLoading,
-}) => {
+export const getUserProfile = ({ setUser, dispatch, setLoading }) => {
   authControllers
     .getUserDetails()
     .then((res) => {
       const response = res.data.data;
 
-      dispatch(setDetails({ ...response }));
+      dispatch(setDetails({ ...response, isAuthenticated: true }));
       setLoading && setLoading(false);
       setUser && setUser(res.data.data);
-      setState &&
-        state &&
-        setState({
-          ...state,
-          name: res.data.data.name,
-          email: res.data.data.email,
-          phoneNumber: res.data.data.phoneNo,
-        });
     })
     .catch((err) => {
       console.log(err);

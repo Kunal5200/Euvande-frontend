@@ -1,30 +1,24 @@
-import countryData from "@/assests/countries.json";
-import { countries } from "@/assests/country";
-import { isEmail, isNumber, isPhonenumber } from "@/utils/regex";
-import { loginTextField } from "@/utils/styles";
+import { loginUser } from "@/api/apiCalling/authenticationApi";
+import { isEmail } from "@/utils/regex";
+import { loginTextField, loginWhiteTextField } from "@/utils/styles";
 import { loginValidation } from "@/utils/validation";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Autocomplete,
   Box,
-  Divider,
+  Button,
   IconButton,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import Button from "./button";
-import OTPinput from "./otpInput";
 import { useRouter } from "next/router";
-import Loading from "react-loading";
-import { login, loginUser } from "@/api/apiCalling/authenticationApi";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import logo from "@/logo/EuVandeLogoBlack.svg";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import styles from "@/styles/Login.module.css";
+import { toast } from "react-toastify";
+import OTPinput from "./otpInput";
 import { showModal } from "@/redux/reducers/modal";
 import ForgotPassword from "@/assests/modalcalling/forgot-password";
-import Image from "next/image";
+import Loading from "react-loading";
 const LoginForm = ({ otpShow, setOtpShow }) => {
   const [state, setState] = useState({
     identity: "",
@@ -56,6 +50,10 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
     password: "",
   });
 
+  const ForgotPasswordModal = () => {
+    dispatch(showModal(<ForgotPassword />));
+  };
+
   const [loading, setLoading] = useState(false);
 
   const loginsubmitHandler = (e) => {
@@ -82,80 +80,100 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
 
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <div>
+    <Box sx={{ height: "100%" }}>
       {!otpShow ? (
-        <form className={`text-center  pb-3 `} onSubmit={loginsubmitHandler}>
-          {/* <h4 className="p-2">🚗 Euvande Login </h4>
-          <Divider style={{ backgroundColor: "#000" }} />
-          <p className="f-12 p-2">
-            ⭐ Rev up your car journey! Unlock a world of effortless buying and
-            selling. Dive into our Car Marketplace—your dream car or sale
-            awaits. Login now and drive into the future!
-          </p> */}
-          <Image src={logo} width={200} className="" />
+        <Box sx={{ height: "100%", display: "grid", placeItems: "center" }}>
+          <form onSubmit={loginsubmitHandler}>
+            {/* <Image src={logo} width={200} className="" /> */}
+            <Box textAlign={"center"}>
+              <Typography fontWeight={600} fontSize={25} color={"#fff"}>
+                Welcome Back to EuVande!
+              </Typography>
+              <Typography fontSize={12} color={"#fff"}>
+                If you're already a member, logging in is a breeze.
+              </Typography>
+            </Box>
 
-          <div className="p-3">
-            <TextField
-              variant="outlined"
-              label="Enter Your Email*"
-              sx={loginTextField}
-              fullWidth
-              type="text"
-              onChange={inputHandler}
-              error={error.identity}
-              helperText={error.identity}
-              className="my-4"
-              id="identity"
-            />
-            <TextField
-              type={showPassword ? "text" : "password"}
-              className="mb-4"
-              variant="outlined"
-              fullWidth
-              label="Password"
-              sx={loginTextField}
-              id="password"
-              onChange={inputHandler}
-              error={error.password}
-              helperText={error.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment>
-                    <IconButton onClick={() => setShowPassword(!showPassword)}>
-                      {!showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <div className="text-center  ">
+            <Box sx={{ p: 2 }}>
+              <TextField
+                variant="outlined"
+                label="Enter Your Email*"
+                sx={loginWhiteTextField}
+                fullWidth
+                type="text"
+                onChange={inputHandler}
+                error={error.identity}
+                helperText={error.identity}
+                className="my-4"
+                id="identity"
+              />
+              <TextField
+                type={showPassword ? "text" : "password"}
+                className="mb-4"
+                variant="outlined"
+                fullWidth
+                label="Password"
+                sx={loginWhiteTextField}
+                id="password"
+                onChange={inputHandler}
+                error={error.password}
+                helperText={error.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {!showPassword ? (
+                          <Visibility sx={{ fill: "#fff" }} />
+                        ) : (
+                          <VisibilityOff sx={{ fill: "#fff" }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
               <Button
-                className="custom_btn"
-                width="100%"
-                padding="15px"
-                rounded="4px"
+                sx={{
+                  color: "#fff",
+                  backgroundColor: "#000",
+                  ":hover": {
+                    color: "#fff",
+                    backgroundColor: "transparent",
+                    border: "1px solid #fff",
+                  },
+                  border: "1px solid #000",
+                  p: 1.4,
+                  transition: "0.5s ease all",
+                }}
+                fullWidth
+                type="submit"
               >
                 {loading ? (
-                  <Loading
-                    type="bars"
-                    className="m-auto"
-                    width={20}
-                    height={20}
-                    color="#ffdb58"
-                  />
+                  <Loading type="bars" width={20} height={20} color="#fff" />
                 ) : (
-                  <>
-                    <span>Login</span>
-                    <span>Login</span>
-                  </>
+                  "Sign In"
                 )}
               </Button>
-            </div>
-          </div>
-        </form>
+              <Box textAlign={"start"}>
+                <Typography
+                  textAlign={"start"}
+                  color={"#fff"}
+                  fontSize={12}
+                  mt={1}
+                  sx={{ cursor: "pointer" }}
+                  onClick={ForgotPasswordModal}
+                >
+                  Forgot Password ?
+                </Typography>
+              </Box>
+            </Box>
+          </form>
+        </Box>
       ) : (
         <div className="p-3">
-          <h5 className="text-center">Euvande Login</h5>
+          <h5 className="text-center">EuVande Login</h5>
           <p className="f-12 text-center">
             Welcome back! To ensure the security of your account, we need to
             verify your identity. Please enter the One-Time Password (OTP) sent
@@ -164,7 +182,7 @@ const LoginForm = ({ otpShow, setOtpShow }) => {
           <OTPinput />
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 

@@ -94,6 +94,7 @@ export const loginWhiteTextField = {
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       border: "1px solid #ffffff",
+      color: "#fff",
     },
     "&:hover fieldset": {
       borderColor: "#ffffff",
@@ -102,7 +103,9 @@ export const loginWhiteTextField = {
       border: "1px solid #ffffff",
     },
   },
-
+  "& .MuiInputBase-input": {
+    color: "#ffffff",
+  },
   "& .Mui-error": {
     "& fieldset": {
       border: "1px solid #d32f2f",
@@ -121,6 +124,7 @@ export const loginWhiteTextField = {
     color: "#d32f2f",
   },
 };
+
 export const phonetextField = {
   "& label.Mui-focused": {
     color: "#000000",
@@ -203,11 +207,13 @@ export const tabButton = {
   fontWeight: "500",
   minHeight: "0",
   "&.Mui-selected": {
-    color: "#FFF ",
+    color: "#000 ",
     border: "1px solid #000",
     textDecoration: "none",
     borderRadius: "20px",
-    backgroundColor: "#000",
+    // backgroundColor: "#fff",
+    background: "#e0e0e0",
+    boxShadow: "20px -20px 40px #bebebe -20px 20px 40px #ffffff",
   },
   "&.MuiTabs-indicator": {
     backgroundColor: "#ffffff",
@@ -215,7 +221,7 @@ export const tabButton = {
 };
 export const tabsectionButton = {
   color: "#000",
-  fontSize: "15px",
+  fontSize: "13px",
   fontWeight: "500",
   minHeight: "0",
   "&.Mui-selected": {
@@ -249,11 +255,65 @@ export const varianttabButton = {
 export const bodyTypeTabButton = {
   color: "#000",
   "&.Mui-selected": {
-    color: "#ffffff",
-    backgroundColor: "purple",
+    color: "#000",
+    // border: "1px solid #000",
     borderRadius: "8px",
+    boxShadow: "0px 0px 2px 2px #d7d7d7",
   },
-  "&": {
-    transition: "s ease-in-out",
+  borderRadius: "8px",
+  transition: "0.5s ease-in-out",
+  // width: 1,
+  mx: 1,
+  my: 1,
+  ":hover": {
+    boxShadow: "0px 0px 2px 2px #d7d7d7",
   },
+};
+
+export const orderTabButton = {
+  borderBottom: "1px solid #d7d7d7",
+  width: "100%",
+  fontSize: "15px",
+  fontWeight: "600",
+  "&.Mui-selected": {
+    borderBottom: "2px solid purple",
+    color: "Purple",
+    // borderRadius: "20px",
+  },
+};
+
+export const colorStyles = {
+  control: (baseStyles, state) => ({
+    ...baseStyles,
+    backgroundColor: "transparent",
+    border: "1px solid #fff",
+    boxShadow: "none",
+    fontSize: "12px",
+    width: "100%",
+    fontWeight: "400",
+    color: "#fff",
+  }),
+  option: (styles, { isSelected }) => {
+    return {
+      ...styles,
+      textTransform: "capitalize",
+      backgroundColor: isSelected ? "#fff" : "#ffffff",
+      zIndex: 999,
+    };
+  },
+  placeholder: (baseStyles, state) => {
+    return {
+      ...baseStyles,
+      color: "#fff",
+    };
+  },
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: "#fff",
+    textTransform: "capitalize",
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    color: "#fff",
+  }),
 };

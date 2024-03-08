@@ -1,6 +1,6 @@
 import EditUserProfile from "@/assests/modalcalling/editUserProfile";
 import { showModal } from "@/redux/reducers/modal";
-import { Info, Lock, Person } from "@mui/icons-material";
+import { Done, Info, Lock, Person, Verified } from "@mui/icons-material";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import EmailIcon from "@mui/icons-material/Email";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -25,13 +25,31 @@ const ProfileSettings = (props) => {
   const user = props.userDetails;
   const loading = props.loading;
   const setUser = props.setUser;
+  const setLoading = props.setLoading;
   const router = useRouter();
   const dispatch = useDispatch();
   const editProfileModal = () => {
-    dispatch(showModal(<EditUserProfile value={user} setUser={setUser} />));
+    dispatch(
+      showModal(
+        <EditUserProfile
+          value={user}
+          setUser={setUser}
+          setLoading={setLoading}
+        />
+      )
+    );
   };
   const verifyPhoneNumber = (userInfo) => {
-    dispatch(showModal(<VerifyPhone user={userInfo} />));
+    dispatch(
+      showModal(
+        <VerifyPhone
+          user={userInfo}
+          userDetails={user}
+          setUser={setUser}
+          setLoading={loading}
+        />
+      )
+    );
   };
   return (
     <div>
@@ -45,7 +63,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Person />
-                    <Typography variant="h6" fontWeight={500}>
+                    <Typography variant="h6" fontWeight={600} fontSize={18}>
                       Contact Information
                     </Typography>
                   </Stack>
@@ -82,18 +100,33 @@ const ProfileSettings = (props) => {
                     </p>
                   )}
                   <div className="d-flex align-items-center justify-content-between">
-                    <p className="f-12 fw-semibold text-danger">
+                    <p
+                      className={`f-12 fw-semibold ${
+                        user.isPhoneNoVerified ? "text-success" : "text-danger"
+                      } `}
+                    >
                       <FaPhoneAlt className="me-2" fontSize="12px" />
                       {user.phoneNo}
                     </p>
-                    <Tooltip title="Verify Phone Number" placement="top">
-                      <IconButton onClick={() => verifyPhoneNumber(user)}>
-                        <Info
-                          fontSize="12px"
-                          className="pointer"
-                          style={{ color: "red" }}
-                        />
-                      </IconButton>
+                    <Tooltip
+                      title={
+                        user.isPhoneNoVerified
+                          ? "Phone Number Verified"
+                          : "Verify Phone Number"
+                      }
+                      placement="top"
+                    >
+                      {user.isPhoneNoVerified ? (
+                        <Verified sx={{ fill: "green" }} />
+                      ) : (
+                        <IconButton onClick={() => verifyPhoneNumber(user)}>
+                          <Info
+                            fontSize="12px"
+                            className="pointer"
+                            style={{ color: "red" }}
+                          />
+                        </IconButton>
+                      )}
                     </Tooltip>
                   </div>
                 </AccordionDetails>
@@ -102,7 +135,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Lock />
-                    <Typography variant="h6">Change Password</Typography>
+                    <Typography variant="h6" fontWeight={600} fontSize={18}>Change Password</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />
@@ -114,7 +147,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1} alignItems={"center"}>
                     <ContactMailIcon />
-                    <Typography variant="h6">Address</Typography>
+                    <Typography variant="h6" fontWeight={600} fontSize={18}>Address</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />

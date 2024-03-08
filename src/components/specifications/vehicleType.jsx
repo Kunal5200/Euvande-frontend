@@ -1,44 +1,75 @@
-import { Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import React, { useState } from "react";
-import Button from "../button";
+// import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
+import { useSelector } from "react-redux";
 const VehicleType = ({ data, setActiveStep, activeStep, setState, state }) => {
-  const [vehicleType, setVehicleType] = useState("");
   const handleVehicleType = (vehicleType) => {
-    setVehicleType(vehicleType);
     setActiveStep(activeStep + 1);
     setState({ ...state, vehicleType: vehicleType });
   };
+  const carInfo = useSelector((state) => state.CarInformation);
+  console.log(carInfo)
   return (
     <div>
       <Grid container spacing={1}>
         {data.map((val, i) => (
-          <Grid item xs={3}>
+          <Grid item lg={3} key={i}>
             <Button
-              key={i}
-              className={
-                state.vehicleType === val.label
-                  ? styles.selected_btn
-                  : styles.unselected_btn
-              }
-              width={150}
-              onClick={() => handleVehicleType(val.label)}
-              type="button"
+              sx={{
+                color: state.vehicleType
+                  ? state.vehicleType === val
+                    ? "#fff"
+                    : "#000"
+                  : carInfo &&
+                    carInfo.specification &&
+                    carInfo.specification.vehicleType === val
+                  ? "#fff"
+                  : "#000",
+                backgroundColor: state.vehicleType
+                  ? state.vehicleType === val
+                    ? "#000"
+                    : "#fff"
+                  : carInfo &&
+                    carInfo.specification &&
+                    carInfo.specification.vehicleType === val
+                  ? "#000"
+                  : "#fff",
+                border: "1px solid #000",
+                "&:hover": {
+                  color: "#ffffff",
+                  backgroundColor: "#000",
+                  border: "1px solid #000",
+                },
+                textTransform: "capitalize",
+                width: 150,
+              }}
+              onClick={() => handleVehicleType(val)}
             >
-              {val.label}
+              {val}
             </Button>
           </Grid>
         ))}
       </Grid>
       <Button
-        className={styles.back_btn}
+        sx={{ mt: 2 }}
+        onClick={() => setActiveStep(activeStep - 1)}
+        color="inherit"
+      >
+        {" "}
+        <FaAngleLeft /> Back
+      </Button>
+      {/* <Button
+        className="custom_btn_white mt-2"
         onClick={() => setActiveStep(activeStep - 1)}
         type="button"
+        backgroundColor="#000"
+        color="#fff"
+        width="100px"
       >
-        <FaAngleLeft />
         Back
-      </Button>
+      </Button> */}
     </div>
   );
 };

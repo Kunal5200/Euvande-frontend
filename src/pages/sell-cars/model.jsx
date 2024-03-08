@@ -3,7 +3,9 @@ import LinkTab from "@/components/linktab";
 import { loginTextField } from "@/utils/styles";
 import { Search } from "@mui/icons-material";
 import {
+  Button,
   Card,
+  Container,
   Grid,
   IconButton,
   InputAdornment,
@@ -14,15 +16,23 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/tabs.module.css";
 import { useRouter } from "next/router";
 import { vehicleController } from "@/api/addVehicle";
+import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
+import { useDispatch, useSelector } from "react-redux";
+import AddCarDetails from "@/components/carDetails";
 const Model = () => {
   const [selected, setSelected] = useState(false);
+  const dispatch = useDispatch();
+  const carInfo = useSelector((state) => state.CarInfo);
   const [model, setModel] = useState("");
   const router = useRouter();
   const handleSelectModel = (modelName) => {
     setModel(modelName);
     setSelected(true);
-    router.push("/sell-cars/variant");
-    localStorage.setItem("model", modelName);
+    let body = {
+      id: carInfo.id,
+      modelId: modelName,
+    };
+    addCar({ body, router, path: "/sell-cars/variant", dispatch });
   };
   const [modelName, setModelName] = useState([]);
 
@@ -36,72 +46,82 @@ const Model = () => {
         console.log(err);
       });
   };
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    const make = localStorage.getItem("brand");
-    const period = localStorage.getItem("year");
-    if (make && period) {
-      let body = {
-        makeId: parseInt(make),
-        periodId: parseInt(period),
-      };
-      getModel(body);
-    } else {
-      console.log("not callinng");
-    }
+    const fetchData = async () => {
+      const carId = parseInt(localStorage.getItem("carId"));
+      if (carId) {
+        await getCarInfo({ data: carId, dispatch });
+        getCarDetails({ carId, setCarData, setLoading, dispatch });
+      } else {
+        console.log("not callinng");
+      }
+    };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchModel = async () => {
+      if (carInfo.id) {
+        let body = {
+          makeId: carInfo.make,
+          periodId: carInfo.period,
+        };
+        await getModel(body);
+      } else {
+        () => {};
+      }
+    };
+
+    fetchModel();
+  }, [carInfo.id]);
 
   return (
     <>
       <Head>
         <title>Select Model of your Car</title>
       </Head>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-sm-9 ">
+      <Container sx={{ my: 5 }}>
+        <Grid container spacing={4}>
+          <Grid item lg={12}>
             <LinkTab />
 
             <Card className="p-3">
               <h5 className="mb-3">Select Your Car Model</h5>
-              <TextField
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <Search />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={loginTextField}
-                label="Search Your Car Model"
-                className="mb-3"
-              />
 
               <Grid container spacing={2}>
                 {modelName.map((val, i) => (
                   <Grid item xs={4} key={i}>
-                    <Card
-                      className={`p-2 pointer ${
-                        val.modelName === model && selected
-                          ? styles.year_Selector
-                          : ""
-                      }`}
+                    <Button
+                      sx={{
+                        width: 150,
+                        border:
+                          carInfo.model === val.id
+                            ? "1px solid #000"
+                            : "1px solid #eee",
+                        color: carInfo.model === val.id ? "#fff" : "#000",
+                        backgroundColor:
+                          carInfo.model === val.id ? "#000" : "transparent",
+                        "&:hover": {
+                          color: "#fff",
+                          backgroundColor: "#000",
+                        },
+                      }}
                       onClick={() => handleSelectModel(val.id)}
                     >
                       {val.modelName}
-                    </Card>
+                    </Button>
                   </Grid>
                 ))}
               </Grid>
             </Card>
-          </div>
-          <div className="col-sm-3">
-            <Card>hello</Card>
-          </div>
-        </div>
-      </div>
+          </Grid>
+          {/* <Grid item lg={4}>
+            {carData && <AddCarDetails data={carData} loading={loading} />}
+          </Grid> */}
+        </Grid>
+      </Container>
     </>
   );
 };

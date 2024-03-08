@@ -1,72 +1,66 @@
-import data from "@/assests/data";
-import { Divider, Paper, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import rollsRyce from "@/brandImage/rollsroyce.webp";
-
-const CarInfo = () => {
-  const [brand, setBrand] = useState("");
-  const [model, setModel] = useState("");
-  const [year, setYear] = useState("");
-  const [variantType, setVariantType] = useState("");
-  const [driven, setDriven] = useState("");
-  const [specifications, setSpecifications] = useState({});
-  useEffect(() => {
-    setBrand(localStorage.getItem("brand"));
-    setModel(localStorage.getItem("model"));
-    setYear(localStorage.getItem("year"));
-    setVariantType(localStorage.getItem("variantType"));
-    setDriven(localStorage.getItem("driven"));
-    const quality = localStorage.getItem("specifications");
-    setSpecifications(JSON.parse(quality));
-  }, []);
-
+import { Box, Card, Skeleton, Stack, Typography } from "@mui/material";
+import Dot from "./dot";
+import logo from "@/logo/EUVandeLogoBlack.svg";
+const CarInfo = ({ carData, loading }) => {
   return (
     <div>
-      <Stack
-        direction={"row"}
-        alignItems={"center"}
-        spacing={3}
-        className="text-white"
-      >
-        <Paper>
-          <img src={rollsRyce.src} width={150} />
-        </Paper>
-        <div>
-          <Stack direction={"row"}>
-            <h1 className="text-capitalize">{brand && brand} - </h1>
-            <h1> {model ? model : ""}</h1>
-          </Stack>
-          <Stack direction={"row"} spacing={1} alignItems={"center"}>
-            <p className="f-12 mb-0">{variantType}</p>
-            <div
-              className="dot"
-              style={{
-                backgroundColor: "#ffffff",
-                width: "5px",
-                height: "5px",
-              }}
-            ></div>
-            <p className="f-12 mb-0">{year}</p>
-            <div
-              className="dot"
-              style={{
-                backgroundColor: "#ffffff",
-                width: "5px",
-                height: "5px",
-              }}
-            ></div>
-            <p className="mb-0 f-12">{driven}</p>
-            <div
-              className="dot"
-              style={{
-                backgroundColor: "#ffffff",
-                width: "5px",
-                height: "5px",
-              }}
-            ></div>
-            <p className="mb-0 f-12">{specifications.transmission}</p>
-          </Stack>
-        </div>
+      <Stack direction={"row"} alignItems={"center"} spacing={3}>
+        {loading ? (
+          <Skeleton variant="rectangular" width={100} height={100} />
+        ) : (
+          <Card sx={{ p: 2 }}>
+            <img src={carData.make.logo || logo.src} width={100} />
+          </Card>
+        )}
+        {loading ? (
+          <Skeleton variant="rectangular" width={200} />
+        ) : (
+          <Box>
+            <Typography
+              textAlign={"start"}
+              fontSize={40}
+              fontWeight={600}
+              letterSpacing={2}
+              textTransform={"capitalize"}
+            >
+              {carData.make.makeName} - {carData.model.modelName}
+            </Typography>
+            <Stack direction={"row"} alignItems={"center"} spacing={1}>
+              <Typography fontSize={12}>
+                {carData.vin || "VIN not Disclosed"}
+              </Typography>
+              <Dot height={5} width={5} bgColor={"#fff"} />
+              <Typography fontSize={12}>
+                {(carData.period && carData.period.year) || "Not Disclosed"}
+              </Typography>
+              <Dot height={5} width={5} bgColor={"#fff"} />
+              <Typography fontSize={12}>
+                {(carData.variant && carData.variant.fuelType) ||
+                  "Not Disclosed"}
+              </Typography>
+              <Dot height={5} width={5} bgColor={"#fff"} />
+              <Typography fontSize={12}>
+                {(carData.specification &&
+                  carData.specification.transmission) ||
+                  "Not Disclosed"}
+              </Typography>
+              <Dot height={5} width={5} bgColor={"#fff"} />
+              <Typography fontSize={12}>
+                {carData.odometer || "Not Disclosed"}
+              </Typography>
+              <Dot height={5} width={5} bgColor={"#fff"} />
+              <Typography fontSize={12} textTransform={"capitalize"}>
+                {(carData.specification && carData.specification.vehicleType) ||
+                  "Not Disclosed"}
+              </Typography>
+              <Dot height={5} width={5} bgColor={"#fff"} />
+              <Typography fontSize={12}>
+                {(carData.variant && carData.variant.variantName) ||
+                  "Not Disclosed"}
+              </Typography>
+            </Stack>
+          </Box>
+        )}
       </Stack>
     </div>
   );

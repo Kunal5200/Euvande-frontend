@@ -66,6 +66,9 @@ const EditUserProfile = ({ value, setUser }) => {
   const submitHandler = (e) => {
     setLoading(false);
     e.preventDefault();
+    if (!isPhonenumber(state.phoneNo) || !isEmail(state.email)) {
+      return;
+    }
     let body = {
       name: state.name,
       email: state.email,
@@ -115,6 +118,7 @@ const EditUserProfile = ({ value, setUser }) => {
                 id="email"
                 error={error.email}
                 helperText={error.email}
+                disabled
               />
             </Grid>
           </Grid>
@@ -134,7 +138,7 @@ const EditUserProfile = ({ value, setUser }) => {
               />
             </Grid>
             <Grid item xs={6}>
-            <Autocomplete
+              <Autocomplete
                 id="country"
                 options={countries}
                 autoHighlight

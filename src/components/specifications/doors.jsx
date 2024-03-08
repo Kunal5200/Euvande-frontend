@@ -1,11 +1,12 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React, { useState } from "react";
-import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
+import CarInfo from "../car-info";
+import { useSelector } from "react-redux";
 const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
   const [doors, setDoors] = useState("");
-
+  const carInfo = useSelector((state) => state.CarInformation);
   const handleChangeDoors = (doors) => {
     setDoors(doors);
     setActiveStep(activeStep + 1);
@@ -17,26 +18,47 @@ const Doors = ({ data, setActiveStep, activeStep, setState, state }) => {
         {data.map((val, i) => (
           <Button
             key={i}
-            onClick={() => handleChangeDoors(val.label)}
-            className={
-              val.label === state.doors
-                ? styles.selected_btn
-                : styles.unselected_btn
-            }
+            onClick={() => handleChangeDoors(val)}
+            sx={{
+              color: state.doors
+                ? state.doors === val
+                  ? "#fff"
+                  : "#000"
+                : carInfo &&
+                  carInfo.specification &&
+                  carInfo.specification.doors === val
+                ? "#fff"
+                : "#000",
+              backgroundColor: state.doors
+                ? state.doors === val
+                  ? "#000"
+                  : "#fff"
+                : carInfo &&
+                  carInfo.specification &&
+                  carInfo.specification.doors === val
+                ? "#000"
+                : "#fff",
+              border: "1px solid #000",
+              "&:hover": {
+                color: "#ffffff",
+                backgroundColor: "#000",
+                border: "1px solid #000",
+              },
+              textTransform: "capitalize",
+              width: 100,
+            }}
             type="button"
-            width={70}
           >
-            {val.label}
+            {val}
           </Button>
         ))}
       </Stack>
       <Button
-        className={styles.back_btn}
         onClick={() => setActiveStep(activeStep - 1)}
-        type="button"
+        sx={{ mt: 2 }}
+        color="inherit"
       >
-        <FaAngleLeft />
-        Back
+        <FaAngleLeft /> Back
       </Button>
     </div>
   );

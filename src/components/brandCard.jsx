@@ -1,5 +1,6 @@
 import { Box, Card, Typography } from "@mui/material";
 const BrandCard = (props) => {
+  
   return (
     <Box>
       <Card
@@ -13,11 +14,17 @@ const BrandCard = (props) => {
           cursor: "pointer",
           height: 150,
         }}
+        onClick={props.onClick}
       >
         <Box textAlign={"center"} marginBottom={2}>
           <img src={props.img} width={50} />
         </Box>
-        <Typography fontSize={15} textAlign={"center"} fontWeight={600} textTransform={"capitalize"}>
+        <Typography
+          fontSize={15}
+          textAlign={"center"}
+          fontWeight={600}
+          textTransform={"capitalize"}
+        >
           {props.brandName}
         </Typography>
         <Typography

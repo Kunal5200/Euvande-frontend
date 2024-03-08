@@ -2,7 +2,6 @@ import data from "@/assests/data";
 import BannerForm from "@/components/bannerForm";
 import BodyType from "@/components/bodyType/bodyType";
 import BrandCard from "@/components/brandCard";
-import Button from "@/components/button";
 import CarCard from "@/components/carCard";
 import HowWorks from "@/components/howItWorks";
 import TestimonialCard from "@/components/testimonialCard";
@@ -12,6 +11,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Container,
   Divider,
   Grid,
@@ -21,8 +21,15 @@ import Aos from "aos";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { AutoPlay, Autoplay } from "swiper/modules";
+import { AutoPlay, Autoplay, Navigation } from "swiper/modules";
 import { ExpandMore } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import Carousel from "react-multi-carousel";
+import { responsive } from "@/utils/styles";
+import { useRouter } from "next/router";
+import { getCars } from "@/api/apiCalling/listingApi";
+import "swiper/css/navigation";
+import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -32,22 +39,38 @@ export default function Home() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : null);
   };
+  const router = useRouter();
+  const [carData, setCarData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [make, setMake] = useState([]);
+  useEffect(() => {
+    getCars({ setCarData, loading: setLoading });
+    vehicleMakeCount({ setMake });
+  }, []);
 
+  const handleMake = (val) => {
+    const data = {
+      make: val.id,
+    };
+
+    const body = encodeURIComponent(JSON.stringify(data));
+    router.push(`/buy-cars?state=${body}`);
+  };
   return (
     <>
       <Head>
         <title>Home</title>
       </Head>
 
-      <div className={styles.bg_home}>
-        <Container>
+      <Box className={styles.bg_home}>
+        <Container style={{ maxWidth: 1400 }}>
           <Grid container data-aos="fade-right">
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={6} mt={10}>
               <BannerForm />
             </Grid>
           </Grid>
         </Container>
-      </div>
+      </Box>
 
       <div className={`${styles.howItWorks} py-5`}>
         <Divider className="mb-3">
@@ -56,16 +79,17 @@ export default function Home() {
             variant="h4"
             fontWeight={600}
           >
-            How it Works ?
+            How it Works?
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={2} data-aos="fade-down">
             {data.howWorks.map((val, i) => (
               <Grid item xs={12} lg={4} key={i}>
                 <HowWorks
                   img={val.img}
-                  heading={val.heading}
+                  heading1={val.heading1}
+                  heading2={val.heading2}
                   description={val.description}
                 />
               </Grid>
@@ -73,10 +97,33 @@ export default function Home() {
           </Grid>
 
           <div className="text-center mt-4">
-            <Button className="custom_btn" width={200} rounded={20}>
+            {/* <Button
+              sx={{
+                backgroundColor: "#000",
+                width: 200,
+                color: "#fff",
+                ":hover": {
+                  color: "#000",
+                  backgroundColor: "#fff",
+                },
+                border: "1px solid #000",
+                fontSize: 12,
+                p: 1,
+                transition: "0.5s ease all",
+              }}
+              onClick={() => router.push("/about-us")}
+            >
+              Know More
+            </Button> */}
+            {/* <Button
+              className="custom_btn"
+              width={200}
+              rounded={20}
+              onClick={() => router.push("/about-us")}
+            >
               <span>Know More</span>
               <span>Know More</span>
-            </Button>
+            </Button> */}
           </div>
         </Container>
       </div>
@@ -91,7 +138,7 @@ export default function Home() {
             Featured Cars
           </Typography>
         </Divider>
-        <Container className="mt-3">
+        <Container className="mt-3" style={{ maxWidth: 1300, p: 0 }}>
           <Swiper
             breakpoints={{
               640: {
@@ -108,27 +155,36 @@ export default function Home() {
               },
             }}
             spaceBetween={5}
+            modules={[Navigation]}
+            navigation={true}
             className="py-2 px-1"
+            loop
           >
-            {data.carDataList.map((val, i) => (
-              <SwiperSlide key={i}>
-                <CarCard
-                  img={val.img.src}
-                  carName={val.carName}
-                  driven={val.driven}
-                  transmission={val.transmission}
-                  variant={val.variant}
-                  amount={val.amount}
-                  emi={val.emi}
-                />
-              </SwiperSlide>
-            ))}
+            {carData &&
+              carData.docs &&
+              carData.docs.map((val, i) => (
+                <SwiperSlide key={i}>
+                  <CarCard data={val} />
+                </SwiperSlide>
+              ))}
           </Swiper>
 
           <div className="my-4 text-center">
-            <Button className="custom_btn" width={200} rounded={20}>
-              <span>View All Cars</span>
-              <span>View All Cars</span>
+            <Button
+              sx={{
+                width: 200,
+                border: "1px solid #000",
+                color: "#fff",
+                backgroundColor: "#000",
+                ":hover": {
+                  color: "#000",
+                  backgroundColor: "#fff",
+                },
+                transition: "0.5s ease all",
+              }}
+              onClick={() => router.push("/buy-cars")}
+            >
+              View All Cars
             </Button>
           </div>
         </Container>
@@ -145,7 +201,7 @@ export default function Home() {
           </Typography>
         </Divider>
 
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           <BodyType />
         </Container>
       </Box>
@@ -161,28 +217,41 @@ export default function Home() {
             Find Your Perfect Ride in Our Car Marketplace
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={3} marginTop={2} marginBottom={2}>
-            {data.brandsSelector.slice(0, 12).map((val, i) => (
+            {make.map((val, i) => (
               <Grid item lg={2} key={i}>
                 <BrandCard
-                  brandName={val.name}
+                  brandName={val.makeName}
                   img={val.logo}
-                  carNumber={val.carNumber}
+                  carNumber={val.carCount}
+                  onClick={() => handleMake(val)}
                 />
               </Grid>
             ))}
           </Grid>
-          <Box textAlign={"center"} marginY={4}>
-            <Button className="custom_btn" rounded={20} width={200}>
-              <span>View All Cars</span>
-              <span>View All Cars</span>
+          {/* <Box textAlign={"center"} marginY={4}>
+            <Button
+              sx={{
+                color: "#fff",
+                backgroundColor: "#000",
+                width: 200,
+                ":hover": {
+                  color: "#000",
+                  backgroundColor: "#fff",
+                },
+                border: "1px solid #000",
+                transition: "0.5s ease all",
+              }}
+              onClick={() => router.push("/buy-cars")}
+            >
+              View All Cars
             </Button>
-          </Box>
+          </Box> */}
         </Container>
       </Box>
-      <Box marginTop={3} marginBottom={3}>
-        <Divider>
+      <Box sx={{ my: 3 }}>
+        <Divider sx={{ mb: 3 }}>
           <Typography
             variant="h4"
             fontSize={{ xs: 18, lg: 25 }}
@@ -192,7 +261,7 @@ export default function Home() {
             What do our customers think?
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           <Grid container alignItems={"center"}>
             <Grid item lg={3}>
               <Typography variant="h4" fontWeight={600} fontSize={30}>
@@ -200,40 +269,16 @@ export default function Home() {
               </Typography>
             </Grid>
             <Grid item lg={9}>
-              <Swiper
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                    spaceBetween: 40,
-                  },
-                  1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 10,
-                  },
-                }}
-                className="py-3 px-3"
-                autoplay={{
-                  delay: 2500,
-                  disableOnInteraction: false,
-                }}
-                modules={[Autoplay]}
-                grabCursor={true}
-                loop={true}
-              >
+              <Carousel responsive={responsive}>
                 {data.testimonials.map((val, i) => (
-                  <SwiperSlide key={i}>
-                    <TestimonialCard
-                      testimonial={val.testimonial}
-                      name={val.name}
-                      img={val.img}
-                    />
-                  </SwiperSlide>
+                  <TestimonialCard
+                    testimonial={val.testimonial}
+                    name={val.name}
+                    img={val.img}
+                    key={i}
+                  />
                 ))}
-              </Swiper>
+              </Carousel>
             </Grid>
           </Grid>
         </Container>
@@ -249,19 +294,24 @@ export default function Home() {
             Frequently Asked Questions
           </Typography>
         </Divider>
-        <Container>
+        <Container style={{ maxWidth: 1300 }}>
           {data.faqs.map((val, i) => (
             <Accordion
               key={i}
-              sx={{ marginY: 1 }}
+              sx={{ marginY: 4 }}
               expanded={expanded === `panel${i}`}
               onChange={handleChange(`panel${i}`)}
             >
               <AccordionSummary
                 expandIcon={<ExpandMore />}
-                sx={{ borderBottom: "1px solid #eee" }}
+                sx={{
+                  borderBottom:
+                    expanded === `panel${i}`
+                      ? "1px solid #000"
+                      : "1px solid #eee",
+                }}
               >
-                <Typography variant="h5" fontSize={15} fontWeight={500}>
+                <Typography variant="h5" fontSize={14} fontWeight={600}>
                   {val.question}
                 </Typography>
               </AccordionSummary>

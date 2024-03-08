@@ -1,12 +1,29 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 const HowWorks = (props) => {
   return (
     <div>
-      <img src={props.img} width={"100%"} className="mb-4" />
-      <Typography fontSize={20} variant="h5" fontWeight={700} >
-        {props.heading}
+      <Box textAlign={"center"}>
+        <img src={props.img} width={100} className="mb-4" />
+      </Box>
+      <Typography
+        fontSize={25}
+        textAlign={"center"}
+        variant="h5"
+        fontWeight={700}
+        sx={{ whiteSpace: "pre-line" }}
+      >
+        {props.heading1}
       </Typography>
-      <Typography fontSize={12} className="mt-3">
+      <Typography
+        fontSize={25}
+        textAlign={"center"}
+        variant="h5"
+        fontWeight={700}
+        sx={{ whiteSpace: "pre-line" }}
+      >
+        {props.heading2}
+      </Typography>
+      <Typography fontSize={12} className="mt-3" textAlign={"center"}>
         {props.description}
       </Typography>
     </div>

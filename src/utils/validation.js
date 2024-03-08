@@ -42,24 +42,19 @@ export const registerValidation = ({ state, error, setError }) => {
   }
 };
 
-export const contactValidation = ({ state, error, setError }) => {
-  let { name, email, phoneNumber, country, zipCode } = state;
+export const contactValidation = ({ state, error, setError, setLoading }) => {
+  let { name, phoneNumber, country, zipCode, email } = state;
 
-  if (
-    name === "" ||
-    email === "" ||
-    phoneNumber === "" ||
-    country === "" ||
-    zipCode === ""
-  ) {
+  if (name === "" || phoneNumber === "" || country === "" || zipCode === "") {
     setError({
       ...error,
       name: name === "" && "Please Enter Name ",
-      email: email === "" && "Please Enter Email",
       phoneNumber: phoneNumber === "" && "Please Enter Phone Number",
       country: country === "" && "Please Select Country",
       zipCode: zipCode === "" && "Please Enter Zip Code",
+      email: email === "" && "Please Enter Valid Email",
     });
+    setLoading(false);
     return false;
   } else {
     return true;

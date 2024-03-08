@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import OTPInput from "react-otp-input";
-import styles from "@/styles/Login.module.css";
-import Loading from "react-loading";
-import Button from "@/components/button";
 import { verifyForgotPasswordOTP } from "@/api/apiCalling/authenticationApi";
-import { useDispatch } from "react-redux";
-import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import styles from "@/styles/Login.module.css";
 import { loginTextField } from "@/utils/styles";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import Loading from "react-loading";
+import OTPInput from "react-otp-input";
+import { useDispatch } from "react-redux";
 const OTPverifyPassword = () => {
   const [otp, setOTP] = useState("");
   const [password, setPassword] = useState("");
@@ -39,16 +46,11 @@ const OTPverifyPassword = () => {
   };
   return (
     <Box width={500}>
-      <form onSubmit={submitHandler}>
-        <div className="mb-3">
-          <h5>🚗 Ultimate Car Marketplace OTP Verification 🚀</h5>
-          <p className="f-12 text-center">
-            Welcome to the fast lane of car dreams! To ensure a secure and swift
-            journey on our Ultimate Car Marketplace, we need to verify your
-            identity. Buckle up for a quick and easy OTP (One-Time Password)
-            verification process.
-          </p>
-        </div>
+      <Typography fontSize={20} fontWeight={550}>
+        Verify OTP
+      </Typography>
+      <Divider sx={{ backgroundColor: "#000" }} />
+      <form onSubmit={submitHandler} style={{ marginTop: "2rem" }}>
         <OTPInput
           numInputs={6}
           renderSeparator={<span>-</span>}
@@ -77,12 +79,26 @@ const OTPverifyPassword = () => {
           }}
           fullWidth
           sx={loginTextField}
-          className="mt-5"
+          className="mt-3"
           label="Enter New password*"
           helperText={error.password}
           error={error.password}
         />
-        <Button className="custom_btn mt-4" width="100%">
+        <Button
+          sx={{
+            border: "1px solid #d7d7d7",
+            color: "#000",
+            ":hover": {
+              boxShadow: "0xp 0px 2px 2px #00000040",
+              backgroundColor: "#fff",
+            },
+            transition: "0.5s ease all",
+            p: 1,
+            mt: 2,
+          }}
+          fullWidth
+          type="submit"
+        >
           {loading ? (
             <Loading
               type="bars"
@@ -92,10 +108,7 @@ const OTPverifyPassword = () => {
               className="m-auto"
             />
           ) : (
-            <>
-              <span>Submit OTP</span>
-              <span>Submit OTP</span>
-            </>
+            "Submit"
           )}
         </Button>
       </form>

@@ -1,5 +1,8 @@
-import { HeaderLinks } from "@/assests/routes";
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
+import { HeaderLinks } from "@/assests/routes";
+import logoBlack from "@/logo/EUVandeLogoBlack.svg";
+import logo from "@/logo/EUVandeLogoWhite.svg";
+import { removeDetails } from "@/redux/reducers/userdetails";
 import styles from "@/styles/Header.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
@@ -7,37 +10,44 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import {
+  Avatar,
+  Box,
+  Button,
   Card,
+  Container,
   Divider,
+  Drawer,
+  FormHelperText,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemText,
+  Menu,
+  MenuItem,
   Paper,
   Slide,
   Stack,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FaCar, FaUser } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "@/logo/EuVandeLogoWhite.svg";
-import logoBlack from "@/logo/EuVandeLogoBlack.svg";
-import Button from "./button";
-import Image from "next/image";
-import { removeDetails, setDetails } from "@/redux/reducers/userdetails";
+// import Button from "./button";
+import { Close, Logout, MenuOpen, Person } from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
   const router = useRouter();
+  const isAuthenticated = useSelector(
+    (state) => state.userInfo.isAuthenticated
+  );
 
-  const handleShowMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
-  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     if (
       router.pathname === "/" ||
@@ -48,24 +58,24 @@ const Navbar = () => {
       setShow(false);
     }
   }, [router.pathname, show]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const [popOver, setIsPopOver] = useState(false);
   const handleLogout = () => {
     localStorage.clear();
     router.push("/");
-    setIsPopOver(false);
+    setAnchorEl(null);
+    setShowMenu(false);
+    // setIsPopOver(false);
     dispatch(removeDetails());
   };
   const dispatch = useDispatch();
-  const routePage = () => {
-    !isLogin ? router.push("/registerorlogin") : setIsPopOver(!popOver);
+  const routePage = (event) => {
+    !isAuthenticated
+      ? router.push("/registerorlogin")
+      : setAnchorEl(event.currentTarget);
   };
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  });
+
   useEffect(() => {
     localStorage.getItem("accessToken")
       ? getUserProfile({ dispatch })
@@ -74,12 +84,13 @@ const Navbar = () => {
 
   const userProfile = () => {
     router.push("/user-profile");
-    setIsPopOver(false);
+    setAnchorEl(null);
+    setShowMenu(false);
   };
 
   const linksList = [
     {
-      name: "Profile",
+      name: "User Profile",
       icon: <PersonIcon />,
       onClick: userProfile,
     },
@@ -94,11 +105,14 @@ const Navbar = () => {
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
   return (
-    <div className={`container-fluid ${show ? "" : styles.header}`}>
-      <div className={`${show ? styles.mainHeader : ""} container p-2`}>
+    <div className={`container-fluid ${show ? "" : styles.header} `}>
+      <div
+        style={{ maxWidth: 1300 }}
+        className={`container ${show ? styles.mainHeader : ""} p-2 `}
+      >
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
-            <Image src={show ? logo : logoBlack} width={150} />
+            <Image src={show ? logo : logoBlack} width={150} alt="logo" />
           </Link>
 
           <Stack
@@ -107,160 +121,253 @@ const Navbar = () => {
             alignItems={"center"}
             className={styles.desktopView}
           >
-            <Stack direction="row" alignItems={"center"} spacing={1}>
+            {/* <Stack direction="row" alignItems={"center"} spacing={1}>
               <LocalPhoneOutlinedIcon
                 style={{
                   fill: show ? "#fff" : "#000",
                   border: show ? "1px solid #fff" : "1px solid #000",
                   borderRadius: "50%",
-                  width: "30px",
-                  height: "30px",
+                  width: "25px",
+                  height: "25px",
                   padding: "5px",
                 }}
               />
-              <p className={`${show ? "text-white" : "text-dark"} f-12`}>
-                +1 9845751252
-              </p>
-            </Stack>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
+                +49 6542682861
+              </Typography>
+            </Stack> */}
 
             <Divider
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 20,
+                alignSelf: "center",
+              }}
             />
             <Link href={"/buy-cars"} className="link">
-              <Typography color={show ? "#ffffff" : "#000000"}>
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 Buy Car
               </Typography>
             </Link>
-            <Divider
+            {/* <Divider
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
-            />
-            <Link
-              href={isLogin ? "/sell-cars" : "/registerorlogin"}
-              className="link"
-            >
-              <Typography color={show ? "#ffffff" : "#000000"}>
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 20,
+                alignSelf: "center",
+              }}
+            /> */}
+            <Link href={ "/sell-cars"} className="link">
+              <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 Sell Car
               </Typography>
             </Link>
-            <Divider
+            {/* <Divider
               flexItem
               orientation="vertical"
               variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
-            />
+              sx={{
+                backgroundColor: "#fff",
+                opacity: 1,
+                height: 20,
+                alignSelf: "center",
+              }}
+            /> */}
 
-            <Stack
-              spacing={1}
-              alignItems={"center"}
-              direction={"row"}
-              onClick={routePage}
-              className="pointer"
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                border: show ? "1px solid #fff" : "1px solid #000",
+                cursor: "pointer",
+                padding: 0.2,
+                width: 90,
+                justifyContent: "center",
+                borderRadius: 20,
+              }}
+              onClick={() => setShowMenu(true)}
             >
-              <FaUser color={show ? "#fff" : "#000"} />
-              {isLogin ? (
-                <Typography
-                  color={show ? "#ffffff" : "#000000"}
-                  className="text-capitalize"
-                >
-                  Hello,{name}{" "}
-                </Typography>
-              ) : (
-                <Typography color={show ? "#ffffff" : "#000000"}>
-                  Login/Register
-                </Typography>
-              )}
-            </Stack>
-
-            <Divider
-              flexItem
-              orientation="vertical"
-              variant="middle"
-              style={{ backgroundColor: "#fff", opacity: 1 }}
-            />
-            <Button
-              border="1px solid #eee"
-              rounded="20px"
-              backgroundColor="#eee"
-              padding="8px"
-              width="100px"
-              fs="15px"
-              onClick={handleShowMenu}
-            >
-              {!showMenu ? (
-                <div className={styles.menu_btn}>
-                  <MoreVertIcon fontSize="13px" className="me-1" />
-                  Menu
-                </div>
-              ) : (
-                <div className={styles.menu_btn}>
-                  <CloseIcon fontSize="13px" className="me-1" />
-                  Close
-                </div>
-              )}
-            </Button>
-            {/* <RiMenu4Fill color="#fff" size={25}/> */}
+              <MenuOpen
+                sx={{
+                  fill: show ? "#fff" : "#000",
+                  fontSize: 25,
+                }}
+              />
+              <Avatar
+                sx={{
+                  width: 25,
+                  height: 25,
+                  backgroundColor: isAuthenticated && "#000",
+                  border: !show ? "1px solid #000" : "1px solid #fff",
+                  ml: 0.5,
+                }}
+              >
+                {isAuthenticated ? (
+                  <Typography fontSize={12}>{name.slice(0, 1)}</Typography>
+                ) : (
+                  <Person sx={{ fontSize: 20 }} />
+                )}
+              </Avatar>
+            </Box>
           </Stack>
 
           <FaUser className={styles.mobileView} />
         </div>
-        <div className="text-end">
-          <Slide direction="down" in={showMenu}>
-            <Card className={styles.menuSlider}>
-              {HeaderLinks.map((val, i) => (
-                <Link
-                  key={i}
-                  className={`${styles.headerlinks} w-100 text-start mt-2`}
-                  href={val.url}
-                >
-                  {val.title}
-                </Link>
-              ))}
-              {/* <div style={{ width: "100%" }}>
-                <Link
-                  href={isLogin ? "/sell-cars" : "/registerorlogin"}
-                  onClick={() => setShowMenu(false)}
-                >
-                  <Button className="custom_btn mt-3" width="100%" fw="600">
-                    <span>Sell With Us</span>
-                    <span>Sell With Us</span>
-                  </Button>
-                </Link>
-              </div> */}
-            </Card>
-          </Slide>
-        </div>
+
         <div>
-          <Slide direction="down" in={popOver} style={{ zIndex: 999 }}>
-            <Paper
-              style={{
-                right: router.pathname === "/" ? "100px" : "180px",
-                width: "150px",
-                position: "absolute",
-              }}
-            >
-              <List>
-                {linksList.map((val, i) => (
-                  <>
-                    <ListItem button key={i} onClick={val.onClick}>
-                      <ListItemAvatar>{val.icon}</ListItemAvatar>
-                      <ListItemText primary={val.name} />
-                    </ListItem>
-                    {i === val.length - 1 ? (
-                      <></>
-                    ) : (
-                      <Divider style={{ backgroundColor: "#000" }} />
-                    )}
-                  </>
+          <Drawer
+            open={showMenu}
+            onClose={() => setShowMenu(false)}
+            anchor="right"
+            sx={{
+              zIndex: 10000,
+              "& .MuiDrawer-paper": {
+                width: "300px",
+                boxSizing: "border-box",
+                height: "100%",
+              },
+            }}
+          >
+            <Box textAlign={"end"}>
+              <IconButton
+                onClick={() => setShowMenu(false)}
+                // sx={{ width: 25, height: 25 }}
+              >
+                <Close />
+              </IconButton>
+            </Box>
+            {isAuthenticated && (
+              <Stack direction={"row"} p={1} spacing={2}>
+                <Avatar
+                  sx={{
+                    width: 30,
+                    height: 30,
+                    backgroundColor: "#000",
+                    color: "#fff",
+                  }}
+                >
+                  {name.slice(0, 1)}
+                </Avatar>
+                <Box>
+                  <Typography
+                    fontSize={20}
+                    textTransform={"capitalize"}
+                    fontWeight={600}
+                  >
+                    {" "}
+                    {name}
+                  </Typography>
+                  <Button
+                    sx={{
+                      fontSize: 10,
+                      // border: "1px solid #000",
+                      p: 0.3,
+                      color: "#000",
+                      borderRadius: 20,
+                      // width: 100,
+                      textAlign: "center",
+                      ":hover": {
+                        // color: "#fff",
+                        // backgroundColor: "#000",
+                        textDecoration: "underline",
+                      },
+                      transition: "0.5s ease all",
+                    }}
+                    onClick={userProfile}
+                  >
+                    View Profile
+                  </Button>
+                </Box>
+              </Stack>
+            )}
+
+            <Divider sx={{ backgroundColor: "#000" }} />
+            <Box>
+              <List
+                sx={{
+                  "& .MuiButtonBase-root-MuiMenuItem-root": {
+                    fontSize: 12,
+                  },
+                  position: "relative",
+                }}
+              >
+                {HeaderLinks.map((item, index) => (
+                  <Link
+                    href={item.url}
+                    key={index}
+                    className=" link"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    <ListItemButton
+                      disablePadding
+                      sx={{
+                        ":hover": {
+                          color: "#fff",
+                          backgroundColor: "#000",
+                        },
+                        transition: "0.5s ease all",
+                      }}
+                    >
+                      <ListItemAvatar>{item.icon}</ListItemAvatar>
+                      <ListItemText
+                        primary={item.title}
+                        style={{ fontSize: 30 }}
+                      />
+                    </ListItemButton>
+                    {/* <Divider sx={{ backgroundColor: "#000" }} /> */}
+                  </Link>
                 ))}
+                {isAuthenticated ? (
+                  <ListItemButton
+                    disablePadding
+                    sx={{
+                      top: "40vh",
+                      ":hover": {
+                        color: "#fff",
+                        backgroundColor: "#000",
+                      },
+                      transition: "0.5s ease all",
+                    }}
+                    onClick={handleLogout}
+                  >
+                    <ListItemAvatar>
+                      <Logout />
+                    </ListItemAvatar>
+                    <ListItemText primary="Logout" />
+                  </ListItemButton>
+                ) : (
+                  <Link
+                    href={"/login"}
+                    className="link"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    <ListItemButton
+                      sx={{
+                        ":hover": {
+                          color: "#fff",
+                          backgroundColor: "#000",
+                        },
+                        transition: "0.5s ease all",
+                      }}
+                      disablePadding
+                    >
+                      <ListItemAvatar>
+                        <Person />
+                      </ListItemAvatar>
+                      <ListItemText primary="Login" />
+                    </ListItemButton>
+                  </Link>
+                )}
               </List>
-            </Paper>
-          </Slide>
+            </Box>
+          </Drawer>
         </div>
       </div>
     </div>

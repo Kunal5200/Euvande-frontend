@@ -1,12 +1,12 @@
 import { userRegister } from "@/api/apiCalling/authenticationApi";
 import countryData from "@/assests/countries.json";
 import { isEmail, isPhonenumber } from "@/utils/regex";
-import { loginTextField } from "@/utils/styles";
+import { loginWhiteTextField } from "@/utils/styles";
 import { registerValidation } from "@/utils/validation";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Close, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
-  Divider,
+  Button,
   IconButton,
   InputAdornment,
   TextField,
@@ -16,10 +16,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "react-loading";
 import { useDispatch } from "react-redux";
-import Button from "./button";
+// import Button from "./button";
 import OTPinput from "./otpInput";
-import logo from "@/logo/EuVandeLogoBlack.svg";
-import Image from "next/image";
 const SignupForm = () => {
   const [togglePassword, setTogglePassword] = useState(true);
   const router = useRouter();
@@ -77,7 +75,6 @@ const SignupForm = () => {
       console.log("no data found");
     }
   };
-
   const [loading, setLoading] = useState(false);
   const [openPopOverEmail, setOpenPopOverEmail] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -97,172 +94,109 @@ const SignupForm = () => {
     }
   };
   return (
-    <div>
-      <div className="container">
-        {emailverify ? (
-          <OTPinput />
-        ) : (
-          <form onSubmit={submitHandler}>
-            {/* <div className="mb-3">
-              <Typography
-                className="text-center p-2"
-                variant="h1"
-                fontSize={15}
-              >
-                🌟 Welcome to the Ultimate Car Marketplace! 🚗
-              </Typography>
-              <Divider style={{ backgroundColor: "#000" }} />
-              <Typography className="f-12 text-center" padding={1}>
-                Ready to make car dreams a reality? Whether selling or buying,
-                our platform is where it happens. Let's get started quickly!
-              </Typography>
-            </div> */}
-            <Box marginBottom={4} textAlign={"center"}>
-              <Image src={logo} width={200} />
-            </Box>
-            <TextField
-              label="Name*"
-              variant="outlined"
-              fullWidth
-              sx={loginTextField}
-              className="mb-3"
-              onChange={inputChangeHandler}
-              id="name"
-              error={error.name}
-              helperText={error.name}
-            />
-            <TextField
-              label="Email*"
-              variant="outlined"
-              fullWidth
-              sx={loginTextField}
-              className="mb-3"
-              id="email"
-              onChange={inputChangeHandler}
-              error={error.email}
-              helperText={error.email}
-            />
-
-            <TextField
-              label="Password*"
-              variant="outlined"
-              fullWidth
-              type={!togglePassword ? "text" : "password"}
-              sx={loginTextField}
-              className="mb-3"
-              id="password"
-              onChange={inputChangeHandler}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setTogglePassword(!togglePassword)}
-                    >
-                      {togglePassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={error.password}
-              helperText={error.password}
-            />
-            {/* <div className="d-flex align-items-center mb-3 ">
-            <ReactFlagsSelect
-              searchable={true}
-              onSelect={onSelect}
-              selected={selected}
-              showSecondarySelectedLabel={false}
-              showSecondaryOptionLabel={true}
-              showSelectedLabel={true}
-              showOptionLabel={true}
-              countries={countriesData}
-              customLabels={countryFlag}
-              selectedSize={13}
-              optionsSize={13}
-              fullWidth={true}
-              className={
-                error.phone ? styles.flags_select_error : styles.flags_select
-              }
-            />
-            <TextField
-              label="Phone Number*"
-              variant="outlined"
-              fullWidth
-              sx={phonetextField}
-              className=""
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment>
-                    <IconButton>
-                      {phoneverify ? (
-                        <Verified />
-                      ) : (
-                        <FaInfoCircle
-                          onClick={() => setopenPopOverPhone(true)}
-                          className="animate__animated animate__pulse animate__infinite	infinite"
-                          color="#ff0000bd"
-                        />
-                      )}
-                    </IconButton>
-                    <Popover
-                      anchorEl={anchorEl}
-                      onClose={() => setopenPopOverPhone(false)}
-                      open={openPopOverPhone}
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                    >
-                      <div className="p-3">
-                        <p className="mb-0">
-                          Please Click the Button below to verify your Phone
-                          Number
-                        </p>
-                        <Button
-                          onClick={VerifyPhone}
-                          className="custom_btn my-2"
-                          width="100%"
-                        >
-                          <span>Verify Now</span>
-                          <span>Verify Now</span>
-                        </Button>
-                      </div>
-                    </Popover>
-                  </InputAdornment>
-                ),
-              }}
-              error={error.phone}
-              helperText={error.phone}
-              id="phone"
-              onChange={inputChangeHandler}
-            />
-          </div> */}
-            <Button
-              className="custom_btn"
-              width="100%"
-              type="submit"
-              padding="15px"
-              rounded="4px"
+    <Box sx={{ height: "100%" }}>
+      {emailverify ? (
+        <OTPinput onClose={() => setEmailVerify(false)} />
+      ) : (
+        <Box sx={{ height: "100%" }}>
+          <Box sx={{ position: "relative",m:1 }}>
+            <IconButton
+              sx={{ border: "1px solid #fff", position: "absolute", right: 6 }}
+              onClick={() => router.back()}
             >
-              {!loading ? (
-                <>
-                  <span>Proceed</span>
-                  <span>Proceed</span>
-                </>
-              ) : (
-                <Loading
-                  type="bars"
-                  color="#ffdb58"
-                  height={20}
-                  width={20}
-                  className="m-auto"
-                />
-              )}
-            </Button>
-          </form>
-        )}
-      </div>
-    </div>
+              <Close sx={{ fill: "#fff" }} />
+            </IconButton>
+          </Box>
+
+          <Box
+            sx={{ p: 2, display: "grid", placeItems: "center", height: "100%" }}
+          >
+            <form onSubmit={submitHandler}>
+              <Box textAlign={"center"} mb={3}>
+                <Typography fontWeight={600} fontSize={25} color={"#fff"}>
+                  Welcome to EuVande!
+                </Typography>
+                <Typography fontSize={12} color={"#fff"}>
+                  {" "}
+                  Ready to get started? Signing up is quick and easy.
+                </Typography>
+              </Box>
+              <TextField
+                label="Name*"
+                variant="outlined"
+                fullWidth
+                sx={loginWhiteTextField}
+                className="mb-3"
+                onChange={inputChangeHandler}
+                id="name"
+                error={error.name}
+                helperText={error.name}
+              />
+              <TextField
+                label="Email*"
+                variant="outlined"
+                fullWidth
+                sx={loginWhiteTextField}
+                className="mb-3"
+                id="email"
+                onChange={inputChangeHandler}
+                error={error.email}
+                helperText={error.email}
+              />
+
+              <TextField
+                label="Password*"
+                variant="outlined"
+                fullWidth
+                type={!togglePassword ? "text" : "password"}
+                sx={loginWhiteTextField}
+                className="mb-3"
+                id="password"
+                onChange={inputChangeHandler}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setTogglePassword(!togglePassword)}
+                      >
+                        {togglePassword ? (
+                          <Visibility sx={{ fill: "#fff" }} />
+                        ) : (
+                          <VisibilityOff sx={{ fill: "#fff" }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={error.password}
+                helperText={error.password}
+              />
+
+              <Button
+                sx={{
+                  backgroundColor: "#000",
+                  p: 1.5,
+                  color: "#fff",
+                  ":hover": {
+                    backgroundColor: "transparent",
+                    border: "1px solid #fff",
+                  },
+                  border: "1px solid #000",
+                }}
+                fullWidth
+                type="submit"
+              >
+                {loading ? (
+                  <Loading type="bars" width={20} height={20} />
+                ) : (
+                  "Sign UP"
+                )}
+              </Button>
+            </form>
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 };
 

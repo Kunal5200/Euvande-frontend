@@ -9,20 +9,12 @@ import ProfileSettings from "./profile-settings";
 import { authControllers } from "@/api/authentication";
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
 import { useDispatch } from "react-redux";
+import Order from "./order";
+import ShortListedVehicle from "./shortListedVehicle";
 const ProfileSidebar = () => {
   const [user, setUser] = useState({});
   const [placeholderLoading, setPlaceholderLoading] = useState(true);
-  // const getUserDetails = () => {
-  //   authControllers
-  //     .getUserDetails()
-  //     .then((res) => {
-  //       setUser(res.data.data);
-  //       setPlaceholderLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+
   const tabsSection = [
     {
       label: "Orders",
@@ -51,7 +43,7 @@ const ProfileSidebar = () => {
   return (
     <div className={styles.wrapper}>
       <div className="row">
-        <div className="col-sm-4">
+        <div className="col-sm-3">
           <Card>
             <div className={styles.profile_wrapper}>
               <div className="p-3">
@@ -105,24 +97,22 @@ const ProfileSidebar = () => {
                   />
                 ))}
               </Tabs>
-              <div className="col-">
-                <TabPanel value={value} index={0}></TabPanel>
-              </div>
             </div>
           </Card>
         </div>
-        <div className="col-sm-8">
+        <div className="col-sm-9">
           <TabPanel value={value} index={0}>
-            order
+            <Order />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Short listed vehicle
+            <ShortListedVehicle />
           </TabPanel>
           <TabPanel value={value} index={2}>
             <ProfileSettings
               userDetails={user}
               loading={placeholderLoading}
               setUser={setUser}
+              setLoading={setPlaceholderLoading}
             />
           </TabPanel>
         </div>

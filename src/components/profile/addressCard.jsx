@@ -12,14 +12,26 @@ import { showModal } from "@/redux/reducers/modal";
 import AddAddress from "@/assests/modalcalling/address/addAddress";
 import EditAddress from "@/assests/modalcalling/address/editAddress";
 import DeleteAddress from "@/assests/modalcalling/address/deleteAddress";
+import { authControllers } from "@/api/authentication";
+import { toast } from "react-toastify";
 
 const AddressCard = (props) => {
-  const [selectedAddress, setSelectedAddress] = useState(
-    props.data.length > 0 ? props.data[0].addressType : null
-  );
-
-  const handleRadioChange = (addressType) => {
-    setSelectedAddress(addressType);
+  const handleRadioChange = (value) => {
+    let body = {
+      isDefault: true,
+      id: value.id,
+    };
+    authControllers
+      .editAddress(body)
+      .then((res) => {
+        toast.success("Default Address Set Successfully");
+        props.getAddress();
+      })
+      .catch((err) => {
+        let errMessage =
+          (err.response && err.response.data.message) || err.message;
+        toast.error(errMessage);
+      });
   };
   const dispatch = useDispatch();
   const openAddressModal = () => {
@@ -27,7 +39,9 @@ const AddressCard = (props) => {
   };
 
   const editAddressModalOpen = (val) => {
-    dispatch(showModal(<EditAddress value={val} />));
+    dispatch(
+      showModal(<EditAddress value={val} getAddress={props.getAddress} />)
+    );
   };
 
   return (
@@ -37,8 +51,8 @@ const AddressCard = (props) => {
           <FormControlLabel
             control={
               <Radio
-                checked={val.addressType === selectedAddress}
-                onChange={() => handleRadioChange(val.addressType)}
+                checked={val.isDefault}
+                onChange={() => handleRadioChange(val)}
               />
             }
             value={val.addressType}
@@ -78,7 +92,7 @@ const AddressCard = (props) => {
               >
                 Edit Address
               </Typography>
-              {val.addressType === selectedAddress ? (
+              {val.isDefault ? (
                 <></>
               ) : (
                 <Typography

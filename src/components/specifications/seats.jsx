@@ -1,62 +1,61 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
-import Button from "../button";
 import styles from "@/styles/specifications.module.css";
 import { FaAngleLeft } from "react-icons/fa";
-const Seats = ({ setActiveStep, activeStep, setState, state }) => {
-  const seats = [
-    {
-      label: "2",
-    },
-    {
-      label: "3",
-    },
-    {
-      label: "4",
-    },
-    {
-      label: "5",
-    },
-    {
-      label: "6",
-    },
-    {
-      label: "7",
-    },
-    {
-      label: "8",
-    },
-  ];
-
+import { useSelector } from "react-redux";
+const Seats = ({ setActiveStep, activeStep, setState, state, data }) => {
   const handleChangeSeat = (seat) => {
     setState({ ...state, seats: seat });
     setActiveStep(activeStep + 1);
   };
+  const carInfo = useSelector((state) => state.CarInformation);
   return (
     <div>
       <Stack direction={"row"} spacing={2}>
-        {seats.map((val, i) => (
+        {data.map((val, i) => (
           <Button
             key={i}
-            onClick={() => handleChangeSeat(val.label)}
-            className={
-              state.seats === val.label
-                ? styles.selected_btn
-                : styles.unselected_btn
-            }
+            onClick={() => handleChangeSeat(val)}
+            sx={{
+              color: state.seats
+                ? state.seats === val
+                  ? "#fff"
+                  : "#000"
+                : carInfo &&
+                  carInfo.specification &&
+                  carInfo.specification.seats === val
+                ? "#fff"
+                : "#000",
+              backgroundColor: state.seats
+                ? state.seats === val
+                  ? "#000"
+                  : "#fff"
+                : carInfo &&
+                  carInfo.specification &&
+                  carInfo.specification.seats === val
+                ? "#000"
+                : "#fff",
+              border: "1px solid #000",
+              "&:hover": {
+                color: "#ffffff",
+                backgroundColor: "#000",
+                border: "1px solid #000",
+              },
+              textTransform: "capitalize",
+              width: 100,
+            }}
             type="button"
           >
-            {val.label}
+            {val}
           </Button>
         ))}
       </Stack>
       <Button
-        className={styles.back_btn}
         onClick={() => setActiveStep(activeStep - 1)}
-        type="button"
+        sx={{ mt: 2 }}
+        color="inherit"
       >
-        <FaAngleLeft />
-        Back
+        <FaAngleLeft /> Back
       </Button>
     </div>
   );

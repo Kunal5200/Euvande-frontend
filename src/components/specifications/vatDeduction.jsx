@@ -1,47 +1,63 @@
-import { Stack } from "@mui/material";
-import React from "react";
-import Button from "../button";
-import styles from "@/styles/specifications.module.css";
+import { Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import { FaAngleLeft } from "react-icons/fa";
-const Vatdeduction = ({ setActiveStep, activeStep, setState, state }) => {
-  const vat = [
-    {
-      label: "Yes",
-    },
-    {
-      label: "No",
-    },
-  ];
+import { useSelector } from "react-redux";
+const Vatdeduction = ({ setActiveStep, activeStep, setState, state, data }) => {
   const handleChangeVat = (vat) => {
     setState({ ...state, vatDeduction: vat });
     setActiveStep(activeStep + 1);
   };
+
+  // Retrieve carInfo from Redux state
+  const carInfo = useSelector((state) => state.CarInformation);
+
   return (
     <div>
-      <Stack direction={"row"} spacing={2}>
-        {vat.map((val, i) => (
+      <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
+        {data.map((val, i) => (
           <Button
-            type="button"
+            sx={{
+              color: state.vatDeduction
+                ? state.vatDeduction === val
+                  ? "#fff"
+                  : "#000"
+                : carInfo &&
+                  carInfo.specification &&
+                  carInfo.specification.vatDeduction === val
+                ? "#fff"
+                : "#000",
+              backgroundColor: state.vatDeduction
+                ? state.vatDeduction === val
+                  ? "#000"
+                  : "#fff"
+                : carInfo &&
+                  carInfo.specification &&
+                  carInfo.specification.vatDeduction === val
+                ? "#000"
+                : "#fff",
+              border: "1px solid #000",
+              "&:hover": {
+                color: "#ffffff",
+                backgroundColor: "#000",
+                border: "1px solid #000",
+              },
+              textTransform: "capitalize",
+              width: 100,
+            }}
             key={i}
-            onClick={() => handleChangeVat(val.label)}
-            className={
-              state.vatDeduction === val.label
-                ? styles.selected_btn
-                : styles.unselected_btn
-            }
+            onClick={() => handleChangeVat(val)}
+            type="button"
           >
-            {val.label}
+            {val}
           </Button>
         ))}
       </Stack>
 
       <Button
-        className={styles.back_btn}
         onClick={() => setActiveStep(activeStep - 1)}
-        type="button"
+        sx={{ mt: 2, color: "#000" }}
       >
-        <FaAngleLeft />
-        Back
+        <FaAngleLeft /> Back
       </Button>
     </div>
   );
