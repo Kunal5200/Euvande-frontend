@@ -143,11 +143,12 @@ const LinkTab = (props) => {
               >
                 {tab.disable ? (
                   <Typography sx={{ fontSize: 12 }}>{index + 1}</Typography>
-                ) : (
-                  // <Done sx={{ fontSize: 12 }} />
+                ) : value === index ? (
                   <Typography sx={{ fontSize: 12, color: "#fff" }}>
                     {index + 1}
                   </Typography>
+                ) : (
+                  <Done sx={{ fontSize: 12 }} />
                 )}
               </Avatar>
             }

@@ -713,9 +713,9 @@ let data = {
     {
       name: "Equipment",
     },
-    {
-      name: "Car Condition",
-    },
+    // {
+    //   name: "Car Condition",
+    // },
     {
       name: "Contact Information",
     },

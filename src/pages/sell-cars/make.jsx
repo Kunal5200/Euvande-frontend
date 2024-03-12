@@ -3,6 +3,7 @@ import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import { listingController } from "@/api/listing";
 import Brands from "@/components/brands";
 import AddCarDetails from "@/components/carDetails";
+import LinkStepper from "@/components/linkSteeper";
 import LinkTab from "@/components/linktab";
 import styles from "@/styles/tabs.module.css";
 import { loginTextField } from "@/utils/styles";
@@ -98,6 +99,7 @@ const Make = () => {
         <Grid container spacing={5}>
           <Grid item xs={12}>
             <LinkTab brandSelected={!brand} />
+            {/* <LinkStepper /> */}
             <Card className="p-5">
               <h4 className="mb-3">Select Your Car Brand</h4>
 

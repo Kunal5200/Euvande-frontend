@@ -9,7 +9,7 @@ const Testimonials = (props) => {
         showThumbs={false}
         showArrows={false}
         autoPlay={true}
-        interval={1500}
+        interval={2000}
         infiniteLoop={true}
       >
         {props.data.map((val, i) => (
@@ -18,7 +18,7 @@ const Testimonials = (props) => {
               sx={{
                 backgroundColor: "#fff",
                 color: "#000",
-                height: 370,
+                height: 300,
                 border: "1px solid #eee",
               }}
             >
@@ -38,10 +38,10 @@ const Testimonials = (props) => {
                     }}
                   />
                 </Grid>
-                <Grid item lg={8} p={6}>
+                <Grid item lg={8} p={4}>
                   <Typography
                     textAlign={"justify"}
-                    fontSize={30}
+                    fontSize={20}
                     fontWeight={550}
                   >
                     {val.heading}

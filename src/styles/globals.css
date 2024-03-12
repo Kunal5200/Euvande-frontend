@@ -419,9 +419,11 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: #00000041;
 }
 
-
-
-
 .css-1aquho2-MuiTabs-indicator {
   display: none;
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+  background-color: #000 !important;
 }
