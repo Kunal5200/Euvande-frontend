@@ -710,20 +710,12 @@ let data = {
     {
       name: "Specifications",
     },
-    {
-      name: "Equipment",
-    },
-    // {
-    //   name: "Car Condition",
-    // },
+
     {
       name: "Contact Information",
     },
     {
       name: "Photos",
-    },
-    {
-      name: "Car Valutation",
     },
   ],
   list1: [

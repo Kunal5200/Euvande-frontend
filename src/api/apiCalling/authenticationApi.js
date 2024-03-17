@@ -158,3 +158,14 @@ export const changePassword = ({ body, setLoading, setState }) => {
       setLoading(false);
     });
 };
+
+export const guestLogin = () => {
+  authControllers
+    .guestLogin()
+    .then((res) => {
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

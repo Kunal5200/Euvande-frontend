@@ -4,6 +4,7 @@
   width: 100%;
   border: 1px solid #eee;
   /* position: fixed; */
+  transition: 0.5s ease all;
 }
 .fixed_image {
   background: #fff;
@@ -12,5 +13,5 @@
   position: fixed;
   z-index: 999;
   border-bottom: 1px solid #eee;
-  /* top: 19px; */
+  top: 70px;
 }

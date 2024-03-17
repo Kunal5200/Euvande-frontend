@@ -3,10 +3,7 @@ import publicAPI from "./config";
 export const authControllers = {
   RegisterUser: async (body) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "api/user/register",
-        body
-      );
+      let result = await publicAPI.publicAPI.post("api/user/register", body);
       return result;
     } catch (error) {
       throw error;
@@ -14,10 +11,7 @@ export const authControllers = {
   },
   verifyOtp: async (body) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "api/user/verify",
-        body
-      );
+      let result = await publicAPI.publicAPI.post("api/user/verify", body);
       return result;
     } catch (error) {
       throw error;
@@ -25,10 +19,7 @@ export const authControllers = {
   },
   loginUser: async (body) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "/api/user/login",
-        body
-      );
+      let result = await publicAPI.publicAPI.post("/api/user/login", body);
       return result;
     } catch (error) {
       throw error;
@@ -36,9 +27,7 @@ export const authControllers = {
   },
   getUserDetails: async () => {
     try {
-      let result = await securedAPI.securedAPI.get(
-        "/api/user/getUserDetail"
-      );
+      let result = await securedAPI.securedAPI.get("/api/user/getUserDetail");
       return result;
     } catch (error) {
       throw error;
@@ -68,10 +57,7 @@ export const authControllers = {
   },
   forgotPassword: async (data) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "/api/forgotPassword",
-        data
-      );
+      let result = await publicAPI.publicAPI.post("/api/forgotPassword", data);
       return result;
     } catch (error) {
       throw error;
@@ -137,6 +123,14 @@ export const authControllers = {
         "/api/address/editAddress",
         data
       );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  guestLogin: async () => {
+    try {
+      let result = await publicAPI.publicAPI.get("/api/user/guestLogin");
       return result;
     } catch (error) {
       throw error;

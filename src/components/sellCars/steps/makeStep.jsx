@@ -1,23 +1,26 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import ReactSelect from "react-select";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const MakeStep = ({
   brand,
   onBrandChange,
   model,
   onModelChange,
-  vinData,
+
   selectedBrand,
   selectedModel,
 }) => {
-  const [localSelectedBrand, setLocalSelectedBrand] = useState(selectedBrand);
-  const [localSelectedModel, setLocalSelectedModel] = useState(selectedModel);
+  const carInfo = useSelector((state) => state.CarInformation);
+  const [localSelectedBrand, setLocalSelectedBrand] = useState({
+    id: carInfo && carInfo.make && carInfo.make.id,
+    makeName: carInfo && carInfo.make && carInfo.make.makeName,
+  });
+  const [localSelectedModel, setLocalSelectedModel] = useState({
+    id: carInfo && carInfo.model && carInfo.model.id,
+    modelName: carInfo && carInfo.model && carInfo.model.modelName,
+  });
 
-  useEffect(() => {
-    setLocalSelectedBrand(selectedBrand);
-    setLocalSelectedModel(selectedModel);
-  }, [selectedBrand, selectedModel]);
 
   return (
     <div>
@@ -29,6 +32,7 @@ const MakeStep = ({
             getOptionLabel={(options) => options.makeName}
             onChange={onBrandChange}
             value={localSelectedBrand}
+            sx={{ fontSize: 12 }}
           />
         </Grid>
         <Grid item lg={6}>

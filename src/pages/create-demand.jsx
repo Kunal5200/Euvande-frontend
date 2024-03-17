@@ -1,10 +1,13 @@
+import { guestLogin } from "@/api/apiCalling/authenticationApi";
 import data from "@/assests/data";
-import Button from "@/components/button";
-import ProgressStep from "@/components/stepper";
-import { Box, Container, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import styles from "@/styles/createDemand.module.css";
 import Step1 from "@/components/sellCars/step1";
+import Step2 from "@/components/sellCars/step2";
+import Step3 from "@/components/sellCars/step3";
+import ProgressStep from "@/components/stepper";
+import styles from "@/styles/createDemand.module.css";
+import { Container } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const CreateDemand = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -12,13 +15,14 @@ const CreateDemand = () => {
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
+  const handlePrev = () => {
+    setActiveStep(activeStep - 1);
+  };
 
   const stepsContent = [
-    <Step1 />,
-    <Box>
-      <Typography>Hey</Typography>
-      <Button onClick={handleNext}>Next</Button>
-    </Box>,
+    <Step1 handleNext={handleNext} handlePrev={handlePrev} />,
+    <Step2 handleNext={handleNext} handlePrev={handlePrev} />,
+    <Step3 handleNext={handleNext} handlePrev={handlePrev} />,
     // Add more steps content as needed
   ];
 
@@ -31,6 +35,13 @@ const CreateDemand = () => {
       );
     }
   }, []);
+  const user = useSelector((state) => state.userInfo);
+
+  useEffect(() => {
+    if (!user.isAuthenticated) {
+      guestLogin();
+    }
+  }, [user]);
 
   return (
     <div>
