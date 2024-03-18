@@ -9,6 +9,7 @@ import { vehicleController } from "@/api/addVehicle";
 import { useDispatch, useSelector } from "react-redux";
 import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import AddCarDetails from "@/components/carDetails";
+import LinkStepper from "@/components/linkSteeper";
 const Odometer = () => {
   const [driven, setDriven] = useState("");
   const router = useRouter();
@@ -46,6 +47,7 @@ const Odometer = () => {
         <Grid container spacing={4}>
           <Grid item lg={12}>
             <LinkTab />
+            {/* <LinkStepper /> */}
 
             <Card sx={{ p: 1 }}>
               <h5 className="mb-2">Select Km Driven</h5>

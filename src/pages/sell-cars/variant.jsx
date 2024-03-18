@@ -128,10 +128,10 @@ const Variant = () => {
                 onChange={handleChange}
                 value={value}
                 sx={{
-                  border: "1px solid #000",
+                  border: "1px solid #eee",
                   backgroundColor: "#fff",
                   borderRadius: 8,
-                  padding: 0.8,
+                  padding: 1,
                 }}
               >
                 {fuelType.map((val, i) => (
@@ -143,15 +143,17 @@ const Variant = () => {
                       color: "#000",
                       width: 150,
                       fontSize: 12,
+                      border: "1px solid #eee",
+                      borderRadius: 8,
                       "&.Mui-selected": {
                         color: "#000",
                         // border: "#000",
                         // backgroundColor: "#000",
                         borderRadius: 8,
                         width: 150,
-                        border: "1px solid #eee",
-                        boxShadow:
-                          " -20px -20px 60px #bebebe, 20px 20px 60px #ffffff",
+                        border: "1px solid #000",
+                        // boxShadow: " 0px 0px 1px 1px #eee",
+                        mx: 1,
                       },
                       "&:hover": {
                         color: "#fff",

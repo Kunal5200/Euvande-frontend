@@ -19,6 +19,7 @@ import { vehicleController } from "@/api/addVehicle";
 import { addCar, getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import { useDispatch, useSelector } from "react-redux";
 import AddCarDetails from "@/components/carDetails";
+import LinkStepper from "@/components/linkSteeper";
 const Model = () => {
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
@@ -86,7 +87,7 @@ const Model = () => {
         <Grid container spacing={4}>
           <Grid item lg={12}>
             <LinkTab />
-
+            {/* <LinkStepper /> */}
             <Card className="p-3">
               <h5 className="mb-3">Select Your Car Model</h5>
 

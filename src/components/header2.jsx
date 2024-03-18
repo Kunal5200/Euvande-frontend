@@ -103,68 +103,145 @@ const Header = () => {
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
   const email = selector.email;
+  const [fixed, setFixed] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () => setFixed(window.pageYOffset > 0));
+    }
+  }, []);
   return (
-    <div className={`container-fluid ${show ? "" : styles.header} `}>
+    <div
+      className={`container-fluid ${
+        fixed ? styles.white_header : show ? "" : styles.header
+      } `}
+    >
       <div
-        style={{ maxWidth: 1300 }}
-        className={`container ${show ? styles.mainHeader : ""} p-2 `}
+        style={{ maxWidth: fixed ? "100%" : 1300 }}
+        className={`container ${
+          fixed ? styles.main_header : show ? styles.mainHeader : ""
+        } p-2 `}
       >
-        <div className="d-flex align-items-center justify-content-between p-2">
-          <Link href={"/"}>
-            <Image src={show ? logo : logoBlack} width={150} alt="logo" />
-          </Link>
-
-          <Stack
-            direction={"row"}
-            spacing={2}
-            alignItems={"center"}
-            className={styles.desktopView}
-          >
-            {HeaderLinks.map((val, i) => (
-              <Link href={val.url} className="link" key={i}>
-                <Typography
-                  fontSize={14}
-                  color={show ? "#fff" : "#000"}
-                  letterSpacing={1}
-                >
-                  {val.title}
-                </Typography>
+        {fixed ? (
+          <Container style={{ maxWidth: 1300 }}>
+            <div className="d-flex align-items-center justify-content-between p-2">
+              <Link href={"/"}>
+                <Image
+                  src={fixed ? logoBlack : show ? logo : logoBlack}
+                  width={150}
+                  alt="logo"
+                />
               </Link>
-            ))}
-            <Divider
-              flexItem
-              orientation="vertical"
-              variant="middle"
-              sx={{
-                backgroundColor: "#fff",
-                opacity: 1,
-                height: 20,
-                alignSelf: "center",
-              }}
-            />
-            <Chip
-              avatar={
-                <Person
+
+              <Stack
+                direction={"row"}
+                spacing={2}
+                alignItems={"center"}
+                className={styles.desktopView}
+              >
+                {HeaderLinks.map((val, i) => (
+                  <Link href={val.url} className="link" key={i}>
+                    <Typography fontSize={14} color={"#000"} letterSpacing={1}>
+                      {val.title}
+                    </Typography>
+                  </Link>
+                ))}
+                <Divider
+                  flexItem
+                  orientation="vertical"
+                  variant="middle"
                   sx={{
-                    fill: show ? "#fff" : "#000",
-                    fontSize: 12,
-                    letterSpacing: 1,
+                    backgroundColor: "#000",
+                    opacity: 1,
+                    height: 20,
+                    alignSelf: "center",
                   }}
                 />
-              }
-              label={`Hello, ${isAuthenticated ? name : "Sign In"} `}
-              sx={{
-                color: show ? "#fff" : "#000",
-                fontSize: 14,
-                cursor: "pointer",
-                backgroundColor: "transparent",
-              }}
-              onClick={routePage}
-            />
-          </Stack>
+                <Chip
+                  avatar={
+                    <Person
+                      sx={{
+                        fill: "#000",
+                        fontSize: 12,
+                        letterSpacing: 1,
+                      }}
+                    />
+                  }
+                  label={`Hello, ${isAuthenticated ? name : "Sign In"} `}
+                  sx={{
+                    color: "#000",
+                    fontSize: 14,
+                    cursor: "pointer",
+                    backgroundColor: "transparent",
+                  }}
+                  onClick={routePage}
+                />
+              </Stack>
 
-          <FaUser className={styles.mobileView} />
-        </div>
+              <FaUser className={styles.mobileView} />
+            </div>
+          </Container>
+        ) : (
+          <div className="d-flex align-items-center justify-content-between p-2">
+            <Link href={"/"}>
+              <Image
+                src={fixed ? logoBlack : show ? logo : logoBlack}
+                width={150}
+                alt="logo"
+              />
+            </Link>
+
+            <Stack
+              direction={"row"}
+              spacing={2}
+              alignItems={"center"}
+              className={styles.desktopView}
+            >
+              {HeaderLinks.map((val, i) => (
+                <Link href={val.url} className="link" key={i}>
+                  <Typography
+                    fontSize={14}
+                    color={show ? "#fff" : "#000"}
+                    letterSpacing={1}
+                  >
+                    {val.title}
+                  </Typography>
+                </Link>
+              ))}
+              <Divider
+                flexItem
+                orientation="vertical"
+                variant="middle"
+                sx={{
+                  backgroundColor: "#fff",
+                  opacity: 1,
+                  height: 20,
+                  alignSelf: "center",
+                }}
+              />
+              <Chip
+                avatar={
+                  <Person
+                    sx={{
+                      fill: show ? "#fff" : "#000",
+                      fontSize: 12,
+                      letterSpacing: 1,
+                    }}
+                  />
+                }
+                label={`Hello, ${isAuthenticated ? name : "Sign In"} `}
+                sx={{
+                  color: show ? "#fff" : "#000",
+                  fontSize: 14,
+                  cursor: "pointer",
+                  backgroundColor: "transparent",
+                }}
+                onClick={routePage}
+              />
+            </Stack>
+
+            <FaUser className={styles.mobileView} />
+          </div>
+        )}
 
         {/* <div>
           <Drawer

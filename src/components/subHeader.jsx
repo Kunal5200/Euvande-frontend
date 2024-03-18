@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import EmailIcon from "@mui/icons-material/Email";
-import { TiSocialFacebook } from "react-icons/ti";
-import twitter from "@/icons/xicon_white.svg";
-import twitterblack from "@/icons/xicon_black.svg";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import { FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { Avatar, Chip, Stack } from "@mui/material";
 import { FacebookOutlined, Mail } from "@mui/icons-material";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import { Avatar, Chip, Stack } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 const Subheader = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);

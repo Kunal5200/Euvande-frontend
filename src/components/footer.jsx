@@ -1,6 +1,6 @@
 import whitelogo from "@/logo/EUVandeLogoWhite.svg";
 import styles from "@/styles/footer.module.css";
-import { Avatar, Box, Grid, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Container, Grid, Stack, Typography } from "@mui/material";
 import {
   FaFacebookF,
   FaFacebookSquare,
@@ -33,7 +33,7 @@ const Footer = () => {
       sx={{ borderTop: "1px solid #eee", mt: 4, backgroundColor: "#000" }}
       paddingY={10}
     >
-      <div className="container" style={{ maxWidth: 1250, padding: 0 }}>
+      <Container style={{ maxWidth: 1300 }}>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={4}>
             <img src={whitelogo.src} width={150} />
@@ -92,7 +92,7 @@ const Footer = () => {
             <List heading="Company" data={data.list4} />
           </Grid>
         </Grid>
-      </div>
+      </Container>
     </Box>
   );
 };

@@ -101,15 +101,18 @@ const Navbar = () => {
       onClick: handleLogout,
     },
   ];
+  const [fixed, setFixed] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () => setFixed(window.pageYOffset > 0));
+    }
+  }, []);
 
   const selector = useSelector((state) => state.userInfo);
   const name = selector.name;
   return (
-    <div className={`container-fluid ${show ? "" : styles.header} `}>
-      <div
-        style={{ maxWidth: 1300 }}
-        className={`container ${show ? styles.mainHeader : ""} p-2 `}
-      >
+    <Box className={`container-fluid ${show ? "" : styles.header} `}>
+      <div className={`container ${show ? styles.mainHeader : ""} p-2 `}>
         <div className="d-flex align-items-center justify-content-between p-2">
           <Link href={"/"}>
             <Image src={show ? logo : logoBlack} width={150} alt="logo" />
@@ -164,7 +167,7 @@ const Navbar = () => {
                 alignSelf: "center",
               }}
             /> */}
-            <Link href={ "/sell-cars"} className="link">
+            <Link href={"/sell-cars"} className="link">
               <Typography color={show ? "#ffffff" : "#000000"} fontSize={14}>
                 Sell Car
               </Typography>
@@ -370,7 +373,7 @@ const Navbar = () => {
           </Drawer>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 
