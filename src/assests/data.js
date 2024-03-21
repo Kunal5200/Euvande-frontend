@@ -712,7 +712,7 @@ let data = {
     },
 
     {
-      name: "Contact Information",
+      name: "Personal Information",
     },
     {
       name: "Photos",
