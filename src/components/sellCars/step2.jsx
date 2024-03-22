@@ -129,9 +129,11 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         value={formstate.phoneNumber}
                         fullWidth
                         InputProps={{
-                          endAdornment: formstate.phoneNumber.length>12 && formstate.phoneNumber.length<14 ? (
-                            <Done style={{ color: "green" }} />
-                          ) : null,
+                          endAdornment:
+                            formstate.phoneNumber.length > 12 &&
+                            formstate.phoneNumber.length < 14 ? (
+                              <Done style={{ color: "green" }} />
+                            ) : null,
                         }}
                       />
                     </Grid>
@@ -156,8 +158,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                     </Grid>
                   </Grid>
                 )}
-                
-                
+
                 {/* {
                   !formstate.phoneNumber && formstate.otp ? (
 <Grid container spacing={40}>
@@ -185,14 +186,23 @@ const Step2 = ({ handleNext, handlePrev }) => {
 
               {formstate.phoneNumber && showFirstButton && (
                 <Box sx={{ flex: "1" }}>
-                  <Button variant="outlined"  style={{ color: "#000", border: "1px solid #000",
-              borderRadius: 5 }} className="mt-3" onClick={handleFirstButtonClick}
-                  InputProps={{
-                    endAdornment: formstate.otp ? (
-                      <Done style={{ color: "green" }} />
-                    ) : null,
-                  }}
-                  >Verify</Button>
+                  <Button
+                    variant="outlined"
+                    style={{
+                      color: "#000",
+                      border: "1px solid #000",
+                      borderRadius: 5,
+                    }}
+                    className="mt-1 p-3"
+                    onClick={handleFirstButtonClick}
+                    InputProps={{
+                      endAdornment: formstate.otp ? (
+                        <Done style={{ color: "green" }} />
+                      ) : null,
+                    }}
+                  >
+                    Verify
+                  </Button>
                 </Box>
               )}
 
@@ -206,11 +216,29 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       value={formstate.otp}
                       id="otp"
                       onChange={handleInputChange}
+                      InputProps={{
+                        endAdornment:
+                          formstate.otp.length === 6 ? (
+                            <DoneIcon style={{ color: "green" }} />
+                          ) : (
+                            <ClearIcon style={{ color: "red" }} />
+                          ),
+                      }}
                     />
 
                     <Box sx={{ flex: "4" }}>
-                      <Button  variant="outlined"  style={{ color: "#000", border: "1px solid #000",
-              borderRadius: 5 }} className="ms-1 mt-1" onClick={handleSecondButtonClick} >Verify</Button>
+                      <Button
+                        variant="outlined"
+                        style={{
+                          color: "#000",
+                          border: "1px solid #000",
+                          borderRadius: 5,
+                        }}
+                        className="ms-1  p-3"
+                        onClick={handleSecondButtonClick}
+                      >
+                        Verify
+                      </Button>
                     </Box>
                   </Box>
                 </Box>
@@ -262,8 +290,18 @@ const Step2 = ({ handleNext, handlePrev }) => {
 
               {formstate.email && showemailButton && (
                 <Box sx={{ flex: "1", marginTop: 1 }}>
-                  <Button variant="outlined"  style={{ color: "#000", border: "1px solid #000",
-              borderRadius: 5 }} className=" mt-3" onClick={handleEmailButtonClick}>Verify</Button>
+                  <Button
+                    variant="outlined"
+                    style={{
+                      color: "#000",
+                      border: "1px solid #000",
+                      borderRadius: 5,
+                    }}
+                    className=" mt-2 p-3"
+                    onClick={handleEmailButtonClick}
+                  >
+                    Verify
+                  </Button>
                 </Box>
               )}
 
@@ -277,11 +315,27 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       value={formstate.otp_email}
                       id="otp_email"
                       onChange={handleInputChange}
+                      InputProps={{
+                        endAdornment:
+                          formstate.otp_email.length === 6 ? (
+                            <DoneIcon style={{ color: "green" }} />
+                          ) : (
+                            <ClearIcon style={{ color: "red" }} />
+                          ),
+                      }}
                     />
 
                     <Box sx={{ flex: "4" }}>
-                      <Button variant="outlined" style={{ color: "#000", border: "1px solid #000",
-              borderRadius: 5 }} className="ms-1 mt-1" onClick={handleEmailVerifyButtonClick}>
+                      <Button
+                        variant="outlined"
+                        style={{
+                          color: "#000",
+                          border: "1px solid #000",
+                          borderRadius: 5,
+                        }}
+                        className="ms-1 p-3"
+                        onClick={handleEmailVerifyButtonClick}
+                      >
                         Verify
                       </Button>
                     </Box>
@@ -290,114 +344,6 @@ const Step2 = ({ handleNext, handlePrev }) => {
               )}
             </Box>
           </Box>
-
-          {/* ..................................Display Right and Wrong on Right Side....................... */}
-
-          {/* <Box sx={{ flex: "2", marginTop: 5, paddingLeft: 5 }}>
-            <Stepper
-              sx={{
-                "& .MuiStepLabel-label": {
-                  fontSize: 12,
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                },
-                "& .MuiStepIcon-root.Mui-active": {
-                  color: "#000",
-                },
-                "& .MuiStepIcon-root.Mui-completed": {
-                  color: "#008000",
-                },
-              }}
-              orientation="vertical"
-            >
-              <Step>
-                <StepLabel
-                  StepIconComponent={(props) => {
-                    const StepIcon = formstate.name.length>2 ? DoneIcon : ClearIcon;
-                    return (
-                      <StepIcon
-                        {...props}
-                        sx={{ color: formstate.name.length>2 ? "green" : "red" }}
-                      />
-                    );
-                  }}
-                ></StepLabel>
-                <StepContent>
-                  <Stack direction="row" alignItems={"center"} spacing={2}>
-                    <FormControl fullWidth>
-                      <TextField sx={{ display: "none" }} fullWidth id="name" />
-                    </FormControl>
-                  </Stack>
-                </StepContent>
-              </Step>
-              <Step>
-                <Box> </Box>
-                <StepLabel
-                  StepIconComponent={(props) => {
-                    const StepIcon = formstate.otp.length>5 && formstate.otp.length<7
-                      ? DoneIcon
-                      : ClearIcon;
-                    return (
-                      <StepIcon
-                        {...props}
-                        sx={{ color: formstate.otp.length>5 && formstate.otp.length<7 ? "green" : "red" }}
-                      />
-                    );
-                  }}
-                ></StepLabel>
-                <StepContent>
-                  <Stack direction="row" alignItems={"center"} spacing={2}>
-                    <FormControl fullWidth>
-                      <TextField
-                        sx={{ display: "none" }}
-                        fullWidth
-                        value={formstate.phoneNumber}
-                        id="phoneNumber"
-                      />
-                    </FormControl>
-                  </Stack>
-                </StepContent>
-              </Step>
-
-              <Step>
-                <StepLabel
-                  StepIconComponent={(props) => {
-                    let StepIcon = ClearIcon;
-                    if (
-                      formstate.email.length > 6 &&
-                      /\S+@\S+\.\S+/.test(formstate.email)  && formstate.otp_email.length>5 && formstate.otp_email.length<7
-                    ) {
-                      StepIcon = DoneIcon;
-                    }
-                    return (
-                      <StepIcon
-                        {...props}
-                        sx={{
-                          color:
-                            formstate.email.length > 6 &&
-                            /\S+@\S+\.\S+/.test(formstate.email) && formstate.otp_email.length>5 && formstate.otp_email.length<7
-                              ? "green"
-                              : "red",
-                        }}
-                      />
-                    );
-                  }}
-                ></StepLabel>
-                <StepContent>
-                  <Stack direction="row" alignItems={"center"} spacing={2}>
-                    <FormControl fullWidth>
-                      <TextField
-                        sx={{ display: "none" }}
-                        value={formstate.email}
-                        fullWidth
-                        id="email"
-                      />
-                    </FormControl>
-                  </Stack>
-                </StepContent>
-              </Step>
-            </Stepper>
-          </Box> */}
         </Box>
 
         {/* ...............................Country and Postal code.................................. */}

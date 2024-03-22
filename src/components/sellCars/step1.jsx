@@ -32,9 +32,9 @@ import {
 import demo from "@/cars/iconCar.jpg";
 import { Done } from "@mui/icons-material";
 import DoneIcon from "@mui/icons-material/Done";
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import ClearIcon from "@mui/icons-material/Clear";
 import { addCar, getCarDetails } from "@/api/apiCalling/vehicle";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,6 +48,15 @@ const Step1 = ({ handleNext }) => {
     trim: "",
     transmission: "",
     fuel: "",
+    // vechicaltype: "",
+    // door:"",
+    // drivetype:"",
+    // powerengine:"",
+    // seat:"",
+    // mileage:"",
+    // interialmaterial:"",
+    // vatdeduction:"",
+    // originofcar:"",
   });
   const dispatch = useDispatch();
 
@@ -205,7 +214,6 @@ const Step1 = ({ handleNext }) => {
     fetchCarData();
   }, []);
 
-
   // const StepIcon = state.vin.length>16 ? Done : Clear;
   //  const StepIcon1 = state.make && state.model && state.vin.length>16? Done : Clear;
   // const StepIcon2 = state.trim && state.model ? Done : Clear;
@@ -216,10 +224,14 @@ const Step1 = ({ handleNext }) => {
         <Grid container spacing={3}>
           <Grid item lg={12}>
             <Box sx={{ display: "flex" }}>
-              <Card sx={{ flex: "3" }}>
-                <Box sx={{ p: 2 }} >
+              {/* <Card sx={{ flex: "3" }}> */}
+              <Box sx={{ flex: "3" }}>
+                <Box sx={{ p: 2 }}>
                   <Typography sx={{ fontSize: 25, fontWeight: 600 }}>
-                    Vehicle Specification
+                    Vehicle Specification{" "}
+                    <small style={{ fontSize: 15, fontWeight: 300 }}>
+                      (Based On Fast Data Synchronising ){" "}
+                    </small>
                   </Typography>
                 </Box>
                 <Divider sx={{ backgroundColor: "#000" }} />
@@ -236,14 +248,17 @@ const Step1 = ({ handleNext }) => {
                         // backgroundColor: "transparent",
                       },
                       "& .MuiStepIcon-root.Mui-completed": {
-                        color: "#008000",
+                        color: "#000000",
                       },
                     }}
                     activeStep={activeStep}
                     orientation="vertical"
                   >
                     <Step>
-                      <StepLabel>Vehicle Vin</StepLabel>
+                      <StepLabel>
+                        Vehicle Vin{" "}
+                        <small>(Vehicle Identification Number) </small>
+                      </StepLabel>
                       <StepContent>
                         <Stack
                           direction="row"
@@ -486,7 +501,8 @@ const Step1 = ({ handleNext }) => {
                     </Step>
                   </Stepper>
                 </Box>
-              </Card>
+              </Box>
+              {/* </Card> */}
 
               <Box sx={{ flex: "1" }}>
                 <Box sx={{ p: 13 }}>
@@ -510,10 +526,11 @@ const Step1 = ({ handleNext }) => {
                     <Step>
                       <StepLabel
                         StepIconComponent={(props) => {
-                          const StepIcon =     
-                          
-                          state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.vin.length > 16 ? DoneIcon : ClearIcon;
+                          const StepIcon =
+                            state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.vin.length > 16 ? DoneIcon : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -525,7 +542,7 @@ const Step1 = ({ handleNext }) => {
                         }}
                         // StepIconComponent={StepIcon}
                       ></StepLabel>
-                      <StepContent >
+                      <StepContent>
                         <Stack
                           direction="row"
                           alignItems={"center"}
@@ -560,10 +577,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.vin.length > 16 && state.make && state.model ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.make && state.model && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.vin.length > 16 && state.make && state.model
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.make && state.model && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -603,14 +622,16 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.trim &&
+                            state.trim &&
                             state.periodYear &&
-                            state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.trim &&
-                            // state.periodYear &&
-                            // state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.trim &&
+                          // state.periodYear &&
+                          // state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -644,10 +665,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.transmission && state.vin.length > 16 ? CheckCircleRoundedIcon :CancelRoundedIcon;
-                            // state.transmission && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.transmission && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.transmission && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -677,10 +700,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -710,10 +735,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -743,10 +770,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -776,10 +805,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -809,10 +840,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon :CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -842,10 +875,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon :CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -875,10 +910,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon :CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -908,10 +945,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -941,10 +980,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -974,10 +1015,12 @@ const Step1 = ({ handleNext }) => {
                       <StepLabel
                         StepIconComponent={(props) => {
                           const StepIcon =
-                          state.fuel && state.vin.length > 16 ? CheckCircleRoundedIcon : CancelRoundedIcon;
-                            // state.fuel && state.vin.length > 16
-                            //   ? DoneIcon
-                            //   : ClearIcon;
+                            state.fuel && state.vin.length > 16
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
                           return (
                             <StepIcon
                               {...props}
@@ -1005,19 +1048,6 @@ const Step1 = ({ handleNext }) => {
                     </Step>
                   </Stepper>
                 </Box>
-
-                {/* <CircularProgressbarWithChildren
-                    value={progress}
-                    circleRatio={0.75}
-                    styles={buildStyles({
-                      rotation: 1 / 2 + 1 / 8,
-                      strokeLinecap: "butt",
-                      trailColor: "#eee",
-                      pathColor: "green",
-                    })}
-                    strokeWidth={10}
-                  >
-                   </CircularProgressbarWithChildren> */}
               </Box>
             </Box>
             <Box sx={{ p: 1, textAlign: "end" }}>
