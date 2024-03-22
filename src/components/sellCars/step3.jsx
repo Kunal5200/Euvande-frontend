@@ -297,7 +297,7 @@ const Step3 = () => {
         <Grid item lg={12}>
           {/* <LinkTab /> */}
           <form onSubmit={submitHandler}>
-            <Card className=" py-3">
+            {/* <Card className=" py-3"> */}
               <div>
                 <Button
                   onClick={togglePhotoAccordion}
@@ -433,7 +433,7 @@ const Step3 = () => {
                                     height="80%"
                                   />
                                 )
-                              )}
+                              )}  
                             </Grid>
 
                             {/* <Grid item xs={6} >
@@ -443,6 +443,64 @@ const Step3 = () => {
       )}
                               </Grid> */}
                           </Grid>
+                          {/* ............................Second Video.............. */}
+                          {/* <Grid container spacing={2} sx={{ display: "flex" }}>
+                            <Grid
+                              item
+                              xs={6}
+                              sx={{ flex: "3", marginRight: 0 }}
+                            >
+                              <VideoUpload
+                                handleVideoUpload={handleVideoUpload}
+                              />
+                            </Grid>
+                            <Grid item  sx={{ marginLeft: 5, flex: "3" }}>
+                              {thumbnailLoading ? (
+                                <p className="text-center" style={{color:"white",background:"black"}}>Loading video...</p>
+                              ) : (
+                                // videoResponse
+                                videoFile && (
+                                  <ReactPlayer
+                                    className="react-player mt-3"
+                                    // url={URL.createObjectURL(videoResponse)}
+                                    url={URL.createObjectURL(videoFile)}
+                                    controls={true}
+                                    width="70%"
+                                    height="80%"
+                                  />
+                                )
+                              )}  
+                            </Grid>
+                          </Grid> */}
+                          {/* .......................Third Video................... */}
+                          {/* <Grid container spacing={2} sx={{ display: "flex" }}>
+                            <Grid
+                              item
+                              xs={6}
+                              sx={{ flex: "3", marginRight: 0 }}
+                            >
+                              <VideoUpload
+                                handleVideoUpload={handleVideoUpload}
+                              />
+                            </Grid>
+                            <Grid item  sx={{ marginLeft: 5, flex: "3" }}>
+                              {thumbnailLoading ? (
+                                <p className="text-center" style={{color:"white",background:"black"}}>Loading video...</p>
+                              ) : (
+                                // videoResponse
+                                videoFile && (
+                                  <ReactPlayer
+                                    className="react-player mt-3"
+                                    // url={URL.createObjectURL(videoResponse)}
+                                    url={URL.createObjectURL(videoFile)}
+                                    controls={true}
+                                    width="70%"
+                                    height="80%"
+                                  />
+                                )
+                              )}  
+                            </Grid>
+                          </Grid> */}
                         </Container>
                       </div>
                     </AccordionDetails>
@@ -450,7 +508,7 @@ const Step3 = () => {
                 )}
               </div>
               {/* ................................ */}
-            </Card>
+            {/* </Card> */}
           </form>
         </Grid>
         {/* <Grid item lg={4}>

@@ -47,9 +47,9 @@ const Step2 = ({ handleNext, handlePrev }) => {
     console.log("FormData is", formstate);
 
     if (!formstate.name) {
-      toast.error("Name is Empty");
+      // toast.error("Name is Empty");
     } else if (!formstate.phoneNumber) {
-      toast.error("Phone Number is Empty");
+      // toast.error("Phone Number is Empty");
     }
   };
 
@@ -57,9 +57,9 @@ const Step2 = ({ handleNext, handlePrev }) => {
     console.log("Phone input value is", value);
     setFormstate({ ...formstate, phoneNumber: value });
     if (!formstate.email) {
-      toast.error("Email is empty");
+      // toast.error("Email is empty");
     } else if (!/\S+@\S+\.\S+/.test(formstate.email)) {
-      toast.error("Email is not valid");
+      // toast.error("Email is not valid");
     }
   };
 
@@ -92,7 +92,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
         <Box sx={{ display: "flex" }}>
           <Box sx={{ flex: "3" }}>
             <Grid container my={2} spacing={2}>
-              <Grid item lg={6}>
+              <Grid item lg={5} spacing={3}>
                 <TextField
                   label="Name*"
                   id="name"
@@ -116,10 +116,10 @@ const Step2 = ({ handleNext, handlePrev }) => {
             {/* .................................PhoneNumber................................... */}
 
             <Box sx={{ display: "flex" }}>
-              <Box sx={{ flex: "4", marginRight: 0 }}>
+              <Box sx={{ flex: "1", marginRight: 0 }}>
                 {formstate.phoneNumber || formstate.otp ? (
-                  <Grid container spacing={40}>
-                    <Grid item lg={9}>
+                  <Grid container spacing={6}>
+                    <Grid item lg={10}>
                       <MuiTelInput
                         label="Phone Number*"
                         continents={["EU"]}
@@ -138,7 +138,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   </Grid>
                 ) : (
                   <Grid container spacing={2}>
-                    <Grid item lg={6}>
+                    <Grid item lg={5}>
                       <MuiTelInput
                         label="Phone Number*"
                         continents={["EU"]}
@@ -185,7 +185,14 @@ const Step2 = ({ handleNext, handlePrev }) => {
 
               {formstate.phoneNumber && showFirstButton && (
                 <Box sx={{ flex: "1" }}>
-                  <Button onClick={handleFirstButtonClick}>Verify</Button>
+                  <Button variant="outlined"  style={{ color: "#000", border: "1px solid #000",
+              borderRadius: 5 }} className="mt-3" onClick={handleFirstButtonClick}
+                  InputProps={{
+                    endAdornment: formstate.otp ? (
+                      <Done style={{ color: "green" }} />
+                    ) : null,
+                  }}
+                  >Verify</Button>
                 </Box>
               )}
 
@@ -193,7 +200,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 <Box sx={{ flex: "1", marginLeft: 0 }}>
                   <Box sx={{ display: "flex" }}>
                     <TextField
-                      sx={{ flex: "2" }}
+                      sx={{ flex: "1" }}
                       label="OTP"
                       fullWidth
                       value={formstate.otp}
@@ -201,8 +208,9 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       onChange={handleInputChange}
                     />
 
-                    <Box sx={{ flex: "1" }}>
-                      <Button onClick={handleSecondButtonClick}>Verify</Button>
+                    <Box sx={{ flex: "4" }}>
+                      <Button  variant="outlined"  style={{ color: "#000", border: "1px solid #000",
+              borderRadius: 5 }} className="ms-1 mt-1" onClick={handleSecondButtonClick} >Verify</Button>
                     </Box>
                   </Box>
                 </Box>
@@ -212,10 +220,10 @@ const Step2 = ({ handleNext, handlePrev }) => {
             {/* ..................................Email................................... */}
 
             <Box sx={{ display: "flex" }}>
-              <Box sx={{ flex: "4", marginRight: 0 }}>
+              <Box sx={{ flex: "1", marginRight: 0 }}>
                 {formstate.email || formstate.otp_email ? (
-                  <Grid container spacing={40}>
-                    <Grid item lg={9} sx={{ marginTop: 2 }}>
+                  <Grid container spacing={6}>
+                    <Grid item lg={10} sx={{ marginTop: 2 }}>
                       <TextField
                         label="Email*"
                         id="email"
@@ -233,7 +241,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   </Grid>
                 ) : (
                   <Grid container spacing={2}>
-                    <Grid item lg={6} sx={{ marginTop: 2 }}>
+                    <Grid item lg={5} sx={{ marginTop: 2 }}>
                       <TextField
                         label="Email*"
                         id="email"
@@ -254,7 +262,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
 
               {formstate.email && showemailButton && (
                 <Box sx={{ flex: "1", marginTop: 1 }}>
-                  <Button onClick={handleEmailButtonClick}>Verify</Button>
+                  <Button variant="outlined"  style={{ color: "#000", border: "1px solid #000",
+              borderRadius: 5 }} className=" mt-3" onClick={handleEmailButtonClick}>Verify</Button>
                 </Box>
               )}
 
@@ -262,7 +271,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 <Box sx={{ flex: "1", marginLeft: 0, marginTop: 2 }}>
                   <Box sx={{ display: "flex" }}>
                     <TextField
-                      sx={{ flex: "2" }}
+                      sx={{ flex: "1" }}
                       label="OTP"
                       fullWidth
                       value={formstate.otp_email}
@@ -270,8 +279,9 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       onChange={handleInputChange}
                     />
 
-                    <Box sx={{ flex: "1" }}>
-                      <Button onClick={handleEmailVerifyButtonClick}>
+                    <Box sx={{ flex: "4" }}>
+                      <Button variant="outlined" style={{ color: "#000", border: "1px solid #000",
+              borderRadius: 5 }} className="ms-1 mt-1" onClick={handleEmailVerifyButtonClick}>
                         Verify
                       </Button>
                     </Box>
@@ -283,7 +293,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
 
           {/* ..................................Display Right and Wrong on Right Side....................... */}
 
-          <Box sx={{ flex: "2", marginTop: 5, paddingLeft: 5 }}>
+          {/* <Box sx={{ flex: "2", marginTop: 5, paddingLeft: 5 }}>
             <Stepper
               sx={{
                 "& .MuiStepLabel-label": {
@@ -387,7 +397,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 </StepContent>
               </Step>
             </Stepper>
-          </Box>
+          </Box> */}
         </Box>
 
         {/* ...............................Country and Postal code.................................. */}
