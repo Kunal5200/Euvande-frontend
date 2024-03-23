@@ -18,6 +18,8 @@ import {
 import { Clear } from "@mui/icons-material";
 import { useEffect } from "react";
 import DoneIcon from "@mui/icons-material/Done";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Done } from "@mui/icons-material";
 import { MuiTelInput } from "mui-tel-input";
@@ -39,6 +41,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
   const [showSecondButton, setShowSecondButton] = useState(false);
   const [showemailButton, setShowemailButton] = useState(true);
   const [showemailtwoButton, setShowemailtwoButton] = useState(false);
+  const [showStepper, setShowStepper] = useState(false);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -56,6 +59,9 @@ const Step2 = ({ handleNext, handlePrev }) => {
   const handleInputPhone = (value) => {
     console.log("Phone input value is", value);
     setFormstate({ ...formstate, phoneNumber: value });
+    if (formstate.name || formstate.phoneNumber || formstate.email) {
+      setShowStepper(true);
+    }
     if (!formstate.email) {
       // toast.error("Email is empty");
     } else if (!/\S+@\S+\.\S+/.test(formstate.email)) {
@@ -90,7 +96,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
           Personal Information
         </Typography>
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ flex: "3" }}>
+          <Box sx={{ flex: "2" }}>
             <Grid container my={2} spacing={2}>
               <Grid item lg={5} spacing={3}>
                 <TextField
@@ -100,16 +106,13 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   fullWidth
                   value={formstate.name}
                   onChange={handleInputChange}
-                  InputProps={{
-                    endAdornment:
-                      formstate.name.length > 2 ? (
-                        <Done style={{ color: "green" }} />
-                      ) : null,
-                  }}
+                  // InputProps={{
+                  //   endAdornment:
+                  //     formstate.name.length > 2 ? (
+                  //       <Done style={{ color: "green" }} />
+                  //     ) : null,
+                  // }}
                 />
-                {/* <ButtonBase onClick={handleButtonClick}>
-        <div style={{ padding: '6px 12px', backgroundColor: 'blue', color: 'white', marginLeft: '8px' }}>Button</div>
-      </ButtonBase> */}
               </Grid>
             </Grid>
 
@@ -128,13 +131,13 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         onChange={(value) => handleInputPhone(value)}
                         value={formstate.phoneNumber}
                         fullWidth
-                        InputProps={{
-                          endAdornment:
-                            formstate.phoneNumber.length > 12 &&
-                            formstate.phoneNumber.length < 14 ? (
-                              <Done style={{ color: "green" }} />
-                            ) : null,
-                        }}
+                        // InputProps={{
+                        //   endAdornment:
+                        //     formstate.phoneNumber.length > 12 &&
+                        //     formstate.phoneNumber.length < 14 ? (
+                        //       <Done style={{ color: "green" }} />
+                        //     ) : null,
+                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -149,11 +152,11 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         onChange={(value) => handleInputPhone(value)}
                         value={formstate.phoneNumber}
                         fullWidth
-                        InputProps={{
-                          endAdornment: formstate.phoneNumber ? (
-                            <Done style={{ color: "green" }} />
-                          ) : null,
-                        }}
+                        // InputProps={{
+                        //   endAdornment: formstate.phoneNumber ? (
+                        //     <Done style={{ color: "green" }} />
+                        //   ) : null,
+                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -187,19 +190,19 @@ const Step2 = ({ handleNext, handlePrev }) => {
               {formstate.phoneNumber && showFirstButton && (
                 <Box sx={{ flex: "1" }}>
                   <Button
-                    variant="outlined"
+                    // variant="outlined"
                     style={{
                       color: "#000",
-                      border: "1px solid #000",
-                      borderRadius: 5,
+                      // border: "1px solid #000",
+                      // borderRadius: 5,
                     }}
-                    className="mt-1 p-3"
+                    className="mt-1 p-2"
                     onClick={handleFirstButtonClick}
-                    InputProps={{
-                      endAdornment: formstate.otp ? (
-                        <Done style={{ color: "green" }} />
-                      ) : null,
-                    }}
+                    // InputProps={{
+                    //   endAdornment: formstate.otp ? (
+                    //     <Done style={{ color: "green" }} />
+                    //   ) : null,
+                    // }}
                   >
                     Verify
                   </Button>
@@ -216,25 +219,25 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       value={formstate.otp}
                       id="otp"
                       onChange={handleInputChange}
-                      InputProps={{
-                        endAdornment:
-                          formstate.otp.length === 6 ? (
-                            <DoneIcon style={{ color: "green" }} />
-                          ) : (
-                            <ClearIcon style={{ color: "red" }} />
-                          ),
-                      }}
+                      // InputProps={{
+                      //   endAdornment:
+                      //     formstate.otp.length === 6 ? (
+                      //       <DoneIcon style={{ color: "green" }} />
+                      //     ) : (
+                      //       <ClearIcon style={{ color: "red" }} />
+                      //     ),
+                      // }}
                     />
 
                     <Box sx={{ flex: "4" }}>
                       <Button
-                        variant="outlined"
+                        // variant="outlined"
                         style={{
                           color: "#000",
-                          border: "1px solid #000",
-                          borderRadius: 5,
+                          // border: "1px solid #000",
+                          // borderRadius: 5,
                         }}
-                        className="ms-1  p-3"
+                        className="ms-1  p-2"
                         onClick={handleSecondButtonClick}
                       >
                         Verify
@@ -258,12 +261,12 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         value={formstate.email}
                         fullWidth
                         onChange={handleInputChange}
-                        InputProps={{
-                          endAdornment:
-                            formstate.email.length > 6 ? (
-                              <Done style={{ color: "green" }} />
-                            ) : null,
-                        }}
+                        // InputProps={{
+                        //   endAdornment:
+                        //     formstate.email.length > 6 ? (
+                        //       <Done style={{ color: "green" }} />
+                        //     ) : null,
+                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -276,12 +279,12 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         value={formstate.email}
                         fullWidth
                         onChange={handleInputChange}
-                        InputProps={{
-                          endAdornment:
-                            formstate.email.length > 6 ? (
-                              <Done style={{ color: "green" }} />
-                            ) : null,
-                        }}
+                        // InputProps={{
+                        //   endAdornment:
+                        //     formstate.email.length > 6 ? (
+                        //       <Done style={{ color: "green" }} />
+                        //     ) : null,
+                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -291,13 +294,13 @@ const Step2 = ({ handleNext, handlePrev }) => {
               {formstate.email && showemailButton && (
                 <Box sx={{ flex: "1", marginTop: 1 }}>
                   <Button
-                    variant="outlined"
+                    // variant="outlined"
                     style={{
                       color: "#000",
-                      border: "1px solid #000",
-                      borderRadius: 5,
+                      // border: "1px solid #000",
+                      // borderRadius: 5,
                     }}
-                    className=" mt-2 p-3"
+                    className=" mt-2 p-2"
                     onClick={handleEmailButtonClick}
                   >
                     Verify
@@ -309,31 +312,45 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 <Box sx={{ flex: "1", marginLeft: 0, marginTop: 2 }}>
                   <Box sx={{ display: "flex" }}>
                     <TextField
-                      sx={{ flex: "1" }}
+                      sx={{
+                        flex: "1",
+
+                        "& .MuiInputBase-root": {
+                          border: "none",
+                          boxShadow: "none",
+                          padding: "0",
+                          // Adjust padding as needed
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "gray",
+                        },
+                      }}
                       label="OTP"
                       fullWidth
                       value={formstate.otp_email}
+                      padding="0"
                       id="otp_email"
                       onChange={handleInputChange}
-                      InputProps={{
-                        endAdornment:
-                          formstate.otp_email.length === 6 ? (
-                            <DoneIcon style={{ color: "green" }} />
-                          ) : (
-                            <ClearIcon style={{ color: "red" }} />
-                          ),
-                      }}
+
+                      // InputProps={{
+                      //   endAdornment:
+                      //     formstate.otp_email.length === 6 ? (
+                      //       <DoneIcon style={{ color: "green" }} />
+                      //     ) : (
+                      //       <ClearIcon style={{ color: "red" }} />
+                      //     ),
+                      // }}
                     />
 
                     <Box sx={{ flex: "4" }}>
                       <Button
-                        variant="outlined"
+                        // variant="outlined"
                         style={{
                           color: "#000",
-                          border: "1px solid #000",
-                          borderRadius: 5,
+                          // border: "1px solid #000",
+                          // borderRadius: 5,
                         }}
-                        className="ms-1 p-3"
+                        className="ms-1 p-2"
                         onClick={handleEmailVerifyButtonClick}
                       >
                         Verify
@@ -343,7 +360,278 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 </Box>
               )}
             </Box>
+            <Typography sx={{ fontWeight: 350, fontSize: 16, paddingTop: 2 }}>
+              <b>Note:</b>{" "}
+              <small>
+                If user not verify itself, our team will contact you.{" "}
+              </small>
+            </Typography>
           </Box>
+
+          {formstate.name||
+          formstate.phoneNumber.length > 3 ||
+          formstate.email ? (
+            <Box sx={{ flex: "1" }}>
+              <Box sx={{ p: 5 }}>
+                <Stepper
+                  sx={{
+                    "& .MuiStepLabel-label": {
+                      fontSize: 12,
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                    },
+                    "& .MuiStepIcon-root.Mui-active": {
+                      color: "#ff0000",
+                    },
+                    "& .MuiStepIcon-root.Mui-completed": {
+                      color: "#008000",
+                    },
+                  }}
+                  orientation="vertical"
+                >
+                  <Step>
+                    <StepLabel
+                      StepIconComponent={(props) => {
+                        const StepIcon = formstate.name
+                          ? CheckCircleRoundedIcon
+                          : CancelRoundedIcon;
+                        return (
+                          <StepIcon
+                            {...props}
+                            sx={{
+                              color: formstate.name ? "green" : "red",
+                            }}
+                          />
+                        );
+                      }}
+                    ></StepLabel>
+                    <StepContent sx={{ display: "none" }}>
+                      <TextField
+                        label="Name*"
+                        id="name"
+                        fullWidth
+                        value={formstate.name}
+                        onChange={handleInputChange}
+                      />
+                    </StepContent>
+                  </Step>
+                  <Step>
+                    <StepLabel
+                      StepIconComponent={(props) => {
+                        const StepIcon =
+                          formstate.phoneNumber && formstate.otp
+                            ? CheckCircleRoundedIcon
+                            : CancelRoundedIcon;
+                        return (
+                          <StepIcon
+                            {...props}
+                            sx={{
+                              color:
+                                formstate.phoneNumber && formstate.otp
+                                  ? "green"
+                                  : "red",
+                            }}
+                          />
+                        );
+                      }}
+                    ></StepLabel>
+                    <StepContent sx={{ display: "none" }}>
+                      <MuiTelInput
+                        label="Phone Number*"
+                        continents={["EU"]}
+                        defaultCountry="DE"
+                        id="phoneNumber"
+                        onChange={(value) => handleInputPhone(value)}
+                        value={formstate.phoneNumber}
+                        fullWidth
+                      />
+                    </StepContent>
+                  </Step>
+                  <Step>
+                    <StepLabel
+                      StepIconComponent={(props) => {
+                        const StepIcon =
+                          formstate.email && formstate.otp_email
+                            ? CheckCircleRoundedIcon
+                            : CancelRoundedIcon;
+                        return (
+                          <StepIcon
+                            {...props}
+                            sx={{
+                              color:
+                                formstate.email && formstate.otp_email
+                                  ? "green"
+                                  : "red",
+                            }}
+                          />
+                        );
+                      }}
+                    ></StepLabel>
+                    <StepContent sx={{ display: "none" }}>
+                      <TextField
+                        label="Email*"
+                        id="email"
+                        value={formstate.email}
+                        fullWidth
+                        onChange={handleInputChange}
+                      />
+                    </StepContent>
+                  </Step>
+                </Stepper>
+              </Box>
+            </Box>
+          ) : (
+            <Box sx={{ flex: "1" }}></Box>
+          )}
+          {/* ................................................................ */}
+          {/* <Box sx={{ flex: "1" }}>
+                <Box sx={{ p: 5 }}>
+                  <Stepper
+                    sx={{
+                      "& .MuiStepLabel-label": {
+                        fontSize: 12,
+                        fontWeight: 600,
+                        textTransform: "uppercase",
+                      },
+                      "& .MuiStepIcon-root.Mui-active": {
+                        color: "#ff0000",
+                      },
+                      "& .MuiStepIcon-root.Mui-completed": {
+                        color: "#008000",
+                      },
+                    }}
+                    // activeStep={activeStep}
+                    orientation="vertical"
+                  >
+      
+                    <Step>
+                      <StepLabel
+                        StepIconComponent={(props) => {
+                          const StepIcon =
+                          formstate.name
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
+                          return (
+                            <StepIcon
+                              {...props}
+                              sx={{
+                                color:
+                                formstate.name
+                                    ? "green"
+                                    : "red",
+                              }}
+                            />
+                          );
+                        }}
+                        // StepIconComponent={StepIcon2}
+                      ></StepLabel>
+                      <StepContent sx={{ display: "none" }}>
+                      <TextField
+                  label="Name*"
+                  id="name"
+                  // name="name"
+                  fullWidth
+                  value={formstate.name}
+                  onChange={handleInputChange}
+                  // InputProps={{
+                  //   endAdornment:
+                  //     formstate.name.length > 2 ? (
+                  //       <Done style={{ color: "green" }} />
+                  //     ) : null,
+                  // }}
+                />
+                      </StepContent>
+                    </Step>
+                    <Step>
+                      <StepLabel
+                        StepIconComponent={(props) => {
+                          const StepIcon =
+                          formstate.phoneNumber && formstate.otp
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
+                          return (
+                            <StepIcon
+                              {...props}
+                              sx={{
+                                color:
+                                formstate.phoneNumber && formstate.otp
+                                    ? "green"
+                                    : "red",
+                              }}
+                            />
+                          );
+                        }}
+                        // StepIconComponent={StepIcon2}
+                      ></StepLabel>
+                      <StepContent sx={{ display: "none" }}>
+                      <MuiTelInput
+                        label="Phone Number*"
+                        continents={["EU"]}
+                        defaultCountry="DE"
+                        id="phoneNumber"
+                        onChange={(value) => handleInputPhone(value)}
+                        value={formstate.phoneNumber}
+                        fullWidth
+                        // InputProps={{
+                        //   endAdornment:
+                        //     formstate.phoneNumber.length > 12 &&
+                        //     formstate.phoneNumber.length < 14 ? (
+                        //       <Done style={{ color: "green" }} />
+                        //     ) : null,
+                        // }}
+                      />
+                      </StepContent>
+                    </Step>
+                    <Step>
+                      <StepLabel
+                        StepIconComponent={(props) => {
+                          const StepIcon =
+                          formstate.email && formstate.otp_email
+                              ? CheckCircleRoundedIcon
+                              : CancelRoundedIcon;
+                          // state.fuel && state.vin.length > 16
+                          //   ? DoneIcon
+                          //   : ClearIcon;
+                          return (
+                            <StepIcon
+                              {...props}
+                              sx={{
+                                color:
+                                formstate.email && formstate.otp_email
+                                    ? "green"
+                                    : "red",
+                              }}
+                            />
+                          );
+                        }}
+                        // StepIconComponent={StepIcon2}
+                      ></StepLabel>
+                      <StepContent sx={{ display: "none" }}>
+                      <TextField
+                        label="Email*"
+                        id="email"
+                        value={formstate.email}
+                        fullWidth
+                        onChange={handleInputChange}
+                        // InputProps={{
+                        //   endAdornment:
+                        //     formstate.email.length > 6 ? (
+                        //       <Done style={{ color: "green" }} />
+                        //     ) : null,
+                        // }}
+                      />
+                      </StepContent>
+                    </Step>
+                   
+                  </Stepper>
+                </Box>
+              </Box> */}
         </Box>
 
         {/* ...............................Country and Postal code.................................. */}
