@@ -175,18 +175,13 @@ export const vehicleController = {
       throw error;
     }
   },
-  uploadvideo:async (file) =>{
-    console.log("Check Video",file)
-    try{
-      let result=await vehicleSecuredAPI.vehicleSecuredAPI.post(
-        "/api",
-        file
-      );
+  uploadvideo: async (file) => {
+    console.log("Check Video", file);
+    try {
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post("/api", file);
       return result;
-    }
-
-  catch (error) {
+    } catch (error) {
       throw error;
     }
-  }
+  },
 };

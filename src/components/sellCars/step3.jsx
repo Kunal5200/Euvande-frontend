@@ -13,7 +13,7 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 import VideoUpload from "../video";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -57,7 +57,7 @@ const Step3 = () => {
   const [videoFile, setVideoFile] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailLoading, setThumbnailLoading] = useState(false);
-  const [videoResponse, setVideoResponse]= useState(null)
+  const [videoResponse, setVideoResponse] = useState(null);
 
   const togglePhotoAccordion = () => {
     setPhotoAccordionOpen(!photoAccordionOpen);
@@ -298,115 +298,110 @@ const Step3 = () => {
           {/* <LinkTab /> */}
           <form onSubmit={submitHandler}>
             {/* <Card className=" py-3"> */}
-              <div>
-                <Button
-                  onClick={togglePhotoAccordion}
-                  style={{
-                    backgroundColor: photoAccordionOpen ? "black" : "inherit",
-                    color: photoAccordionOpen ? "White" : "black",
-                  }}
-                >
-                  Vehicle Photo Documentation
-                </Button>
-                <Button
-                  onClick={toggleVideoAccordion}
-                  style={{
-                    backgroundColor: videoAccordionOpen ? "black" : "inherit",
-                    color: videoAccordionOpen ? "white" : "black",
-                  }}
-                >
-                  Vehicle Video Documentation
-                </Button>
+            <div>
+              <Button
+                onClick={togglePhotoAccordion}
+                style={{
+                  backgroundColor: photoAccordionOpen ? "black" : "inherit",
+                  color: photoAccordionOpen ? "White" : "black",
+                }}
+              >
+                Vehicle Photo Documentation
+              </Button>
+              <Button
+                onClick={toggleVideoAccordion}
+                style={{
+                  backgroundColor: videoAccordionOpen ? "black" : "inherit",
+                  color: videoAccordionOpen ? "white" : "black",
+                }}
+              >
+                Vehicle Video Documentation
+              </Button>
 
-                {/* Photo accordion */}
-                {photoAccordionOpen && (
-                  <Accordion
-                    expanded={photoAccordionOpen}
-                    onChange={togglePhotoAccordion}
-                  >
-                    {/* <AccordionSummary expandIcon={<ExpandMore />}>
+              {/* Photo accordion */}
+              {photoAccordionOpen && (
+                <Accordion
+                  expanded={photoAccordionOpen}
+                  onChange={togglePhotoAccordion}
+                >
+                  {/* <AccordionSummary expandIcon={<ExpandMore />}>
                         <h4 className="mb-2">Vehicle Photo Documentation</h4>
                       </AccordionSummary> */}
-                    <p className="f-12 fw-semibold mt-4">
-                      Take photos of the car from all four sides as well as the
-                      dashboard and interior equipment, including any damage or
-                      wear to the interior and exterior (paint damage, curbed
-                      rims, cracks, etc.).
-                    </p>
-                    <AccordionDetails>
-                      {/* Your photo upload component goes here */}
-                      {/* <Divider style={{ backgroundColor: "#000" }} /> */}
-                      <Accordion
-                        defaultExpanded={true}
-                        //  expanded={photoAccordionOpen} onChange={togglePhotoAccordion}
-                      >
-                        <AccordionSummary expandIcon={<ExpandMore />}>
-                          <h4 className="mb-2">Exterior</h4>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ImageUpload
-                            data={data.photoUpload}
-                            handleImageUpload={handleImageUpload}
-                            imagePreviews={imagePreviews}
-                            inputRefs={inputRefs}
-                            progress={progress}
-                          />
-                        </AccordionDetails>
-                      </Accordion>
-                      <Accordion defaultExpanded={true}>
-                        <AccordionSummary expandIcon={<ExpandMore />}>
-                          <h4 className="mb-2">Interior</h4>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ImageUpload
-                            data={data.interiorPhotoUpload}
-                            handleImageUpload={handleImageUpload}
-                            imagePreviews={imagePreviews}
-                            inputRefs={inputRefs}
-                            progress={progress}
-                          />
-                        </AccordionDetails>
-                      </Accordion>
-                      <Accordion defaultExpanded={true}>
-                        <AccordionSummary expandIcon={<ExpandMore />}>
-                          <h4 className="mb-2">Wheel and Tyres</h4>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <ImageUpload
-                            data={data.tyres}
-                            handleImageUpload={handleImageUpload}
-                            imagePreviews={imagePreviews}
-                            inputRefs={inputRefs}
-                            progress={progress}
-                          />
-                        </AccordionDetails>
-                      </Accordion>
-                    </AccordionDetails>
-                  </Accordion>
-                )}
+                  <p className="f-12 fw-semibold mt-4">
+                    Take photos of the car from all four sides as well as the
+                    dashboard and interior equipment, including any damage or
+                    wear to the interior and exterior (paint damage, curbed
+                    rims, cracks, etc.).
+                  </p>
+                  <AccordionDetails>
+                    {/* Your photo upload component goes here */}
+                    {/* <Divider style={{ backgroundColor: "#000" }} /> */}
+                    <Accordion
+                      defaultExpanded={true}
+                      //  expanded={photoAccordionOpen} onChange={togglePhotoAccordion}
+                    >
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Exterior</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload
+                          data={data.photoUpload}
+                          handleImageUpload={handleImageUpload}
+                          imagePreviews={imagePreviews}
+                          inputRefs={inputRefs}
+                          progress={progress}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                    <Accordion defaultExpanded={true}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Interior</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload
+                          data={data.interiorPhotoUpload}
+                          handleImageUpload={handleImageUpload}
+                          imagePreviews={imagePreviews}
+                          inputRefs={inputRefs}
+                          progress={progress}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                    <Accordion defaultExpanded={true}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <h4 className="mb-2">Wheel and Tyres</h4>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ImageUpload
+                          data={data.tyres}
+                          handleImageUpload={handleImageUpload}
+                          imagePreviews={imagePreviews}
+                          inputRefs={inputRefs}
+                          progress={progress}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                  </AccordionDetails>
+                </Accordion>
+              )}
 
-                {/* Video accordion */}
-                {videoAccordionOpen && (
-                  <Accordion
-                    expanded={videoAccordionOpen}
-                    onChange={toggleVideoAccordion}
-                  >
-                    <AccordionDetails>
-                      <div className="mt-3">
-                        <Container>
-                          <Grid container spacing={2} sx={{ display: "flex" }}>
-                            <Grid
-                              item
-                              xs={6}
-                              sx={{ flex: "3", marginRight: 0 }}
-                            >
-                              <VideoUpload
-                                handleVideoUpload={handleVideoUpload}
-                              />
-                            </Grid>
-                            <Grid item  sx={{ marginLeft: 5, flex: "3" }}>
-
-                              {/* {thumbnailLoading ? (
+              {/* Video accordion */}
+              {videoAccordionOpen && (
+                <Accordion
+                  expanded={videoAccordionOpen}
+                  onChange={toggleVideoAccordion}
+                >
+                  <AccordionDetails>
+                    <div className="mt-3">
+                      <Container>
+                        <Grid container spacing={2} sx={{ display: "flex" }}>
+                          <Grid item xs={6} sx={{ flex: "3", marginRight: 0 }}>
+                            <VideoUpload
+                              handleVideoUpload={handleVideoUpload}
+                            />
+                          </Grid>
+                          <Grid item sx={{ marginLeft: 5, flex: "3" }}>
+                            {/* {thumbnailLoading ? (
                                 <p>Loading thumbnail...</p>
                               ) : (
                                 thumbnail && (
@@ -419,32 +414,37 @@ const Step3 = () => {
                                 )
                               )} */}
 
-                              {thumbnailLoading ? (
-                                <p className="text-center" style={{color:"white",background:"black"}}>Loading video...</p>
-                              ) : (
-                                // videoResponse
-                                videoFile && (
-                                  <ReactPlayer
-                                    className="react-player mt-3"
-                                    // url={URL.createObjectURL(videoResponse)}
-                                    url={URL.createObjectURL(videoFile)}
-                                    controls={true}
-                                    width="70%"
-                                    height="80%"
-                                  />
-                                )
-                              )}  
-                            </Grid>
+                            {thumbnailLoading ? (
+                              <p
+                                className="text-center"
+                                style={{ color: "white", background: "black" }}
+                              >
+                                Loading video...
+                              </p>
+                            ) : (
+                              // videoResponse
+                              videoFile && (
+                                <ReactPlayer
+                                  className="react-player mt-3"
+                                  // url={URL.createObjectURL(videoResponse)}
+                                  url={URL.createObjectURL(videoFile)}
+                                  controls={true}
+                                  width="70%"
+                                  height="80%"
+                                />
+                              )
+                            )}
+                          </Grid>
 
-                            {/* <Grid item xs={6} >
+                          {/* <Grid item xs={6} >
                               {console.log("Thumbnail:", thumbnail)}
                               {thumbnail && (
         <img src={thumbnail} width={150} height={150} alt="Thumbnail" />
       )}
                               </Grid> */}
-                          </Grid>
-                          {/* ............................Second Video.............. */}
-                          {/* <Grid container spacing={2} sx={{ display: "flex" }}>
+                        </Grid>
+                        {/* ............................Second Video.............. */}
+                        {/* <Grid container spacing={2} sx={{ display: "flex" }}>
                             <Grid
                               item
                               xs={6}
@@ -472,8 +472,8 @@ const Step3 = () => {
                               )}  
                             </Grid>
                           </Grid> */}
-                          {/* .......................Third Video................... */}
-                          {/* <Grid container spacing={2} sx={{ display: "flex" }}>
+                        {/* .......................Third Video................... */}
+                        {/* <Grid container spacing={2} sx={{ display: "flex" }}>
                             <Grid
                               item
                               xs={6}
@@ -501,13 +501,13 @@ const Step3 = () => {
                               )}  
                             </Grid>
                           </Grid> */}
-                        </Container>
-                      </div>
-                    </AccordionDetails>
-                  </Accordion>
-                )}
-              </div>
-              {/* ................................ */}
+                      </Container>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+              )}
+            </div>
+            {/* ................................ */}
             {/* </Card> */}
           </form>
         </Grid>

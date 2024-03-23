@@ -67,7 +67,7 @@ const PeriodStep = ({
           />
         </Grid>
       </Grid>
-      <Stack direction={"row"} alignItems={"center"} spacing={2} mt={2}>
+      {/* <Stack direction={"row"} alignItems={"center"} spacing={2} mt={2}>
         <Button
           sx={{ border: "1px solid #000", width: 100, color: "#000" }}
           onClick={handleTrimPeriod}
@@ -80,7 +80,7 @@ const PeriodStep = ({
         >
           Back
         </Button>
-      </Stack>
+      </Stack> */}
     </div>
   );
 };

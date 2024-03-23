@@ -38,6 +38,7 @@ import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import ClearIcon from "@mui/icons-material/Clear";
 import { addCar, getCarDetails } from "@/api/apiCalling/vehicle";
 import { useDispatch, useSelector } from "react-redux";
+import { listingController } from "@/api/listing";
 const Step1 = ({ handleNext }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [state, setState] = useState({
@@ -77,19 +78,11 @@ const Step1 = ({ handleNext }) => {
       ...error,
       [id]: id === "vin" ? (isVIN(value) ? "" : "Please Enter Valid VIN") : "",
     });
-  };
-  const [carData, setCarData] = useState(null);
 
-  const [vinData, setVinData] = useState(null);
-  const decodeVin = () => {
-    setLoading(true);
-    if (!isVIN(state.vin)) {
-      toast.error("Please Enter a Valid VIN");
-      setLoading(false);
-      return;
-    } else {
+    if (id === "vin" && isVIN(value)) {
+      setLoading(true);
       let body = {
-        vin: state.vin,
+        vin: value,
       };
       addCar({
         body,
@@ -100,21 +93,59 @@ const Step1 = ({ handleNext }) => {
         setCarData,
       });
       vehicleController
-        .addVehicle(state.vin)
+        .addVehicle(value)
         .then((res) => {
           setVinData(res.data.data);
-          setLoading(false);
-          setActiveStep(activeStep + 1);
+          // setActiveStep(activeStep + 1);
         })
         .catch((err) => {
           let errMessage =
             (err.response && err.response.data.message) || err.message;
           toast.error(errMessage);
-          setActiveStep(activeStep + 1);
+        })
+        .finally(() => {
           setLoading(false);
         });
     }
   };
+
+  const [carData, setCarData] = useState(null);
+
+  const [vinData, setVinData] = useState(null);
+  // const decodeVin = () => {
+  //   setLoading(true);
+  //   if (!isVIN(state.vin)) {
+  //     toast.error("Please Enter a Valid VIN");
+  //     setLoading(false);
+  //     return;
+  //   } else {
+  //     let body = {
+  //       vin: state.vin,
+  //     };
+  //     addCar({
+  //       body,
+  //       dispatch,
+  //       setLoading,
+  //       setActiveStep,
+  //       activeStep,
+  //       setCarData,
+  //     });
+  //     vehicleController
+  //       .addVehicle(state.vin)
+  //       .then((res) => {
+  //         setVinData(res.data.data);
+  //         setLoading(false);
+  //         setActiveStep(activeStep + 1);
+  //       })
+  //       .catch((err) => {
+  //         let errMessage =
+  //           (err.response && err.response.data.message) || err.message;
+  //         toast.error(errMessage);
+  //         setActiveStep(activeStep + 1);
+  //         setLoading(false);
+  //       });
+  //   }
+  // };
   useEffect(() => {
     getAllMakePublic({ setBrand });
   }, []);
@@ -276,15 +307,15 @@ const Step1 = ({ handleNext }) => {
                               error={Boolean(error.vin)}
                               inputProps={{ maxLength: 17 }}
                               focused={Boolean(state.vin)}
-                              InputProps={{
-                                endAdornment: state.vin ? (
-                                  <Done style={{ color: "green" }} />
-                                ) : null,
-                              }}
+                              // InputProps={{
+                              //   endAdornment: state.vin ? (
+                              //     <Done style={{ color: "green" }} />
+                              //   ) : null,
+                              // }}
                             />
                           </FormControl>
 
-                          <Button
+                          {/* <Button
                             sx={{
                               width: 250,
                               border: "1px solid #d7d7d7",
@@ -308,7 +339,7 @@ const Step1 = ({ handleNext }) => {
                             ) : (
                               "Load VIN"
                             )}
-                          </Button>
+                          </Button> */}
                         </Stack>
                         <Typography
                           variant="body2"
@@ -320,7 +351,7 @@ const Step1 = ({ handleNext }) => {
                         </Typography>
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Make and Model</StepLabel>
                       <StepContent>
                         <MakeStep
@@ -332,7 +363,7 @@ const Step1 = ({ handleNext }) => {
                           selectedBrand={selectedBrand}
                           selectedModel={selectedModel}
                         />
-                        <Stack
+                        {/* <Stack
                           direction={"row"}
                           alignItems={"center"}
                           spacing={2}
@@ -350,10 +381,10 @@ const Step1 = ({ handleNext }) => {
                           >
                             Back
                           </Button>
-                        </Stack>
+                        </Stack> */}
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Period and Trim</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -367,7 +398,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Transmission</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -379,7 +410,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Fuel</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -391,7 +422,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Vehicle Type</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -403,7 +434,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Doors</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -415,7 +446,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Drive Type 4x4</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -427,7 +458,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Power and Engine Displacement</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -439,7 +470,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Seats</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -451,7 +482,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Mileage</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -463,7 +494,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Interior Material</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -475,7 +506,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Possibility of VAT Deduction</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -487,7 +518,7 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step>
+                    <Step active>
                       <StepLabel>Country of origin of the car</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -619,7 +650,8 @@ const Step1 = ({ handleNext }) => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel
+                      <Step
+                        Label
                         StepIconComponent={(props) => {
                           const StepIcon =
                             state.trim &&
@@ -647,7 +679,7 @@ const Step1 = ({ handleNext }) => {
                           );
                         }}
                         // StepIconComponent={StepIcon2}
-                      ></StepLabel>
+                      ></Step>
                       <StepContent sx={{ display: "none" }}>
                         <PeriodStep
                           state={state}
