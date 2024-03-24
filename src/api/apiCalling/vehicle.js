@@ -21,7 +21,7 @@ export const addCar = ({
     .addVehicle(body)
     .then((res) => {
       dispatch(setCarDetails({ ...res.data.data }));
-      setActiveStep(activeStep + 1);
+      // setActiveStep(activeStep + 1);
       setLoading && setLoading(false);
       getCarDetails({ setCarData, setLoading, carId: res.data.data.id });
       localStorage.setItem("carId", res.data.data.id);

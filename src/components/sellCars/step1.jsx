@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { getAllMakePublic, getModelByYear } from "@/api/apiCalling/listingApi";
+import { addCar, getCarDetails } from "@/api/apiCalling/vehicle";
+import { isVIN } from "@/utils/regex";
+import { loginTextField } from "@/utils/styles";
 import {
   Box,
   Button,
-  Card,
   Container,
   Divider,
   FormControl,
-  FormHelperText,
   Grid,
   Stack,
   Step,
@@ -16,29 +17,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Clear } from "@mui/icons-material";
-import { toast } from "react-toastify";
-import { vehicleController } from "@/api/addVehicle";
-import { isVIN } from "@/utils/regex";
-import { loginTextField } from "@/utils/styles";
-import Loading from "react-loading";
-import MakeStep from "./steps/makeStep";
-import { getAllMakePublic, getModelByYear } from "@/api/apiCalling/listingApi";
-import PeriodStep from "./steps/periodStep";
-import {
-  CircularProgressbarWithChildren,
-  buildStyles,
-} from "react-circular-progressbar";
-import demo from "@/cars/iconCar.jpg";
-import { Done } from "@mui/icons-material";
-import DoneIcon from "@mui/icons-material/Done";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
-import ClearIcon from "@mui/icons-material/Clear";
-import { addCar, getCarDetails } from "@/api/apiCalling/vehicle";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listingController } from "@/api/listing";
+import MakeStep from "./steps/makeStep";
+import PeriodStep from "./steps/periodStep";
+import Transmission from "./steps/transmission";
+import Tick from "./tick";
 const Step1 = ({ handleNext }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [state, setState] = useState({
@@ -49,15 +33,15 @@ const Step1 = ({ handleNext }) => {
     trim: "",
     transmission: "",
     fuel: "",
-    // vechicaltype: "",
-    // door:"",
-    // drivetype:"",
-    // powerengine:"",
-    // seat:"",
-    // mileage:"",
-    // interialmaterial:"",
-    // vatdeduction:"",
-    // originofcar:"",
+    vechicaltype: "",
+    door: "",
+    drivetype: "",
+    powerengine: "",
+    seat: "",
+    mileage: "",
+    interialmaterial: "",
+    vatdeduction: "",
+    originofcar: "",
   });
   const dispatch = useDispatch();
 
@@ -79,7 +63,7 @@ const Step1 = ({ handleNext }) => {
       [id]: id === "vin" ? (isVIN(value) ? "" : "Please Enter Valid VIN") : "",
     });
 
-    if (id === "vin" && isVIN(value)) {
+    if (isVIN(value)) {
       setLoading(true);
       let body = {
         vin: value,
@@ -92,60 +76,13 @@ const Step1 = ({ handleNext }) => {
         activeStep,
         setCarData,
       });
-      vehicleController
-        .addVehicle(value)
-        .then((res) => {
-          setVinData(res.data.data);
-          // setActiveStep(activeStep + 1);
-        })
-        .catch((err) => {
-          let errMessage =
-            (err.response && err.response.data.message) || err.message;
-          toast.error(errMessage);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
     }
   };
 
   const [carData, setCarData] = useState(null);
 
   const [vinData, setVinData] = useState(null);
-  // const decodeVin = () => {
-  //   setLoading(true);
-  //   if (!isVIN(state.vin)) {
-  //     toast.error("Please Enter a Valid VIN");
-  //     setLoading(false);
-  //     return;
-  //   } else {
-  //     let body = {
-  //       vin: state.vin,
-  //     };
-  //     addCar({
-  //       body,
-  //       dispatch,
-  //       setLoading,
-  //       setActiveStep,
-  //       activeStep,
-  //       setCarData,
-  //     });
-  //     vehicleController
-  //       .addVehicle(state.vin)
-  //       .then((res) => {
-  //         setVinData(res.data.data);
-  //         setLoading(false);
-  //         setActiveStep(activeStep + 1);
-  //       })
-  //       .catch((err) => {
-  //         let errMessage =
-  //           (err.response && err.response.data.message) || err.message;
-  //         toast.error(errMessage);
-  //         setActiveStep(activeStep + 1);
-  //         setLoading(false);
-  //       });
-  //   }
-  // };
+
   useEffect(() => {
     getAllMakePublic({ setBrand });
   }, []);
@@ -198,16 +135,6 @@ const Step1 = ({ handleNext }) => {
     fetchData();
   }, [selectedBrand]);
 
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const filledFields = Object.values(state).filter(Boolean).length;
-    const totalFields = Object.keys(state).length;
-    const calculatedProgress = (filledFields / totalFields) * 100;
-    const roundedProgress = Math.floor(calculatedProgress);
-    setProgress(roundedProgress);
-  }, [state]);
-
   const carInfo = useSelector((state) => state.CarInformation);
   useEffect(() => {
     if (carInfo) {
@@ -218,23 +145,9 @@ const Step1 = ({ handleNext }) => {
         model: carInfo && carInfo.model && carInfo.model.id,
         periodYear: carInfo && carInfo.period && carInfo.period.id,
       });
-
-      // localStorage.setItem("vinData", JSON.stringify(vinData));
     }
   }, [carInfo]);
-  useEffect(() => {
-    if (vinData && vinData.idsObj) {
-      setIds(vinData.idsObj);
-    }
-  }, [vinData]);
 
-  const selectMake = () => {
-    if (state.make && state.model) {
-      setActiveStep(activeStep + 1);
-    } else {
-      toast.error("Please Select Make and Model");
-    }
-  };
   useEffect(() => {
     const fetchCarData = () => {
       const carId = localStorage.getItem("carId");
@@ -245,10 +158,6 @@ const Step1 = ({ handleNext }) => {
     fetchCarData();
   }, []);
 
-  // const StepIcon = state.vin.length>16 ? Done : Clear;
-  //  const StepIcon1 = state.make && state.model && state.vin.length>16? Done : Clear;
-  // const StepIcon2 = state.trim && state.model ? Done : Clear;
-
   return (
     <div>
       <Container style={{ maxWidth: "1350px" }}>
@@ -258,12 +167,22 @@ const Step1 = ({ handleNext }) => {
               {/* <Card sx={{ flex: "3" }}> */}
               <Box sx={{ flex: "3" }}>
                 <Box sx={{ p: 2 }}>
-                  <Typography sx={{ fontSize: 25, fontWeight: 600 }}>
-                    Vehicle Specification{" "}
-                    <small style={{ fontSize: 15, fontWeight: 300 }}>
-                      (Based On Fast Data Synchronising ){" "}
-                    </small>
-                  </Typography>
+                  <Stack>
+                    <Typography
+                      sx={{ fontSize: 30, fontWeight: 600 }}
+                      variant="h1"
+                    >
+                      Vehicle Specification{" "}
+                    </Typography>
+                    <Typography fontSize={12} width={600} textAlign={"justify"}>
+                      {" "}
+                      By entering the VIN number of the car, the system will
+                      automatically retrieve detailed information about the
+                      vehicle, including make, model, year, engine type,
+                      transmission, and more. This feature saves time and
+                      ensures accurate data entry for vehicle specifications.
+                    </Typography>
+                  </Stack>
                 </Box>
                 <Divider sx={{ backgroundColor: "#000" }} />
                 <Box sx={{ p: 2 }}>
@@ -276,7 +195,6 @@ const Step1 = ({ handleNext }) => {
                       },
                       "& .MuiStepIcon-root.Mui-active": {
                         color: "#000",
-                        // backgroundColor: "transparent",
                       },
                       "& .MuiStepIcon-root.Mui-completed": {
                         color: "#000000",
@@ -285,7 +203,7 @@ const Step1 = ({ handleNext }) => {
                     activeStep={activeStep}
                     orientation="vertical"
                   >
-                    <Step>
+                    <Step active>
                       <StepLabel>
                         Vehicle Vin{" "}
                         <small>(Vehicle Identification Number) </small>
@@ -294,7 +212,8 @@ const Step1 = ({ handleNext }) => {
                         <Stack
                           direction="row"
                           alignItems={"center"}
-                          spacing={2}
+                          spacing={5}
+                          justifyContent={"space-between"}
                         >
                           <FormControl fullWidth>
                             <TextField
@@ -307,39 +226,26 @@ const Step1 = ({ handleNext }) => {
                               error={Boolean(error.vin)}
                               inputProps={{ maxLength: 17 }}
                               focused={Boolean(state.vin)}
-                              // InputProps={{
-                              //   endAdornment: state.vin ? (
-                              //     <Done style={{ color: "green" }} />
-                              //   ) : null,
-                              // }}
                             />
                           </FormControl>
 
-                          {/* <Button
+                          {/* <Avatar
                             sx={{
-                              width: 250,
-                              border: "1px solid #d7d7d7",
-                              p: 2,
-                              color: "#000",
-                              ":hover": {
-                                backgroundColor: "transparent",
-                              },
-                              marginBottom: error.vin ? "2rem" : "",
+                              backgroundColor:
+                                state.vin && isVIN(state.vin)
+                                  ? "green"
+                                  : "#ff0000",
+                              // fontSize: 10,
+                              width: 35,
+                              height: 35,
                             }}
-                            onClick={decodeVin}
                           >
-                            {loading ? (
-                              <Loading
-                                type="balls"
-                                color="#000"
-                                width={25}
-                                height={25}
-                                className="m-auto"
-                              />
+                            {state.vin && isVIN(state.vin) ? (
+                              <Done sx={{ fontSize: 20 }} />
                             ) : (
-                              "Load VIN"
+                              <close />
                             )}
-                          </Button> */}
+                          </Avatar> */}
                         </Stack>
                         <Typography
                           variant="body2"
@@ -363,25 +269,48 @@ const Step1 = ({ handleNext }) => {
                           selectedBrand={selectedBrand}
                           selectedModel={selectedModel}
                         />
-                        {/* <Stack
-                          direction={"row"}
-                          alignItems={"center"}
-                          spacing={2}
-                          mt={2}
-                        >
-                          <Button
-                            sx={{ border: "1px solid #000", color: "#000" }}
-                            onClick={selectMake}
+                        {/* <Grid container alignItems={"start"}>
+                          <Grid item lg={11}>
+                            {" "}
+                            <MakeStep
+                              brand={brand}
+                              model={modelData}
+                              onBrandChange={brandChangeHandler}
+                              onModelChange={modelChangeHandler}
+                              vinData={vinData}
+                              selectedBrand={selectedBrand}
+                              selectedModel={selectedModel}
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            lg={1}
+                            sx={{
+                              display: "flex",
+                              alignItems: "start",
+                              justifyContent: "flex-end",
+                            }}
                           >
-                            Continue
-                          </Button>
-                          <Button
-                            sx={{ border: "1px solid #000", color: "#000" }}
-                            onClick={() => setActiveStep(activeStep - 1)}
-                          >
-                            Back
-                          </Button>
-                        </Stack> */}
+                            <Avatar
+                              sx={{
+                                backgroundColor:
+                                  state.make && state.model
+                                    ? "green"
+                                    : "#ff0000",
+                                // fontSize: 10,
+                                width: 35,
+                                height: 35,
+                                mt:1
+                              }}
+                            >
+                              {state.make && state.model ? (
+                                <Done sx={{ fontSize: 20 }} />
+                              ) : (
+                                <Close />
+                              )}
+                            </Avatar>
+                          </Grid>
+                        </Grid> */}
                       </StepContent>
                     </Step>
                     <Step active>
@@ -401,13 +330,7 @@ const Step1 = ({ handleNext }) => {
                     <Step active>
                       <StepLabel>Transmission</StepLabel>
                       <StepContent>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                        />
+                        <Transmission />
                       </StepContent>
                     </Step>
                     <Step active>
@@ -535,552 +458,7 @@ const Step1 = ({ handleNext }) => {
               </Box>
               {/* </Card> */}
 
-              <Box sx={{ flex: "1" }}>
-                <Box sx={{ p: 13 }}>
-                  <Stepper
-                    sx={{
-                      "& .MuiStepLabel-label": {
-                        fontSize: 12,
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                      },
-                      "& .MuiStepIcon-root.Mui-active": {
-                        color: "#ff0000",
-                      },
-                      "& .MuiStepIcon-root.Mui-completed": {
-                        color: "#008000",
-                      },
-                    }}
-                    activeStep={activeStep}
-                    orientation="vertical"
-                  >
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.vin.length > 16 ? DoneIcon : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color: state.vin.length > 16 ? "green" : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon}
-                      ></StepLabel>
-                      <StepContent>
-                        <Stack
-                          direction="row"
-                          alignItems={"center"}
-                          spacing={3}
-                        >
-                          <FormControl fullWidth>
-                            <TextField
-                              // sx={loginTextField}
-                              // label="Vehicle VIN"
-                              sx={{ display: "none" }}
-                              // fullWidth
-                              value={state.vin}
-                              id="vin"
-                              onChange={decodeVinHandler}
-                              error={Boolean(error.vin)}
-                              // inputProps={{ maxLength: 17 }}
-                              focused={Boolean(state.vin)}
-                            />
-                          </FormControl>
-                        </Stack>
-                        <Typography
-                          variant="body2"
-                          color={
-                            state.vin.length > 17 ? "error" : "text.primary"
-                          }
-                        >
-                          {state.vin.length}/17
-                        </Typography>
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.vin.length > 16 && state.make && state.model
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.make && state.model && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 &&
-                                  state.make &&
-                                  state.model
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon1}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <MakeStep
-                          brand={brand}
-                          model={modelData}
-                          onBrandChange={brandChangeHandler}
-                          onModelChange={modelChangeHandler}
-                          vinData={vinData}
-                          selectedBrand={selectedBrand}
-                          selectedModel={selectedModel}
-                          sx={{ display: "none" }}
-                        />
-                        <Stack
-                          direction={"row"}
-                          alignItems={"center"}
-                          spacing={2}
-                          mt={2}
-                        ></Stack>
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <Step
-                        Label
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.trim &&
-                            state.periodYear &&
-                            state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.trim &&
-                          // state.periodYear &&
-                          // state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 &&
-                                  state.trim &&
-                                  state.periodYear
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></Step>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          vinData={vinData}
-                          setCarData={setCarData}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.transmission && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.transmission && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.transmission
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                            state.fuel && state.vin.length > 16
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                  state.vin.length > 16 && state.fuel
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                        <PeriodStep
-                          state={state}
-                          setState={setState}
-                          activeStep={activeStep}
-                          setActiveStep={setActiveStep}
-                          ids={ids}
-                          sx={{ display: "none" }}
-                        />
-                      </StepContent>
-                    </Step>
-                  </Stepper>
-                </Box>
-              </Box>
+              <Tick activeStep={activeStep} state={state} />
             </Box>
             <Box sx={{ p: 1, textAlign: "end" }}>
               <Button
@@ -1097,56 +475,6 @@ const Step1 = ({ handleNext }) => {
               </Button>
             </Box>
           </Grid>
-          {/* <Grid item lg={4}>
-            <Card
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: 300,
-              }}
-            >
-              <Box sx={{ width: 250 }}>
-                <CircularProgressbarWithChildren
-                  value={progress}
-                  circleRatio={0.75}
-                  styles={buildStyles({
-                    rotation: 1 / 2 + 1 / 8,
-                    strokeLinecap: "butt",
-                    trailColor: "#eee",
-                    pathColor: "#000",
-                  })}
-                  strokeWidth={10}
-                >
-                  <img
-                    style={{ width: 100, marginTop: 100 }}
-                    src={demo.src}
-                    alt="demo"
-                  />
-                  <Typography sx={{ fontSize: 15 }}>
-                    {`${progress}%`} completed
-                  </Typography>
-                </CircularProgressbarWithChildren>
-                <Typography sx={{ fontSize: 12, textAlign: "center" }}>
-                  You're doing great! Keep it up!
-                </Typography>
-              </Box>
-            </Card>
-            <Card sx={{ mt: 2, p: 2 }}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Done sx={{ fontSize: 12, mr: 1 }} />
-                <Typography sx={{ fontWeight: 600, fontSize: 15 }}>
-                  Did You Know That?
-                </Typography>
-              </Box>
-              <Typography sx={{ fontSize: 12, textAlign: "justify" }}>
-                Experience the thrill of uncovering up to 30% savings,
-                translating to a staggering CZK 100,000 on average-priced
-                vehicles. Don't miss out – visit our dealership today and unlock
-                unbeatable deals!
-              </Typography>
-            </Card>
-          </Grid> */}
         </Grid>
       </Container>
     </div>

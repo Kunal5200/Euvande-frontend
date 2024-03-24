@@ -1,6 +1,15 @@
 import { getPeriod } from "@/api/apiCalling/listingApi";
 import { addCar } from "@/api/apiCalling/vehicle";
-import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
+import { Info } from "@mui/icons-material";
+import {
+  Autocomplete,
+  Button,
+  FormHelperText,
+  Grid,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -14,35 +23,48 @@ const PeriodStep = ({
 }) => {
   const [period, setPeriod] = useState([]);
   const dispatch = useDispatch();
+  // const [carData, setCarData] = useState(null);
   const carInfo = useSelector((state) => state.CarInformation);
   const [periodValue, setPeriodValue] = useState({
-    id: carInfo && carInfo.period && carInfo.period.id,
-    year: carInfo && carInfo.period && carInfo.period.year,
+    id: (carInfo && carInfo.period && carInfo.period.id) || "",
+    year: (carInfo && carInfo.period && carInfo.period.year) || "",
   });
+  const [modelyear, setModelYear] = useState([]);
   const handlePeriod = (e, newValue) => {
     setModelYear(newValue);
     if (newValue) {
       setState({ ...state, period: newValue.id });
+      // let body = {
+      //   period: newValue.year,
+      // };
+      // addCar({ body, dispatch, path, router, setCarData, setLoading });
     }
   };
 
   const handleTrimLevel = (e) => {
     const { id, value } = e.target;
-    setState({ ...state, [state.trim]: value });
+    setState({ ...state, [id]: value });
   };
-  const handleTrimPeriod = () => {
-    if (state.period === "" || state.trim === "") {
-      toast.error("Please Enter Trim and Period");
-      return false;
-    } else {
-      let body = {
-        periodId: state.period,
-        trim: state.trim,
-        id: carInfo && carInfo.id,
-      };
-      addCar({ body, dispatch, setCarData, setActiveStep, activeStep });
+
+  useEffect(() => {
+    if (carInfo && carInfo.period) {
+      setPeriodValue({
+        id: (carInfo && carInfo.period && carInfo.period.id) || "",
+        year: (carInfo && carInfo.period && carInfo.period.year) || "",
+      });
     }
-  };
+  }, [carInfo.period]);
+
+  useEffect(() => {
+    if (state) {
+      let data = {
+        makeId: state && state.make,
+      };
+      getPeriod({ data, setPeriod });
+    }
+  }, [state]);
+
+  // console.log("periodvalue", periodValue);
 
   return (
     <div>
@@ -57,6 +79,9 @@ const PeriodStep = ({
             onChange={handlePeriod}
             defaultValue={periodValue}
           />
+          <FormHelperText sx={{ fontSize: 12 }}>
+            Select the manfacturing year of the Car
+          </FormHelperText>
         </Grid>
         <Grid item lg={6}>
           <TextField
@@ -64,6 +89,13 @@ const PeriodStep = ({
             fullWidth
             id="trim"
             onChange={handleTrimLevel}
+            InputProps={{
+              endAdornment: (
+                <Tooltip title="Trim level refers to the specific configuration or package of features and options available for a particular model of a vehicle. It determines the level of luxury, performance, and technology included in the car.">
+                  <Info sx={{ fill: "#333", cursor: "pointer" }} />
+                </Tooltip>
+              ),
+            }}
           />
         </Grid>
       </Grid>
