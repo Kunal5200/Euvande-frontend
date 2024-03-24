@@ -23,6 +23,7 @@ import MakeStep from "./steps/makeStep";
 import PeriodStep from "./steps/periodStep";
 import Transmission from "./steps/transmission";
 import Tick from "./tick";
+import { listingController } from "@/api/listing";
 const Step1 = ({ handleNext }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [state, setState] = useState({
@@ -80,6 +81,7 @@ const Step1 = ({ handleNext }) => {
   };
 
   const [carData, setCarData] = useState(null);
+  const [specification, setSpecification] = useState(null);
 
   const [vinData, setVinData] = useState(null);
 
@@ -144,9 +146,29 @@ const Step1 = ({ handleNext }) => {
         make: carInfo && carInfo.make && carInfo.make.id,
         model: carInfo && carInfo.model && carInfo.model.id,
         periodYear: carInfo && carInfo.period && carInfo.period.id,
+        trim:
+          carInfo &&
+          carInfo.specification &&
+          carInfo.specification.specificationDetails &&
+          carInfo.specification.specificationDetails.trimLevel,
+        transmission:
+          carInfo &&
+          carInfo.specification &&
+          carInfo.specification.transmission,
       });
     }
   }, [carInfo]);
+
+  useEffect(() => {
+    listingController
+      .getDefaultSpecificationPublic()
+      .then((res) => {
+        setSpecification(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchCarData = () => {
@@ -330,7 +352,7 @@ const Step1 = ({ handleNext }) => {
                     <Step active>
                       <StepLabel>Transmission</StepLabel>
                       <StepContent>
-                        <Transmission />
+                        <Transmission data={specification} state={state} />
                       </StepContent>
                     </Step>
                     <Step active>

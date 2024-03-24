@@ -176,7 +176,6 @@ export const vehicleController = {
     }
   },
   uploadvideo: async (file) => {
-    console.log("Check Video", file);
     try {
       let result = await vehicleSecuredAPI.vehicleSecuredAPI.post("/api", file);
       return result;

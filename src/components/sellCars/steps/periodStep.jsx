@@ -53,18 +53,18 @@ const PeriodStep = ({
         year: (carInfo && carInfo.period && carInfo.period.year) || "",
       });
     }
-  }, [carInfo.period]);
+  }, [carInfo]);
 
   useEffect(() => {
-    if (state) {
+    if (carInfo && carInfo.make && carInfo.make.id) {
       let data = {
-        makeId: state && state.make,
+        makeId: carInfo.make.id,
       };
-      getPeriod({ data, setPeriod });
+      getPeriod({ setPeriod, data });
     }
-  }, [state]);
+  }, []);
 
-  // console.log("periodvalue", periodValue);
+ 
 
   return (
     <div>
@@ -96,6 +96,8 @@ const PeriodStep = ({
                 </Tooltip>
               ),
             }}
+            value={state.trim}
+            focused={Boolean(state.trim)}
           />
         </Grid>
       </Grid>
