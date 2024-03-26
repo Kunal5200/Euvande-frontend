@@ -1,70 +1,51 @@
-import { getPeriod } from "@/api/apiCalling/listingApi";
-import { addCar } from "@/api/apiCalling/vehicle";
-import { Info } from "@mui/icons-material";
-import {
-  Autocomplete,
-  Button,
-  FormHelperText,
-  Grid,
-  Stack,
-  TextField,
-  Tooltip,
-} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import {
+  Autocomplete,
+  Grid,
+  TextField,
+  FormHelperText,
+  Tooltip,
+} from "@mui/material";
+import { getPeriod } from "@/api/apiCalling/listingApi";
+import { Info } from "@mui/icons-material";
 
-const PeriodStep = ({
-  state,
-  setState,
-  activeStep,
-  setActiveStep,
-  setCarData,
-}) => {
+const PeriodStep = ({ state, setState, carData }) => {
   const [period, setPeriod] = useState([]);
   const dispatch = useDispatch();
-  // const [carData, setCarData] = useState(null);
   const carInfo = useSelector((state) => state.CarInformation);
-  const [periodValue, setPeriodValue] = useState({
-    id: (carInfo && carInfo.period && carInfo.period.id) || "",
-    year: (carInfo && carInfo.period && carInfo.period.year) || "",
-  });
+  const [periodValue, setPeriodValue] = useState(null); // Initialize with null
+
   const [modelyear, setModelYear] = useState([]);
   const handlePeriod = (e, newValue) => {
     setModelYear(newValue);
     if (newValue) {
       setState({ ...state, period: newValue.id });
-      // let body = {
-      //   period: newValue.year,
-      // };
-      // addCar({ body, dispatch, path, router, setCarData, setLoading });
     }
   };
 
-  const handleTrimLevel = (e) => {
+  const handletrimLevelLevel = (e) => {
     const { id, value } = e.target;
     setState({ ...state, [id]: value });
   };
 
   useEffect(() => {
-    if (carInfo && carInfo.period) {
+    if (carData && carData.period) {
       setPeriodValue({
-        id: (carInfo && carInfo.period && carInfo.period.id) || "",
-        year: (carInfo && carInfo.period && carInfo.period.year) || "",
+        id: carData.period.id,
+        year: carData.period.year,
       });
     }
-  }, [carInfo]);
+  }, [carData]);
 
   useEffect(() => {
-    if (carInfo && carInfo.make && carInfo.make.id) {
+    if (carData && carData.make && carData.make.id) {
       let data = {
-        makeId: carInfo.make.id,
+        makeId: carData.make.id,
       };
       getPeriod({ setPeriod, data });
     }
   }, []);
-
- 
 
   return (
     <div>
@@ -77,44 +58,32 @@ const PeriodStep = ({
             options={period}
             getOptionLabel={(option) => option.year}
             onChange={handlePeriod}
-            defaultValue={periodValue}
+            value={periodValue}
+            loading={!periodValue}
+            sx={{ fontSize: 12 }}
           />
           <FormHelperText sx={{ fontSize: 12 }}>
-            Select the manfacturing year of the Car
+            Select the manufacturing year of the Car
           </FormHelperText>
         </Grid>
         <Grid item lg={6}>
           <TextField
             label="Trim Level"
             fullWidth
-            id="trim"
-            onChange={handleTrimLevel}
+            id="trimLevel"
+            onChange={handletrimLevelLevel}
+            value={state.trimLevel}
             InputProps={{
               endAdornment: (
-                <Tooltip title="Trim level refers to the specific configuration or package of features and options available for a particular model of a vehicle. It determines the level of luxury, performance, and technology included in the car.">
+                <Tooltip title="trimLevel level refers to the specific configuration or package of features and options available for a particular model of a vehicle. It determines the level of luxury, performance, and technology included in the car.">
                   <Info sx={{ fill: "#333", cursor: "pointer" }} />
                 </Tooltip>
               ),
             }}
-            value={state.trim}
-            focused={Boolean(state.trim)}
+            helperText="Trim Level : Specific configuration or package of features ."
           />
         </Grid>
       </Grid>
-      {/* <Stack direction={"row"} alignItems={"center"} spacing={2} mt={2}>
-        <Button
-          sx={{ border: "1px solid #000", width: 100, color: "#000" }}
-          onClick={handleTrimPeriod}
-        >
-          Continue
-        </Button>
-        <Button
-          sx={{ border: "1px solid #000", width: 100, color: "#000" }}
-          onClick={() => setActiveStep(activeStep - 1)}
-        >
-          Back
-        </Button>
-      </Stack> */}
     </div>
   );
 };

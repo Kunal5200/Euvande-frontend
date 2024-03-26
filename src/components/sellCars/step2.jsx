@@ -96,22 +96,15 @@ const Step2 = ({ handleNext, handlePrev }) => {
           Personal Information
         </Typography>
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ flex: "2" }}>
+          <Box sx={{ flex: "10" }}>
             <Grid container my={2} spacing={2}>
               <Grid item lg={5} spacing={3}>
                 <TextField
                   label="Name*"
                   id="name"
-                  // name="name"
                   fullWidth
                   value={formstate.name}
                   onChange={handleInputChange}
-                  // InputProps={{
-                  //   endAdornment:
-                  //     formstate.name.length > 2 ? (
-                  //       <Done style={{ color: "green" }} />
-                  //     ) : null,
-                  // }}
                 />
               </Grid>
             </Grid>
@@ -131,13 +124,6 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         onChange={(value) => handleInputPhone(value)}
                         value={formstate.phoneNumber}
                         fullWidth
-                        // InputProps={{
-                        //   endAdornment:
-                        //     formstate.phoneNumber.length > 12 &&
-                        //     formstate.phoneNumber.length < 14 ? (
-                        //       <Done style={{ color: "green" }} />
-                        //     ) : null,
-                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -152,57 +138,21 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         onChange={(value) => handleInputPhone(value)}
                         value={formstate.phoneNumber}
                         fullWidth
-                        // InputProps={{
-                        //   endAdornment: formstate.phoneNumber ? (
-                        //     <Done style={{ color: "green" }} />
-                        //   ) : null,
-                        // }}
+                       
                       />
                     </Grid>
                   </Grid>
                 )}
-
-                {/* {
-                  !formstate.phoneNumber && formstate.otp ? (
-<Grid container spacing={40}>
-                    <Grid item lg={9}>
-                      <MuiTelInput
-                        label="Phone Number*"
-                        continents={["EU"]}
-                        defaultCountry="DE"
-                        id="phoneNumber"
-                        onChange={(value) => handleInputPhone(value)}
-                        value={formstate.phoneNumber}
-                        fullWidth
-                        InputProps={{
-                          endAdornment: formstate.phoneNumber.length>9 && formstate.phoneNumber.length<11 ? (
-                            <Done style={{ color: "green" }} />
-                          ) : null,
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  ):null 
-                } */}
               </Box>
 
               {formstate.phoneNumber && showFirstButton && (
                 <Box sx={{ flex: "1" }}>
                   <Button
-                    // variant="outlined"
                     style={{
                       color: "#000",
-                      // border: "1px solid #000",
-                      // borderRadius: 5,
                     }}
                     className="mt-1 p-2"
                     onClick={handleFirstButtonClick}
-                    // InputProps={{
-                    //   endAdornment: formstate.otp ? (
-                    //     <Done style={{ color: "green" }} />
-                    //   ) : null,
-                    // }}
                   >
                     Verify
                   </Button>
@@ -219,23 +169,12 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       value={formstate.otp}
                       id="otp"
                       onChange={handleInputChange}
-                      // InputProps={{
-                      //   endAdornment:
-                      //     formstate.otp.length === 6 ? (
-                      //       <DoneIcon style={{ color: "green" }} />
-                      //     ) : (
-                      //       <ClearIcon style={{ color: "red" }} />
-                      //     ),
-                      // }}
                     />
 
                     <Box sx={{ flex: "4" }}>
                       <Button
-                        // variant="outlined"
                         style={{
                           color: "#000",
-                          // border: "1px solid #000",
-                          // borderRadius: 5,
                         }}
                         className="ms-1  p-2"
                         onClick={handleSecondButtonClick}
@@ -261,12 +200,6 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         value={formstate.email}
                         fullWidth
                         onChange={handleInputChange}
-                        // InputProps={{
-                        //   endAdornment:
-                        //     formstate.email.length > 6 ? (
-                        //       <Done style={{ color: "green" }} />
-                        //     ) : null,
-                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -279,12 +212,6 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         value={formstate.email}
                         fullWidth
                         onChange={handleInputChange}
-                        // InputProps={{
-                        //   endAdornment:
-                        //     formstate.email.length > 6 ? (
-                        //       <Done style={{ color: "green" }} />
-                        //     ) : null,
-                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -294,11 +221,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
               {formstate.email && showemailButton && (
                 <Box sx={{ flex: "1", marginTop: 1 }}>
                   <Button
-                    // variant="outlined"
                     style={{
                       color: "#000",
-                      // border: "1px solid #000",
-                      // borderRadius: 5,
                     }}
                     className=" mt-2 p-2"
                     onClick={handleEmailButtonClick}
@@ -363,12 +287,13 @@ const Step2 = ({ handleNext, handlePrev }) => {
             <Typography sx={{ fontWeight: 350, fontSize: 16, paddingTop: 2 }}>
               <b>Note:</b>{" "}
               <small>
-                If user not verify itself, our team will contact you.{" "}
+                We'll get in touch with you if the user doesn't verify
+                themselves.
               </small>
             </Typography>
           </Box>
 
-          {formstate.name||
+          {formstate.name ||
           formstate.phoneNumber.length > 3 ||
           formstate.email ? (
             <Box sx={{ flex: "1" }}>

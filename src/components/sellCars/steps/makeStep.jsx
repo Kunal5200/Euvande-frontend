@@ -2,29 +2,31 @@ import { Autocomplete, FormHelperText, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const MakeStep = ({ brand, onBrandChange, model, onModelChange }) => {
-  const carInfo = useSelector((state) => state.CarInformation);
-  const [localSelectedBrand, setLocalSelectedBrand] = useState({
-    id: (carInfo && carInfo.make && carInfo.make.id) || "",
-    makeName: (carInfo && carInfo.make && carInfo.make.makeName) || "",
-  });
-  const [localSelectedModel, setLocalSelectedModel] = useState({
-    id: (carInfo && carInfo.model && carInfo.model.id) || "",
-    modelName: (carInfo && carInfo.model && carInfo.model.modelName) || "",
-  });
+const MakeStep = ({
+  brand,
+  onBrandChange,
+  model,
+  onModelChange,
+  selectedBrand,
+  setSelectedBrand,
+  selectedModel,
+  setSelectedModel,
+  carData,
+}) => {
+  // const carInfo = useSelector((state) => state.CarInformation);
 
   useEffect(() => {
-    if (carInfo) {
-      setLocalSelectedBrand({
-        id: (carInfo && carInfo.make && carInfo.make.id) || "",
-        makeName: (carInfo && carInfo.make && carInfo.make.makeName) || "",
+    if (carData) {
+      setSelectedBrand({
+        id: (carData && carData.make && carData.make.id) || "",
+        makeName: (carData && carData.make && carData.make.makeName) || "",
       });
-      setLocalSelectedModel({
-        id: (carInfo && carInfo.model && carInfo.model.id) || "",
-        modelName: (carInfo && carInfo.model && carInfo.model.modelName) || "",
+      setSelectedModel({
+        id: (carData && carData.model && carData.model.id) || "",
+        modelName: (carData && carData.model && carData.model.modelName) || "",
       });
     }
-  }, [carInfo]);
+  }, [carData]);
 
   return (
     <div>
@@ -35,7 +37,7 @@ const MakeStep = ({ brand, onBrandChange, model, onModelChange }) => {
             options={brand}
             getOptionLabel={(options) => options.makeName}
             onChange={onBrandChange}
-            value={localSelectedBrand}
+            value={selectedBrand}
             sx={{ fontSize: 12 }}
           />
           <FormHelperText sx={{ fontSize: 12 }}>
@@ -48,7 +50,7 @@ const MakeStep = ({ brand, onBrandChange, model, onModelChange }) => {
             options={model}
             getOptionLabel={(option) => option.modelName}
             onChange={onModelChange}
-            value={localSelectedModel}
+            value={selectedModel}
           />{" "}
           <FormHelperText sx={{ fontSize: 12 }}>
             Select the Model of the Car

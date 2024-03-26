@@ -3,6 +3,10 @@ import React from "react";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 const Tick = ({ activeStep, state }) => {
+  // console.log("activeStep", activeStep);
+
+  // const steps = Object.keys(state).findIndex((key) => !state[key]);
+  // console.log("steps",steps)
   return (
     <div>
       <Box sx={{ flex: "1" }}>
@@ -24,7 +28,7 @@ const Tick = ({ activeStep, state }) => {
             activeStep={activeStep}
             orientation="vertical"
           >
-            <Step active sx={{ pt: 4 }}>
+            <Step active sx={{pt:4}}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
@@ -67,7 +71,7 @@ const Tick = ({ activeStep, state }) => {
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
-                    state.trim && state.periodYear
+                    state.trimLevel && state.period
                       ? CheckCircleRoundedIcon
                       : CancelRoundedIcon;
 
@@ -75,7 +79,8 @@ const Tick = ({ activeStep, state }) => {
                     <StepIcon
                       {...props}
                       sx={{
-                        color: state.trim && state.periodYear ? "green" : "red",
+                        color:
+                          state.trimLevel && state.period ? "green" : "red",
                       }}
                     />
                   );
@@ -102,10 +107,10 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt:10 }} active>
+            <Step sx={{ pt: 10 }} active>
               <StepLabel
                 StepIconComponent={(props) => {
-                  const StepIcon = state.fuel
+                  const StepIcon = state.fuelType
                     ? CheckCircleRoundedIcon
                     : CancelRoundedIcon;
 
@@ -113,8 +118,7 @@ const Tick = ({ activeStep, state }) => {
                     <StepIcon
                       {...props}
                       sx={{
-                        color:
-                          state.vin.length > 16 && state.fuel ? "green" : "red",
+                        color: state.fuelType ? "green" : "red",
                       }}
                     />
                   );
@@ -122,7 +126,7 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt:10 }} active>
+            <Step sx={{ pt: 5 }} active>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.vehicleType
@@ -141,7 +145,7 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{pt:10}} active>
+            <Step sx={{ pt: 14 }} active>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.doors
@@ -158,11 +162,9 @@ const Tick = ({ activeStep, state }) => {
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt:10}}>
+            <Step active sx={{ pt: 5 }}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.driveType4WD
@@ -181,11 +183,11 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent></StepContent>
             </Step>
-            <Step active sx={{ pt:10 }}>
+            <Step active sx={{ pt: 8 }}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
-                    state.power && state.engineDisplacement
+                    state.power && state.displacementL
                       ? CheckCircleRoundedIcon
                       : CancelRoundedIcon;
 
@@ -194,19 +196,15 @@ const Tick = ({ activeStep, state }) => {
                       {...props}
                       sx={{
                         color:
-                          state.power && state.engineDisplacement
-                            ? "green"
-                            : "red",
+                          state.power && state.displacementL ? "green" : "red",
                       }}
                     />
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt:10 }}>
+            <Step active sx={{ pt: 14 }}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.seats
@@ -223,11 +221,9 @@ const Tick = ({ activeStep, state }) => {
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt:10 }}>
+            <Step active sx={{ pt: 5 }}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.mileage
@@ -244,11 +240,9 @@ const Tick = ({ activeStep, state }) => {
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt:10 }}>
+            <Step active sx={{ pt: 10 }}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.interiorMaterial
@@ -265,11 +259,9 @@ const Tick = ({ activeStep, state }) => {
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt:10 }} active>
+            <Step sx={{ pt: 13 }} active>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.vatDeduction
@@ -286,14 +278,12 @@ const Tick = ({ activeStep, state }) => {
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 10 }} active>
+            <Step sx={{ pt: 7 }} active>
               <StepLabel
                 StepIconComponent={(props) => {
-                  const StepIcon = state.originCountry
+                  const StepIcon = state.originOfCar
                     ? CheckCircleRoundedIcon
                     : CancelRoundedIcon;
                   //
@@ -301,15 +291,32 @@ const Tick = ({ activeStep, state }) => {
                     <StepIcon
                       {...props}
                       sx={{
-                        color: state.originofcar ? "green" : "red",
+                        color: state.originOfCar ? "green" : "red",
                       }}
                     />
                   );
                 }}
               ></StepLabel>
-              <StepContent sx={{ display: "none" }}>
-              
-              </StepContent>
+              <StepContent sx={{ display: "none" }}></StepContent>
+            </Step>
+            <Step sx={{ pt: 7 }} active>
+              <StepLabel
+                StepIconComponent={(props) => {
+                  const StepIcon = state.price
+                    ? CheckCircleRoundedIcon
+                    : CancelRoundedIcon;
+                  //
+                  return (
+                    <StepIcon
+                      {...props}
+                      sx={{
+                        color: state.price ? "green" : "red",
+                      }}
+                    />
+                  );
+                }}
+              ></StepLabel>
+              <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
           </Stepper>
         </Box>

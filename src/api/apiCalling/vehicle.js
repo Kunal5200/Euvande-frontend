@@ -5,6 +5,11 @@ import { setVehicleInformation } from "@/redux/reducers/carInformation";
 import { getCars, getSellerPendingCars } from "./listingApi";
 import { hideModal } from "@/redux/reducers/modal";
 import { listingController } from "../listing";
+import {
+  smoothScrollTo,
+  smoothScrollToBottom,
+  smoothScrollToTop,
+} from "@/utils/styles";
 
 export const addCar = ({
   body,
@@ -14,16 +19,37 @@ export const addCar = ({
   setLoading,
   setCarData,
   setEdit,
-  setActiveStep,
+  setState,
+  state,
   activeStep,
+  setActiveStep,
 }) => {
   vehicleController
     .addVehicle(body)
     .then((res) => {
       dispatch(setCarDetails({ ...res.data.data }));
-      // setActiveStep(activeStep + 1);
       setLoading && setLoading(false);
-      getCarDetails({ setCarData, setLoading, carId: res.data.data.id });
+      getCarDetails({
+        setCarData,
+        setLoading,
+        carId: res.data.data.id,
+        setState,
+        state,
+        dispatch,
+      });
+      setActiveStep(activeStep + 1);
+      // smoothScrollToBottom();
+
+      // // Smooth scroll to top after a brief delay
+      // setTimeout(() => {
+      //   smoothScrollToTop();
+      // }, 1000);
+
+      // smoothScrollTo(document.body.scrollHeight, 5000); // Adjust duration as needed
+
+      // setTimeout(() => {
+      //   smoothScrollTo(0, 2000); // Adjust duration as needed
+      // }, 3000); // Adjust delay as needed
       localStorage.setItem("carId", res.data.data.id);
       router && path && router.push(path);
       setEdit && setEdit(false);
@@ -34,6 +60,7 @@ export const addCar = ({
       setLoading && setLoading(false);
     });
 };
+
 export const getCarInfo = ({ data, dispatch }) => {
   vehicleController
     .getCarInfo(data)
@@ -83,13 +110,96 @@ export const addImageUpload = ({ data, router, setLoading }) => {
     });
 };
 
-export const getCarDetails = ({ carId, setCarData, setLoading, dispatch }) => {
+export const getCarDetails = ({
+  carId,
+  setCarData,
+  setLoading,
+  dispatch,
+  setState,
+  state,
+}) => {
   vehicleController
     .getVehicleDetails(carId)
     .then((res) => {
+      const response = res.data.data;
       setCarData(res.data.data);
       setLoading && setLoading(false);
       dispatch && dispatch(setVehicleInformation({ ...res.data.data }));
+      setState &&
+        state &&
+        setState({
+          ...state,
+          vin: (response && response.vin) || "",
+          make: (response && response.make && response.make.id) || "",
+          model: (response && response.model && response.model.id) || "",
+          period: (response && response.period && response.period.id) || "",
+          trimLevel:
+            (response &&
+              response.specification &&
+              response.specification.specificationDetails &&
+              response.specification.specificationDetails.trimLevel) ||
+            "",
+          transmission:
+            (response &&
+              response.specification &&
+              response.specification.transmission) ||
+            "",
+          fuelType:
+            (response && response.variant && response.variant.fuelType) || "",
+          vehicleType:
+            (response &&
+              response.specification &&
+              response.specification.vehicleType) ||
+            (response &&
+              response.specification &&
+              response.specification.specificationDetails &&
+              response.specification.specificationDetails.bodyStyle) ||
+            "",
+          doors:
+            (response &&
+              response.specification &&
+              response.specification.doors) ||
+            "",
+          driveType4WD:
+            (response &&
+              response.specification &&
+              response.specification.driveType4WD) ||
+            "",
+          power:
+            (response &&
+              response.specification &&
+              response.specification.power) ||
+            "",
+          displacementL:
+            (response &&
+              response.specification &&
+              response.specification.specificationDetails &&
+              response.specification.specificationDetails.displacementL) ||
+            "",
+          seats:
+            (response &&
+              response.specification &&
+              response.specification.seats) ||
+            "",
+          mileage: (response && response.odometer) || "",
+          interiorMaterial:
+            (response &&
+              response.specification &&
+              response.specification.interiorMaterial) ||
+            "",
+          vatdeduction:
+            (response &&
+              response.specification &&
+              response.specification.vatDeduction) ||
+            "",
+          originOfCar:
+            (response &&
+              response.specification &&
+              response.specification.specificationDetails &&
+              response.specification.specificationDetails.manufacturedIn) ||
+            "",
+          price: (response && response.price) || "",
+        });
     })
     .catch((error) => {
       console.log(error);

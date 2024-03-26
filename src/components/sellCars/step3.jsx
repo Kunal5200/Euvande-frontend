@@ -323,11 +323,16 @@ const Step3 = () => {
                 <Accordion
                   expanded={photoAccordionOpen}
                   onChange={togglePhotoAccordion}
+                  sx={{
+                    "&": {
+                      boxShadow: "none",
+                    },
+                  }}
                 >
                   {/* <AccordionSummary expandIcon={<ExpandMore />}>
                         <h4 className="mb-2">Vehicle Photo Documentation</h4>
                       </AccordionSummary> */}
-                  <p className="f-12 fw-semibold mt-4">
+                  <p className="f-12 fw-semibold mt-4 p-2">
                     Take photos of the car from all four sides as well as the
                     dashboard and interior equipment, including any damage or
                     wear to the interior and exterior (paint damage, curbed

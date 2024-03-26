@@ -38,7 +38,7 @@ const CreateDemand = () => {
   const user = useSelector((state) => state.userInfo);
 
   useEffect(() => {
-    if (!user.isAuthenticated) {
+    if (!localStorage.getItem("accessToken")) {
       guestLogin();
     }
   }, [user]);
@@ -46,7 +46,7 @@ const CreateDemand = () => {
   return (
     <div>
       <div className={fixed ? styles.fixed_image : styles.image_bg}>
-        <Container style={{ maxWidth: "1300px" }}>
+        <Container style={{ maxWidth: "1320px" }}>
           <ProgressStep
             data={data.carModifySteps}
             activeStep={activeStep}
