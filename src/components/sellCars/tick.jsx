@@ -1,12 +1,48 @@
 import { Box, Step, StepContent, StepLabel, Stepper } from "@mui/material";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-const Tick = ({ activeStep, state }) => {
-  // console.log("activeStep", activeStep);
+import { isVIN } from "@/utils/regex";
+const Tick = ({ activeStep, state, showStep }) => {
+  const [failedStepIndex, setFailedStepIndex] = useState(-1);
+  const [scrollToEnd, setScrollToEnd] = useState(true);
+  const lastStepRef = useRef(null);
+  const firstStepRef = useRef(null);
 
-  // const steps = Object.keys(state).findIndex((key) => !state[key]);
-  // console.log("steps",steps)
+  useEffect(() => {
+    // Check if any step has failed validation
+    const failedStep = Object.keys(state).findIndex((key) => !state[key]);
+    if (failedStep !== -1) {
+      setFailedStepIndex(failedStep);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    // Scroll to the end of the content when the component mounts
+    if (scrollToEnd && lastStepRef.current) {
+      const containerHeight = lastStepRef.current.scrollHeight;
+      lastStepRef.current.scrollTo({
+        top: containerHeight,
+        behavior: "smooth", // or "smooth" for smooth scrolling
+      });
+      setScrollToEnd(false);
+    }
+  }, [scrollToEnd]);
+
+  useEffect(() => {
+    // After a delay, smoothly scroll back to the first step
+    const delay = 3000; // Adjust the delay as needed
+    const timeout = setTimeout(() => {
+      if (firstStepRef.current) {
+        firstStepRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, []);
   return (
     <div>
       <Box sx={{ flex: "1" }}>
@@ -28,7 +64,7 @@ const Tick = ({ activeStep, state }) => {
             activeStep={activeStep}
             orientation="vertical"
           >
-            <Step active sx={{pt:4}}>
+            <Step sx={{ pt: 4 }} ref={firstStepRef}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
@@ -47,7 +83,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent></StepContent>
             </Step>
-            <Step sx={{ pt: 10 }} active>
+            <Step
+              // sx={{ pt: 10 }}
+              // active={isVIN(state.vin) && state.make && state.model}
+              // ref={failedStepIndex === 1 ? failedStepRef : null}
+              sx={{ pt: 10 }}
+              active={showStep}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
@@ -67,7 +109,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 10 }} active>
+            <Step
+              // sx={{ pt: state.make && state.model ? 10 : 2 }}
+              sx={{ pt: showStep ? 10 : 2 }}
+              // active={state.make && state.model}
+              active={showStep}
+              // ref={failedStepIndex === 2 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
@@ -88,7 +136,20 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 10 }} active>
+            <Step
+              sx={{
+                pt: showStep ? 10 : 3,
+              }}
+              active={showStep}
+              // sx={{
+              //   pt:
+              //     (state.period && state.trimLevel) || state.transmission
+              //       ? 10
+              //       : 3,
+              // }}
+              // active={(state.period && state.trimLevel) || state.transmission}
+              // ref={failedStepIndex === 3 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.transmission
@@ -107,7 +168,19 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 10 }} active>
+            <Step
+              sx={{
+                pt: showStep ? 10 : 1,
+              }}
+              active={showStep}
+              // ref={failedStepIndex === 4 ? failedStepRef : null}
+
+              // sx={{
+              //   pt:
+              //     state.transmission || state.fuel || isVIN(state.vin) ? 10 : 1,
+              // }}
+              // active={state.transmission || state.fuel || isVIN(state.vin)}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.fuelType
@@ -126,7 +199,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 5 }} active>
+            <Step
+              // sx={{ pt: isVIN(state.vin) || state.vehicleType ? 5 : 2 }}
+              // active={isVIN(state.vin) || state.vehicleType}
+              sx={{ pt: showStep ? 5 : 2 }}
+              active={showStep}
+              // ref={failedStepIndex === 5 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.vehicleType
@@ -145,7 +224,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 14 }} active>
+            <Step
+              // sx={{ pt: isVIN(state.vin) || state.doors ? 14 : 2 }}
+              // active={isVIN(state.vin) || state.doors}
+              sx={{ pt: showStep ? 14 : 2 }}
+              active={showStep}
+              // ref={failedStepIndex === 6 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.doors
@@ -164,7 +249,14 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt: 5 }}>
+            <Step
+              active={showStep}
+              sx={{ pt: showStep ? 5 : 2 }}
+              // ref={failedStepIndex === 7 ? failedStepRef : null}
+
+              // active={isVIN(state.vin) || state.driveType4WD}
+              // sx={{ pt: isVIN(state.vin) || state.driveType4WD ? 5 : 2 }}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.driveType4WD
@@ -183,7 +275,21 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent></StepContent>
             </Step>
-            <Step active sx={{ pt: 8 }}>
+            <Step
+              active={showStep}
+              sx={{
+                pt: showStep ? 8 : 2,
+              }}
+              // ref={failedStepIndex === 8 ? failedStepRef : null}
+
+              // active={isVIN(state.vin) || state.displacementL || state.power}
+              // sx={{
+              //   pt:
+              //     isVIN(state.vin) || state.displacementL || state.power
+              //       ? 8
+              //       : 2,
+              // }}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
@@ -204,7 +310,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt: 14 }}>
+            <Step
+              // active={isVIN(state.vin) || state.seats}
+              // sx={{ pt: isVIN(state.vin) || state.seats ? 14 : 2 }}
+              active={showStep}
+              sx={{ pt: showStep ? 14 : 2 }}
+              // ref={failedStepIndex === 9 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.seats
@@ -223,7 +335,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt: 5 }}>
+            <Step
+              // active={isVIN(state.vin) || state.mileage}
+              // sx={{ pt: isVIN(state.vin) || state.mileage ? 5 : 1 }}
+              active={showStep}
+              sx={{ pt: showStep ? 5 : 1 }}
+              // ref={failedStepIndex === 10 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.mileage
@@ -242,7 +360,14 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step active sx={{ pt: 10 }}>
+            <Step
+              active={showStep}
+              sx={{ pt: showStep ? 10 : 2 }}
+              // ref={failedStepIndex === 11 ? failedStepRef : null}
+
+              // active={isVIN(state.vin) || state.interiorMaterial}
+              // sx={{ pt: isVIN(state.vin) || state.interiorMaterial ? 10 : 2 }}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.interiorMaterial
@@ -261,7 +386,13 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 13 }} active>
+            <Step
+              // sx={{ pt: isVIN(state.vin) || state.vatDeduction ? 13 : 2 }}
+              // active={isVIN(state.vin) || state.vatDeduction}
+              sx={{ pt: showStep ? 13 : 2 }}
+              active={showStep}
+              // ref={failedStepIndex === 12 ? failedStepRef : null}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.vatDeduction
@@ -280,7 +411,14 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 7 }} active>
+            <Step
+              sx={{ pt: showStep ? 7 : 2 }}
+              active={showStep}
+              // ref={failedStepIndex === 13 ? failedStepRef : null}
+
+              // sx={{ pt: isVIN(state.vin) || state.originOfCar ? 7 : 2 }}
+              // active={isVIN(state.vin) || state.originOfCar}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.originOfCar
@@ -299,7 +437,14 @@ const Tick = ({ activeStep, state }) => {
               ></StepLabel>
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
-            <Step sx={{ pt: 7 }} active>
+            <Step
+              sx={{ pt: showStep ? 10 : 2 }}
+              active={showStep}
+              ref={lastStepRef}
+
+              // sx={{ pt: isVIN(state.vin) || state.price ? 10 : 2 }}
+              // active={isVIN(state.vin) || state.price}
+            >
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon = state.price

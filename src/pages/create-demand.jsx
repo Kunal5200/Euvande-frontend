@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const CreateDemand = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -38,10 +38,11 @@ const CreateDemand = () => {
   const user = useSelector((state) => state.userInfo);
 
   useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
       guestLogin();
     }
-  }, [user]);
+  }, []);
 
   return (
     <div>

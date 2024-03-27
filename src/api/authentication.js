@@ -136,4 +136,15 @@ export const authControllers = {
       throw error;
     }
   },
+  customLogin: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "/api/user/customLogin",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

@@ -27,3 +27,7 @@ export const CarStatus = {
   "Not Available": "Not Available", //maintenance, repairs .etc
   Approved: "Approved",
 };
+export const Verify_BY = {
+  PHONE: "PHONE",
+  EMAIL: "EMAIL",
+};

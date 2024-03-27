@@ -4,6 +4,7 @@ import { setDetails } from "@/redux/reducers/userdetails";
 import { toast } from "react-toastify";
 import { authControllers } from "../authentication";
 import { loggedIn } from "@/redux/reducers/user";
+import { TroubleshootOutlined } from "@mui/icons-material";
 
 export const userRegister = ({
   setLoading,
@@ -167,5 +168,30 @@ export const guestLogin = () => {
     })
     .catch((error) => {
       throw error;
+    });
+};
+
+export const customLoginAndRegister = ({
+  body,
+  showOTPButton,
+  showOTPfield,
+  loading,
+}) => {
+  authControllers
+    .customLogin(body)
+    .then((res) => {
+      // console.log("response", res);
+      toast.success(res.data.message);
+      localStorage.setItem("referenceId", res.data.data.referenceId);
+      showOTPButton(false);
+      showOTPfield(true);
+      loading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      loading(false);
+      // console.log(err);
     });
 };

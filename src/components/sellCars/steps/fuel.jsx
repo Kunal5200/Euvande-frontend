@@ -1,4 +1,11 @@
-import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  FormHelperText,
+  Grid,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -50,6 +57,9 @@ const FuelStep = ({ data, state, setState }) => {
             value={selectedFuelType}
             onChange={fuelTypeHandler}
           />
+          <FormHelperText sx={{ fontSize: 12 }}>
+            Select Fuel Type of the Car
+          </FormHelperText>
         </Grid>
       </Grid>
     </div>

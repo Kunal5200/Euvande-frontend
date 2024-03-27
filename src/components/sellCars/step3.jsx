@@ -2,7 +2,13 @@ import { vehicleController } from "@/api/addVehicle";
 import { getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import ImageUpload from "@/components/imageUpload";
-import { ExpandMore } from "@mui/icons-material";
+import {
+  Close,
+  ExpandMore,
+  Upload,
+  UploadFile,
+  VideoCall,
+} from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -12,6 +18,10 @@ import {
   Container,
   Divider,
   Grid,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
 } from "@mui/material";
 // import ReactPlayer from "react-player";
 import VideoUpload from "../video";
@@ -20,6 +30,10 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import TabPanel from "../tabPanel";
+import ReactPlayer from "react-player";
+import Loading from "react-loading";
+import MyDropzone from "./videoUpload";
 const Step3 = () => {
   const inputRefs = useRef({});
   const dispatch = useDispatch();
@@ -63,6 +77,10 @@ const Step3 = () => {
     setPhotoAccordionOpen(!photoAccordionOpen);
     setVideoAccordionOpen(false);
   };
+  const removeVideo = () => {
+    setVideoFile(null);
+    setThumbnail(null);
+  };
 
   const toggleVideoAccordion = () => {
     setVideoAccordionOpen(!videoAccordionOpen);
@@ -101,14 +119,11 @@ const Step3 = () => {
       generateThumbnail(file);
     } catch (error) {
       console.log(error);
-      // Handle errors
-      // console.error(`${id} upload failed:`, error);
     }
   };
 
   const generateThumbnail = (videoFile) => {
     console.log("Thumbnil", videoFile);
-    // const reader = new FileReader();
 
     const video = document.createElement("video");
     video.setAttribute("crossOrigin", "anonymous");
@@ -132,6 +147,11 @@ const Step3 = () => {
       console.error("Error loading video:", error);
       setThumbnailLoading(false);
     };
+  };
+  const [value, setValue] = useState(0);
+
+  const photoUploadHandler = (e, newValue) => {
+    setValue(newValue);
   };
 
   useEffect(() => {}, [videoFile]);
@@ -180,12 +200,11 @@ const Step3 = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    const isAtLeastOneImageUploaded = Object.values(state).some(
+    const allImagesUploaded = Object.values(state).every(
       (image) => image !== null
     );
-    if (!isAtLeastOneImageUploaded) {
-      // Notify the user to upload at least one image
-      toast.error("Please upload at least one image before submitting.");
+    if (!allImagesUploaded) {
+      toast.error("Please upload all images before submitting.");
       return;
     } else {
       setLoading(true);
@@ -292,34 +311,34 @@ const Step3 = () => {
       <Head>
         <title>Upload Photos-car</title>
       </Head>
-      <Container sx={{ my: 5 }}>
-        {/* <Grid container spacing={4}> */}
+      <Container sx={{ my: 5 }} style={{ maxWidth: 1325 }}>
         <Grid item lg={12}>
-          {/* <LinkTab /> */}
           <form onSubmit={submitHandler}>
-            {/* <Card className=" py-3"> */}
             <div>
-              <Button
-                onClick={togglePhotoAccordion}
-                style={{
-                  backgroundColor: photoAccordionOpen ? "black" : "inherit",
-                  color: photoAccordionOpen ? "White" : "black",
+              <Tabs
+                sx={{
+                  borderBottom: "1px solid #eee",
+                  "& .Mui-selected": {
+                    color: "#000 !important",
+                    borderBottom: "2px solid #000",
+                    fontWeight: 550,
+                  },
                 }}
+                value={value}
+                onChange={photoUploadHandler}
               >
-                Vehicle Photo Documentation
-              </Button>
-              <Button
-                onClick={toggleVideoAccordion}
-                style={{
-                  backgroundColor: videoAccordionOpen ? "black" : "inherit",
-                  color: videoAccordionOpen ? "white" : "black",
-                }}
-              >
-                Vehicle Video Documentation
-              </Button>
-
-              {/* Photo accordion */}
-              {photoAccordionOpen && (
+                <Tab
+                  label="Upload Image"
+                  icon={<UploadFile />}
+                  iconPosition="end"
+                />
+                <Tab
+                  label="Upload Video"
+                  icon={<VideoCall />}
+                  iconPosition="end"
+                />
+              </Tabs>
+              <TabPanel value={value} index={0}>
                 <Accordion
                   expanded={photoAccordionOpen}
                   onChange={togglePhotoAccordion}
@@ -329,9 +348,6 @@ const Step3 = () => {
                     },
                   }}
                 >
-                  {/* <AccordionSummary expandIcon={<ExpandMore />}>
-                        <h4 className="mb-2">Vehicle Photo Documentation</h4>
-                      </AccordionSummary> */}
                   <p className="f-12 fw-semibold mt-4 p-2">
                     Take photos of the car from all four sides as well as the
                     dashboard and interior equipment, including any damage or
@@ -339,12 +355,7 @@ const Step3 = () => {
                     rims, cracks, etc.).
                   </p>
                   <AccordionDetails>
-                    {/* Your photo upload component goes here */}
-                    {/* <Divider style={{ backgroundColor: "#000" }} /> */}
-                    <Accordion
-                      defaultExpanded={true}
-                      //  expanded={photoAccordionOpen} onChange={togglePhotoAccordion}
-                    >
+                    <Accordion defaultExpanded={true}>
                       <AccordionSummary expandIcon={<ExpandMore />}>
                         <h4 className="mb-2">Exterior</h4>
                       </AccordionSummary>
@@ -388,37 +399,73 @@ const Step3 = () => {
                     </Accordion>
                   </AccordionDetails>
                 </Accordion>
-              )}
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <p className="f-12 fw-semibold mt-4 p-2">
+                  Comprehensive Car Showcase: Explore Every Detail Inside and
+                  Out with 360-Degree Video!
+                </p>
+                <Card sx={{ p: 2 }}>
+                  {/* {videoFile ? (
+                    <Typography sx={{ color: "#000" }}>
+                      {videoFile.name}
+                    </Typography>
+                  ) : (
+                    <VideoUpload handleVideoUpload={handleVideoUpload} />
+                  )} */}
 
-              {/* Video accordion */}
-              {videoAccordionOpen && (
-                <Accordion
+                  <Grid container>
+                    <Grid item lg={8}>
+                      <MyDropzone />
+                      {/* {thumbnailLoading ? (
+                        <Loading type="" />
+                      ) : (
+                        videoFile && (
+                          <>
+                            <ReactPlayer
+                              className="react-player mt-3"
+                              url={URL.createObjectURL(videoFile)}
+                              controls={true}
+                              width="100%"
+                              height="100%"
+                              style={{ borderRadius: 8 }}
+                            />
+                            <Close
+                              sx={{
+                                position: "absolute",
+                                right: 10,
+                                top: 10,
+                                cursor: "pointer",
+                              }}
+                              onClick={removeVideo}
+                            />
+                          </>
+                        )
+                      )} */}
+                    </Grid>
+                  </Grid>
+                </Card>
+                {/* <Accordion
                   expanded={videoAccordionOpen}
                   onChange={toggleVideoAccordion}
+                  sx={{ mt: 3, py: 3 }}
                 >
                   <AccordionDetails>
                     <div className="mt-3">
                       <Container>
                         <Grid container spacing={2} sx={{ display: "flex" }}>
                           <Grid item xs={6} sx={{ flex: "3", marginRight: 0 }}>
-                            <VideoUpload
-                              handleVideoUpload={handleVideoUpload}
-                            />
+                            {videoFile ? (
+                              <Typography sx={{ color: "#000" }}>
+                                {videoFile.name}
+                              </Typography>
+                            ) : (
+                              <VideoUpload
+                                handleVideoUpload={handleVideoUpload}
+                              />
+                            )}
                           </Grid>
                           <Grid item sx={{ marginLeft: 5, flex: "3" }}>
-                            {/* {thumbnailLoading ? (
-                                <p>Loading thumbnail...</p>
-                              ) : (
-                                thumbnail && (
-                                  <img
-                                    src={thumbnail}
-                                    width={150}
-                                    height={150}
-                                    alt="Thumbnail"
-                                  />
-                                )
-                              )} */}
-
                             {thumbnailLoading ? (
                               <p
                                 className="text-center"
@@ -427,101 +474,37 @@ const Step3 = () => {
                                 Loading video...
                               </p>
                             ) : (
-                              // videoResponse
                               videoFile && (
-                                <ReactPlayer
-                                  className="react-player mt-3"
-                                  // url={URL.createObjectURL(videoResponse)}
-                                  url={URL.createObjectURL(videoFile)}
-                                  controls={true}
-                                  width="70%"
-                                  height="80%"
-                                />
+                                <>
+                                  <ReactPlayer
+                                    className="react-player mt-3"
+                                    url={URL.createObjectURL(videoFile)}
+                                    controls={true}
+                                    width="100%"
+                                    height="90%"
+                                  />
+                                  <Close
+                                    sx={{
+                                      position: "absolute",
+                                      right: 10,
+                                      top: 10,
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={removeVideo}
+                                  />
+                                </>
                               )
                             )}
                           </Grid>
-
-                          {/* <Grid item xs={6} >
-                              {console.log("Thumbnail:", thumbnail)}
-                              {thumbnail && (
-        <img src={thumbnail} width={150} height={150} alt="Thumbnail" />
-      )}
-                              </Grid> */}
                         </Grid>
-                        {/* ............................Second Video.............. */}
-                        {/* <Grid container spacing={2} sx={{ display: "flex" }}>
-                            <Grid
-                              item
-                              xs={6}
-                              sx={{ flex: "3", marginRight: 0 }}
-                            >
-                              <VideoUpload
-                                handleVideoUpload={handleVideoUpload}
-                              />
-                            </Grid>
-                            <Grid item  sx={{ marginLeft: 5, flex: "3" }}>
-                              {thumbnailLoading ? (
-                                <p className="text-center" style={{color:"white",background:"black"}}>Loading video...</p>
-                              ) : (
-                                // videoResponse
-                                videoFile && (
-                                  <ReactPlayer
-                                    className="react-player mt-3"
-                                    // url={URL.createObjectURL(videoResponse)}
-                                    url={URL.createObjectURL(videoFile)}
-                                    controls={true}
-                                    width="70%"
-                                    height="80%"
-                                  />
-                                )
-                              )}  
-                            </Grid>
-                          </Grid> */}
-                        {/* .......................Third Video................... */}
-                        {/* <Grid container spacing={2} sx={{ display: "flex" }}>
-                            <Grid
-                              item
-                              xs={6}
-                              sx={{ flex: "3", marginRight: 0 }}
-                            >
-                              <VideoUpload
-                                handleVideoUpload={handleVideoUpload}
-                              />
-                            </Grid>
-                            <Grid item  sx={{ marginLeft: 5, flex: "3" }}>
-                              {thumbnailLoading ? (
-                                <p className="text-center" style={{color:"white",background:"black"}}>Loading video...</p>
-                              ) : (
-                                // videoResponse
-                                videoFile && (
-                                  <ReactPlayer
-                                    className="react-player mt-3"
-                                    // url={URL.createObjectURL(videoResponse)}
-                                    url={URL.createObjectURL(videoFile)}
-                                    controls={true}
-                                    width="70%"
-                                    height="80%"
-                                  />
-                                )
-                              )}  
-                            </Grid>
-                          </Grid> */}
                       </Container>
                     </div>
                   </AccordionDetails>
-                </Accordion>
-              )}
+                </Accordion> */}
+              </TabPanel>
             </div>
-            {/* ................................ */}
-            {/* </Card> */}
           </form>
         </Grid>
-        {/* <Grid item lg={4}>
-            {carData && (
-              <AddCarDetails data={carData} loading={carDataLoading} />
-            )}
-          </Grid> */}
-        {/* </Grid> */}
       </Container>
     </div>
   );

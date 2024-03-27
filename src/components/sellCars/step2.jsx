@@ -1,96 +1,139 @@
-import { countries } from "@/assests/country";
+import { customLoginAndRegister } from "@/api/apiCalling/authenticationApi";
+import { Verify_BY } from "@/utils/enum";
+import { isEmail } from "@/utils/regex";
+import { loginTextField } from "@/utils/styles";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import {
-  Autocomplete,
   Box,
   Button,
   Card,
   Container,
   Grid,
   Stack,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
   TextField,
   Typography,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  FormControl,
 } from "@mui/material";
-import { Clear } from "@mui/icons-material";
-import { useEffect } from "react";
-import DoneIcon from "@mui/icons-material/Done";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import ClearIcon from "@mui/icons-material/Clear";
-import { Done } from "@mui/icons-material";
-import { MuiTelInput } from "mui-tel-input";
-import React from "react";
-import { ButtonBase } from "@mui/material";
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 // import CheckIcon from "@material-ui/icons/Check";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Loading from "react-loading";
 import { toast } from "react-toastify";
+import CarInfo from "./carInfo";
+import { getCarDetailsById } from "@/api/apiCalling/listingApi";
+import { getCarDetails } from "@/api/apiCalling/vehicle";
+import { useDispatch } from "react-redux";
 
 const Step2 = ({ handleNext, handlePrev }) => {
-  const [formstate, setFormstate] = useState({
+  const [state, setState] = useState({
     name: "",
     phoneNumber: "",
     email: "",
-    otp: "",
-    otp_email: "",
+    countryCode: "",
   });
-  const [showFirstButton, setShowFirstButton] = useState(true);
-  const [showSecondButton, setShowSecondButton] = useState(false);
-  const [showemailButton, setShowemailButton] = useState(true);
-  const [showemailtwoButton, setShowemailtwoButton] = useState(false);
-  const [showStepper, setShowStepper] = useState(false);
-
+  const dispatch = useDispatch();
+  const [showGetOtpButtonPhone, setShowGetOtpButtonPhone] = useState(false);
+  const [showphoneOTPField, setShowPhoneOTPField] = useState(false);
+  const [showGetOtpButtonEmail, setShowOtpButtonEmail] = useState(false);
+  const [showEmailOTPField, setShowEmailOTPField] = useState(false);
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    console.log("check", e.target);
-    setFormstate({ ...formstate, [id]: value });
-    console.log("FormData is", formstate);
+    setState({ ...state, [id]: value });
+    if (id === "email") {
+      if (isEmail(value)) {
+        setShowOtpButtonEmail(true);
+      } else {
+        setShowOtpButtonEmail(false);
+      }
+    }
+  };
+  const [phone, setPhone] = useState("");
+  const handleInputPhone = (newValue, countryData) => {
+    setPhone(newValue);
+    const validPhone = matchIsValidTel(newValue);
 
-    if (!formstate.name) {
-      // toast.error("Name is Empty");
-    } else if (!formstate.phoneNumber) {
-      // toast.error("Phone Number is Empty");
+    setState({
+      ...state,
+      phoneNumber: countryData.nationalNumber,
+      countryCode: countryData.countryCallingCode,
+    });
+    if (validPhone) {
+      setShowGetOtpButtonPhone(true);
+    } else {
+      setShowGetOtpButtonPhone(false);
+    }
+  };
+  const [OTPPhoneLoading, setOTPPhoneLoading] = useState(false);
+  const mobileOTP = () => {
+    if (state.phoneNumber === "" || state.countryCode === "") {
+      toast.error("Please Enter Valid Phone Number");
+      return false;
+    } else {
+      setOTPPhoneLoading(true);
+      let body = {
+        phoneNo: state.phoneNumber,
+        name: state.name,
+        countryCode: state.countryCode,
+        verifyBy: Verify_BY.PHONE,
+      };
+      customLoginAndRegister({
+        body,
+        showOTPButton: setShowGetOtpButtonPhone,
+        showOTPfield: setShowPhoneOTPField,
+        loading: setOTPPhoneLoading,
+      });
+    }
+  };
+  const [OTPEmailLoading, setOTPEmailLoading] = useState(false);
+  const getEmailOTP = () => {
+    if (state.email === "" && !isEmail(state.email) && state.name === "") {
+      toast.error("Please Enter Valid email");
+      return true;
+    } else {
+      setOTPEmailLoading(true);
+      let body = {
+        email: state.email,
+        name: state.name,
+      };
+      customLoginAndRegister({
+        body,
+        showOTPButton: setShowOtpButtonEmail,
+        showOTPfield: setShowEmailOTPField,
+        loading: setOTPEmailLoading,
+      });
     }
   };
 
-  const handleInputPhone = (value) => {
-    console.log("Phone input value is", value);
-    setFormstate({ ...formstate, phoneNumber: value });
-    if (formstate.name || formstate.phoneNumber || formstate.email) {
-      setShowStepper(true);
+  const [phoneOTP, setPhoneOTP] = useState("");
+  const phoneOtpHandler = (e) => {
+    const inputValue = e.target.value;
+    const numericRegex = /^[0-9]*$/;
+
+    if (!numericRegex.test(inputValue)) {
+      console.log("alphabets");
+      return;
     }
-    if (!formstate.email) {
-      // toast.error("Email is empty");
-    } else if (!/\S+@\S+\.\S+/.test(formstate.email)) {
-      // toast.error("Email is not valid");
+
+    // Update state with numeric value
+    setPhoneOTP(inputValue);
+  };
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const carId = localStorage.getItem("carId");
+    if (carId) {
+      getCarDetails({ carId, setCarData, setLoading, dispatch });
     }
-  };
-
-  const handleFirstButtonClick = () => {
-    setShowFirstButton(false);
-    setShowSecondButton(true);
-  };
-
-  const handleSecondButtonClick = () => {
-    setShowFirstButton(false);
-    setShowSecondButton(false);
-  };
-
-  const handleEmailButtonClick = () => {
-    setShowemailButton(false);
-    setShowemailtwoButton(true);
-  };
-
-  const handleEmailVerifyButtonClick = () => {
-    setShowemailButton(false);
-    setShowemailtwoButton(false);
-  };
+  }, []);
 
   return (
-    <Container style={{ maxWidth: 1350 }}>
+    <Container style={{ maxWidth: 1310 }}>
+      <CarInfo data={carData} loading={loading} />
       <Card sx={{ p: 2 }}>
         <Typography sx={{ fontWeight: 550, fontSize: 25 }}>
           Personal Information
@@ -103,536 +146,278 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   label="Name*"
                   id="name"
                   fullWidth
-                  value={formstate.name}
+                  value={state.name}
                   onChange={handleInputChange}
+                  sx={loginTextField}
+                  helperText="Enter Full Name"
                 />
               </Grid>
             </Grid>
 
             {/* .................................PhoneNumber................................... */}
 
-            <Box sx={{ display: "flex" }}>
-              <Box sx={{ flex: "1", marginRight: 0 }}>
-                {formstate.phoneNumber || formstate.otp ? (
-                  <Grid container spacing={6}>
-                    <Grid item lg={10}>
-                      <MuiTelInput
-                        label="Phone Number*"
-                        continents={["EU"]}
-                        defaultCountry="DE"
-                        id="phoneNumber"
-                        onChange={(value) => handleInputPhone(value)}
-                        value={formstate.phoneNumber}
-                        fullWidth
-                      />
-                    </Grid>
-                  </Grid>
-                ) : (
-                  <Grid container spacing={2}>
-                    <Grid item lg={5}>
-                      <MuiTelInput
-                        label="Phone Number*"
-                        continents={["EU"]}
-                        defaultCountry="DE"
-                        id="phoneNumber"
-                        onChange={(value) => handleInputPhone(value)}
-                        value={formstate.phoneNumber}
-                        fullWidth
-                       
-                      />
-                    </Grid>
-                  </Grid>
-                )}
-              </Box>
-
-              {formstate.phoneNumber && showFirstButton && (
-                <Box sx={{ flex: "1" }}>
+            <Grid container spacing={3} alignItems={"center"} mb={2}>
+              <Grid item lg={5}>
+                <MuiTelInput
+                  label="Phone Number*"
+                  continents={["EU"]}
+                  defaultCountry="DE"
+                  id="phoneNumber"
+                  onChange={handleInputPhone}
+                  value={phone}
+                  fullWidth
+                  sx={loginTextField}
+                  disabled={showphoneOTPField}
+                  helperText="Enter valid phone number"
+                />
+              </Grid>
+              {showGetOtpButtonPhone && (
+                <Grid item lg={3}>
                   <Button
-                    style={{
+                    sx={{
+                      border: "1px solid #000",
+                      p: 1.8,
                       color: "#000",
+                      width: 100,
+                      mb: 3,
                     }}
-                    className="mt-1 p-2"
-                    onClick={handleFirstButtonClick}
+                    onClick={mobileOTP}
+                    disabled={OTPPhoneLoading}
                   >
-                    Verify
-                  </Button>
-                </Box>
-              )}
-
-              {!showFirstButton && (
-                <Box sx={{ flex: "1", marginLeft: 0 }}>
-                  <Box sx={{ display: "flex" }}>
-                    <TextField
-                      sx={{ flex: "1" }}
-                      label="OTP"
-                      fullWidth
-                      value={formstate.otp}
-                      id="otp"
-                      onChange={handleInputChange}
-                    />
-
-                    <Box sx={{ flex: "4" }}>
-                      <Button
-                        style={{
-                          color: "#000",
-                        }}
-                        className="ms-1  p-2"
-                        onClick={handleSecondButtonClick}
-                      >
-                        Verify
-                      </Button>
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-            </Box>
-
-            {/* ..................................Email................................... */}
-
-            <Box sx={{ display: "flex" }}>
-              <Box sx={{ flex: "1", marginRight: 0 }}>
-                {formstate.email || formstate.otp_email ? (
-                  <Grid container spacing={6}>
-                    <Grid item lg={10} sx={{ marginTop: 2 }}>
-                      <TextField
-                        label="Email*"
-                        id="email"
-                        value={formstate.email}
-                        fullWidth
-                        onChange={handleInputChange}
+                    {OTPPhoneLoading ? (
+                      <Loading
+                        type="bars"
+                        color="#000"
+                        width={20}
+                        height={20}
+                        className="m-auto"
                       />
-                    </Grid>
-                  </Grid>
-                ) : (
-                  <Grid container spacing={2}>
-                    <Grid item lg={5} sx={{ marginTop: 2 }}>
-                      <TextField
-                        label="Email*"
-                        id="email"
-                        value={formstate.email}
-                        fullWidth
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                  </Grid>
-                )}
-              </Box>
-
-              {formstate.email && showemailButton && (
-                <Box sx={{ flex: "1", marginTop: 1 }}>
-                  <Button
-                    style={{
-                      color: "#000",
-                    }}
-                    className=" mt-2 p-2"
-                    onClick={handleEmailButtonClick}
-                  >
-                    Verify
+                    ) : (
+                      "Get OTP"
+                    )}
                   </Button>
-                </Box>
+                </Grid>
               )}
-
-              {!showemailButton && (
-                <Box sx={{ flex: "1", marginLeft: 0, marginTop: 2 }}>
-                  <Box sx={{ display: "flex" }}>
+              {showphoneOTPField && (
+                <>
+                  <Grid item lg={3}>
                     <TextField
-                      sx={{
-                        flex: "1",
-
-                        "& .MuiInputBase-root": {
-                          border: "none",
-                          boxShadow: "none",
-                          padding: "0",
-                          // Adjust padding as needed
-                        },
-                        "& .MuiInputLabel-root": {
-                          color: "gray",
-                        },
+                      label="Enter OTP"
+                      //   type="number"
+                      sx={loginTextField}
+                      onChange={phoneOtpHandler}
+                      inputProps={{
+                        maxLength: 6,
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
                       }}
-                      label="OTP"
-                      fullWidth
-                      value={formstate.otp_email}
-                      padding="0"
-                      id="otp_email"
-                      onChange={handleInputChange}
-
-                      // InputProps={{
-                      //   endAdornment:
-                      //     formstate.otp_email.length === 6 ? (
-                      //       <DoneIcon style={{ color: "green" }} />
-                      //     ) : (
-                      //       <ClearIcon style={{ color: "red" }} />
-                      //     ),
-                      // }}
                     />
-
-                    <Box sx={{ flex: "4" }}>
-                      <Button
-                        // variant="outlined"
-                        style={{
-                          color: "#000",
-                          // border: "1px solid #000",
-                          // borderRadius: 5,
-                        }}
-                        className="ms-1 p-2"
-                        onClick={handleEmailVerifyButtonClick}
-                      >
-                        Verify
-                      </Button>
-                    </Box>
-                  </Box>
-                </Box>
+                  </Grid>
+                  <Grid item lg={2}>
+                    <Button
+                      sx={{ border: "1px solid #000", p: 2, color: "#000" }}
+                    >
+                      Verify
+                    </Button>
+                  </Grid>
+                </>
               )}
-            </Box>
-            <Typography sx={{ fontWeight: 350, fontSize: 16, paddingTop: 2 }}>
+            </Grid>
+
+            <Grid container spacing={3} alignItems={"center"}>
+              <Grid item lg={5}>
+                <TextField
+                  label="Email*"
+                  id="email"
+                  value={state.email}
+                  fullWidth
+                  onChange={handleInputChange}
+                  helperText="Enter Email Address"
+                  sx={loginTextField}
+                />
+              </Grid>
+              {showGetOtpButtonEmail && (
+                <Grid item lg={3}>
+                  <Button
+                    sx={{
+                      border: "1px solid #000",
+                      width: 100,
+                      mb: 3,
+                      p: 1.8,
+                      color: "#000",
+                    }}
+                    loading={OTPEmailLoading}
+                    onClick={getEmailOTP}
+                  >
+                    {OTPEmailLoading ? (
+                      <Loading
+                        type="bars"
+                        width={20}
+                        height={20}
+                        className="m-auto"
+                        color="#000"
+                      />
+                    ) : (
+                      "Get OTP"
+                    )}
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+
+            {/* <Typography sx={{ fontWeight: 350, fontSize: 16, paddingTop: 2 }}>
               <b>Note:</b>{" "}
               <small>
                 We'll get in touch with you if the user doesn't verify
                 themselves.
               </small>
-            </Typography>
+            </Typography> */}
           </Box>
 
-          {formstate.name ||
-          formstate.phoneNumber.length > 3 ||
-          formstate.email ? (
-            <Box sx={{ flex: "1" }}>
-              <Box sx={{ p: 5 }}>
-                <Stepper
-                  sx={{
-                    "& .MuiStepLabel-label": {
-                      fontSize: 12,
-                      fontWeight: 600,
-                      textTransform: "uppercase",
-                    },
-                    "& .MuiStepIcon-root.Mui-active": {
-                      color: "#ff0000",
-                    },
-                    "& .MuiStepIcon-root.Mui-completed": {
-                      color: "#008000",
-                    },
-                  }}
-                  orientation="vertical"
-                >
-                  <Step>
-                    <StepLabel
-                      StepIconComponent={(props) => {
-                        const StepIcon = formstate.name
+          <Box sx={{ flex: "1" }}>
+            <Box sx={{ p: 5 }}>
+              <Stepper
+                sx={{
+                  "& .MuiStepLabel-label": {
+                    fontSize: 12,
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                  },
+                  "& .MuiStepIcon-root.Mui-active": {
+                    color: "#ff0000",
+                  },
+                  "& .MuiStepIcon-root.Mui-completed": {
+                    color: "#008000",
+                  },
+                }}
+                orientation="vertical"
+              >
+                <Step sx={{ pb: 2 }}>
+                  <StepLabel
+                    StepIconComponent={(props) => {
+                      const StepIcon = state.name
+                        ? CheckCircleRoundedIcon
+                        : CancelRoundedIcon;
+                      return (
+                        <StepIcon
+                          {...props}
+                          sx={{
+                            color: state.name ? "green" : "red",
+                          }}
+                        />
+                      );
+                    }}
+                  ></StepLabel>
+                  <StepContent sx={{ display: "none" }}>
+                    <TextField
+                      label="Name*"
+                      id="name"
+                      fullWidth
+                      value={state.name}
+                      onChange={handleInputChange}
+                    />
+                  </StepContent>
+                </Step>
+                <Step sx={{ pb: 3 }}>
+                  <StepLabel
+                    StepIconComponent={(props) => {
+                      const StepIcon =
+                        state.phoneNumber && state.otp
                           ? CheckCircleRoundedIcon
                           : CancelRoundedIcon;
-                        return (
-                          <StepIcon
-                            {...props}
-                            sx={{
-                              color: formstate.name ? "green" : "red",
-                            }}
-                          />
-                        );
-                      }}
-                    ></StepLabel>
-                    <StepContent sx={{ display: "none" }}>
-                      <TextField
-                        label="Name*"
-                        id="name"
-                        fullWidth
-                        value={formstate.name}
-                        onChange={handleInputChange}
-                      />
-                    </StepContent>
-                  </Step>
-                  <Step>
-                    <StepLabel
-                      StepIconComponent={(props) => {
-                        const StepIcon =
-                          formstate.phoneNumber && formstate.otp
-                            ? CheckCircleRoundedIcon
-                            : CancelRoundedIcon;
-                        return (
-                          <StepIcon
-                            {...props}
-                            sx={{
-                              color:
-                                formstate.phoneNumber && formstate.otp
-                                  ? "green"
-                                  : "red",
-                            }}
-                          />
-                        );
-                      }}
-                    ></StepLabel>
-                    <StepContent sx={{ display: "none" }}>
-                      <MuiTelInput
-                        label="Phone Number*"
-                        continents={["EU"]}
-                        defaultCountry="DE"
-                        id="phoneNumber"
-                        onChange={(value) => handleInputPhone(value)}
-                        value={formstate.phoneNumber}
-                        fullWidth
-                      />
-                    </StepContent>
-                  </Step>
-                  <Step>
-                    <StepLabel
-                      StepIconComponent={(props) => {
-                        const StepIcon =
-                          formstate.email && formstate.otp_email
-                            ? CheckCircleRoundedIcon
-                            : CancelRoundedIcon;
-                        return (
-                          <StepIcon
-                            {...props}
-                            sx={{
-                              color:
-                                formstate.email && formstate.otp_email
-                                  ? "green"
-                                  : "red",
-                            }}
-                          />
-                        );
-                      }}
-                    ></StepLabel>
-                    <StepContent sx={{ display: "none" }}>
-                      <TextField
-                        label="Email*"
-                        id="email"
-                        value={formstate.email}
-                        fullWidth
-                        onChange={handleInputChange}
-                      />
-                    </StepContent>
-                  </Step>
-                </Stepper>
-              </Box>
-            </Box>
-          ) : (
-            <Box sx={{ flex: "1" }}></Box>
-          )}
-          {/* ................................................................ */}
-          {/* <Box sx={{ flex: "1" }}>
-                <Box sx={{ p: 5 }}>
-                  <Stepper
-                    sx={{
-                      "& .MuiStepLabel-label": {
-                        fontSize: 12,
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                      },
-                      "& .MuiStepIcon-root.Mui-active": {
-                        color: "#ff0000",
-                      },
-                      "& .MuiStepIcon-root.Mui-completed": {
-                        color: "#008000",
-                      },
+                      return (
+                        <StepIcon
+                          {...props}
+                          sx={{
+                            color:
+                              state.phoneNumber && state.otp ? "green" : "red",
+                          }}
+                        />
+                      );
                     }}
-                    // activeStep={activeStep}
-                    orientation="vertical"
-                  >
-      
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                          formstate.name
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                formstate.name
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                      <TextField
-                  label="Name*"
-                  id="name"
-                  // name="name"
-                  fullWidth
-                  value={formstate.name}
-                  onChange={handleInputChange}
-                  // InputProps={{
-                  //   endAdornment:
-                  //     formstate.name.length > 2 ? (
-                  //       <Done style={{ color: "green" }} />
-                  //     ) : null,
-                  // }}
-                />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                          formstate.phoneNumber && formstate.otp
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                formstate.phoneNumber && formstate.otp
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                      <MuiTelInput
-                        label="Phone Number*"
-                        continents={["EU"]}
-                        defaultCountry="DE"
-                        id="phoneNumber"
-                        onChange={(value) => handleInputPhone(value)}
-                        value={formstate.phoneNumber}
-                        fullWidth
-                        // InputProps={{
-                        //   endAdornment:
-                        //     formstate.phoneNumber.length > 12 &&
-                        //     formstate.phoneNumber.length < 14 ? (
-                        //       <Done style={{ color: "green" }} />
-                        //     ) : null,
-                        // }}
-                      />
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepLabel
-                        StepIconComponent={(props) => {
-                          const StepIcon =
-                          formstate.email && formstate.otp_email
-                              ? CheckCircleRoundedIcon
-                              : CancelRoundedIcon;
-                          // state.fuel && state.vin.length > 16
-                          //   ? DoneIcon
-                          //   : ClearIcon;
-                          return (
-                            <StepIcon
-                              {...props}
-                              sx={{
-                                color:
-                                formstate.email && formstate.otp_email
-                                    ? "green"
-                                    : "red",
-                              }}
-                            />
-                          );
-                        }}
-                        // StepIconComponent={StepIcon2}
-                      ></StepLabel>
-                      <StepContent sx={{ display: "none" }}>
-                      <TextField
-                        label="Email*"
-                        id="email"
-                        value={formstate.email}
-                        fullWidth
-                        onChange={handleInputChange}
-                        // InputProps={{
-                        //   endAdornment:
-                        //     formstate.email.length > 6 ? (
-                        //       <Done style={{ color: "green" }} />
-                        //     ) : null,
-                        // }}
-                      />
-                      </StepContent>
-                    </Step>
-                   
-                  </Stepper>
-                </Box>
-              </Box> */}
+                  ></StepLabel>
+                  <StepContent sx={{ display: "none" }}>
+                    <MuiTelInput
+                      label="Phone Number*"
+                      continents={["EU"]}
+                      defaultCountry="DE"
+                      id="phoneNumber"
+                      onChange={(value) => handleInputPhone(value)}
+                      value={state.phoneNumber}
+                      fullWidth
+                    />
+                  </StepContent>
+                </Step>
+                <Step>
+                  <StepLabel
+                    StepIconComponent={(props) => {
+                      const StepIcon =
+                        state.email && state.otp_email
+                          ? CheckCircleRoundedIcon
+                          : CancelRoundedIcon;
+                      return (
+                        <StepIcon
+                          {...props}
+                          sx={{
+                            color:
+                              state.email && state.otp_email ? "green" : "red",
+                          }}
+                        />
+                      );
+                    }}
+                  ></StepLabel>
+                  <StepContent sx={{ display: "none" }}>
+                    <TextField
+                      label="Email*"
+                      id="email"
+                      value={state.email}
+                      fullWidth
+                      onChange={handleInputChange}
+                    />
+                  </StepContent>
+                </Step>
+              </Stepper>
+            </Box>
+          </Box>
         </Box>
-
-        {/* ...............................Country and Postal code.................................. */}
-
-        {/* <Grid container my={1} spacing={2}>
-          <Grid item lg={6}> </Grid> */}
-        {/* <Grid item lg={6}>
-            <Grid container spacing={2}>
-              <Grid item lg={6}>
-                <Autocomplete
-                  options={countries}
-                  renderOption={(props, option) => (
-                    <Box
-                      component="li"
-                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                      {...props}
-                    >
-                      <img
-                        loading="lazy"
-                        width="20"
-                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                        alt=""
-                      />
-                      {option.label} ({option.code}) +{option.phone}
-                    </Box>
-                  )}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select Country*" fullWidth />
-                  )}
-                />
-              </Grid>
-              <Grid item lg={6}>
-                <TextField label="Postal Code*" fullWidth />
-              </Grid>
-            </Grid>
-          </Grid> */}
-        {/* <Grid item lg={6}>
-            <TextField label="Address*" id="address" fullWidth />
-          </Grid> */}
-        {/* </Grid> */}
-
-        {/* ......................................Continue and Back Button................................. */}
 
         <Stack
           sx={{ textAlign: "end", mt: 2 }}
           direction={"row"}
           alignItems={"center"}
           spacing={2}
-          justifyContent={"end"}
+          justifyContent={"space-between"}
         >
           <Button
             sx={{
-              border: "1px solid #000",
               backgroundColor: "transparent",
-              width: 200,
               color: "#000",
               borderRadius: 2,
               p: 2,
+              ":hover": {
+                textDecoration: "underline",
+              },
             }}
             onClick={handlePrev}
           >
-            Back
+            <ChevronLeft /> Back
           </Button>
           <Button
             sx={{
               border: "1px solid #000",
-              backgroundColor: "transparent",
-              width: 200,
-              color: "#000",
+              backgroundColor: "#000",
+              width: 150,
+              color: "#fff",
               borderRadius: 2,
-              p: 2,
+              p: 1.5,
+              ":hover": {
+                backgroundColor: "#000",
+                color: "#fff",
+              },
             }}
             onClick={handleNext}
           >
-            Continue
+            Continue <ChevronRight />
           </Button>
         </Stack>
       </Card>

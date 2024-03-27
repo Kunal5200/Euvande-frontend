@@ -25,56 +25,66 @@ const ImageUpload = (props) => {
               />
               <div
                 style={{
-                  backgroundImage: `url(${
-                    props.imagePreviews[val.id] || val.image
-                  })`,
+                  position: "relative",
                   height: "150px",
                   width: "100%",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  position: "relative",
-                  cursor: "pointer",
                 }}
-                onClick={() => props.inputRefs.current[val.id].click()}
               >
-                {hoveredItemId === val.id && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      backgroundColor: "#fff",
-                      color: "#000",
-                      borderRadius: "50%",
-                      width: "40px",
-                      height: "40px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <span
+                <div
+                  style={{
+                    backgroundImage: `url(${
+                      props.imagePreviews[val.id] || val.image
+                    })`,
+                    height: "150px",
+                    width: "100%",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    position: "relative",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => props.inputRefs.current[val.id].click()}
+                >
+                  {hoveredItemId === val.id && (
+                    <div
                       style={{
-                        cursor: "pointer",
-                        fontSize: "24px",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        backgroundColor: "#fff",
+                        color: "#000",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        textAlign: "center",
                       }}
                     >
-                      +
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <div
-                    className="text-end "
-                    style={{
-                      opacity: 1,
-                      backgroundColor: "#000",
-                      width: "fit-content",
-                      padding: "2px",
-                    }}
-                  >
-                    <p className="f-12 text-white mb-0">{val.label}</p>
-                  </div>
+                      <span
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "24px",
+                        }}
+                      >
+                        +
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div
+                  className="text-end "
+                  style={{
+                    opacity: 1,
+                    backgroundColor: "#0000005e",
+                    width: "100%",
+                    position: "absolute",
+                    bottom: 0,
+                    padding: "2px",
+                  }}
+                >
+                  <p className="f-12 text-white mb-0 text-center">
+                    {val.label}
+                  </p>
                 </div>
               </div>
             </Paper>

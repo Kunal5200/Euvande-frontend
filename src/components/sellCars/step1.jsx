@@ -18,7 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MakeStep from "./steps/makeStep";
 import PeriodStep from "./steps/periodStep";
@@ -41,6 +41,7 @@ import Vat from "./steps/vat";
 import Origin from "./steps/origin";
 import Price from "./steps/price";
 import { setCarDetails } from "@/redux/reducers/vehicleInformation";
+import { ChevronRight } from "@mui/icons-material";
 const Step1 = ({ handleNext }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [state, setState] = useState({
@@ -237,6 +238,7 @@ const Step1 = ({ handleNext }) => {
       });
   }, []);
 
+  const [showStep, setShowStep] = useState(false);
   const decodeVin = () => {
     if (!isVIN(state.vin)) {
       toast.error("Please Enter Valid VIN");
@@ -245,7 +247,7 @@ const Step1 = ({ handleNext }) => {
       setLoading(true);
       let body = {
         vin: state.vin,
-      };
+      };  
       addCar({
         body,
         dispatch,
@@ -255,8 +257,8 @@ const Step1 = ({ handleNext }) => {
         setCarData,
         setState,
         state,
+        setShow: setShowStep,
       });
-      // setState("");
     }
   };
   const [addLoading, setAddLoading] = useState(false);
@@ -301,11 +303,8 @@ const Step1 = ({ handleNext }) => {
         trimLevel: state.trimLevel,
         vatDeduction: state.vatDeduction,
         vehicleType: state.vehicleType,
-        // vin: state.vin,
         id: carInfo && carInfo.id,
       };
-      // toast.info("Completed Information");
-      // addCar({ body, setLoading, dispatch, setCarData });
       vehicleController
         .addVehicle(body)
         .then((res) => {
@@ -325,6 +324,12 @@ const Step1 = ({ handleNext }) => {
       toast.error("Kindly fill out every field.");
     }
   };
+
+  useEffect(() => {
+    if (carInfo && carInfo.id) {
+      setShowStep(true);
+    }
+  }, [carInfo]);
 
   return (
     <div>
@@ -443,17 +448,13 @@ const Step1 = ({ handleNext }) => {
                           alphanumeric format, typically 17 characters,
                           including both letters and numbers.
                         </FormHelperText>
-                        {/* <Typography
-                          variant="body2"
-                          color={
-                            state.vin.length > 17 ? "error" : "text.primary"
-                          }
-                        >
-                          {state.vin.length}/17
-                        </Typography> */}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin)}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Make and Model</StepLabel>
                       <StepContent>
                         <MakeStep
@@ -470,7 +471,11 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin) && state.make && state.model}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Period and trimLevel</StepLabel>
                       <StepContent>
                         <PeriodStep
@@ -484,7 +489,11 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={state.period && state.trimLevel}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Transmission</StepLabel>
                       <StepContent>
                         {specification && specification.transmission && (
@@ -496,7 +505,11 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={state.transmission || state.fuelType}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Fuel</StepLabel>
                       <StepContent>
                         {specification && specification.fuel && (
@@ -508,7 +521,11 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin) || state.transmission}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Vehicle Type</StepLabel>
                       <StepContent>
                         {specification && specification.vehicleType && (
@@ -520,7 +537,11 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin) || state.vehicleType}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Doors</StepLabel>
                       <StepContent>
                         {specification && specification.doors && (
@@ -532,7 +553,11 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin) || state.driveType4WD}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Drive Type 4x4</StepLabel>
                       <StepContent>
                         {specification && specification.driveType4WD && (
@@ -544,13 +569,23 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={
+                      //   isVIN(state.vin) || state.displacementL || state.power
+                      // }
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Power and Engine displacementL</StepLabel>
                       <StepContent>
                         <Power state={state} setState={setState} />
                       </StepContent>
                     </Step>
-                    <Step active>
+                    <Step
+                      // active={isVIN(state.vin) || state.seats}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Seats</StepLabel>
                       <StepContent>
                         {specification && specification.seats && (
@@ -562,13 +597,21 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin) || state.mileage}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Mileage</StepLabel>
                       <StepContent>
                         <Mileage state={state} setState={setState} />
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      // active={isVIN(state.vin) || state.interiorMaterial}
+                      active={showStep}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Interior Material</StepLabel>
                       <StepContent>
                         {specification && specification.interiorMaterial && (
@@ -580,7 +623,11 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      active={showStep}
+                      // active={isVIN(state.vin) || state.vatDeduction}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Possibility of VAT Deduction</StepLabel>
                       <StepContent>
                         {specification && specification.vatDeduction && (
@@ -592,7 +639,11 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step active sx={{ mb: 2 }}>
+                    <Step
+                      active={showStep}
+                      // active={isVIN(state.vin) || state.originOfCar}
+                      sx={{ mb: 2 }}
+                    >
                       <StepLabel>Country of origin of the car</StepLabel>
                       <StepContent>
                         <Origin
@@ -602,7 +653,10 @@ const Step1 = ({ handleNext }) => {
                         />
                       </StepContent>
                     </Step>
-                    <Step active>
+                    <Step
+                      // active={isVIN(state.vin) || state.price}
+                      active={showStep}
+                    >
                       <StepLabel>Price</StepLabel>
                       <StepContent>
                         <Price state={state} setState={setState} />{" "}
@@ -613,29 +667,36 @@ const Step1 = ({ handleNext }) => {
               </Box>
               {/* </Card> */}
 
-              <Tick activeStep={activeStep} state={state} />
+              <Tick activeStep={activeStep} state={state} showStep={showStep} />
             </Box>
             <Box sx={{ p: 1, textAlign: "end" }}>
               <Button
                 onClick={addCarInformation}
                 sx={{
-                  color: "#000",
+                  color: "#fff",
                   border: "1px solid #000",
-                  backgroundColor: "transparent",
-                  width: 200,
-                  p: 2,
+                  backgroundColor: "#000",
+                  width: 150,
+                  p: 1.5,
+                  ":hover": {
+                    backgroundColor: "#000",
+                    color: "#fff",
+                  },
                 }}
               >
                 {addLoading ? (
                   <Loading
                     type="bars"
-                    width={30}
-                    height={30}
+                    width={20}
+                    height={20}
                     className="m-auto"
-                    color="#000"
+                    color="#fff"
                   />
                 ) : (
-                  "Continue"
+                  <>
+                    Continue
+                    <ChevronRight />
+                  </>
                 )}
               </Button>
             </Box>

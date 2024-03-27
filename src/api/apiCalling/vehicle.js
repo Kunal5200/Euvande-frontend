@@ -23,6 +23,7 @@ export const addCar = ({
   state,
   activeStep,
   setActiveStep,
+  setShow,
 }) => {
   vehicleController
     .addVehicle(body)
@@ -37,6 +38,7 @@ export const addCar = ({
         state,
         dispatch,
       });
+      setShow && setShow(true);
       setActiveStep(activeStep + 1);
       // smoothScrollToBottom();
 
