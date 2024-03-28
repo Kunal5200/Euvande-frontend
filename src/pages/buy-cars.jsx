@@ -8,6 +8,7 @@ import BoxCar from "@/components/cars-box";
 import Filterbar from "@/components/filter-bar";
 import FilterSection from "@/components/filterSection";
 import { FILTERS } from "@/utils/enum";
+import { scrollToTop } from "@/utils/styles";
 import { Delete } from "@mui/icons-material";
 import {
   Box,
@@ -223,8 +224,11 @@ const BuyCars = () => {
       }
     }
   };
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   return (
-    <Container maxWidth="1400px">
+    <Container style={{ maxWidth: 1325 }}>
       <Head>
         <title>Buy Cars</title>
       </Head>
@@ -237,7 +241,7 @@ const BuyCars = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  p: 3,
+                  p: 2,
                 }}
               >
                 <Typography variant="h6" fontWeight={550}>
@@ -261,7 +265,7 @@ const BuyCars = () => {
               />
             </Card>
           </Grid>
-          <Grid item lg={9} mt={5} p={10}>
+          <Grid item lg={9} mt={5} p={4}>
             <Typography fontSize={30} letterSpacing={1} fontWeight={600}>
               Verified Cars
             </Typography>
@@ -301,6 +305,7 @@ const BuyCars = () => {
                     count={carData && carData.totalDocs}
                     onPageChange={pageChangeHandler}
                     onRowsPerPageChange={rowsChangeHandler}
+                    labelRowsPerPage="Results Displayed : "
                   />
                 </Box>
               )}
@@ -328,6 +333,24 @@ const BuyCars = () => {
                 </Typography>
               )}
             </Box>
+            {!loading && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <TablePagination
+                  rowsPerPage={pageSize}
+                  page={page}
+                  count={carData && carData.totalDocs}
+                  onPageChange={pageChangeHandler}
+                  onRowsPerPageChange={rowsChangeHandler}
+                  labelRowsPerPage="Results Displayed : "
+                />
+              </Box>
+            )}
           </Grid>
         </Grid>
       </Box>

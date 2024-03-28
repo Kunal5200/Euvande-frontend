@@ -385,3 +385,7 @@ export function smoothScrollTo(targetPosition, duration) {
 
   animateScroll();
 }
+
+export const scrollToTop = () => {
+  window.scrollTo(0, 0);
+};

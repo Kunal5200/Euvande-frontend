@@ -1,3 +1,4 @@
+import { loginTextField } from "@/utils/styles";
 import { Autocomplete, FormHelperText, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -35,6 +36,7 @@ const VehicleTypeStep = ({ data, state, setState }) => {
         options={data.vehicleType}
         value={selectedVehicleType}
         onChange={handleVehicleType}
+        sx={loginTextField}
       />
       <FormHelperText sx={{ fontSize: 12 }}>Select Body Type</FormHelperText>
     </div>

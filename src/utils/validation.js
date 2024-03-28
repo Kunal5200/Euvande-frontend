@@ -116,3 +116,23 @@ export const addAddressValidation = ({ state, setError, error }) => {
     return true;
   }
 };
+
+export const validateContactNumber = ({ state, error, setError }) => {
+  if (
+    state.name === "" ||
+    state.phoneNumber === "" ||
+    state.countryCode === "" ||
+    state.email === ""
+  ) {
+    setError({
+      ...error,
+      name: state.name === "" && "Please Enter Name",
+      phoneNumber:
+        state.phoneNumber === "" && "Please Enter Valid Phone Number",
+      email: state.email === "" && "Please Enter Valid Email",
+    });
+    return false;
+  } else {
+    return true;
+  }
+};

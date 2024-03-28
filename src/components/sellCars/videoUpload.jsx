@@ -1,34 +1,17 @@
+import { Box } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import ReactPlayer from "react-player";
 
-const MyDropzone = () => {
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const [uploadCompleted, setUploadCompleted] = useState(false);
-
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    const simulateUpload = () => {
-      return new Promise((resolve, reject) => {
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += 10;
-          setProgress(progress);
-          if (progress >= 100) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 500);
-      });
-    };
-
-    simulateUpload().then(() => {
-      setUploadedFile({ name: file.name, file });
-      setUploadCompleted(true);
-    });
-  }, []);
-
+const MyDropzone = ({
+  uploadedFile,
+  setUploadedFile,
+  onDrop,
+  uploadCompleted,
+  setUploadCompleted,
+  progress,
+  setProgress,
+}) => {
   const removeFile = () => {
     setUploadedFile(null);
     setProgress(0);
@@ -58,9 +41,21 @@ const MyDropzone = () => {
       {uploadedFile && (
         <div style={{ position: "relative" }}>
           <ReactPlayer url={URL.createObjectURL(uploadedFile.file)} controls />
-          <button onClick={removeFile} style={closeButtonStyle}>
-            &times;
-          </button>
+          <Box
+            sx={{
+              border: "1px solid #000",
+              height: 20,
+              width: 20,
+              position: "absolute",
+              top: 0,
+              right: 0,
+              borderBottom: "1px solid #000",
+            }}
+          >
+            <button onClick={removeFile} style={closeButtonStyle}>
+              &times;
+            </button>
+          </Box>
           <p>{uploadedFile.name}</p>
         </div>
       )}

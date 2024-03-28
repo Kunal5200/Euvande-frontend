@@ -3,9 +3,9 @@ import { getCarDetails, getCarInfo } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
 import ImageUpload from "@/components/imageUpload";
 import {
-  Close,
+  ChevronLeft,
+  ChevronRight,
   ExpandMore,
-  Upload,
   UploadFile,
   VideoCall,
 } from "@mui/icons-material";
@@ -16,25 +16,19 @@ import {
   Button,
   Card,
   Container,
-  Divider,
   Grid,
-  Paper,
+  Stack,
   Tab,
   Tabs,
-  Typography,
 } from "@mui/material";
-// import ReactPlayer from "react-player";
-import VideoUpload from "../video";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import TabPanel from "../tabPanel";
-import ReactPlayer from "react-player";
-import Loading from "react-loading";
 import MyDropzone from "./videoUpload";
-const Step3 = () => {
+const Step3 = ({ handleNext, handlePrev }) => {
   const inputRefs = useRef({});
   const dispatch = useDispatch();
   const [carId, setCarId] = useState("");
@@ -69,6 +63,9 @@ const Step3 = () => {
   const [photoAccordionOpen, setPhotoAccordionOpen] = useState(true);
   const [videoAccordionOpen, setVideoAccordionOpen] = useState(false);
   const [videoFile, setVideoFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [videoprogress, setVideoProgress] = useState(0);
+
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailLoading, setThumbnailLoading] = useState(false);
   const [videoResponse, setVideoResponse] = useState(null);
@@ -87,40 +84,30 @@ const Step3 = () => {
     setPhotoAccordionOpen(false);
   };
 
-  const handleVideoUpload = async (e) => {
-    const file = e.target.files[0];
-    console.log(e.target.files[0]);
-    if (file) {
-      setThumbnailLoading(true);
-      setVideoFile(file);
-      generateThumbnail(file);
-    }
+  const [uploadCompleted, setUploadCompleted] = useState(false);
 
-    try {
-      const result = await vehicleController.uploadvideo(
-        file,
-        (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded / progressEvent.total) * 100
-          );
-          setProgress((prevProgress) => ({
-            ...prevProgress,
-            [id]: progress,
-          }));
-        }
-      );
-
-      setVideoResponse(result.data);
-      setProgress((prevProgress) => {
-        const updatedProgress = { ...prevProgress };
-        delete updatedProgress[id];
-        return updatedProgress;
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    console.log("file", file);
+    const simulateUpload = () => {
+      return new Promise((resolve, reject) => {
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 10;
+          setVideoProgress(progress);
+          if (progress >= 100) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 500);
       });
-      generateThumbnail(file);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
+
+    simulateUpload().then(() => {
+      setUploadedFile({ name: file.name, file });
+      setUploadCompleted(true);
+    });
+  }, []);
 
   const generateThumbnail = (videoFile) => {
     console.log("Thumbnil", videoFile);
@@ -181,20 +168,21 @@ const Step3 = () => {
             );
             setProgress((prevProgress) => ({
               ...prevProgress,
-              [id]: progress,
+              [id]: progress, // Update progress for the specific image ID
             }));
           }
         );
 
+        // After successful upload, remove the progress for this image
         setProgress((prevProgress) => {
           const updatedProgress = { ...prevProgress };
           delete updatedProgress[id];
           return updatedProgress;
         });
       } catch (error) {
-        console.log(error);
+        let errMessage =
+          (err.response && err.response.data.message) || err.message;
         // Handle errors
-        // console.error(`${id} upload failed:`, error);
       }
     }
   };
@@ -399,6 +387,37 @@ const Step3 = () => {
                     </Accordion>
                   </AccordionDetails>
                 </Accordion>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Button
+                    sx={{
+                      color: "#000",
+                      ":hover": {
+                        textDecoration: "underline",
+                      },
+                    }}
+                    onClick={handlePrev}
+                  >
+                    <ChevronLeft /> back
+                  </Button>
+                  <Button
+                    sx={{
+                      border: "1px solid #000",
+                      backgroundColor: "#000",
+                      width: 150,
+                      p: 1.5,
+                      color: "#fff",
+                      ":hover": {
+                        backgroundColor: "#000",
+                      },
+                    }}
+                  >
+                    Continue <ChevronRight />
+                  </Button>
+                </Stack>
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <p className="f-12 fw-semibold mt-4 p-2">
@@ -406,42 +425,17 @@ const Step3 = () => {
                   Out with 360-Degree Video!
                 </p>
                 <Card sx={{ p: 2 }}>
-                  {/* {videoFile ? (
-                    <Typography sx={{ color: "#000" }}>
-                      {videoFile.name}
-                    </Typography>
-                  ) : (
-                    <VideoUpload handleVideoUpload={handleVideoUpload} />
-                  )} */}
-
                   <Grid container>
                     <Grid item lg={8}>
-                      <MyDropzone />
-                      {/* {thumbnailLoading ? (
-                        <Loading type="" />
-                      ) : (
-                        videoFile && (
-                          <>
-                            <ReactPlayer
-                              className="react-player mt-3"
-                              url={URL.createObjectURL(videoFile)}
-                              controls={true}
-                              width="100%"
-                              height="100%"
-                              style={{ borderRadius: 8 }}
-                            />
-                            <Close
-                              sx={{
-                                position: "absolute",
-                                right: 10,
-                                top: 10,
-                                cursor: "pointer",
-                              }}
-                              onClick={removeVideo}
-                            />
-                          </>
-                        )
-                      )} */}
+                      <MyDropzone
+                        onDrop={onDrop}
+                        uploadedFile={uploadedFile}
+                        setUploadedFile={setUploadedFile}
+                        uploadCompleted={uploadCompleted}
+                        setUploadCompleted={setUploadCompleted}
+                        setProgress={setVideoProgress}
+                        progress={videoprogress}
+                      />
                     </Grid>
                   </Grid>
                 </Card>

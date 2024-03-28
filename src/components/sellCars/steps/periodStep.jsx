@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { getPeriod } from "@/api/apiCalling/listingApi";
 import { Info } from "@mui/icons-material";
+import { loginTextField } from "@/utils/styles";
 
 const PeriodStep = ({ state, setState, carData }) => {
   const [period, setPeriod] = useState([]);
@@ -60,7 +61,7 @@ const PeriodStep = ({ state, setState, carData }) => {
             onChange={handlePeriod}
             value={periodValue}
             loading={!periodValue}
-            sx={{ fontSize: 12 }}
+            sx={loginTextField}
           />
           <FormHelperText sx={{ fontSize: 12 }}>
             Select the manufacturing year of the Car
@@ -75,11 +76,12 @@ const PeriodStep = ({ state, setState, carData }) => {
             value={state.trimLevel}
             InputProps={{
               endAdornment: (
-                <Tooltip title="trimLevel level refers to the specific configuration or package of features and options available for a particular model of a vehicle. It determines the level of luxury, performance, and technology included in the car.">
+                <Tooltip title="Trim Level refers to the specific configuration or package of features and options available for a particular model of a vehicle. It determines the level of luxury, performance, and technology included in the car.">
                   <Info sx={{ fill: "#333", cursor: "pointer" }} />
                 </Tooltip>
               ),
             }}
+            sx={loginTextField}
             helperText="Trim Level : Specific configuration or package of features ."
           />
         </Grid>

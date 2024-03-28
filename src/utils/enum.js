@@ -7,7 +7,7 @@ export const TRANSMISSION = {
   Manual: "Manual",
 };
 export const FILTERS = {
-  NEWESTAD: "Newest Ad",
+  NEWESTAD: "Recently Added",
   LOWESTPRICE: "Lowest Price",
   HIGHESTPRICE: "Highest Price",
   RECOMMENDED: "Recommended",

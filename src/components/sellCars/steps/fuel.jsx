@@ -1,3 +1,4 @@
+import { loginTextField } from "@/utils/styles";
 import {
   Autocomplete,
   Button,
@@ -56,6 +57,7 @@ const FuelStep = ({ data, state, setState }) => {
             options={data.fuel}
             value={selectedFuelType}
             onChange={fuelTypeHandler}
+            sx={loginTextField}
           />
           <FormHelperText sx={{ fontSize: 12 }}>
             Select Fuel Type of the Car

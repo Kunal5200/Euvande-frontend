@@ -68,7 +68,7 @@ const FilterSection = ({
                       sx={{
                         "& .MuiTypography-root": {
                           fontSize: 13,
-                          textTransform: "capitalize",
+                          textTransform: "uppercase",
                         },
                       }}
                     />

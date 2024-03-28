@@ -1,16 +1,22 @@
+import data from "@/assests/data";
 import { loginTextField } from "@/utils/styles";
 import { Info } from "@mui/icons-material";
-import { Grid, TextField, Tooltip } from "@mui/material";
+import { Autocomplete, Grid, TextField, Tooltip } from "@mui/material";
 import React from "react";
 
 const Mileage = ({ state, setState }) => {
   const mileageHandler = (e) => {
     setState({ ...state, mileage: e.target.value });
   };
+  const ownershipHandler = (e, newValue) => {
+    if (newValue) {
+      setState({ ...state, ownership: newValue.ownership });
+    }
+  };
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item lg={12}>
+        <Grid item lg={6}>
           <TextField
             label="Mileage (in KM)"
             value={state.mileage}
@@ -25,6 +31,22 @@ const Mileage = ({ state, setState }) => {
               ),
             }}
             helperText="Mileage :  The Total distance that a vehicle has traveled"
+          />
+        </Grid>
+        <Grid item lg={6}>
+          {/* <TextField label="Ownership of Car" /> */}
+          <Autocomplete
+            options={data.carOwnerShip}
+            getOptionLabel={(option) => option.ownership}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select Ownership of Car"
+                helperText="Ownership :Please specify your current ownership status for the car.."
+              />
+            )}
+            sx={loginTextField}
+            onChange={ownershipHandler}
           />
         </Grid>
       </Grid>

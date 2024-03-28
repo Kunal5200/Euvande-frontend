@@ -1,4 +1,5 @@
 import { countries } from "@/assests/country";
+import { loginTextField } from "@/utils/styles";
 import { Autocomplete, Box, FormHelperText, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
@@ -28,7 +29,7 @@ const Origin = ({ state, setState, carData }) => {
     <div>
       <Autocomplete
         id="originOfCar"
-        sx={{ width: "100%" }}
+        sx={loginTextField}
         options={countries}
         autoHighlight
         onChange={originCountryHandler}
@@ -58,12 +59,10 @@ const Origin = ({ state, setState, carData }) => {
               ...params.inputProps,
               autoComplete: "new-password", // disable autocomplete and autofill
             }}
+            helperText="Select Manfacturer Country of Car"
           />
         )}
       />
-      <FormHelperText sx={{ fontSize: 12 }}>
-        Select Manfacturer Country of Car
-      </FormHelperText>
 
       {/* <TextField
         label="Manufactured Country"

@@ -1,3 +1,4 @@
+import { loginTextField } from "@/utils/styles";
 import { Autocomplete, FormHelperText, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,7 +39,7 @@ const MakeStep = ({
             getOptionLabel={(options) => options.makeName}
             onChange={onBrandChange}
             value={selectedBrand}
-            sx={{ fontSize: 12 }}
+            sx={loginTextField}
           />
           <FormHelperText sx={{ fontSize: 12 }}>
             Select the Brand of the Car
@@ -51,6 +52,7 @@ const MakeStep = ({
             getOptionLabel={(option) => option.modelName}
             onChange={onModelChange}
             value={selectedModel}
+            sx={loginTextField}
           />{" "}
           <FormHelperText sx={{ fontSize: 12 }}>
             Select the Model of the Car

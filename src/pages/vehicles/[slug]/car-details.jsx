@@ -4,8 +4,20 @@ import FeatureCard from "@/components/featureCard";
 import dummyCars from "@/icons/cars.jpg";
 import { showModal } from "@/redux/reducers/modal";
 import { OPTION_TYPE } from "@/utils/enum";
-import { Done, Favorite, LocationOn } from "@mui/icons-material";
+import { loginTextField, scrollToTop } from "@/utils/styles";
 import {
+  Calculate,
+  Done,
+  Expand,
+  ExpandMore,
+  Favorite,
+  LocationOn,
+  Security,
+} from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Avatar,
   Box,
   Button,
@@ -14,10 +26,12 @@ import {
   Container,
   Divider,
   FormHelperText,
+  FormLabel,
   Grid,
   IconButton,
   Skeleton,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
@@ -62,30 +76,37 @@ const CarDetails = () => {
     {
       icon: <GiRoad />,
       label: "Mileage",
-      value: carData && carData.odometer,
+      value: (carData && carData.odometer) || "Not Disclosed",
     },
     {
       icon: <BsCalendar />,
       label: "First Registration",
-      value: carData && carData.period && carData.period.year,
+      value:
+        (carData && carData.period && carData.period.year) || "Not Disclosed",
     },
     {
       icon: <GiGearStickPattern />,
       label: "Transmission",
       value:
-        carData && carData.specification && carData.specification.transmission,
+        (carData &&
+          carData.specification &&
+          carData.specification.transmission) ||
+        "Not Disclosed",
     },
     {
       icon: <PiEngine />,
       label: "Power",
-      value: `${
-        carData && carData.specification && carData.specification.power
-      } kw`,
+      value:
+        `${
+          carData && carData.specification && carData.specification.power
+        } kw` || "Not Disclosed",
     },
     {
       icon: <BsFuelPump />,
       label: "Fuel",
-      value: carData && carData.variant && carData.variant.fuelType,
+      value:
+        (carData && carData.variant && carData.variant.fuelType) ||
+        "Not Disclosed",
     },
   ];
   const details = [
@@ -163,64 +184,27 @@ const CarDetails = () => {
     },
   ];
 
-  const handleOpenThank = () => {
-    router.push("/thankyou");
+  const redirectCheckout = (id) => {
+    router.push(`/checkout/${id}/payment`);
   };
 
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
   return (
-    <Container maxWidth={1400} sx={{ mb: 5 }}>
+    <Container style={{ maxWidth: 1325 }} sx={{ mb: 5 }}>
       <Box sx={{ p: 2 }}>
-        <Button onClick={() => router.back()} sx={{ fontSize: 10 }}>
+        <Button
+          onClick={() => router.back()}
+          sx={{ fontSize: 10, color: "#000" }}
+        >
           <FaAngleLeft />
-          back to results
+          back to marketplace
         </Button>
       </Box>
       <Grid container>
         <Grid item lg={7} p={2}>
-          {loading ? (
-            <Skeleton variant="text" width={300} />
-          ) : (
-            <Stack direction={"row"} alignItems={"center"} spacing={1}>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.make && carData.make.makeName}
-              </Typography>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.variant && carData.variant.variantName}
-              </Typography>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.model && carData.model.modelName}
-              </Typography>
-            </Stack>
-          )}
-          {loading ? (
-            <Skeleton variant="text" />
-          ) : (
-            <Box display={"flex"} flexWrap={"wrap"} my={2}>
-              {carData &&
-                carData.specification &&
-                carData.specification.equipments &&
-                carData.specification.equipments.slice(0, 5).map((val, i) => (
-                  <Chip
-                    avatar={
-                      <Avatar sx={{ p: 1, backgroundColor: "#ffffff" }}>
-                        <Done sx={{ fontSize: 8, fill: "#000" }} />
-                      </Avatar>
-                    }
-                    label={val}
-                    key={i}
-                    sx={{
-                      backgroundColor: "#000000",
-                      color: "#fff",
-                      mx: 1,
-                      my: 0.3,
-                      textTransform: "capitalize",
-                      // borderRadius: 0,
-                      fontSize: 10,
-                    }}
-                  />
-                ))}
-            </Box>
-          )}
           {loading ? (
             <Skeleton variant="rectangular" width={400} height={400} />
           ) : (
@@ -230,6 +214,19 @@ const CarDetails = () => {
                 showIndicators={false}
                 autoPlay={true}
                 infiniteLoop={true}
+                // renderThumbs={renderThumbs}
+                // ref={(el) => (carousel = el)}
+                renderThumbs={() => {
+                  return (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    ></Box>
+                  );
+                }}
               >
                 {carData && carData.carImages ? (
                   carData.carImages.map((val, i) => <img src={val} key={i} />)
@@ -242,92 +239,293 @@ const CarDetails = () => {
         </Grid>
         <Grid item lg={5} p={2}>
           {loading ? (
+            <Skeleton variant="text" width={300} />
+          ) : (
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              spacing={1}
+              justifyContent={"flex-start"}
+            >
+              <Typography
+                fontSize={25}
+                fontWeight={600}
+                textTransform={"capitalize"}
+              >
+                {carData && carData.make && carData.make.makeName}
+              </Typography>
+              <Typography
+                fontSize={25}
+                fontWeight={600}
+                textTransform={"capitalize"}
+              >
+                {carData && carData.variant && carData.variant.variantName}
+              </Typography>
+              <Typography
+                fontSize={25}
+                fontWeight={600}
+                textTransform={"capitalize"}
+              >
+                {carData && carData.model && carData.model.modelName}
+              </Typography>
+            </Stack>
+          )}
+          {loading ? (
             <Skeleton variant="text" />
           ) : (
-            <Box textAlign={"center"}>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.price} €
-              </Typography>
-              <Typography fontSize={10}>
-                {carData &&
-                carData.specification &&
-                carData.specification.vatDeduction === OPTION_TYPE.No
-                  ? "Without VAT Deduction"
-                  : "With VAT Deduction"}
-              </Typography>
-            </Box>
-          )}
-          <Card sx={{ mt: 6, mb: 2, borderRadius: 4 }}>
-            {loading ? (
-              <Skeleton variant="text" />
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  p: 1,
-                }}
-              >
-                <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                  <LocationOn />
-                  <Typography fontSize={12}>Location</Typography>
-                </Stack>
-                <Typography fontSize={12}>
-                  {carData && carData.location && carData.location.city}
+            carData &&
+            carData.price && (
+              <Box textAlign={"start"} mb={2}>
+                <Typography fontSize={20} fontWeight={600}>
+                  {carData && carData.price} €
+                </Typography>
+                <Typography fontSize={10}>
+                  {carData &&
+                  carData.specification &&
+                  carData.specification.vatDeduction === OPTION_TYPE.No
+                    ? "Without VAT Deduction"
+                    : "With VAT Deduction"}
                 </Typography>
               </Box>
-            )}
-          </Card>
-          <Card sx={{ p: 1 }}>
-            {loading ? (
-              <Skeleton variant="text" />
-            ) : (
-              specificationArray.map((val, i) => (
+            )
+          )}
+          <Box>
+            <Card sx={{ mb: 2, p: 1 }}>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                mb={1}
+              >
+                <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                  <Calculate />
+                  <Typography fontSize={12}>Monthly installment </Typography>
+                </Stack>
+                <Typography fontSize={12}>
+                  {(carData && carData.monthlyInstallment) || "Not Included"}
+                </Typography>
+              </Stack>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                  <Security />
+                  <Typography fontSize={12}>Extended Warranty </Typography>
+                </Stack>
+                <Typography fontSize={12}>
+                  {(carData && carData.extendedWarranty) || "Not Included"}
+                </Typography>
+              </Stack>
+            </Card>
+            <Card sx={{ mb: 2 }}>
+              {loading ? (
+                <Skeleton variant="text" />
+              ) : (
                 <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    mb: 2,
+                    p: 1,
                   }}
-                  key={i}
                 >
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    {val.icon}
-                    <Typography fontSize={12}>{val.label}</Typography>
+                    <LocationOn />
+                    <Typography fontSize={12}>Location</Typography>
                   </Stack>
-                  <Typography fontSize={12}>{val.value}</Typography>
+                  <Typography fontSize={12}>
+                    {carData && carData.location && carData.location.city}
+                  </Typography>
                 </Box>
-              ))
-            )}
-          </Card>
-          <Stack direction={"row"} alignItems={"center"} mt={3} spacing={2}>
-            {/* <IconButton sx={{ border: "1px solid #eee" }}>
-              <Favorite
-                sx={{ fill: carData && carData.favourite ? "#ff0000" : "" }}
+              )}
+            </Card>
+            <Card sx={{ p: 1 }}>
+              {loading ? (
+                <Skeleton variant="text" />
+              ) : (
+                specificationArray.map((val, i) => (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mb: 2,
+                    }}
+                    key={i}
+                  >
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      {val.icon}
+                      <Typography fontSize={12}>{val.label}</Typography>
+                    </Stack>
+                    <Typography fontSize={12}>{val.value}</Typography>
+                  </Box>
+                ))
+              )}
+            </Card>
+            <Box sx={{ mt: 2 }}>
+              <Accordion sx={{ mb: 2 }}>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  sx={{ borderBottom: "1px solid #eee" }}
+                >
+                  <Typography fontSize={15} fontWeight={550}>
+                    Features
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ mb: 2 }}>
+                  <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                    {carData &&
+                      carData.specification &&
+                      carData.specification.equipments &&
+                      carData.specification.equipments.map((val, i) => (
+                        <Chip
+                          label={val}
+                          key={i}
+                          sx={{
+                            backgroundColor: "#0000008e",
+                            color: "#fff",
+                            mx: 1,
+                            my: 0.3,
+                            textTransform: "capitalize",
+                            fontSize: 10,
+                            borderRadius: 1,
+                          }}
+                        />
+                      ))}
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+              {/* <Box display={"flex"} flexWrap={"wrap"} my={2}>
+                {carData &&
+                  carData.specification &&
+                  carData.specification.equipments &&
+                  carData.specification.equipments.slice(0, 5).map((val, i) => (
+                    <Chip
+                      label={val}
+                      key={i}
+                      sx={{
+                        backgroundColor: "#0000008e",
+                        color: "#fff",
+                        mx: 1,
+                        my: 0.3,
+                        textTransform: "capitalize",
+                        fontSize: 10,
+                        borderRadius: 1,
+                      }}
+                    />
+                  ))}
+                <Accordion
+                  sx={{
+                    "& ": {
+                      boxShadow: "none",
+                      p: 0,
+                      margin: 0,
+                      "& .MuiAccordionSummary-root": {
+                        padding: 0,
+                        minHeight: 0,
+                      },
+                      "& .MuiAccordionSummary-content": {
+                        margin: 0,
+                      },
+                    },
+                  }}
+                >
+                  <AccordionSummary>
+                    {carData &&
+                      carData.specification &&
+                      carData.specification.equipments &&
+                      carData.specification.equipments.length > 5 && (
+                        <Chip
+                          sx={{
+                            backgroundColor: "#000000",
+                            color: "#fff",
+                            mx: 1,
+                            my: 0.3,
+                            textTransform: "capitalize",
+                            fontSize: 10,
+                            borderRadius: 1,
+                            cursor: "pointer",
+                          }}
+                          label={`+${
+                            carData.specification.equipments.length - 5
+                          } more`}
+                        />
+                      )}
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {carData &&
+                      carData.specification &&
+                      carData.specification.equipments &&
+                      carData.specification.equipments
+                        .slice(5, carData.specification.equipments.length)
+                        .map((val, i) => (
+                          <Chip
+                            label={val}
+                            key={i}
+                            sx={{
+                              backgroundColor: "#0000008e",
+                              color: "#fff",
+                              mx: 1,
+                              my: 0.3,
+                              textTransform: "capitalize",
+                              fontSize: 10,
+                              borderRadius: 1,
+                            }}
+                          />
+                        ))}
+                  </AccordionDetails>
+                </Accordion>
+              </Box> */}
+            </Box>
+            {/* <Stack direction={"row"} alignItems={"center"} mt={3} spacing={2}>
+              <Button
+                fullWidth
+                sx={{
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  p: 1,
+                  border: "1px solid #fff",
+                  "&:hover": {
+                    color: "#000",
+                    backgroundColor: "#fff",
+                    border: "1px solid #000",
+                  },
+                }}
+              >
+                Buy
+              </Button>
+            </Stack> */}
+            {/* <FormLabel sx={{fontSize:}}>Your Offer Price for this vehicle:</FormLabel> */}
+            <Stack direction={"row"} alignItems={"center"} spacing={1} mt={2}>
+              <TextField
+                sx={{ width: "70%" }}
+                helperText="Your Offer Price for this vehicle"
+                label="Your offer Price (in Euro)"
               />
-            </IconButton> */}
-            <Button
-              fullWidth
-              sx={{
-                backgroundColor: "#000",
-                color: "#fff",
-                p: 1,
-                border: "1px solid #fff",
-                "&:hover": {
-                  color: "#000",
-                  backgroundColor: "#fff",
+              <Button
+                sx={{
                   border: "1px solid #000",
-                },
-              }}
-              onClick={handleOpenThank}
-            >
-              Buy
-            </Button>
-          </Stack>
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  ":hover": {
+                    color: "#fff",
+                    backgroundColor: "#000",
+                  },
+                  fontSize: 12,
+                  mb: "24px !important",
+                  width: 200,
+                  p: 2,
+                }}
+              >
+                Make an Offer
+              </Button>
+            </Stack>
+          </Box>
         </Grid>
       </Grid>
+      {/* vehicle Condition Box */}
       <Box
         sx={{
           backgroundColor: "#eee",
@@ -341,7 +539,7 @@ const CarDetails = () => {
             </Typography>
             <Grid container mt={3} columnSpacing={2}>
               <Grid lg={5}>
-                <Card sx={{ p: 2,height:"100%" }}>
+                <Card sx={{ p: 2, height: "100%" }}>
                   <Typography fontSize={15} fontWeight={550}>
                     VEHICLE DETAIL
                   </Typography>
@@ -378,26 +576,12 @@ const CarDetails = () => {
                 textAlign={"center"}
                 fontSize={20}
                 fontWeight={550}
+                textTransform={"capitalize"}
               >
                 {carData && carData.make && carData.make.makeName}{" "}
                 {carData && carData.variant && carData.variant.variantName}{" "}
                 {carData && carData.model && carData.model.modelName}
               </Typography>
-              {/* <Typography textAlign={"center"} fontSize={12} color={"#fff"}>
-                TOTAL PRICE OF THE CAR INCL. SERVICES
-              </Typography>
-              <Typography
-                textAlign={"center"}
-                color={"#fff"}
-                my={1}
-                fontSize={30}
-                fontWeight={600}
-              >
-                {carData && carData.price} €
-              </Typography>
-              <Typography textAlign={"center"} fontSize={12} color={"#fff"}>
-                This price is final, with no hidden fees.
-              </Typography> */}
             </Card>
             <Card
               sx={{
@@ -409,21 +593,23 @@ const CarDetails = () => {
                 top: 80,
               }}
             >
-              <Typography
-                color={"#000"}
-                textAlign={"center"}
-                fontSize={25}
-                fontWeight={550}
-              >
-                {carData && carData.price} €
-              </Typography>
-              <FormHelperText sx={{ textAlign: "center", mt: 1, mb: 1 }}>
+              {carData && carData.price && (
+                <Typography
+                  color={"#000"}
+                  textAlign={"center"}
+                  fontSize={25}
+                  fontWeight={550}
+                >
+                  {carData && carData.price} €
+                </Typography>
+              )}
+              {/* <FormHelperText sx={{ textAlign: "center", mt: 1, mb: 1 }}>
                 {carData &&
                 carData.specification &&
                 carData.specification.vatDeduction === OPTION_TYPE.Yes
                   ? "With VAT Deduction"
                   : "Without VAT Deduction"}
-              </FormHelperText>
+              </FormHelperText> */}
               <Stack direction={"row"} alignItems={"center"} spacing={2}>
                 {/* <IconButton sx={{ border: "1px solid #eee" }}>
                   <Favorite
@@ -442,7 +628,8 @@ const CarDetails = () => {
                     },
                     fontWeight: 550,
                   }}
-                  onClick={handleOpenThank}
+                  onClick={() => redirectCheckout(carData.id)}
+                  // onClick={handleOpenThank}
                 >
                   Buy
                 </Button>
@@ -504,7 +691,7 @@ const CarDetails = () => {
                   alignItems={"center"}
                   justifyContent={"space-between"}
                   mt={2}
-                  mb={1}
+                  // mb={1}
                 >
                   <Typography fontSize={12} fontWeight={600}>
                     Extended Warranty

@@ -18,7 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MakeStep from "./steps/makeStep";
 import PeriodStep from "./steps/periodStep";
@@ -42,6 +42,7 @@ import Origin from "./steps/origin";
 import Price from "./steps/price";
 import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 import { ChevronRight } from "@mui/icons-material";
+import Vin from "./steps/vin";
 const Step1 = ({ handleNext }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [state, setState] = useState({
@@ -63,6 +64,7 @@ const Step1 = ({ handleNext }) => {
     originOfCar: "",
     displacementL: "",
     price: "",
+    ownership: "",
   });
   const dispatch = useDispatch();
 
@@ -147,6 +149,7 @@ const Step1 = ({ handleNext }) => {
       .then((res) => {
         const response = res.data.data;
         setCarData(response);
+        // console.log("response",response)
         setState({
           ...state,
           vin: response && response.vin,
@@ -204,6 +207,7 @@ const Step1 = ({ handleNext }) => {
             response.specification.specificationDetails &&
             response.specification.specificationDetails.manufacturedIn,
           price: response && response.price,
+          ownership: response && response.ownership,
         });
         dispatch(setVehicleInformation({ ...response }));
       })
@@ -247,7 +251,7 @@ const Step1 = ({ handleNext }) => {
       setLoading(true);
       let body = {
         vin: state.vin,
-      };  
+      };
       addCar({
         body,
         dispatch,
@@ -303,6 +307,7 @@ const Step1 = ({ handleNext }) => {
         trimLevel: state.trimLevel,
         vatDeduction: state.vatDeduction,
         vehicleType: state.vehicleType,
+        ownership: state.ownership,
         id: carInfo && carInfo.id,
       };
       vehicleController
@@ -396,58 +401,13 @@ const Step1 = ({ handleNext }) => {
                         <small>(Vehicle Identification Number) </small>
                       </StepLabel>
                       <StepContent>
-                        <Stack
-                          direction="row"
-                          alignItems={"center"}
-                          spacing={5}
-                          justifyContent={"space-between"}
-                        >
-                          <FormControl fullWidth>
-                            <TextField
-                              sx={loginTextField}
-                              label="Vehicle VIN"
-                              fullWidth
-                              value={state.vin}
-                              id="vin"
-                              onChange={decodeVinHandler}
-                              error={Boolean(error.vin)}
-                              inputProps={{ maxLength: 17 }}
-                              focused={Boolean(state.vin)}
-                            />
-                          </FormControl>
-                          <Button
-                            sx={{
-                              border: "1px solid #000",
-                              backgroundColor: "#000",
-                              width: 150,
-                              p: 2,
-                              color: "#fff",
-                              ":hover": {
-                                color: "#fff",
-                                backgroundColor: "#000",
-                              },
-                            }}
-                            disabled={loading}
-                            onClick={decodeVin}
-                          >
-                            {loading ? (
-                              <Loading
-                                type="bars"
-                                width={20}
-                                height={20}
-                                className="m-auto"
-                                color="#fff"
-                              />
-                            ) : (
-                              "Load Vin"
-                            )}
-                          </Button>
-                        </Stack>
-                        <FormHelperText sx={{ fontSize: 12 }}>
-                          Enter a VIN (Vehicle Identification Number) in English
-                          alphanumeric format, typically 17 characters,
-                          including both letters and numbers.
-                        </FormHelperText>
+                        <Vin
+                          decodeVin={decodeVin}
+                          state={state}
+                          error={error}
+                          decodeVinHandler={decodeVinHandler}
+                          loading={loading}
+                        />
                       </StepContent>
                     </Step>
                     <Step
@@ -597,12 +557,8 @@ const Step1 = ({ handleNext }) => {
                         )}
                       </StepContent>
                     </Step>
-                    <Step
-                      // active={isVIN(state.vin) || state.mileage}
-                      active={showStep}
-                      sx={{ mb: 2 }}
-                    >
-                      <StepLabel>Mileage</StepLabel>
+                    <Step active={showStep} sx={{ mb: 2 }}>
+                      <StepLabel>Mileage and Ownership</StepLabel>
                       <StepContent>
                         <Mileage state={state} setState={setState} />
                       </StepContent>

@@ -110,6 +110,7 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                     marginBottom={3}
                     fontSize={18}
                     fontWeight={600}
+                    textTransform={"capitalize"}
                   >
                     {val && val.make && val.make.makeName}{" "}
                     {val && val.model && val.model.modelName}
@@ -197,7 +198,12 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                     val.specification.equipments &&
                     val.specification.equipments.slice(0, 2).map((item, id) => (
                       <Chip
-                        sx={{ bgcolor: "#000", color: "#fff", fontSize: 10 }}
+                        sx={{
+                          bgcolor: "#000",
+                          color: "#fff",
+                          fontSize: 10,
+                          textTransform: "capitalize",
+                        }}
                         avatar={
                           <Avatar sx={{ padding: 1, bgcolor: "#fff" }}>
                             <Done sx={{ fill: "blue", fontSize: 10 }} />
@@ -217,13 +223,6 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                           color: "#fff",
                           border: "1px solid #0000ff75",
                           fontSize: 10,
-                          // "&:hover": {
-                          //   bgcolor: "transparent",
-                          //   border: "1px solid #0000ff75",
-                          //   color: "#000",
-                          // },
-                          // transition: "0.5s ease all",
-                          // cursor: "pointer",
                         }}
                         label={`+${
                           val.specification.equipments.length - 2
@@ -240,24 +239,34 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                 >
                   <Box>
                     <Typography fontSize={20} fontWeight={550}>
-                      {val && val.price != null
-                        ? `${val.price} €`
-                        : "Not Disclosed"}
+                      Price:{" "}
+                      {val && val.price != null ? `${val.price} €` : "N/A"}
                     </Typography>
-                    <Typography fontSize={12}>
+                    {/* <Typography fontSize={12}>
                       {val &&
                       val.specification &&
                       val.specification.vatDeduction === OPTION_TYPE.No
                         ? "Without VAT Deduction"
                         : "Including VAT Deduction"}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                   <Button
                     onClick={() => carDetails(val.id)}
                     color="inherit"
-                    sx={{ fontSize: 12 }}
+                    sx={{
+                      fontSize: 12,
+                      // fontWeight: 700,
+                      border: "1px solid #000",
+                      backgroundColor: "#000",
+                      color: "#fff",
+                      ":hover": {
+                        color: "#000",
+                        backgroundColor: "transparent",
+                      },
+                    }}
                   >
-                    View Car Details <ChevronRight sx={{ fontSize: 15 }} />
+                    See Details
+                    <ChevronRight sx={{ fontSize: 15 }} />
                   </Button>
                 </Stack>
               </Grid>

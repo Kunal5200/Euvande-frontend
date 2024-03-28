@@ -5,6 +5,7 @@ import "swiper/css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-circular-progressbar/dist/styles.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-credit-cards-2/dist/es/styles-compiled.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-multi-carousel/lib/styles.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";

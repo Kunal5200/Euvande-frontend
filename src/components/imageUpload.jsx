@@ -22,6 +22,7 @@ const ImageUpload = (props) => {
                 onChange={() => props.handleImageUpload(val.id)}
                 id={val.id}
                 ref={(el) => (props.inputRefs.current[val.id] = el)}
+                accept="image/*"
               />
               <div
                 style={{
@@ -75,11 +76,12 @@ const ImageUpload = (props) => {
                   className="text-end "
                   style={{
                     opacity: 1,
-                    backgroundColor: "#0000005e",
+                    backgroundColor: "#0000005E",
                     width: "100%",
                     position: "absolute",
                     bottom: 0,
                     padding: "2px",
+                    left: 0,
                   }}
                 >
                   <p className="f-12 text-white mb-0 text-center">

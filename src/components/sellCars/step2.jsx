@@ -21,16 +21,23 @@ import {
 } from "@mui/material";
 import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 // import CheckIcon from "@material-ui/icons/Check";
+import { getCarDetails } from "@/api/apiCalling/vehicle";
 import { useEffect, useState } from "react";
 import Loading from "react-loading";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import CarInfo from "./carInfo";
-import { getCarDetailsById } from "@/api/apiCalling/listingApi";
-import { getCarDetails } from "@/api/apiCalling/vehicle";
-import { useDispatch } from "react-redux";
+import { validateContactNumber } from "@/utils/validation";
 
 const Step2 = ({ handleNext, handlePrev }) => {
   const [state, setState] = useState({
+    name: "",
+    phoneNumber: "",
+    email: "",
+    countryCode: "",
+  });
+
+  const [error, setError] = useState({
     name: "",
     phoneNumber: "",
     email: "",
@@ -44,6 +51,15 @@ const Step2 = ({ handleNext, handlePrev }) => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setState({ ...state, [id]: value });
+    setError({
+      ...error,
+      [id]:
+        id === "email"
+          ? isEmail(value)
+            ? ""
+            : "Please Enter Valid Email"
+          : "",
+    });
     if (id === "email") {
       if (isEmail(value)) {
         setShowOtpButtonEmail(true);
@@ -63,9 +79,11 @@ const Step2 = ({ handleNext, handlePrev }) => {
       countryCode: countryData.countryCallingCode,
     });
     if (validPhone) {
+      setError({ ...error, phoneNumber: "" });
       setShowGetOtpButtonPhone(true);
     } else {
       setShowGetOtpButtonPhone(false);
+      setError({ ...error, phoneNumber: "Please Enter Valid Phone Number" });
     }
   };
   const [OTPPhoneLoading, setOTPPhoneLoading] = useState(false);
@@ -131,6 +149,14 @@ const Step2 = ({ handleNext, handlePrev }) => {
     }
   }, []);
 
+  const handleContact = () => {
+    if (validateContactNumber({ state, error, setError })) {
+      handleNext();
+    } else {
+      toast.error("Please Enter Valid Details");
+    }
+  };
+
   return (
     <Container style={{ maxWidth: 1310 }}>
       <CarInfo data={carData} loading={loading} />
@@ -149,7 +175,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   value={state.name}
                   onChange={handleInputChange}
                   sx={loginTextField}
-                  helperText="Enter Full Name"
+                  helperText={error.name ? error.name : "Enter Full Name"}
+                  error={Boolean(error.name)}
                 />
               </Grid>
             </Grid>
@@ -168,7 +195,12 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   fullWidth
                   sx={loginTextField}
                   disabled={showphoneOTPField}
-                  helperText="Enter valid phone number"
+                  helperText={
+                    error.phoneNumber
+                      ? error.phoneNumber
+                      : "Enter valid phone number"
+                  }
+                  error={Boolean(error.phoneNumber)}
                 />
               </Grid>
               {showGetOtpButtonPhone && (
@@ -232,8 +264,9 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   value={state.email}
                   fullWidth
                   onChange={handleInputChange}
-                  helperText="Enter Email Address"
+                  helperText={error.email ? error.email : "Enter Email Address"}
                   sx={loginTextField}
+                  error={Boolean(error.email)}
                 />
               </Grid>
               {showGetOtpButtonEmail && (
@@ -393,7 +426,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
               backgroundColor: "transparent",
               color: "#000",
               borderRadius: 2,
-              p: 2,
+              // p: 2,
               ":hover": {
                 textDecoration: "underline",
               },
@@ -406,16 +439,16 @@ const Step2 = ({ handleNext, handlePrev }) => {
             sx={{
               border: "1px solid #000",
               backgroundColor: "#000",
-              width: 150,
               color: "#fff",
               borderRadius: 2,
+              width: 150,
               p: 1.5,
               ":hover": {
                 backgroundColor: "#000",
                 color: "#fff",
               },
             }}
-            onClick={handleNext}
+            onClick={handleContact}
           >
             Continue <ChevronRight />
           </Button>
