@@ -62,7 +62,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
   // ........................................................................
   const [photoAccordionOpen, setPhotoAccordionOpen] = useState(true);
   const [videoAccordionOpen, setVideoAccordionOpen] = useState(false);
-  const [videoFile, setVideoFile] = useState(null);
+  // const [videoFile, setVideoFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [videoprogress, setVideoProgress] = useState(0);
 
@@ -85,10 +85,24 @@ const Step3 = ({ handleNext, handlePrev }) => {
   };
 
   const [uploadCompleted, setUploadCompleted] = useState(false);
-
+  const [videoFile, setVideoFile] = useState(null);
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
-    console.log("file", file);
+    setVideoFile(file);
+    if (file) {
+      const formData = new FormData();
+      formData.append("video", file);
+      formData.append("carId", localStorage.getItem("carId"));
+      const body = Object.fromEntries(formData);
+      vehicleController
+        .uploadPhotos(body)
+        .then((res) => {
+          console.log("res", res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     const simulateUpload = () => {
       return new Promise((resolve, reject) => {
         let progress = 0;
@@ -108,6 +122,8 @@ const Step3 = ({ handleNext, handlePrev }) => {
       setUploadCompleted(true);
     });
   }, []);
+
+  // console.log("videoFile", videoFile);
 
   const generateThumbnail = (videoFile) => {
     console.log("Thumbnil", videoFile);
@@ -168,21 +184,21 @@ const Step3 = ({ handleNext, handlePrev }) => {
             );
             setProgress((prevProgress) => ({
               ...prevProgress,
-              [id]: progress, // Update progress for the specific image ID
+              [id]: progress,
             }));
           }
         );
 
-        // After successful upload, remove the progress for this image
         setProgress((prevProgress) => {
           const updatedProgress = { ...prevProgress };
           delete updatedProgress[id];
           return updatedProgress;
         });
-      } catch (error) {
+      } catch (err) {
         let errMessage =
           (err.response && err.response.data.message) || err.message;
         // Handle errors
+        toast.error(errMessage);
       }
     }
   };
@@ -301,32 +317,32 @@ const Step3 = ({ handleNext, handlePrev }) => {
       </Head>
       <Container sx={{ my: 5 }} style={{ maxWidth: 1325 }}>
         <Grid item lg={12}>
-          <form onSubmit={submitHandler}>
-            <div>
-              <Tabs
-                sx={{
-                  borderBottom: "1px solid #eee",
-                  "& .Mui-selected": {
-                    color: "#000 !important",
-                    borderBottom: "2px solid #000",
-                    fontWeight: 550,
-                  },
-                }}
-                value={value}
-                onChange={photoUploadHandler}
-              >
-                <Tab
-                  label="Upload Image"
-                  icon={<UploadFile />}
-                  iconPosition="end"
-                />
-                <Tab
-                  label="Upload Video"
-                  icon={<VideoCall />}
-                  iconPosition="end"
-                />
-              </Tabs>
-              <TabPanel value={value} index={0}>
+          <div>
+            <Tabs
+              sx={{
+                borderBottom: "1px solid #eee",
+                "& .Mui-selected": {
+                  color: "#000 !important",
+                  borderBottom: "2px solid #000",
+                  fontWeight: 550,
+                },
+              }}
+              value={value}
+              onChange={photoUploadHandler}
+            >
+              <Tab
+                label="Upload Image"
+                icon={<UploadFile />}
+                iconPosition="end"
+              />
+              <Tab
+                label="Upload Video"
+                icon={<VideoCall />}
+                iconPosition="end"
+              />
+            </Tabs>
+            <TabPanel value={value} index={0}>
+              <form onSubmit={submitHandler}>
                 <Accordion
                   expanded={photoAccordionOpen}
                   onChange={togglePhotoAccordion}
@@ -414,90 +430,68 @@ const Step3 = ({ handleNext, handlePrev }) => {
                         backgroundColor: "#000",
                       },
                     }}
+                    type="submit"
                   >
                     Continue <ChevronRight />
                   </Button>
                 </Stack>
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <p className="f-12 fw-semibold mt-4 p-2">
-                  Comprehensive Car Showcase: Explore Every Detail Inside and
-                  Out with 360-Degree Video!
-                </p>
-                <Card sx={{ p: 2 }}>
-                  <Grid container>
-                    <Grid item lg={8}>
-                      <MyDropzone
-                        onDrop={onDrop}
-                        uploadedFile={uploadedFile}
-                        setUploadedFile={setUploadedFile}
-                        uploadCompleted={uploadCompleted}
-                        setUploadCompleted={setUploadCompleted}
-                        setProgress={setVideoProgress}
-                        progress={videoprogress}
-                      />
-                    </Grid>
+              </form>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <p className="f-12 fw-semibold mt-4 p-2">
+                Comprehensive Car Showcase: Explore Every Detail Inside and Out
+                with 360-Degree Video!
+              </p>
+              <Card sx={{ p: 2 }}>
+                <Grid container>
+                  <Grid item lg={8}>
+                    <MyDropzone
+                      onDrop={onDrop}
+                      uploadedFile={uploadedFile}
+                      setUploadedFile={setUploadedFile}
+                      uploadCompleted={uploadCompleted}
+                      setUploadCompleted={setUploadCompleted}
+                      setProgress={setVideoProgress}
+                      progress={videoprogress}
+                    />
                   </Grid>
-                </Card>
-                {/* <Accordion
-                  expanded={videoAccordionOpen}
-                  onChange={toggleVideoAccordion}
-                  sx={{ mt: 3, py: 3 }}
+                </Grid>
+              </Card>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                mt={2}
+              >
+                <Button
+                  sx={{
+                    color: "#000",
+                    ":hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                  onClick={handlePrev}
                 >
-                  <AccordionDetails>
-                    <div className="mt-3">
-                      <Container>
-                        <Grid container spacing={2} sx={{ display: "flex" }}>
-                          <Grid item xs={6} sx={{ flex: "3", marginRight: 0 }}>
-                            {videoFile ? (
-                              <Typography sx={{ color: "#000" }}>
-                                {videoFile.name}
-                              </Typography>
-                            ) : (
-                              <VideoUpload
-                                handleVideoUpload={handleVideoUpload}
-                              />
-                            )}
-                          </Grid>
-                          <Grid item sx={{ marginLeft: 5, flex: "3" }}>
-                            {thumbnailLoading ? (
-                              <p
-                                className="text-center"
-                                style={{ color: "white", background: "black" }}
-                              >
-                                Loading video...
-                              </p>
-                            ) : (
-                              videoFile && (
-                                <>
-                                  <ReactPlayer
-                                    className="react-player mt-3"
-                                    url={URL.createObjectURL(videoFile)}
-                                    controls={true}
-                                    width="100%"
-                                    height="90%"
-                                  />
-                                  <Close
-                                    sx={{
-                                      position: "absolute",
-                                      right: 10,
-                                      top: 10,
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={removeVideo}
-                                  />
-                                </>
-                              )
-                            )}
-                          </Grid>
-                        </Grid>
-                      </Container>
-                    </div>
-                  </AccordionDetails>
-                </Accordion> */}
-              </TabPanel>
-            </div>
-          </form>
+                  <ChevronLeft /> back
+                </Button>
+                <Button
+                  sx={{
+                    border: "1px solid #000",
+                    backgroundColor: "#000",
+                    width: 150,
+                    p: 1.5,
+                    color: "#fff",
+                    ":hover": {
+                      backgroundColor: "#000",
+                    },
+                  }}
+                  type="submit"
+                >
+                  Continue <ChevronRight />
+                </Button>
+              </Stack>
+            </TabPanel>
+          </div>
         </Grid>
       </Container>
     </div>

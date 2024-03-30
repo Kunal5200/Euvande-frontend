@@ -1,4 +1,8 @@
-import { customLoginAndRegister } from "@/api/apiCalling/authenticationApi";
+import {
+  customLoginAndRegister,
+  getUserProfile,
+  verifyOTP,
+} from "@/api/apiCalling/authenticationApi";
 import { Verify_BY } from "@/utils/enum";
 import { isEmail } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
@@ -24,10 +28,13 @@ import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 import { getCarDetails } from "@/api/apiCalling/vehicle";
 import { useEffect, useState } from "react";
 import Loading from "react-loading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import CarInfo from "./carInfo";
 import { validateContactNumber } from "@/utils/validation";
+import { authControllers } from "@/api/authentication";
+import { Cg } from "react-flags-select";
+import { setDetails } from "@/redux/reducers/userdetails";
 
 const Step2 = ({ handleNext, handlePrev }) => {
   const [state, setState] = useState({
@@ -117,6 +124,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
       let body = {
         email: state.email,
         name: state.name,
+        verifyBy: Verify_BY.EMAIL,
       };
       customLoginAndRegister({
         body,
@@ -140,6 +148,25 @@ const Step2 = ({ handleNext, handlePrev }) => {
     // Update state with numeric value
     setPhoneOTP(inputValue);
   };
+  const [emailOTP, setEmailOTP] = useState("");
+  const emailOTPHandler = (e) => {
+    const inputValue = e.target.value;
+    setEmailOTP(inputValue);
+  };
+  const [verifyEmailLoading, setVerifyEmailLoading] = useState(false);
+  const verifyEmailOTPHandler = () => {
+    setVerifyEmailLoading(true);
+    let body = {
+      referenceId: parseInt(localStorage.getItem("referenceId")),
+      otp: emailOTP,
+    };
+    verifyOTP({
+      body,
+      loading: setOTPEmailLoading,
+      showOTPfield: setShowEmailOTPField,
+      dispatch,
+    });
+  };
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -148,14 +175,81 @@ const Step2 = ({ handleNext, handlePrev }) => {
       getCarDetails({ carId, setCarData, setLoading, dispatch });
     }
   }, []);
+  // const user = useSelector((state) => state.userInfo);
+  const [addContactLoading, setAddContactLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [verifiedPhone, setVerifiedPhone] = useState(false);
 
+  const verifyOTPHandler = () => {
+    setVerifyLoading(true);
+    let body = {
+      referenceId: parseInt(localStorage.getItem("referenceId")),
+      otp: phoneOTP,
+    };
+    verifyOTP({
+      body,
+      loading: setVerifyLoading,
+      showOTPfield: setShowPhoneOTPField,
+      verified: setVerifiedPhone,
+      dispatch,
+    });
+  };
+  const [user, setUser] = useState(null);
   const handleContact = () => {
     if (validateContactNumber({ state, error, setError })) {
-      handleNext();
+      setAddContactLoading(true);
+      let body = {
+        name: state.name,
+        phoneNo: state.phoneNumber,
+        email: state.email,
+        countryCode: state.countryCode,
+      };
+      authControllers
+        .customLogin(body)
+        .then((res) => {
+          console.log(res);
+          if (res && res.data && res.data.data ) {
+            localStorage.setItem("accessToken", res.data.data.accessToken);
+            dispatch(setDetails({ ...res.data.data }));
+            getUserProfile({ setUser, dispatch, setLoading });
+          }
+          setAddContactLoading(false);
+          handleNext();
+        })
+        .catch((err) => {
+          let errMessage =
+            (err.response && err.response.data.message) || err.message;
+          toast.error(errMessage);
+          setAddContactLoading(false);
+        });
     } else {
       toast.error("Please Enter Valid Details");
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("group")) {
+      authControllers
+        .getUserDetails()
+        .then((res) => {
+          const response = res.data.data;
+          setState({
+            ...state,
+            name: response.name,
+            email: response.email,
+            phoneNumber: response.phoneNo,
+            countryCode: response.countryCode,
+          });
+          if (response.phoneNo) {
+            setPhone(`+${response.countryCode} ${response.phoneNo}`);
+          }
+          setVerifiedPhone(response.isPhoneNoVerified);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   return (
     <Container style={{ maxWidth: 1310 }}>
@@ -235,7 +329,6 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   <Grid item lg={3}>
                     <TextField
                       label="Enter OTP"
-                      //   type="number"
                       sx={loginTextField}
                       onChange={phoneOtpHandler}
                       inputProps={{
@@ -243,19 +336,38 @@ const Step2 = ({ handleNext, handlePrev }) => {
                         inputMode: "numeric",
                         pattern: "[0-9]*",
                       }}
+                      type="number"
+                      helperText="Enter 6 digit OTP"
                     />
                   </Grid>
                   <Grid item lg={2}>
                     <Button
-                      sx={{ border: "1px solid #000", p: 2, color: "#000" }}
+                      sx={{
+                        border: "1px solid #000",
+                        p: 2,
+                        color: "#000",
+                        mb: 3,
+                        width: 100,
+                      }}
+                      onClick={verifyOTPHandler}
                     >
-                      Verify
+                      {verifyLoading ? (
+                        <Loading
+                          type="bars"
+                          color="#000"
+                          width={20}
+                          height={20}
+                          className="m-auto"
+                        />
+                      ) : (
+                        "Verify"
+                      )}
                     </Button>
                   </Grid>
                 </>
               )}
             </Grid>
-
+            {/* Email */}
             <Grid container spacing={3} alignItems={"center"}>
               <Grid item lg={5}>
                 <TextField
@@ -296,15 +408,49 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   </Button>
                 </Grid>
               )}
+              {showEmailOTPField && (
+                <>
+                  <Grid item lg={3}>
+                    <TextField
+                      label="Enter OTP"
+                      sx={loginTextField}
+                      onChange={emailOTPHandler}
+                      inputProps={{
+                        maxLength: 6,
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      }}
+                      helperText="Enter 6 digit OTP"
+                      type="number"
+                    />
+                  </Grid>
+                  <Grid item lg={2}>
+                    <Button
+                      sx={{
+                        border: "1px solid #000",
+                        p: 2,
+                        color: "#000",
+                        mb: 3,
+                        width: 100,
+                      }}
+                      onClick={verifyEmailOTPHandler}
+                    >
+                      {verifyEmailLoading ? (
+                        <Loading
+                          type="bars"
+                          color="#000"
+                          width={20}
+                          height={20}
+                          className="m-auto"
+                        />
+                      ) : (
+                        "Verify"
+                      )}
+                    </Button>
+                  </Grid>
+                </>
+              )}
             </Grid>
-
-            {/* <Typography sx={{ fontWeight: 350, fontSize: 16, paddingTop: 2 }}>
-              <b>Note:</b>{" "}
-              <small>
-                We'll get in touch with you if the user doesn't verify
-                themselves.
-              </small>
-            </Typography> */}
           </Box>
 
           <Box sx={{ flex: "1" }}>
@@ -354,16 +500,14 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 <Step sx={{ pb: 3 }}>
                   <StepLabel
                     StepIconComponent={(props) => {
-                      const StepIcon =
-                        state.phoneNumber && state.otp
-                          ? CheckCircleRoundedIcon
-                          : CancelRoundedIcon;
+                      const StepIcon = verifiedPhone
+                        ? CheckCircleRoundedIcon
+                        : CancelRoundedIcon;
                       return (
                         <StepIcon
                           {...props}
                           sx={{
-                            color:
-                              state.phoneNumber && state.otp ? "green" : "red",
+                            color: verifiedPhone ? "green" : "red",
                           }}
                         />
                       );
@@ -448,9 +592,22 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 color: "#fff",
               },
             }}
+            disabled={addContactLoading}
             onClick={handleContact}
           >
-            Continue <ChevronRight />
+            {addContactLoading ? (
+              <Loading
+                type="bars"
+                color="#fff"
+                width={30}
+                height={30}
+                className="m-auto"
+              />
+            ) : (
+              <>
+                Continue <ChevronRight />
+              </>
+            )}
           </Button>
         </Stack>
       </Card>

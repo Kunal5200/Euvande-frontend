@@ -66,13 +66,15 @@ const Step1 = ({ handleNext }) => {
     price: "",
     ownership: "",
   });
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  const [failedStepsCount, setFailedStepsCount] = useState([]);
   const [ids, setIds] = useState({});
   const [error, setError] = useState({
     vin: "",
   });
 
+  // console.log("testets", failedStepsCount);
   const [brand, setBrand] = useState([]);
   const [modelData, setModelData] = useState([]);
 
@@ -149,7 +151,6 @@ const Step1 = ({ handleNext }) => {
       .then((res) => {
         const response = res.data.data;
         setCarData(response);
-        // console.log("response",response)
         setState({
           ...state,
           vin: response && response.vin,
@@ -268,66 +269,62 @@ const Step1 = ({ handleNext }) => {
   const [addLoading, setAddLoading] = useState(false);
 
   const addCarInformation = () => {
-    if (
-      state.displacementL &&
-      state.doors &&
-      state.driveType4WD &&
-      state.fuelType &&
-      state.interiorMaterial &&
-      state.make &&
-      state.mileage &&
-      state.model &&
-      state.originOfCar &&
-      state.period &&
-      state.power &&
-      state.price &&
-      state.seats &&
-      state.transmission &&
-      state.trimLevel &&
-      state.vatDeduction &&
-      state.vehicleType &&
-      state.vin
-    ) {
-      setAddLoading(true);
-      let body = {
-        displacementL: state.displacementL,
-        doors: state.doors,
-        driveType4WD: state.driveType4WD,
-        fuelType: state.fuelType,
-        interiorMaterial: state.interiorMaterial,
-        makeId: state.make,
-        odometer: state.mileage,
-        modelId: state.model,
-        manufacturedIn: state.originOfCar,
-        periodId: state.period,
-        power: state.power,
-        price: parseInt(state.price),
-        seats: state.seats,
-        transmission: state.transmission,
-        trimLevel: state.trimLevel,
-        vatDeduction: state.vatDeduction,
-        vehicleType: state.vehicleType,
-        ownership: state.ownership,
-        id: carInfo && carInfo.id,
-      };
-      vehicleController
-        .addVehicle(body)
-        .then((res) => {
-          console.log(res);
-          dispatch(setCarDetails({ ...res.data.data }));
-          setAddLoading(false);
-          handleNext();
-        })
-        .catch((err) => {
-          let errMessage =
-            (err.response && err.response.data.message) || err.message;
-          toast.error(errMessage);
-          setAddLoading(false);
-        });
-      // handleNext();
-    } else {
-      toast.error("Kindly fill out every field.");
-    }
+    // if (
+    //   state.displacementL &&
+    //   state.doors &&
+    //   state.driveType4WD &&
+    //   state.fuelType &&
+    //   state.interiorMaterial &&
+    //   state.make &&
+    //   state.mileage &&
+    //   state.model &&
+    //   state.originOfCar &&
+    //   state.period &&
+    //   state.power &&
+    //   state.price &&
+    //   state.seats &&
+    //   state.transmission &&
+    //   state.trimLevel &&
+    //   state.vatDeduction &&
+    //   state.vehicleType &&
+    //   state.vin
+    // ) {
+    setAddLoading(true);
+    let body = {
+      displacementL: state.displacementL,
+      doors: state.doors,
+      driveType4WD: state.driveType4WD,
+      fuelType: state.fuelType,
+      interiorMaterial: state.interiorMaterial,
+      makeId: state.make,
+      odometer: state.mileage,
+      modelId: state.model,
+      manufacturedIn: state.originOfCar,
+      periodId: state.period,
+      power: state.power,
+      price: parseInt(state.price),
+      seats: state.seats,
+      transmission: state.transmission,
+      trimLevel: state.trimLevel,
+      vatDeduction: state.vatDeduction,
+      vehicleType: state.vehicleType,
+      ownership: state.ownership,
+      id: carInfo && carInfo.id,
+    };
+    vehicleController
+      .addVehicle(body)
+      .then((res) => {
+        dispatch(setCarDetails({ ...res.data.data }));
+        setAddLoading(false);
+        handleNext();
+      })
+      .catch((err) => {
+        let errMessage =
+          (err.response && err.response.data.message) || err.message;
+        toast.error(errMessage);
+        setAddLoading(false);
+      });
+    // handleNext();
   };
 
   useEffect(() => {
@@ -560,7 +557,11 @@ const Step1 = ({ handleNext }) => {
                     <Step active={showStep} sx={{ mb: 2 }}>
                       <StepLabel>Mileage and Ownership</StepLabel>
                       <StepContent>
-                        <Mileage state={state} setState={setState} />
+                        <Mileage
+                          state={state}
+                          setState={setState}
+                          carData={carData}
+                        />
                       </StepContent>
                     </Step>
                     <Step
@@ -575,6 +576,7 @@ const Step1 = ({ handleNext }) => {
                             data={specification}
                             state={state}
                             setState={setState}
+                            carData={carData}
                           />
                         )}
                       </StepContent>
@@ -623,9 +625,31 @@ const Step1 = ({ handleNext }) => {
               </Box>
               {/* </Card> */}
 
-              <Tick activeStep={activeStep} state={state} showStep={showStep} />
+              <Tick
+                activeStep={activeStep}
+                state={state}
+                showStep={showStep}
+                setFailedStepsCount={setFailedStepsCount}
+              />
             </Box>
-            <Box sx={{ p: 1, textAlign: "end" }}>
+            <Box
+              sx={{
+                p: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              {failedStepsCount.length ? (
+                <Typography sx={{ color: "#ff0000", fontSize: 12, ml: 2 }}>
+                  Field Number {failedStepsCount.join(" , ")} need to be filled
+                  to continue to the next Step
+                </Typography>
+              ) : (
+                <Typography sx={{ color: "green", fontSize: 12, ml: 2 }}>
+                  Please Click Continue to the next Step
+                </Typography>
+              )}
               <Button
                 onClick={addCarInformation}
                 sx={{

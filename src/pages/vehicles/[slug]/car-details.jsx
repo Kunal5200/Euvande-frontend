@@ -7,6 +7,7 @@ import { OPTION_TYPE } from "@/utils/enum";
 import { loginTextField, scrollToTop } from "@/utils/styles";
 import {
   Calculate,
+  ChevronLeft,
   Done,
   Expand,
   ExpandMore,
@@ -42,8 +43,14 @@ import { GiGearStickPattern, GiRoad } from "react-icons/gi";
 import { PiEngine } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
+import { Autoplay, FreeMode, Navigation, Thumbs, Zoom } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import 'swiper/css/zoom';
 const CarDetails = () => {
   const router = useRouter();
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const dispatch = useDispatch();
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -206,34 +213,48 @@ const CarDetails = () => {
       <Grid container>
         <Grid item lg={7} p={2}>
           {loading ? (
-            <Skeleton variant="rectangular" width={400} height={400} />
+            <Skeleton variant="rectangular" width={600} height={600} />
           ) : (
             <Card>
-              <Carousel
-                dynamicHeight={true}
-                showIndicators={false}
-                autoPlay={true}
-                infiniteLoop={true}
-                // renderThumbs={renderThumbs}
-                // ref={(el) => (carousel = el)}
-                renderThumbs={() => {
-                  return (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    ></Box>
-                  );
+              <Swiper
+                modules={[Navigation, Thumbs, FreeMode, Autoplay,Zoom]}
+                navigation={true}
+                autoplay={{
+                  delay: 2000,
                 }}
+                thumbs={{ swiper: thumbsSwiper }}
+                loop={true}
               >
-                {carData && carData.carImages ? (
-                  carData.carImages.map((val, i) => <img src={val} key={i} />)
-                ) : (
-                  <img src={dummyCars.src} />
-                )}
-              </Carousel>
+                {carData &&
+                  carData.carImages &&
+                  carData.carImages.map((val, i) => (
+                    <SwiperSlide key={i}>
+                      <img src={val} height={600} width={"100%"} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                loop={true}
+                spaceBetween={1}
+                slidesPerView={6}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs, Autoplay]}
+                autoplay={{
+                  delay: 2000,
+                }}
+                className="mySwiper"
+              >
+                {carData &&
+                  carData.carImages &&
+                  carData.carImages.map((val, i) => (
+                    <SwiperSlide key={i}>
+                      <img src={val} width={"100%"} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
             </Card>
           )}
         </Grid>
@@ -278,13 +299,6 @@ const CarDetails = () => {
               <Box textAlign={"start"} mb={2}>
                 <Typography fontSize={20} fontWeight={600}>
                   {carData && carData.price} €
-                </Typography>
-                <Typography fontSize={10}>
-                  {carData &&
-                  carData.specification &&
-                  carData.specification.vatDeduction === OPTION_TYPE.No
-                    ? "Without VAT Deduction"
-                    : "With VAT Deduction"}
                 </Typography>
               </Box>
             )

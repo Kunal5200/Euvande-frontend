@@ -70,7 +70,7 @@ export const getUserProfile = ({ setUser, dispatch, setLoading }) => {
     .getUserDetails()
     .then((res) => {
       const response = res.data.data;
-
+      localStorage.setItem("group", res.data.data.group);
       dispatch(setDetails({ ...response, isAuthenticated: true }));
       setLoading && setLoading(false);
       setUser && setUser(res.data.data);
@@ -176,15 +176,18 @@ export const customLoginAndRegister = ({
   showOTPButton,
   showOTPfield,
   loading,
+  handleNext,
 }) => {
   authControllers
     .customLogin(body)
     .then((res) => {
-      // console.log("response", res);
       toast.success(res.data.message);
-      localStorage.setItem("referenceId", res.data.data.referenceId);
-      showOTPButton(false);
-      showOTPfield(true);
+      if (res.data.data.referenceId) {
+        localStorage.setItem("referenceId", res.data.data.referenceId);
+      }
+      showOTPButton && showOTPButton(false);
+      showOTPfield && showOTPfield(true);
+      handleNext && handleNext();
       loading(false);
     })
     .catch((err) => {
@@ -193,5 +196,29 @@ export const customLoginAndRegister = ({
       toast.error(errMessage);
       loading(false);
       // console.log(err);
+    });
+};
+
+export const verifyOTP = ({
+  body,
+  loading,
+  showOTPfield,
+
+  dispatch,
+}) => {
+  authControllers
+    .verifyOtp(body)
+    .then((res) => {
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      dispatch(setDetails({ ...res.data.data }));
+      showOTPfield(false);
+      loading(false);
+      // verified(true);
+    })
+    .catch((err) => {
+      loading(false);
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
     });
 };

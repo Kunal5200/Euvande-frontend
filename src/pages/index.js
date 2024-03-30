@@ -85,7 +85,7 @@ export default function Home() {
         <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={2} data-aos="fade-down">
             {data.howWorks.map((val, i) => (
-              <Grid item xs={12} lg={4} key={i}>
+              <Grid item xs={12} md={4} sm={4} lg={4} key={i}>
                 <HowWorks
                   img={val.img}
                   heading1={val.heading1}
@@ -96,35 +96,7 @@ export default function Home() {
             ))}
           </Grid>
 
-          <div className="text-center mt-4">
-            {/* <Button
-              sx={{
-                backgroundColor: "#000",
-                width: 200,
-                color: "#fff",
-                ":hover": {
-                  color: "#000",
-                  backgroundColor: "#fff",
-                },
-                border: "1px solid #000",
-                fontSize: 12,
-                p: 1,
-                transition: "0.5s ease all",
-              }}
-              onClick={() => router.push("/about-us")}
-            >
-              Know More
-            </Button> */}
-            {/* <Button
-              className="custom_btn"
-              width={200}
-              rounded={20}
-              onClick={() => router.push("/about-us")}
-            >
-              <span>Know More</span>
-              <span>Know More</span>
-            </Button> */}
-          </div>
+          {/* <div className="text-center mt-4">  </div> */}
         </Container>
       </div>
       <Box data-aos="fade-right">
@@ -230,24 +202,6 @@ export default function Home() {
               </Grid>
             ))}
           </Grid>
-          {/* <Box textAlign={"center"} marginY={4}>
-            <Button
-              sx={{
-                color: "#fff",
-                backgroundColor: "#000",
-                width: 200,
-                ":hover": {
-                  color: "#000",
-                  backgroundColor: "#fff",
-                },
-                border: "1px solid #000",
-                transition: "0.5s ease all",
-              }}
-              onClick={() => router.push("/buy-cars")}
-            >
-              View All Cars
-            </Button>
-          </Box> */}
         </Container>
       </Box>
       <Box sx={{ my: 3 }}>

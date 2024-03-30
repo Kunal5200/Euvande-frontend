@@ -10,7 +10,6 @@ import React from "react";
 import Dot from "../dot";
 
 const CarInfo = ({ data, loading }) => {
-  console.log(data);
   const specification = [
     {
       value: data && data.vin,

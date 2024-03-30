@@ -2,17 +2,28 @@ import data from "@/assests/data";
 import { loginTextField } from "@/utils/styles";
 import { Info } from "@mui/icons-material";
 import { Autocomplete, Grid, TextField, Tooltip } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const Mileage = ({ state, setState }) => {
+const Mileage = ({ state, setState, carData }) => {
+  const [ownerShip, setOwnerShip] = useState(null);
   const mileageHandler = (e) => {
     setState({ ...state, mileage: e.target.value });
   };
   const ownershipHandler = (e, newValue) => {
+    setOwnerShip(newValue);
     if (newValue) {
       setState({ ...state, ownership: newValue.ownership });
     }
   };
+
+  useEffect(() => {
+    if (carData && carData.ownership) {
+      setOwnerShip({
+        ownership: carData.ownership,
+      });
+    }
+  }, [carData]);
+
   return (
     <div>
       <Grid container spacing={2}>
@@ -22,6 +33,7 @@ const Mileage = ({ state, setState }) => {
             value={state.mileage}
             onChange={mileageHandler}
             fullWidth
+            type="number"
             sx={loginTextField}
             InputProps={{
               endAdornment: (
@@ -47,6 +59,7 @@ const Mileage = ({ state, setState }) => {
             )}
             sx={loginTextField}
             onChange={ownershipHandler}
+            value={ownerShip}
           />
         </Grid>
       </Grid>

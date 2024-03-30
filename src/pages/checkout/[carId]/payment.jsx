@@ -1,11 +1,18 @@
 import { getCarDetailsById } from "@/api/apiCalling/listingApi";
+import { countries } from "@/assests/country";
+import data from "@/assests/data";
 import { OPTION_TYPE } from "@/utils/enum";
-import { ChevronLeft } from "@mui/icons-material";
+import { ChevronLeft, ExpandMore } from "@mui/icons-material";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Autocomplete,
   Box,
   Button,
   Card,
   Container,
+  Divider,
   FormControl,
   Grid,
   Stack,
@@ -17,6 +24,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ReactCreditCards from "react-credit-cards-2";
 import { Carousel } from "react-responsive-carousel";
+import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const Checkout = () => {
   const [state, setState] = useState({
@@ -32,14 +41,17 @@ const Checkout = () => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
   };
+  const [expanded, setExpanded] = useState("panel1");
+
+  const handleChange = (panel, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
 
   const handleInputCardNumber = (event) => {
     let inputValue = event.target.value;
 
-    // Remove non-numeric characters
     inputValue = inputValue.replace(/\D/g, "");
 
-    // Format the input with spaces after every 4 digits
     inputValue = inputValue.replace(/(\d{4})/g, "$1 ").trim();
 
     setState({ ...state, number: inputValue });
@@ -85,10 +97,9 @@ const Checkout = () => {
       getCarDetailsById({ carId: router.query.carId, setLoading, setCarData });
     }
   }, [router.query.carId]);
-  console.log("carData", carData);
   return (
     <Container style={{ maxWidth: 1325 }}>
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ pt: 2 }}>
         <Button
           sx={{ color: "#000", fontSize: 12 }}
           onClick={() => router.back()}
@@ -99,7 +110,6 @@ const Checkout = () => {
 
       <Grid container spacing={2}>
         <Grid item lg={6}>
-          {/* <Card sx={{p:1}}> */}
           <ReactCreditCards
             number={state.number}
             name={state.name}
@@ -115,20 +125,7 @@ const Checkout = () => {
               fullWidth
               sx={{ mb: 2 }}
               onFocus={handleInputFocus}
-            />
-            <TextField
-              label="Enter Email Address*"
-              onChange={handleInputChange}
-              id="email"
-              fullWidth
-              sx={{ mb: 2 }}
-            />
-            <MuiTelInput
-              sx={{ mb: 2 }}
-              defaultCountry="DE"
-              continents={["EU"]}
-              onChange={handlePhoneNumber}
-              value={phone}
+              helperText="Enter Card Holder Name"
             />
 
             <TextField
@@ -139,8 +136,9 @@ const Checkout = () => {
               onChange={handleInputCardNumber}
               onFocus={handleInputFocus}
               sx={{ mb: 2 }}
+              helperText="Enter Card Number"
             />
-            <Stack direction={"row"} alignItems={"center"} spacing={4}>
+            <Stack direction={"row"} alignItems={"center"} spacing={2}>
               <TextField
                 id="expiry"
                 label="Expiry"
@@ -148,11 +146,12 @@ const Checkout = () => {
                 value={state.expiry}
                 onChange={handleExpiryChange}
                 inputProps={{
-                  maxLength: 5, // Expiry format: MM/YY, hence 5 characters
-                  pattern: "^\\d{2}/\\d{2}$", // Validate MM/YY format
+                  maxLength: 5,
+                  pattern: "^\\d{2}/\\d{2}$",
                 }}
                 onFocus={handleInputFocus}
                 fullWidth
+                helperText="Enter Expiry Date of Card"
               />
               <TextField
                 label="Enter CVC"
@@ -161,8 +160,98 @@ const Checkout = () => {
                 fullWidth
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
+                helperText="Enter CVC of Card"
               />
             </Stack>
+            <Box sx={{ mb: 2 }}>
+              <Grid container spacing={2} mt={1}>
+                <Grid item lg={6}>
+                  <TextField
+                    label="Enter Email Address*"
+                    onChange={handleInputChange}
+                    id="email"
+                    fullWidth
+                    helperText="Enter Valid Email Address"
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <MuiTelInput
+                    defaultCountry="DE"
+                    continents={["EU"]}
+                    onChange={handlePhoneNumber}
+                    value={phone}
+                    fullWidth
+                    label="Enter Phone Number"
+                    helperText="Enter Valid Phone Number"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+            <Divider sx={{ fontSize: 12, fontWeight: 550, mb: 2 }}>
+              Shipping Information
+            </Divider>
+            <Grid container spacing={2} mb={2}>
+              <Grid item lg={6}>
+                <TextField
+                  label="Address Line 1"
+                  fullWidth
+                  helperText="Enter Street Address"
+                />
+              </Grid>
+              <Grid item lg={6}>
+                <TextField
+                  label="Address Line 2"
+                  fullWidth
+                  helperText="Enter Street Address (Zipcode , Area code)"
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} mb={2}>
+              <Grid item lg={6}>
+                <Autocomplete
+                  id="country-select-demo"
+                  sx={{ width: 300 }}
+                  options={countries}
+                  autoHighlight
+                  getOptionLabel={(option) => option.label}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      <img
+                        loading="lazy"
+                        width="20"
+                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        alt=""
+                      />
+                      {option.label}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Choose a country"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
+                      }}
+                      helperText="Select Country "
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item lg={6}>
+                <TextField
+                  label="Enter City"
+                  fullWidth
+                  helperText="Enter Residential City"
+                />
+              </Grid>
+            </Grid>
+
             <Button
               sx={{
                 border: "1px solid #000",
@@ -180,21 +269,27 @@ const Checkout = () => {
               Reserve Car For : 200 €
             </Button>
           </FormControl>
-          {/* </Card> */}
         </Grid>
         <Grid item lg={6}>
           <Card>
-            <Carousel showThumbs={false} showIndicators={false}>
+            <Swiper
+              modules={[Autoplay]}
+              autoplay={{
+                delay: 2000,
+              }}
+            >
               {carData &&
                 carData.carImages &&
                 carData.carImages.map((val, i) => (
-                  <img src={val} key={i} height={450} />
+                  <SwiperSlide key={i}>
+                    <img src={val} width={"100%"} />
+                  </SwiperSlide>
                 ))}
-            </Carousel>
+            </Swiper>
             <Typography
               sx={{
                 fontSize: 20,
-                p: 2,
+                p: 1,
                 fontWeight: 550,
               }}
               textTransform={"capitalize"}
@@ -207,27 +302,89 @@ const Checkout = () => {
               direction={"row"}
               alignItems={"center"}
               justifyContent={"space-between"}
-              p={2}
+              p={1}
             >
               <Box>
-                <Typography sx={{ fontSize: 18, fontWeight: 500 }}>
-                  Total Price of the Car
+                <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                  Price of the Car
                 </Typography>
-                {/* <Typography sx={{ fontSize: 12 }}>
-                  {carData &&
-                  carData.specification &&
-                  carData.specification.vatDeduction === OPTION_TYPE.Yes
-                    ? "Included VAT Deduction"
-                    : "Excluded VAT Deduction"}
-                </Typography> */}
               </Box>
-              <Typography sx={{ fontSize: 18, fontWeight: 500 }}>
-                {carData && carData.price} €
-              </Typography>
+              {carData && carData.price ? (
+                <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                  {carData && carData.price} €
+                </Typography>
+              ) : (
+                <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                  N/A
+                </Typography>
+              )}
+            </Stack>
+            <Divider />
+
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              p={1}
+            >
+              <Typography sx={{ fontSize: 12 }}>Home Delivery</Typography>
+              <Typography sx={{ fontSize: 12 }}>N/A</Typography>
+            </Stack>
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              p={1}
+            >
+              <Typography sx={{ fontSize: 12 }}>Extended Warranty</Typography>
+              <Box
+                sx={{
+                  border: "1px solid green",
+                  width: 50,
+                  p: 0.4,
+                  fontSize: 12,
+                  backgroundColor: "green",
+                  borderRadius: 1,
+                  color: "#fff",
+                  textAlign: "center",
+                }}
+              >
+                FREE
+              </Box>
             </Stack>
           </Card>
+          {/* <Card sx={{ p: 1, mt: 2 }}>
+            <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
+              Why Us for Payment?
+            </Typography>
+            <Typography sx={{ fontSize: 12 }}>
+              At Euvande, we prioritize the security of your transactions. With
+              state-of-the-art encryption protocols and stringent compliance
+              measures, we ensure that your personal and financial information
+              is always protected. Trust in Euvande for safe and secure online
+              payments every time.
+            </Typography>
+          </Card> */}
         </Grid>
       </Grid>
+      <Divider sx={{ my: 4 }}>
+        <Typography sx={{ fontSize: 20, fontWeight: 600 }}>FAQs</Typography>
+      </Divider>
+      {data.paymentFaq.map((val, i) => (
+        <Accordion key={i} sx={{ mb: 2 }}>
+          <AccordionSummary
+            sx={{
+              fontWeight: 550,
+              fontSize: 15,
+              borderBottom: "1px solid #eee",
+            }}
+            expandIcon={<ExpandMore />}
+          >
+            {val.label}
+          </AccordionSummary>
+          <AccordionDetails sx={{ fontSize: 12 }}>{val.value}</AccordionDetails>
+        </Accordion>
+      ))}
     </Container>
   );
 };

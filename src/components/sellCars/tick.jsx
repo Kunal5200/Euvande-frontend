@@ -3,47 +3,123 @@ import React, { useEffect, useRef, useState } from "react";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { isVIN } from "@/utils/regex";
-const Tick = ({ activeStep, state, showStep }) => {
+import { Id } from "react-flags-select";
+
+const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
   const [failedStepIndex, setFailedStepIndex] = useState(-1);
-  const [scrollToEnd, setScrollToEnd] = useState(true);
-  const lastStepRef = useRef(null);
-  const firstStepRef = useRef(null);
   const failedStepRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isScrollingManually, setIsScrollingManually] = useState(false);
 
   useEffect(() => {
-    // Check if any step has failed validation
+    const slowScrollToBottom = () => {
+      const scrollContainer = document.documentElement || document.body;
+      const targetOffset = failedStepRef.current.offsetTop;
+      const initialOffset = scrollContainer.scrollTop;
+      const step = 20;
+      const totalSteps = Math.abs(targetOffset - initialOffset) / step;
+      const direction = targetOffset > initialOffset ? 1 : -1;
+
+      let stepCount = 0;
+      const intervalTime = 100;
+      const scrollInterval = setInterval(() => {
+        stepCount++;
+        const currentOffset = scrollContainer.scrollTop;
+        const nextOffset = currentOffset + direction * step;
+        scrollContainer.scrollTop = nextOffset;
+
+        if (stepCount >= totalSteps) {
+          clearInterval(scrollInterval);
+          setIsScrolling(false);
+        }
+      }, intervalTime);
+    };
+
     const failedStep = Object.keys(state).findIndex((key) => !state[key]);
+
     if (failedStep !== -1) {
       setFailedStepIndex(failedStep);
+
+      if (
+        failedStepRef.current &&
+        showStep &&
+        !isScrolling &&
+        !isScrollingManually
+      ) {
+        setIsScrolling(true);
+        slowScrollToBottom();
+      }
     }
+  }, [state, showStep, isScrolling, isScrollingManually]);
+
+  const handleScroll = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (!isScrollingManually && scrollTop === 0) {
+      setIsScrolling(true);
+    } else if (!isScrolling && scrollTop > 0) {
+      setIsScrollingManually(true);
+
+      const lastStep = document.querySelector(".MuiStep-root:last-child");
+
+      if (
+        lastStep &&
+        lastStep.getBoundingClientRect().top <= window.innerHeight
+      ) {
+        const lastStepTop =
+          lastStep.getBoundingClientRect().top + scrollTop - window.innerHeight;
+
+        window.scrollTo({
+          top: lastStepTop,
+          behavior: "smooth",
+        });
+      } else if (
+        document.documentElement.scrollTop + window.innerHeight ===
+        document.documentElement.offsetHeight
+      ) {
+        const lastStepTop =
+          lastStep.getBoundingClientRect().top + scrollTop - window.innerHeight;
+
+        window.scrollTo({
+          top: lastStepTop,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isScrollingManually]);
+
+  useEffect(() => {
+    const conditions = [
+      state.vin.length <= 16,
+      !state.make || !state.model,
+      !state.trimLevel || !state.period,
+      !state.transmission,
+      !state.fuelType,
+      !state.vehicleType,
+      !state.doors,
+      !state.driveType4WD,
+      !state.power || !state.displacementL,
+      !state.seats,
+      !state.mileage || !state.ownership,
+      !state.interiorMaterial,
+      !state.vatDeduction,
+      !state.originOfCar,
+      !state.price,
+    ];
+    const failedStepsCount = conditions.reduce((acc, condition, i) => {
+      if (condition) acc.push(i + 1);
+      return acc;
+    }, []);
+
+    setFailedStepsCount(failedStepsCount);
   }, [state]);
 
-  // useEffect(() => {
-  //   // Scroll to the end of the content when the component mounts
-  //   if (scrollToEnd && lastStepRef.current) {
-  //     const containerHeight = lastStepRef.current.scrollHeight;
-  //     lastStepRef.current.scrollTo({
-  //       top: containerHeight,
-  //       behavior: "smooth", // or "smooth" for smooth scrolling
-  //     });
-  //     setScrollToEnd(false);
-  //   }
-  // }, [scrollToEnd]);
-
-  // useEffect(() => {
-  //   // After a delay, smoothly scroll back to the first step
-  //   const delay = 3000; // Adjust the delay as needed
-  //   const timeout = setTimeout(() => {
-  //     if (firstStepRef.current) {
-  //       firstStepRef.current.scrollIntoView({
-  //         behavior: "smooth",
-  //         block: "start",
-  //       });
-  //     }
-  //   }, delay);
-
-  //   return () => clearTimeout(timeout);
-  // }, []);
+  // console.log("ttt", failedStepsCount);
   return (
     <div>
       <Box sx={{ flex: "1" }}>
@@ -390,7 +466,7 @@ const Tick = ({ activeStep, state, showStep }) => {
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
             <Step
-              // sx={{ pt: isVIN(state.vin) || state.vatDeduction ? 13 : 2 }}
+              // sx={{pt: isVIN(state.vin) || state.vatDeduction ? 13 : 2 }}
               // active={isVIN(state.vin) || state.vatDeduction}
               sx={{ pt: showStep ? 13 : 2 }}
               active={showStep}

@@ -10,6 +10,7 @@ const Price = ({ state, setState }) => {
     <div>
       <TextField
         label="Price (in Euro)"
+        type="number"
         value={state.price}
         onChange={priceHandler}
         fullWidth

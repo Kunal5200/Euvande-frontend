@@ -4,44 +4,27 @@ import logoBlack from "@/logo/EUVandeLogoBlack.svg";
 import logo from "@/logo/EUVandeLogoWhite.svg";
 import { removeDetails } from "@/redux/reducers/userdetails";
 import styles from "@/styles/Header.module.css";
-import CloseIcon from "@mui/icons-material/Close";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import {
-  Avatar,
-  Box,
-  Button,
-  Card,
   Chip,
   Container,
   Divider,
-  Drawer,
-  FormHelperText,
-  IconButton,
   List,
-  ListItem,
-  ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Menu,
-  MenuItem,
-  Paper,
   Popover,
-  Slide,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 // import Button from "./button";
-import { Close, Logout, MenuOpen, Person } from "@mui/icons-material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Person } from "@mui/icons-material";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -122,7 +105,7 @@ const Header = () => {
         } p-2 `}
       >
         {fixed ? (
-          <Container style={{ maxWidth: 1300 }}>
+          <Container style={{ maxWidth: 1350 }}>
             <div className="d-flex align-items-center justify-content-between p-2">
               <Link href={"/"}>
                 <Image
