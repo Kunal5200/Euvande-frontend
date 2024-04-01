@@ -18,6 +18,8 @@ const MyDropzone = ({
     setUploadCompleted(false);
   };
 
+  console.log("file", uploadedFile);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: "video/*",
@@ -40,16 +42,23 @@ const MyDropzone = ({
       )}
       {uploadedFile && (
         <div style={{ position: "relative" }}>
-          <ReactPlayer url={URL.createObjectURL(uploadedFile.file)} controls />
+          <ReactPlayer
+            url={
+              uploadedFile.file
+                ? URL.createObjectURL(uploadedFile.file)
+                : uploadedFile.video
+            }
+            controls
+          />
           <Box
             sx={{
-              border: "1px solid #000",
+              // border: "1px solid #000",
               height: 20,
               width: 20,
               position: "absolute",
               top: 0,
               right: 0,
-              borderBottom: "1px solid #000",
+              // borderBottom: "1px solid #000",
             }}
           >
             <button onClick={removeFile} style={closeButtonStyle}>

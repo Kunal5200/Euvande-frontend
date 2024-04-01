@@ -112,6 +112,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
         showOTPfield: setShowPhoneOTPField,
         loading: setOTPPhoneLoading,
       });
+      dispatch(setDetails({ isPhoneNoVerified: true }));
     }
   };
   const [OTPEmailLoading, setOTPEmailLoading] = useState(false);
@@ -132,6 +133,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
         showOTPfield: setShowEmailOTPField,
         loading: setOTPEmailLoading,
       });
+      dispatch(setDetails({ isEmailVerified: true }));
     }
   };
 
@@ -194,7 +196,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
       dispatch,
     });
   };
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const handleContact = () => {
     if (validateContactNumber({ state, error, setError })) {
       setAddContactLoading(true);
@@ -207,8 +209,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
       authControllers
         .customLogin(body)
         .then((res) => {
-          console.log(res);
-          if (res && res.data && res.data.data ) {
+          if (res && res.data && res.data.data) {
             localStorage.setItem("accessToken", res.data.data.accessToken);
             dispatch(setDetails({ ...res.data.data }));
             getUserProfile({ setUser, dispatch, setLoading });
@@ -226,6 +227,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
       toast.error("Please Enter Valid Details");
     }
   };
+
+  const user = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     if (localStorage.getItem("group")) {
@@ -250,6 +253,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
         });
     }
   }, []);
+
+  console.log("first", user);
 
   return (
     <Container style={{ maxWidth: 1310 }}>
@@ -297,33 +302,34 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   error={Boolean(error.phoneNumber)}
                 />
               </Grid>
-              {showGetOtpButtonPhone && (
-                <Grid item lg={3}>
-                  <Button
-                    sx={{
-                      border: "1px solid #000",
-                      p: 1.8,
-                      color: "#000",
-                      width: 100,
-                      mb: 3,
-                    }}
-                    onClick={mobileOTP}
-                    disabled={OTPPhoneLoading}
-                  >
-                    {OTPPhoneLoading ? (
-                      <Loading
-                        type="bars"
-                        color="#000"
-                        width={20}
-                        height={20}
-                        className="m-auto"
-                      />
-                    ) : (
-                      "Get OTP"
-                    )}
-                  </Button>
-                </Grid>
-              )}
+              {showGetOtpButtonPhone ||
+                (!user.isPhoneNoVerified && (
+                  <Grid item lg={3}>
+                    <Button
+                      sx={{
+                        border: "1px solid #000",
+                        p: 1.8,
+                        color: "#000",
+                        width: 100,
+                        mb: 3,
+                      }}
+                      onClick={mobileOTP}
+                      disabled={OTPPhoneLoading}
+                    >
+                      {OTPPhoneLoading ? (
+                        <Loading
+                          type="bars"
+                          color="#000"
+                          width={20}
+                          height={20}
+                          className="m-auto"
+                        />
+                      ) : (
+                        "Get OTP"
+                      )}
+                    </Button>
+                  </Grid>
+                ))}
               {showphoneOTPField && (
                 <>
                   <Grid item lg={3}>
@@ -381,33 +387,34 @@ const Step2 = ({ handleNext, handlePrev }) => {
                   error={Boolean(error.email)}
                 />
               </Grid>
-              {showGetOtpButtonEmail && (
-                <Grid item lg={3}>
-                  <Button
-                    sx={{
-                      border: "1px solid #000",
-                      width: 100,
-                      mb: 3,
-                      p: 1.8,
-                      color: "#000",
-                    }}
-                    loading={OTPEmailLoading}
-                    onClick={getEmailOTP}
-                  >
-                    {OTPEmailLoading ? (
-                      <Loading
-                        type="bars"
-                        width={20}
-                        height={20}
-                        className="m-auto"
-                        color="#000"
-                      />
-                    ) : (
-                      "Get OTP"
-                    )}
-                  </Button>
-                </Grid>
-              )}
+              {showGetOtpButtonEmail ||
+                (!user.isEmailVerified && (
+                  <Grid item lg={3}>
+                    <Button
+                      sx={{
+                        border: "1px solid #000",
+                        width: 100,
+                        mb: 3,
+                        p: 1.8,
+                        color: "#000",
+                      }}
+                      loading={OTPEmailLoading}
+                      onClick={getEmailOTP}
+                    >
+                      {OTPEmailLoading ? (
+                        <Loading
+                          type="bars"
+                          width={20}
+                          height={20}
+                          className="m-auto"
+                          color="#000"
+                        />
+                      ) : (
+                        "Get OTP"
+                      )}
+                    </Button>
+                  </Grid>
+                ))}
               {showEmailOTPField && (
                 <>
                   <Grid item lg={3}>

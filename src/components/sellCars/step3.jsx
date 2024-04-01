@@ -212,7 +212,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
       return;
     } else {
       setLoading(true);
-      router.push("/sell-cars/car-details");
+      router.push("/car-preview");
     }
   };
 
@@ -239,6 +239,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
           .getVehicleDetails(carId)
           .then((res) => {
             const response = res.data.data.media.images;
+            const video = res.data.data.media.videos;
             if (response) {
               setImagePreviews((prevPreviews) => ({
                 ...prevPreviews,
@@ -301,6 +302,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
                 rearSeat: response.rearSeat || null,
               }));
             }
+            setUploadedFile({ name: video, video });
           })
           .catch((err) => {
             console.log(err);
@@ -442,54 +444,56 @@ const Step3 = ({ handleNext, handlePrev }) => {
                 Comprehensive Car Showcase: Explore Every Detail Inside and Out
                 with 360-Degree Video!
               </p>
-              <Card sx={{ p: 2 }}>
-                <Grid container>
-                  <Grid item lg={8}>
-                    <MyDropzone
-                      onDrop={onDrop}
-                      uploadedFile={uploadedFile}
-                      setUploadedFile={setUploadedFile}
-                      uploadCompleted={uploadCompleted}
-                      setUploadCompleted={setUploadCompleted}
-                      setProgress={setVideoProgress}
-                      progress={videoprogress}
-                    />
+              <form onSubmit={submitHandler}>
+                <Card sx={{ p: 2 }}>
+                  <Grid container>
+                    <Grid item lg={8}>
+                      <MyDropzone
+                        onDrop={onDrop}
+                        uploadedFile={uploadedFile}
+                        setUploadedFile={setUploadedFile}
+                        uploadCompleted={uploadCompleted}
+                        setUploadCompleted={setUploadCompleted}
+                        setProgress={setVideoProgress}
+                        progress={videoprogress}
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Card>
-              <Stack
-                direction={"row"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                mt={2}
-              >
-                <Button
-                  sx={{
-                    color: "#000",
-                    ":hover": {
-                      textDecoration: "underline",
-                    },
-                  }}
-                  onClick={handlePrev}
+                </Card>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  mt={2}
                 >
-                  <ChevronLeft /> back
-                </Button>
-                <Button
-                  sx={{
-                    border: "1px solid #000",
-                    backgroundColor: "#000",
-                    width: 150,
-                    p: 1.5,
-                    color: "#fff",
-                    ":hover": {
+                  <Button
+                    sx={{
+                      color: "#000",
+                      ":hover": {
+                        textDecoration: "underline",
+                      },
+                    }}
+                    onClick={handlePrev}
+                  >
+                    <ChevronLeft /> back
+                  </Button>
+                  <Button
+                    sx={{
+                      border: "1px solid #000",
                       backgroundColor: "#000",
-                    },
-                  }}
-                  type="submit"
-                >
-                  Continue <ChevronRight />
-                </Button>
-              </Stack>
+                      width: 150,
+                      p: 1.5,
+                      color: "#fff",
+                      ":hover": {
+                        backgroundColor: "#000",
+                      },
+                    }}
+                    type="submit"
+                  >
+                    Continue <ChevronRight />
+                  </Button>
+                </Stack>
+              </form>
             </TabPanel>
           </div>
         </Grid>

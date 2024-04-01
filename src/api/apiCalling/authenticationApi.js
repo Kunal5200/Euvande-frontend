@@ -212,6 +212,7 @@ export const verifyOTP = ({
       localStorage.setItem("accessToken", res.data.data.accessToken);
       dispatch(setDetails({ ...res.data.data }));
       showOTPfield(false);
+      getUserProfile({ dispatch });
       loading(false);
       // verified(true);
     })

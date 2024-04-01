@@ -11,6 +11,8 @@ import "react-multi-carousel/lib/styles.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "react-multi-carousel/lib/styles.css";
 import "animate.css";
+import "video-react/dist/video-react.css"; // import css
+
 import { ToastContainer } from "react-toastify";
 import { Provider } from "react-redux";
 import store from "@/redux/store";

@@ -27,3 +27,8 @@ export const isVIN = (value) => {
   const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/i.test(value);
   return vinRegex;
 };
+export function isImageURL(url) {
+  const imageExtensions = ["jpg", "jpeg", "png", "gif"];
+  const ext = url.split(".").pop().toLowerCase();
+  return imageExtensions.includes(ext);
+}

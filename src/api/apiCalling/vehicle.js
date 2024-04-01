@@ -1,15 +1,10 @@
+import { setVehicleInformation } from "@/redux/reducers/carInformation";
+import { hideModal } from "@/redux/reducers/modal";
+import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 import { toast } from "react-toastify";
 import { vehicleController } from "../addVehicle";
-import { setCarDetails } from "@/redux/reducers/vehicleInformation";
-import { setVehicleInformation } from "@/redux/reducers/carInformation";
-import { getCars, getSellerPendingCars } from "./listingApi";
-import { hideModal } from "@/redux/reducers/modal";
 import { listingController } from "../listing";
-import {
-  smoothScrollTo,
-  smoothScrollToBottom,
-  smoothScrollToTop,
-} from "@/utils/styles";
+import { getCars, getSellerPendingCars } from "./listingApi";
 
 export const addCar = ({
   body,

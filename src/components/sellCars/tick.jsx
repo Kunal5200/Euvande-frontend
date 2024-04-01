@@ -52,46 +52,27 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
     }
   }, [state, showStep, isScrolling, isScrollingManually]);
 
-  const handleScroll = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (!isScrollingManually && scrollTop === 0) {
-      setIsScrolling(true);
-    } else if (!isScrolling && scrollTop > 0) {
-      setIsScrollingManually(true);
-
-      const lastStep = document.querySelector(".MuiStep-root:last-child");
-
-      if (
-        lastStep &&
-        lastStep.getBoundingClientRect().top <= window.innerHeight
-      ) {
-        const lastStepTop =
-          lastStep.getBoundingClientRect().top + scrollTop - window.innerHeight;
-
-        window.scrollTo({
-          top: lastStepTop,
-          behavior: "smooth",
-        });
-      } else if (
-        document.documentElement.scrollTop + window.innerHeight ===
-        document.documentElement.offsetHeight
-      ) {
-        const lastStepTop =
-          lastStep.getBoundingClientRect().top + scrollTop - window.innerHeight;
-
-        window.scrollTo({
-          top: lastStepTop,
-          behavior: "smooth",
-        });
-      }
-    }
-  };
-
   useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+
+      if (!isScrollingManually && scrollTop === 0) {
+        setIsScrolling(true);
+      } else if (!isScrolling && scrollTop > 0) {
+        setIsScrollingManually(true);
+
+        const lastStep = document.querySelector(".MuiStep-root:last-child");
+
+        if (lastStep && showStep) {
+          lastStep.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isScrollingManually]);
+  }, [showStep, isScrollingManually]);
 
   useEffect(() => {
     const conditions = [
