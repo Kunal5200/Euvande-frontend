@@ -412,7 +412,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .swiper-button-prev,
 .swiper-button-next {
-  border: 1px solid #000;
+  border: 1px solid #00000041;
   border-radius: 50%;
   height: 50px !important;
   width: 50px !important;
@@ -469,4 +469,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .video-react.video-react-fluid {
   height: 100% !important;
+}
+
+.video-react .video-react-big-play-button {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
 }

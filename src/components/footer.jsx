@@ -13,6 +13,8 @@ import {
 import List from "./list";
 import data from "@/assests/data";
 import Dot from "./dot";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 const Footer = () => {
   const icons = [
     {
@@ -28,9 +30,22 @@ const Footer = () => {
       icon: <FaYoutube color="#fff" size={25} />,
     },
   ];
+  const [margin, setMargin] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/car-preview") {
+      setMargin(true);
+    } else {
+      setMargin(false);
+    }
+  }, [router.pathname]);
   return (
     <Box
-      sx={{ borderTop: "1px solid #eee", mt: 4, backgroundColor: "#000" }}
+      sx={{
+        borderTop: "1px solid #eee",
+        mt: margin ? 0.4 : 4,
+        backgroundColor: "#000",
+      }}
       paddingY={10}
     >
       <Container style={{ maxWidth: 1300 }}>

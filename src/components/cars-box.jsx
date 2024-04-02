@@ -3,6 +3,7 @@ import dummyCar from "@/icons/cars.jpg";
 import { OPTION_TYPE } from "@/utils/enum";
 import {
   CalendarMonth,
+  ChevronLeft,
   ChevronRight,
   Done,
   Favorite,
@@ -56,6 +57,22 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
       router.push("/login");
     }
   };
+  const arrowStyles = {
+    position: "absolute",
+    zIndex: 2,
+    top: "calc(50% - 15px)",
+    width: 30,
+    height: 30,
+    cursor: "pointer",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#000",
+    color: "#fff",
+    border: "none",
+    opacity: 0.4,
+  };
 
   const carDetails = (carId) => {
     router.push(`/vehicles/${carId}/car-details`);
@@ -83,6 +100,30 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                   showThumbs={false}
                   swipeable={true}
                   showIndicators={false}
+                  renderArrowPrev={(onClickHandler, hasPrev, label) =>
+                    hasPrev && (
+                      <button
+                        type="button"
+                        onClick={onClickHandler}
+                        title={label}
+                        style={{ ...arrowStyles, left: 10 }}
+                      >
+                        <ChevronLeft />
+                      </button>
+                    )
+                  }
+                  renderArrowNext={(onClickHandler, hasNext, label) =>
+                    hasNext && (
+                      <button
+                        type="button"
+                        onClick={onClickHandler}
+                        title={label}
+                        style={{ ...arrowStyles, right: 10 }}
+                      >
+                        <ChevronRight />
+                      </button>
+                    )
+                  }
                 >
                   {val && val.carImages ? (
                     val.carImages.map((image, index) => (
@@ -91,7 +132,6 @@ const BoxCar = ({ data, setCarData, setLoading, page, pageSize }) => {
                         width={"100%"}
                         key={index}
                         height={230}
-                        // style={{ objectFit: "fill" }}
                       />
                     ))
                   ) : (

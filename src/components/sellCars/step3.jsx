@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import TabPanel from "../tabPanel";
 import MyDropzone from "./videoUpload";
+import Loading from "react-loading";
 const Step3 = ({ handleNext, handlePrev }) => {
   const inputRefs = useRef({});
   const dispatch = useDispatch();
@@ -213,6 +214,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
     } else {
       setLoading(true);
       router.push("/car-preview");
+      setLoading(false);
     }
   };
 
@@ -434,7 +436,19 @@ const Step3 = ({ handleNext, handlePrev }) => {
                     }}
                     type="submit"
                   >
-                    Continue <ChevronRight />
+                    {loading ? (
+                      <Loading
+                        type="bars"
+                        width={20}
+                        height={20}
+                        className="m-auto"
+                        color="#fff"
+                      />
+                    ) : (
+                      <>
+                        Continue <ChevronRight />
+                      </>
+                    )}
                   </Button>
                 </Stack>
               </form>
@@ -490,7 +504,19 @@ const Step3 = ({ handleNext, handlePrev }) => {
                     }}
                     type="submit"
                   >
-                    Continue <ChevronRight />
+                    {loading ? (
+                      <Loading
+                        type="bars"
+                        width={20}
+                        height={20}
+                        className="m-auto"
+                        color="#fff"
+                      />
+                    ) : (
+                      <>
+                        Continue <ChevronRight />
+                      </>
+                    )}
                   </Button>
                 </Stack>
               </form>

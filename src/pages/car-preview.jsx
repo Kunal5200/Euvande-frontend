@@ -1,10 +1,6 @@
 import { getCarDetails, sendForApprovalCar } from "@/api/apiCalling/vehicle";
-import { isImageURL } from "@/utils/regex";
 import {
-  ChevronLeft,
-  ChevronRight,
   DirectionsCar,
-  Edit,
   Email,
   Person,
   Phone,
@@ -14,29 +10,22 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Divider,
   Grid,
-  List,
-  ListItem,
   Stack,
-  Tab,
-  Tabs,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Carousel } from "react-responsive-carousel";
 import { Player } from "video-react";
 
-import dummycars from "@/icons/cars.jpg";
-import { GiRoad } from "react-icons/gi";
-import InfoCard from "@/components/infoCard";
+import FourImageGrid from "@/components/fourImageGrid";
+import TwoImageGrid from "@/components/twoImageGrid";
 import { OPTION_TYPE } from "@/utils/enum";
 import { useRouter } from "next/router";
+import { GiRoad } from "react-icons/gi";
+import owners from "@/icons/owners.png";
 import Loading from "react-loading";
-import TabPanel from "@/components/tabPanel";
 const CarPreview = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -54,43 +43,59 @@ const CarPreview = () => {
 
     fetchCarData();
   }, []);
-  const arrowStyles = {
-    position: "absolute",
-    zIndex: 2,
-    top: "calc(50% - 15px)",
-    width: 30,
-    height: 30,
-    cursor: "pointer",
-    border: "1px solid #000",
-    borderRadius: "50%",
-    backgroundColor: "#000",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 12,
-  };
-  const [value, setValue] = useState(0);
 
-  const tabChange = (e, newValue) => {
-    setValue(newValue);
-  };
+  const user = useSelector((state) => state.userInfo);
 
-  //   console.log("carData", carData);
-
-  const carInfo = [
+  const contactInfo = [
     {
-      label: "Make",
-      value: carData && carData.make && carData.make.makeName,
+      label: "Name",
+      value:
+        (carData && carData.contactInfo && carData.contactInfo.name) ||
+        (user && user.name),
+      icon: <Person sx={{ fontSize: 12 }} />,
     },
     {
-      label: "Model",
-      value: carData && carData.model && carData.model.modelName,
+      label: "Email",
+      value:
+        (carData && carData.contactInfo && carData.contactInfo.email) ||
+        (user && user.email),
+      icon: <Email sx={{ fontSize: 12 }} />,
     },
     {
-      label: "Manufacturing Year",
-      value: carData && carData.period && carData.period.year,
+      label: "Phone",
+      value:
+        (carData && carData.contactInfo && carData.contactInfo.phoneNo) ||
+        (user && user.phoneNo),
+      icon: <Phone sx={{ fontSize: 12 }} />,
     },
+  ];
+
+  const specificationArray = [
+    {
+      icon: <GiRoad size={13} />,
+      label: "Mileage",
+      value: (carData && carData.odometer) || "Not Specified",
+    },
+    {
+      label: "Ownership",
+      value: (carData && carData.ownership) || "Not Specified",
+      icon: <Person sx={{ fontSize: 13 }} />,
+    },
+    {
+      icon: <Public sx={{ fontSize: 12 }} />,
+      label: "Manfactured In",
+      value:
+        carData &&
+        carData.specification &&
+        carData.specification.specificationDetails &&
+        carData.specification.specificationDetails.manufacturedIn,
+    },
+    {
+      label: "Ownership",
+      value: carData && carData.ownership,
+    },
+  ];
+  const info = [
     {
       label: "Transmission",
       value:
@@ -105,8 +110,22 @@ const CarPreview = () => {
           ? "4x4"
           : "2x4",
     },
-  ];
-  const engine = [
+    {
+      label: "Doors",
+      value: carData && carData.specification && carData.specification.doors,
+    },
+    {
+      label: "Seats",
+      value: carData && carData.specification && carData.specification.seats,
+    },
+    {
+      label: "Trim",
+      value:
+        carData &&
+        carData.specification &&
+        carData.specification.specificationDetails &&
+        carData.specification.specificationDetails.trimLevel,
+    },
     {
       label: "Engine Power",
       value: `${
@@ -138,76 +157,6 @@ const CarPreview = () => {
         carData.specification.interiorMaterial,
     },
   ];
-  const user = useSelector((state) => state.userInfo);
-
-  const contactInfo = [
-    {
-      label: "Name",
-      value:
-        (carData && carData.contactInfo && carData.contactInfo.name) ||
-        (user && user.name),
-      icon: <Person sx={{ fontSize: 12 }} />,
-    },
-    {
-      label: "Email",
-      value:
-        (carData && carData.contactInfo && carData.contactInfo.email) ||
-        (user && user.email),
-      icon: <Email sx={{ fontSize: 12 }} />,
-    },
-    {
-      label: "Phone",
-      value:
-        (carData && carData.contactInfo && carData.contactInfo.phoneNo) ||
-        (user && user.phoneNo),
-      icon: <Phone sx={{ fontSize: 12 }} />,
-    },
-  ];
-
-  const specificationArray = [
-    {
-      icon: <DirectionsCar sx={{ fontSize: 13 }} />,
-      label: "VIN",
-      value: (carData && carData.vin) || "Not Published by Seller",
-    },
-    {
-      icon: <GiRoad size={13} />,
-      label: "Mileage",
-      value: (carData && carData.odometer) || "Not Specified",
-    },
-    {
-      label: "Ownership",
-      value: (carData && carData.ownership) || "Not Specified",
-      icon: <Person sx={{ fontSize: 13 }} />,
-    },
-    {
-      icon: <Public sx={{ fontSize: 12 }} />,
-      label: "Manfactured In",
-      value:
-        carData &&
-        carData.specification &&
-        carData.specification.specificationDetails &&
-        carData.specification.specificationDetails.manufacturedIn,
-    },
-  ];
-  const info = [
-    {
-      label: "Doors",
-      value: carData && carData.specification && carData.specification.doors,
-    },
-    {
-      label: "Seats",
-      value: carData && carData.specification && carData.specification.seats,
-    },
-    {
-      label: "Trim",
-      value:
-        carData &&
-        carData.specification &&
-        carData.specification.specificationDetails &&
-        carData.specification.specificationDetails.trimLevel,
-    },
-  ];
 
   const [approvalLoading, setApprovalLoading] = useState(false);
 
@@ -220,180 +169,313 @@ const CarPreview = () => {
     });
   };
 
-  const tabs = [
+  const carImages = [
     {
-      label: "Basic Information",
+      img1:
+        carData &&
+        carData.media &&
+        carData.media.images &&
+        carData.media.images.frontRight,
+      img2:
+        carData &&
+        carData.media &&
+        carData.media.images &&
+        carData.media.images.frontLeft,
     },
+
     {
-      label: "Contact Information",
-    },
-    {
-      label: "Specifications",
+      img1:
+        carData &&
+        carData.media &&
+        carData.media.images &&
+        carData.media.images.Headlining,
+      img2:
+        carData &&
+        carData.media &&
+        carData.media.images &&
+        carData.media.images.headlamp,
     },
   ];
+  const vehicleImages = [
+    {
+      img1: carData && carData.media && carData.media.images.dashboard,
+      img2: carData && carData.media && carData.media.images.driverDoor,
+      img3: carData && carData.media && carData.media.images.driverSeat,
+      img4: carData && carData.media && carData.media.images.instrumentPanel,
+    },
+    {
+      img1: carData && carData.media && carData.media.images.engine,
+      img2: carData && carData.media && carData.media.images.passengerSeat,
+      img3:
+        carData &&
+        carData.media &&
+        carData.media.images.rearPanelOfCenterConsole,
+      img4: carData && carData.media && carData.media.images.rearSeat,
+    },
+  ];
+  const carRearView = [
+    {
+      img1: carData && carData.media && carData.media.images.rearLeft,
+      img2: carData && carData.media && carData.media.images.rearRight,
+    },
+    {
+      img1: carData && carData.media && carData.media.images.backLeftTyre,
+      img2: carData && carData.media && carData.media.images.backRightTyre,
+    },
+  ];
+  const tyreImages = [
+    {
+      img1: carData && carData.media && carData.media.images.backLeftTyre,
+      img2: carData && carData.media && carData.media.images.backRightTyre,
+      img3: carData && carData.media && carData.media.images.backLeftWheel,
+      img4: carData && carData.media && carData.media.images.backRightWheel,
+    },
+    {
+      img1: carData && carData.media && carData.media.images.frontLeftTyre,
+      img2: carData && carData.media && carData.media.images.frontLeftWheel,
+      img3: carData && carData.media && carData.media.images.frontRightTyre,
+      img4: carData && carData.media && carData.media.images.frontRightWheel,
+    },
+  ];
+  console.log("cardata", carData);
+  const [fixed, setFixed] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () => setFixed(window.pageYOffset > 0));
+    }
+  }, []);
   return (
     <div>
-      <div className="container-fluid p-0">
-        <Card >
-          <Carousel
-            showThumbs={true}
-            showIndicators={false}
-            showStatus={false}
-            infiniteLoop={true}
-            dynamicHeight={true}
-            renderArrowPrev={(onClickHandler, hasPrev, label) =>
-              hasPrev && (
-                <button
-                  type="button"
-                  onClick={onClickHandler}
-                  title={label}
-                  style={{ ...arrowStyles, left: 15 }}
-                >
-                  <ChevronLeft />
-                </button>
-              )
-            }
-            renderArrowNext={(onClickHandler, hasNext, label) =>
-              hasNext && (
-                <button
-                  type="button"
-                  onClick={onClickHandler}
-                  title={label}
-                  style={{ ...arrowStyles, right: 15 }}
-                >
-                  <ChevronRight />
-                </button>
-              )
-            }
-            renderThumbs={() => {
-              return (
-                carData &&
-                carData.carImages &&
-                carData.carImages.map((val, i) => {
-                  return isImageURL(val) ? (
-                    <img src={val} />
-                  ) : (
-                    <img src={dummycars.src} />
-                  );
-                })
-              );
-            }}
-          >
-            {carData &&
-              carData.carImages &&
-              carData.carImages.map((val, i) => {
-                return isImageURL(val) ? (
+      {loading ? (
+        <Box sx={{ height: 1000 }}>
+          <Loading
+            type="bars"
+            width={30}
+            height={30}
+            className="m-auto"
+            color="#000"
+          />
+        </Box>
+      ) : (
+        <Box>
+          <Grid container>
+            <Grid
+              item
+              lg={8}
+              sx={{
+                maxHeight: 680,
+                overflowY: "scroll",
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            >
+              <Grid container>
+                <Grid item lg={12}>
                   <img
-                    src={val}
-                    alt="carImage"
-                    loading="lazy"
-                    height={750}
+                    src={
+                      carData &&
+                      carData.media &&
+                      carData.media.images &&
+                      carData.media.images.frontView
+                    }
                     width={"100%"}
+                    //   height={550}
+                  />
+                </Grid>
+              </Grid>
+
+              <TwoImageGrid data={carImages} />
+              <Grid container borderTop={"4px solid #fff"}>
+                <Grid item lg={12}>
+                  <Player
+                    src={carData && carData.media && carData.media.videos}
+                  />
+                </Grid>
+              </Grid>
+
+              <FourImageGrid data={vehicleImages} />
+              <Grid container borderTop={"4px solid #fff"}>
+                <Grid item lg={12}>
+                  <img
+                    src={
+                      carData &&
+                      carData.media &&
+                      carData.media.images &&
+                      carData.media.images.rearView
+                    }
+                    width={"100%"}
+                    //   height={550}
+                  />
+                </Grid>
+              </Grid>
+
+              <TwoImageGrid data={carRearView} />
+              <FourImageGrid data={tyreImages} />
+            </Grid>
+            <Grid item lg={4} p={2}>
+              <Box
+                sx={{
+                  maxHeight: 525,
+                  overflowY: "scroll",
+                  "::-webkit-scrollbar": {
+                    display: "none",
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: 45,
+                    fontWeight: 550,
+                    textTransform: "uppercase",
+                    lineHeight: 1.2,
+                    mt: 4,
+                  }}
+                >
+                  {carData && carData.period && carData.period.year}{" "}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 45,
+                    fontWeight: 550,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {carData && carData.make && carData.make.makeName}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 45,
+                    fontWeight: 550,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {carData && carData.model && carData.model.modelName}
+                </Typography>
+                <Typography sx={{ fontSize: 12, mt: 2, mb: 4 }}>
+                  VIN : {carData && carData.vin}
+                </Typography>
+
+                <Typography sx={{ fontSize: 20, mt: 4, fontWeight: 550 }}>
+                  {carData && carData.price} €
+                </Typography>
+                <Typography
+                  sx={{ pb: 2, mt: 4, fontSize: 22, fontWeight: 550 }}
+                >
+                  Contact Information
+                </Typography>
+                <Divider sx={{ backgroundColor: "#000" }} />
+                {contactInfo.map((val, i) => (
+                  <React.Fragment>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                      pb={2}
+                      pt={2}
+                      key={i}
+                    >
+                      <Typography fontSize={12}>{val.label}</Typography>
+                      <Typography fontSize={12}>{val.value}</Typography>
+                    </Stack>
+                    {i !== contactInfo.length - 1 && (
+                      <Divider sx={{ backgroundColor: "#000" }} />
+                    )}
+                  </React.Fragment>
+                ))}
+
+                <Typography
+                  sx={{ pb: 2, mt: 3, fontSize: 22, fontWeight: 550 }}
+                >
+                  Key Specifications
+                </Typography>
+                <Divider sx={{ backgroundColor: "#000" }} />
+                {specificationArray.map((val, i) => (
+                  <React.Fragment>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                      pt={2}
+                      pb={2}
+                    >
+                      <Typography fontSize={12}>{val.label}</Typography>
+                      <Typography fontSize={12}>{val.value}</Typography>
+                    </Stack>
+                    {i !== specificationArray.length - 1 && (
+                      <Divider sx={{ backgroundColor: "#000" }} />
+                    )}
+                  </React.Fragment>
+                ))}
+                <Typography
+                  sx={{ pb: 2, mt: 3, fontSize: 22, fontWeight: 550 }}
+                >
+                  Base Specifications
+                </Typography>
+                <Divider sx={{ backgroundColor: "#000" }} />
+                {info.map((val, i) => (
+                  <React.Fragment>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                      pt={2}
+                      pb={2}
+                    >
+                      <Typography fontSize={12}>{val.label}</Typography>
+                      <Typography fontSize={12}>{val.value}</Typography>
+                    </Stack>
+                    {i !== info.length - 1 && (
+                      <Divider sx={{ backgroundColor: "#000" }} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </Box>
+
+              <Button
+                sx={{
+                  border: "1px solid #008000",
+                  backgroundColor: "#008000",
+                  color: "#fff",
+                  ":hover": {
+                    backgroundColor: "#008000",
+                  },
+                  mt: 2,
+                }}
+                fullWidth
+                onClick={() => router.push("/create-demand")}
+              >
+                Edit Details
+              </Button>
+              <Button
+                sx={{
+                  border: "1px solid #000",
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  ":hover": {
+                    backgroundColor: "#000",
+                  },
+                  mt: 0.4,
+                }}
+                fullWidth
+                onClick={sendApproval}
+              >
+                {approvalLoading ? (
+                  <Loading
+                    type="bars"
+                    width={20}
+                    height={20}
+                    className="m-auto"
+                    color="#fff"
                   />
                 ) : (
-                  <Player src={val} poster={val} playsInline />
-                );
-              })}
-          </Carousel>
-        </Card>
-      </div>
-
-      <Container style={{ maxWidth: 1320, marginTop: "2rem" }}>
-        <Typography fontSize={30} textTransform={"uppercase"} fontWeight={600}>
-          {carData && carData.period && carData.period.year}{" "}
-          {carData && carData.make && carData.make.makeName}{" "}
-          {carData && carData.model && carData.model.modelName}{" "}
-          {carData && carData.variant && carData.variant.variantName}
-        </Typography>
-        <Typography mt={1} fontSize={25} fontWeight={550}>
-          {carData && carData.price} €
-        </Typography>
-        <Tabs
-          onChange={tabChange}
-          value={value}
-          sx={{
-            borderBottom: "1px solid #eee",
-            "& .MuiTab-root.Mui-selected": {
-              color: "#000",
-              borderBottom: "2px solid #000",
-            },
-          }}
-        >
-          {tabs.map((val, i) => (
-            <Tab label={val.label} key={i} />
-          ))}
-        </Tabs>
-        <TabPanel index={0} value={value}>
-          <Grid container spacing={4}>
-            <Grid item lg={4}>
-              <InfoCard data={specificationArray} />
+                  " Send For Approval"
+                )}
+              </Button>
             </Grid>
           </Grid>
-        </TabPanel>
-        <TabPanel index={1} value={value}>
-          <Grid container>
-            <Grid item lg={4}>
-              <InfoCard data={contactInfo} />
-            </Grid>
-          </Grid>
-        </TabPanel>
-        <TabPanel index={2} value={value}>
-          <Grid container spacing={3}>
-            <Grid item lg={4}>
-              <InfoCard data={carInfo} />
-            </Grid>
-            <Grid item lg={4}>
-              <InfoCard data={engine} />
-            </Grid>
-            <Grid item lg={4}>
-              <InfoCard data={info} />
-            </Grid>
-          </Grid>
-        </TabPanel>
-        <Stack direction={"row"} alignItems={"center"} spacing={2} mt={2}>
-          <Button
-            sx={{
-              color: "#fff",
-              border: "1px solid green",
-              backgroundColor: "green",
-              ":hover": {
-                backgroundColor: "green",
-              },
-              fontSize: 12,
-            }}
-            onClick={() => router.push("/create-demand")}
-          >
-            Edit Details
-          </Button>
-          <Button
-            sx={{
-              backgroundColor: "#000",
-              color: "#fff",
-              p: 1,
-              fontSize: 12,
-              ":hover": {
-                color: "#fff",
-                backgroundColor: "#000",
-              },
-              width: 200,
-            }}
-            onClick={sendApproval}
-          >
-            {approvalLoading ? (
-              <Loading
-                type="bars"
-                color="#fff"
-                width={20}
-                height={20}
-                className="m-auto"
-              />
-            ) : (
-              "Send Car For Approval"
-            )}
-          </Button>
-        </Stack>
-      </Container>
-
+        </Box>
+      )}
     </div>
   );
 };

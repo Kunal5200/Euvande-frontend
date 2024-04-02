@@ -251,7 +251,7 @@ const CarDetails = () => {
                   carData.carImages &&
                   carData.carImages.map((val, i) => (
                     <SwiperSlide key={i}>
-                      <img src={val} width={"100%"} />
+                      <img src={val} width={"100%"} height={90} />
                     </SwiperSlide>
                   ))}
               </Swiper>

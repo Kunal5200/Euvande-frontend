@@ -4,12 +4,15 @@ import Footer from "./footer";
 import Subheader from "./subHeader";
 import { useRouter } from "next/router";
 import Header from "./header2";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, IconButton } from "@mui/material";
 import SubFooter from "./subFooter";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const Layout = ({ children }) => {
   const [show, setShow] = useState(false);
+  const [showScroll, setShowScroll] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     const pathName = router.pathname;
 
@@ -18,7 +21,29 @@ const Layout = ({ children }) => {
     } else {
       setShow(true);
     }
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowScroll(true);
+      } else {
+        setShowScroll(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [router.pathname]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div>
       {show ? <Subheader /> : <></>}
@@ -30,6 +55,23 @@ const Layout = ({ children }) => {
         <Divider sx={{ backgroundColor: "#fff" }} />
         <SubFooter />
       </Box>
+      {showScroll && (
+        <IconButton
+          onClick={scrollToTop}
+          sx={{
+            position: "fixed",
+            bottom: 20,
+            right: 20,
+            backgroundColor: "#000",
+            color: "#fff",
+            ":hover": {
+              backgroundColor: "#000",
+            },
+          }}
+        >
+          <KeyboardArrowUpIcon />
+        </IconButton>
+      )}
     </div>
   );
 };

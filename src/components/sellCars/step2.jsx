@@ -254,8 +254,6 @@ const Step2 = ({ handleNext, handlePrev }) => {
     }
   }, []);
 
-  console.log("first", user);
-
   return (
     <Container style={{ maxWidth: 1310 }}>
       <CarInfo data={carData} loading={loading} />
@@ -591,7 +589,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
               border: "1px solid #000",
               backgroundColor: "#000",
               color: "#fff",
-              borderRadius: 2,
+
               width: 150,
               p: 1.5,
               ":hover": {
@@ -606,8 +604,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
               <Loading
                 type="bars"
                 color="#fff"
-                width={30}
-                height={30}
+                width={20}
+                height={20}
                 className="m-auto"
               />
             ) : (
