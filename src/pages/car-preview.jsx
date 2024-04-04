@@ -237,7 +237,6 @@ const CarPreview = () => {
       img4: carData && carData.media && carData.media.images.frontRightWheel,
     },
   ];
-  console.log("cardata", carData);
   const [fixed, setFixed] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {

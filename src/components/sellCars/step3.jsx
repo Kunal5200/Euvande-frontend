@@ -166,7 +166,6 @@ const Step3 = ({ handleNext, handlePrev }) => {
     const file = inputRefs.current[id].files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-
       setImagePreviews((prevPreviews) => ({
         ...prevPreviews,
         [id]: imageUrl,
@@ -177,7 +176,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
       formData.append("carId", carInfo && carInfo.id);
 
       try {
-        const result = await vehicleController.uploadPhotos(
+        const result = await vehicleController.uploadPicture(
           formData,
           (progressEvent) => {
             const progress = Math.round(
@@ -195,14 +194,10 @@ const Step3 = ({ handleNext, handlePrev }) => {
           delete updatedProgress[id];
           return updatedProgress;
         });
-      } catch (err) {
-        let errMessage =
-          (err.response && err.response.data.message) || err.message;
-        // Handle errors
-        toast.error(errMessage);
-      }
+      } catch (error) {}
     }
   };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const allImagesUploaded = Object.values(state).every(
@@ -240,68 +235,71 @@ const Step3 = ({ handleNext, handlePrev }) => {
         vehicleController
           .getVehicleDetails(carId)
           .then((res) => {
-            const response = res.data.data.media.images;
+            const response =
+              res &&
+              res.data &&
+              res.data.data &&
+              res.data.data.media &&
+              res.data.data.media.images;
             const video = res.data.data.media.videos;
             if (response) {
               setImagePreviews((prevPreviews) => ({
                 ...prevPreviews,
-                frontLeft: response.frontLeft || null,
-                frontView: response.frontView || null,
-                frontRight: response.frontRight || null,
-                rearRight: response.rearRight || null,
-                rearView: response.rearView || null,
-                rearLeft: response.rearLeft || null,
-                Headlining: response.Headlining || null,
-                headlamp: response.headlamp || null,
-                engine: response.engine || null,
-                driverDoor: response.driverDoor || null,
-                backLeftTyre: response.backLeftTyre || null,
-                backLeftWheel: response.backLeftWheel || null,
-                backRightTyre: response.backRightTyre || null,
-                backRightWheel: response.backRightWheel || null,
-                dashboard: response.dashboard || null,
-                driverDoor: response.driverDoor || null,
-                driverSeat: response.driverSeat || null,
-                engine: response.engine || null,
-                frontLeftTyre: response.frontLeftTyre || null,
-                frontLeftWheel: response.frontLeftWheel || null,
-                frontRightTyre: response.frontRightTyre || null,
-                frontRightWheel: response.frontRightWheel || null,
-                instrumentPanel: response.instrumentPanel || null,
-                passengerSeat: response.passengerSeat || null,
-                rearPanelOfCenterConsole:
-                  response.rearPanelOfCenterConsole || null,
-                rearSeat: response.rearSeat || null,
+                frontLeft: response.frontLeft,
+                frontView: response.frontView,
+                frontRight: response.frontRight,
+                rearRight: response.rearRight,
+                rearView: response.rearView,
+                rearLeft: response.rearLeft,
+                Headlining: response.Headlining,
+                headlamp: response.headlamp,
+                engine: response.engine,
+                driverDoor: response.driverDoor,
+                backLeftTyre: response.backLeftTyre,
+                backLeftWheel: response.backLeftWheel,
+                backRightTyre: response.backRightTyre,
+                backRightWheel: response.backRightWheel,
+                dashboard: response.dashboard,
+                driverDoor: response.driverDoor,
+                driverSeat: response.driverSeat,
+                engine: response.engine,
+                frontLeftTyre: response.frontLeftTyre,
+                frontLeftWheel: response.frontLeftWheel,
+                frontRightTyre: response.frontRightTyre,
+                frontRightWheel: response.frontRightWheel,
+                instrumentPanel: response.instrumentPanel,
+                passengerSeat: response.passengerSeat,
+                rearPanelOfCenterConsole: response.rearPanelOfCenterConsole,
+                rearSeat: response.rearSeat,
               }));
               setState((state) => ({
                 ...state,
-                frontLeft: response.frontLeft || null,
-                frontView: response.frontView || null,
-                frontRight: response.frontRight || null,
-                rearRight: response.rearRight || null,
-                rearView: response.rearView || null,
-                rearLeft: response.rearLeft || null,
-                Headlining: response.Headlining || null,
-                headlamp: response.headlamp || null,
-                engine: response.engine || null,
-                driverDoor: response.driverDoor || null,
-                backLeftTyre: response.backLeftTyre || null,
-                backLeftWheel: response.backLeftWheel || null,
-                backRightTyre: response.backRightTyre || null,
-                backRightWheel: response.backRightWheel || null,
-                dashboard: response.dashboard || null,
-                driverDoor: response.driverDoor || null,
-                driverSeat: response.driverSeat || null,
-                engine: response.engine || null,
-                frontLeftTyre: response.frontLeftTyre || null,
-                frontLeftWheel: response.frontLeftWheel || null,
-                frontRightTyre: response.frontRightTyre || null,
-                frontRightWheel: response.frontRightWheel || null,
-                instrumentPanel: response.instrumentPanel || null,
-                passengerSeat: response.passengerSeat || null,
-                rearPanelOfCenterConsole:
-                  response.rearPanelOfCenterConsole || null,
-                rearSeat: response.rearSeat || null,
+                frontLeft: response.frontLeft,
+                frontView: response.frontView,
+                frontRight: response.frontRight,
+                rearRight: response.rearRight,
+                rearView: response.rearView,
+                rearLeft: response.rearLeft,
+                Headlining: response.Headlining,
+                headlamp: response.headlamp,
+                engine: response.engine,
+                driverDoor: response.driverDoor,
+                backLeftTyre: response.backLeftTyre,
+                backLeftWheel: response.backLeftWheel,
+                backRightTyre: response.backRightTyre,
+                backRightWheel: response.backRightWheel,
+                dashboard: response.dashboard,
+                driverDoor: response.driverDoor,
+                driverSeat: response.driverSeat,
+                engine: response.engine,
+                frontLeftTyre: response.frontLeftTyre,
+                frontLeftWheel: response.frontLeftWheel,
+                frontRightTyre: response.frontRightTyre,
+                frontRightWheel: response.frontRightWheel,
+                instrumentPanel: response.instrumentPanel,
+                passengerSeat: response.passengerSeat,
+                rearPanelOfCenterConsole: response.rearPanelOfCenterConsole,
+                rearSeat: response.rearSeat,
               }));
             }
             setUploadedFile({ name: video, video });
@@ -313,7 +311,6 @@ const Step3 = ({ handleNext, handlePrev }) => {
     };
     fetchImages();
   }, []);
-
   return (
     <div>
       <Head>
@@ -504,19 +501,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
                     }}
                     type="submit"
                   >
-                    {loading ? (
-                      <Loading
-                        type="bars"
-                        width={20}
-                        height={20}
-                        className="m-auto"
-                        color="#fff"
-                      />
-                    ) : (
-                      <>
-                        Continue <ChevronRight />
-                      </>
-                    )}
+                    Continue <ChevronRight />
                   </Button>
                 </Stack>
               </form>

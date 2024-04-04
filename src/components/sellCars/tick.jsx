@@ -1,9 +1,7 @@
-import { Box, Step, StepContent, StepLabel, Stepper } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { isVIN } from "@/utils/regex";
-import { Id } from "react-flags-select";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import { Box, Step, StepContent, StepLabel, Stepper } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 
 const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
   const [failedStepIndex, setFailedStepIndex] = useState(-1);

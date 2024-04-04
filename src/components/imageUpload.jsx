@@ -1,13 +1,18 @@
-import { Grid, LinearProgress, Paper } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { Grid, LinearProgress, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
 
-const ImageUpload = (props) => {
+const ImageUpload = ({
+  data,
+  handleImageUpload,
+  imagePreviews,
+  inputRefs,
+  progress,
+}) => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
-
   return (
     <div>
       <Grid container spacing={2}>
-        {props.data.map((val, i) => (
+        {data.map((val, i) => (
           <Grid
             item
             xs={3}
@@ -19,82 +24,70 @@ const ImageUpload = (props) => {
               <input
                 type="file"
                 style={{ display: "none" }}
-                onChange={() => props.handleImageUpload(val.id)}
+                onChange={() => handleImageUpload(val.id)}
                 id={val.id}
-                ref={(el) => (props.inputRefs.current[val.id] = el)}
-                accept="image/*"
+                ref={(el) => (inputRefs.current[val.id] = el)}
               />
               <div
                 style={{
-                  position: "relative",
+                  backgroundImage: `url(${imagePreviews[val.id] || val.image})`,
                   height: "150px",
                   width: "100%",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  position: "relative",
+                  cursor: "pointer",
                 }}
+                onClick={() => inputRefs.current[val.id].click()}
               >
-                <div
-                  style={{
-                    backgroundImage: `url(${
-                      props.imagePreviews[val.id] || val.image
-                    })`,
-                    height: "150px",
-                    width: "100%",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    position: "relative",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => props.inputRefs.current[val.id].click()}
-                >
-                  {hoveredItemId === val.id && (
-                    <div
+                {hoveredItemId === val.id && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      backgroundColor: "#fff",
+                      color: "#000",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span
                       style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        backgroundColor: "#fff",
-                        color: "#000",
-                        borderRadius: "50%",
-                        width: "40px",
-                        height: "40px",
-                        textAlign: "center",
+                        cursor: "pointer",
+                        fontSize: "24px",
                       }}
                     >
-                      <span
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "24px",
-                        }}
-                      >
-                        +
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div
-                  className="text-end "
-                  style={{
-                    opacity: 1,
-                    backgroundColor: "#0000005E",
-                    width: "100%",
-                    position: "absolute",
-                    bottom: 0,
-                    padding: "2px",
-                    left: 0,
-                  }}
-                >
-                  <p className="f-12 text-white mb-0 text-center">
-                    {val.label}
-                  </p>
+                      +
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <div
+                    className="text-center "
+                    style={{
+                      opacity: 1,
+                      backgroundColor: "#0000005E",
+                      width: "100%",
+                      position: "absolute",
+                      bottom: 0,
+                      padding: "2px",
+                      left: 0,
+                    }}
+                  >
+                    <p className="f-12 text-white mb-0">{val.label}</p>
+                  </div>
                 </div>
               </div>
             </Paper>
-            {props.progress[val.id] !== undefined && (
-              <LinearProgress
-                variant="determinate"
-                value={props.progress[val.id]}
-              />
+            {/* Conditionally render LinearProgress */}
+            {progress[val.id] !== undefined && (
+              <LinearProgress variant="determinate" value={progress[val.id]} />
+              // <Typography>Loading</Typography>
             )}
           </Grid>
         ))}

@@ -12,9 +12,11 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Card,
   Container,
   Divider,
   Grid,
+  Stack,
   Typography,
 } from "@mui/material";
 import Aos from "aos";
@@ -30,6 +32,7 @@ import { useRouter } from "next/router";
 import { getCars } from "@/api/apiCalling/listingApi";
 import "swiper/css/navigation";
 import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
+import SearchForm from "@/components/searchCar";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -63,14 +66,46 @@ export default function Home() {
       </Head>
 
       <Box className={styles.bg_home}>
-        <Container style={{ maxWidth: 1400 }}>
+        {/* <Container style={{ maxWidth: 1400 }}>
           <Grid container data-aos="fade-right">
             <Grid item xs={12} lg={6} mt={10}>
               <BannerForm />
             </Grid>
           </Grid>
+        </Container> */}
+        <Container style={{ maxWidth: 1320 }}>
+          <Grid container alignItems={"center"}>
+            <Grid item lg={5}>
+              <Typography fontSize={50} color={"#fff"}>
+                Effortless Car Transactions Made Simple!
+              </Typography>
+              <Typography fontSize={14} color={"#fff"}>
+                Buy or sell cars hassle-free with our simplified steps.
+                Streamlined process, maximum convenience.
+              </Typography>
+              <Stack direction={"row"} alignItems={"center"} spacing={2} mt={2}>
+                <Button
+                  sx={{ border: "1px solid #fff", width: 200, color: "#fff" }}
+                >
+                  Buy Premium Cars
+                </Button>
+                <Button
+                  sx={{ border: "1px solid #fff", width: 200, color: "#fff" }}
+                >
+                  Sell Premium Cars
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
+      <Container style={{ maxWidth: 1300 }}>
+        <Grid container>
+          <Grid item lg={12}>
+            <SearchForm />
+          </Grid>
+        </Grid>
+      </Container>
 
       <div className={`${styles.howItWorks} py-5`}>
         <Divider className="mb-3">
