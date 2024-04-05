@@ -65,6 +65,7 @@ const Step1 = ({ handleNext }) => {
     displacementL: "",
     price: "",
     ownership: "",
+    color: "",
   });
 
   const dispatch = useDispatch();
@@ -209,6 +210,8 @@ const Step1 = ({ handleNext }) => {
             response.specification.specificationDetails.manufacturedIn,
           price: response && response.price,
           ownership: response && response.ownership,
+          color:
+            response && response.specification && response.specification.color,
         });
         dispatch(setVehicleInformation({ ...response }));
       })
@@ -309,6 +312,7 @@ const Step1 = ({ handleNext }) => {
       vatDeduction: state.vatDeduction,
       vehicleType: state.vehicleType,
       ownership: state.ownership,
+      color: state.color,
       id: carInfo && carInfo.id,
     };
     vehicleController

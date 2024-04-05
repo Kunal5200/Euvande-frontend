@@ -156,6 +156,10 @@ const CarPreview = () => {
         carData.specification &&
         carData.specification.interiorMaterial,
     },
+    {
+      label: "Color",
+      value: carData && carData.specification && carData.specification.color,
+    },
   ];
 
   const [approvalLoading, setApprovalLoading] = useState(false);

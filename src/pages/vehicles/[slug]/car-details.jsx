@@ -47,7 +47,7 @@ import { Autoplay, FreeMode, Navigation, Thumbs, Zoom } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import 'swiper/css/zoom';
+import "swiper/css/zoom";
 const CarDetails = () => {
   const router = useRouter();
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -149,6 +149,7 @@ const CarDetails = () => {
       label: "Seats",
       value: carData && carData.specification && carData.specification.seats,
     },
+
     {
       label: "VIN",
       value: (carData && carData.vin) || "Not Published by the Seller",
@@ -217,7 +218,7 @@ const CarDetails = () => {
           ) : (
             <Card>
               <Swiper
-                modules={[Navigation, Thumbs, FreeMode, Autoplay,Zoom]}
+                modules={[Navigation, Thumbs, FreeMode, Autoplay, Zoom]}
                 navigation={true}
                 autoplay={{
                   delay: 2000,

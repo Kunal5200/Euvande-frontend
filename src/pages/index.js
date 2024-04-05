@@ -75,22 +75,38 @@ export default function Home() {
         </Container> */}
         <Container style={{ maxWidth: 1320 }}>
           <Grid container alignItems={"center"}>
-            <Grid item lg={5}>
-              <Typography fontSize={50} color={"#fff"}>
+            <Grid item lg={4}>
+              <Typography fontSize={55} color={"#fff"} lineHeight={1.2}>
                 Effortless Car Transactions Made Simple!
               </Typography>
-              <Typography fontSize={14} color={"#fff"}>
+              <Typography fontSize={14} color={"#fff"} mt={3} mb={5}>
                 Buy or sell cars hassle-free with our simplified steps.
                 Streamlined process, maximum convenience.
               </Typography>
-              <Stack direction={"row"} alignItems={"center"} spacing={2} mt={2}>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                spacing={2}
+                mt={4}
+                mb={3}
+              >
                 <Button
-                  sx={{ border: "1px solid #fff", width: 200, color: "#fff" }}
+                  sx={{
+                    border: "0.4px solid grey",
+                    width: 200,
+                    color: "#fff",
+                    p:1.5
+                  }}
                 >
                   Buy Premium Cars
                 </Button>
                 <Button
-                  sx={{ border: "1px solid #fff", width: 200, color: "#fff" }}
+                  sx={{
+                    border: "0.4px solid grey",
+                    width: 200,
+                    color: "#fff",
+                    p:1.5
+                  }}
                 >
                   Sell Premium Cars
                 </Button>
@@ -101,7 +117,7 @@ export default function Home() {
       </Box>
       <Container style={{ maxWidth: 1300 }}>
         <Grid container>
-          <Grid item lg={12}>
+          <Grid item lg={10} margin={"auto"}>
             <SearchForm />
           </Grid>
         </Grid>
@@ -226,16 +242,27 @@ export default function Home() {
         </Divider>
         <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={3} marginTop={2} marginBottom={2}>
-            {make.map((val, i) => (
-              <Grid item lg={2} key={i}>
-                <BrandCard
-                  brandName={val.makeName}
-                  img={val.logo}
-                  carNumber={val.carCount}
-                  onClick={() => handleMake(val)}
-                />
-              </Grid>
-            ))}
+            {make.length === 13
+              ? make.map((val, i) => (
+                  <Grid item lg={2} key={i}>
+                    <BrandCard
+                      brandName={val.makeName}
+                      img={val.logo}
+                      carNumber={val.carCount}
+                      onClick={() => handleMake(val)}
+                    />
+                  </Grid>
+                ))
+              : make.slice(0, 6).map((val, i) => (
+                  <Grid item lg={2} key={i}>
+                    <BrandCard
+                      brandName={val.makeName}
+                      img={val.logo}
+                      carNumber={val.carCount}
+                      onClick={() => handleMake(val)}
+                    />
+                  </Grid>
+                ))}
           </Grid>
         </Container>
       </Box>

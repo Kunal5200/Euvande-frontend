@@ -79,9 +79,6 @@ const SellerLogin = () => {
       });
   }, []);
 
-  // useEffect(()=>{
-  //   getSellerPendingCars
-  // },[])
   return (
     <>
       <Head>
@@ -98,11 +95,11 @@ const SellerLogin = () => {
                 </Typography>
                 <Box sx={{ mt: 2 }}>
                   <Stack direction={"row"} alignItems={"center"} spacing={2}>
-                    <TextField sx={loginTextField} fullWidth label="VIN" />
+                    {/* <TextField sx={loginTextField} fullWidth label="VIN" /> */}
                     <Button
                       sx={{
                         backgroundColor: "transparent",
-                        border: "1px solid #d7d7d7",
+                        border: "1px solid #000",
                         p: 2,
                         width: 250,
                         color: "#000",
@@ -113,7 +110,7 @@ const SellerLogin = () => {
                       }}
                       onClick={() => router.push("/create-demand")}
                     >
-                      Next
+                      Sell Your Cars
                     </Button>
                   </Stack>
                 </Box>

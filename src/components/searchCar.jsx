@@ -58,9 +58,25 @@ const SearchForm = () => {
   //         };
   //     getModelByYear({ setModel, data: body });
   //   };
-
+  const [make, setMake] = useState(null);
   const makeHandler = (e, newValue) => {
-   
+    setMake(newValue);
+    if (newValue) {
+      setState({ ...state, make: newValue.id });
+      let body = {
+        makeId: newValue.id,
+      };
+      getModelByYear({ data: body, setModel });
+      getPeriod({ data: body, setPeriod });
+    }
+  };
+
+  const [brandModel, setBrandModel] = useState(null);
+  const modelHandler = (e, newValue) => {
+    setBrandModel(newValue);
+    if (newValue) {
+      setState({ ...state, model: newValue.id });
+    }
   };
 
   const periodHandler = (e) => {
@@ -72,9 +88,7 @@ const SearchForm = () => {
     };
     getModelByYear({ setModel, data: body });
   };
-  const modelHandler = (e) => {
-    setState({ ...state, model: e.value });
-  };
+  //  s
   const priceHandler = (e) => {
     setState({ ...state, price: e.value });
   };
@@ -149,7 +163,7 @@ const SearchForm = () => {
     }),
   };
   return (
-    <Box sx={{ position: "relative", mb: 15 }}>
+    <Box sx={{ position: "relative", mb: 23 }}>
       {/* <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
         <Paper elevation={3} sx={{ backgroundColor: "#ffffff17", p: 4 }}>
           <Grid container>
@@ -313,11 +327,21 @@ const SearchForm = () => {
           </form>
         </Paper>
       </Grid> */}
-      <Card sx={{ p: 2, position: "absolute", width: "100%", bottom: -55 }}>
-        <Typography sx={{ fontSize: 18, fontWeight: 550 }}>
-          I'm Looking For
+      <Card
+        sx={{
+          pt: 4,
+          pb: 4,
+          px: 4,
+          position: "absolute",
+          width: "100%",
+          bottom: -140,
+          boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+        }}
+      >
+        <Typography sx={{ fontSize: 30, fontWeight: 550 }} variant="h3">
+          I am in pursuit of
         </Typography>
-        <Grid container mt={2} spacing={2}>
+        <Grid container mt={1} spacing={2}>
           <Grid item lg={4}>
             <Autocomplete
               renderInput={(params) => (
@@ -340,11 +364,37 @@ const SearchForm = () => {
           <Grid item lg={4}>
             <Autocomplete
               renderInput={(params) => (
-                <TextField {...params} label="Select Make" />
+                <TextField {...params} label="Select Period" />
               )}
-              getOptionLabel={(option) => option.makeName}
-              options={brand}
+              getOptionLabel={(option) => option.year}
+              options={period}
             />
+          </Grid>
+        </Grid>
+        <Grid container mt={2} spacing={2}>
+          <Grid item lg={4}>
+            <TextField label="Enter Mileage" fullWidth />
+          </Grid>
+          <Grid item lg={4}>
+            <TextField label="Enter Price (in Euro)" fullWidth />
+          </Grid>
+          <Grid item lg={4}>
+            <Button
+              sx={{
+                border: "1px solid #000",
+                p: 1.8,
+                backgroundColor: "#000",
+                color: "#fff",
+                ":hover": {
+                  color: "#fff",
+                  backgroundColor: "#000",
+                },
+                fontWeight: 600,
+              }}
+              fullWidth
+            >
+              Search
+            </Button>
           </Grid>
         </Grid>
       </Card>

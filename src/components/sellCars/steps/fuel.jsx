@@ -21,6 +21,10 @@ const FuelStep = ({ data, state, setState }) => {
   const handleFuelType = (val) => {
     setState({ ...state, fuelType: val });
   };
+
+  const colorHandler = (e) => {
+    setState({ ...state, color: e.target.value });
+  };
   useEffect(() => {
     if (carInfo && carInfo.variant && carInfo.variant.fuelType) {
       setSelectedFuelType(carInfo.variant.fuelType);
@@ -49,19 +53,30 @@ const FuelStep = ({ data, state, setState }) => {
           ))}
       </Stack> */}
       <Grid container spacing={2}>
-        <Grid item lg={12}>
+        <Grid item lg={6}>
           <Autocomplete
             renderInput={(params) => (
-              <TextField {...params} label="Select Fuel Type" />
+              <TextField
+                {...params}
+                label="Select Fuel Type"
+                helperText=" Select Fuel Type of the Car"
+              />
             )}
             options={data.fuel}
             value={selectedFuelType}
             onChange={fuelTypeHandler}
             sx={loginTextField}
           />
-          <FormHelperText sx={{ fontSize: 12 }}>
-            Select Fuel Type of the Car
-          </FormHelperText>
+        </Grid>
+        <Grid item lg={6}>
+          <TextField
+            label="Enter Color of the Car"
+            helperText="Enter Color of the Car"
+            sx={loginTextField}
+            fullWidth
+            onChange={colorHandler}
+            value={state.color}
+          />
         </Grid>
       </Grid>
     </div>

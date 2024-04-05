@@ -239,15 +239,16 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             >
               <StepLabel
                 StepIconComponent={(props) => {
-                  const StepIcon = state.fuelType
-                    ? CheckCircleRoundedIcon
-                    : CancelRoundedIcon;
+                  const StepIcon =
+                    state.fuelType && state.color
+                      ? CheckCircleRoundedIcon
+                      : CancelRoundedIcon;
 
                   return (
                     <StepIcon
                       {...props}
                       sx={{
-                        color: state.fuelType ? "green" : "red",
+                        color: state.fuelType && state.color ? "green" : "red",
                       }}
                     />
                   );

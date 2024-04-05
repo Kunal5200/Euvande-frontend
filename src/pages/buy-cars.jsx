@@ -301,6 +301,7 @@ const BuyCars = () => {
                 <Box>
                   <TablePagination
                     rowsPerPage={pageSize}
+                    rowsPerPageOptions={[5, 10, 15, 20]}
                     page={page}
                     count={carData && carData.totalDocs}
                     onPageChange={pageChangeHandler}
@@ -343,6 +344,7 @@ const BuyCars = () => {
               >
                 <TablePagination
                   rowsPerPage={pageSize}
+                  rowsPerPageOptions={[5, 10, 15, 20]}
                   page={page}
                   count={carData && carData.totalDocs}
                   onPageChange={pageChangeHandler}

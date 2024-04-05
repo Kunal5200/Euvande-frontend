@@ -7,6 +7,7 @@ import styles from "@/styles/Header.module.css";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import {
+  Box,
   Chip,
   Container,
   Divider,
@@ -15,7 +16,7 @@ import {
   ListItemText,
   Popover,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -102,11 +103,19 @@ const Header = () => {
         style={{ maxWidth: fixed ? "100%" : 1300 }}
         className={`container ${
           fixed ? styles.main_header : show ? styles.mainHeader : ""
-        } p-2 `}
+        } p-1 `}
       >
         {fixed ? (
           <Container style={{ maxWidth: 1350 }}>
-            <div className="d-flex align-items-center justify-content-between p-2">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                pt: "10px",
+                pb: "10px",
+              }}
+            >
               <Link href={"/"}>
                 <Image
                   src={fixed ? logoBlack : show ? logo : logoBlack}
@@ -161,10 +170,18 @@ const Header = () => {
               </Stack>
 
               <FaUser className={styles.mobileView} />
-            </div>
+            </Box>
           </Container>
         ) : (
-          <div className="d-flex align-items-center justify-content-between p-2">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              pt: "10px",
+              pb: "10px",
+            }}
+          >
             <Link href={"/"}>
               <Image
                 src={fixed ? logoBlack : show ? logo : logoBlack}
@@ -223,7 +240,7 @@ const Header = () => {
             </Stack>
 
             <FaUser className={styles.mobileView} />
-          </div>
+          </Box>
         )}
 
         {/* <div>

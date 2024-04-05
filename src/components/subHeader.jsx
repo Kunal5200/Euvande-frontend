@@ -39,6 +39,7 @@ const Subheader = () => {
                   sx={{
                     backgroundColor: "transparent",
                     border: show ? "1px solid #fff" : "1px solid #000",
+                    marginLeft: "0px !important",
                   }}
                 >
                   <LocalPhoneIcon

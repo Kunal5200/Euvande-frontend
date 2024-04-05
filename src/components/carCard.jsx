@@ -114,7 +114,7 @@ const CarCard = ({ data }) => {
           justifyContent={"space-between"}
           sx={{ mb: 2 }}
         >
-          {data && data.status && (
+          {/* {data && data.status && (
             <Typography
               fontSize={{ lg: 12, sm: 9 }}
               color={
@@ -124,7 +124,7 @@ const CarCard = ({ data }) => {
             >
               {data && data.status}
             </Typography>
-          )}
+          )} */}
           {data && data.price && (
             <Typography
               textAlign={"end"}
