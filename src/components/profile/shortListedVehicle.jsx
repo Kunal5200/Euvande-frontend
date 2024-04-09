@@ -80,7 +80,7 @@ const ShortListedVehicle = () => {
         }}
       >
         <Typography fontSize={20} fontWeight={600}>
-          Shortlisted Vehicles
+          Favourite Vehicles
         </Typography>
         <TablePagination
           count={carData && carData.totalDocs}
@@ -103,7 +103,11 @@ const ShortListedVehicle = () => {
           <Card key={i} sx={{ my: 3 }}>
             <Grid container spacing={3}>
               <Grid item lg={4}>
-                <Carousel showThumbs={false} showIndicators={false}>
+                <Carousel
+                  showThumbs={false}
+                  showIndicators={false}
+                  showArrows={false}
+                >
                   {val.carImages ? (
                     val.carImages.map((image, index) => (
                       <img src={image} key={index} height={200} />
@@ -139,7 +143,43 @@ const ShortListedVehicle = () => {
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
-                  spacing={2}
+                  spacing={5}
+                  mt={2}
+                >
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <AddRoad sx={{ fontSize: 12 }} />
+                    <Typography fontSize={12}>{val && val.odometer}</Typography>
+                  </Stack>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <CalendarMonth sx={{ fontSize: 12 }} />
+                    <Typography fontSize={12}>
+                      {val && val.period && val.period.year}
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <BsFuelPump sx={{ fontSize: 12 }} />
+                    <Typography fontSize={12}>
+                      {(val &&
+                        val.specification &&
+                        val.specification.specificationDetails &&
+                        val.specification.specificationDetails.fuelType) ||
+                        "Not Disclosed"}
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <GiGearStickPattern sx={{ fontSize: 12 }} />
+                    <Typography fontSize={12}>
+                      {(val &&
+                        val.specification &&
+                        val.specification.transmission) ||
+                        "Not Disclosed"}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={5}
                   my={1}
                 >
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
@@ -155,7 +195,10 @@ const ShortListedVehicle = () => {
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <BsFuelPump sx={{ fontSize: 12 }} />
                     <Typography fontSize={12}>
-                      {(val && val.variant && val.variant.fuelType) ||
+                      {(val &&
+                        val.specification &&
+                        val.specification.specificationDetails &&
+                        val.specification.specificationDetails.fuelType) ||
                         "Not Disclosed"}
                     </Typography>
                   </Stack>
@@ -169,7 +212,7 @@ const ShortListedVehicle = () => {
                     </Typography>
                   </Stack>
                 </Stack>
-                {val &&
+                {/* {val &&
                   val.specification &&
                   val.specification.equipments &&
                   val.specification.equipments.slice(0, 3).map((label) => (
@@ -196,17 +239,18 @@ const ShortListedVehicle = () => {
                       } more`}
                       sx={{ fontSize: 12 }}
                     />
-                  )}
+                  )} */}
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
                   justifyContent={"space-between"}
+                  mr={2}
                 >
                   {val && val.price && (
                     <Typography
                       fontSize={25}
                       fontWeight={600}
-                      mt={2}
+                      // mt={2}
                       mb={2}
                       alignSelf={"center"}
                     >
@@ -216,7 +260,16 @@ const ShortListedVehicle = () => {
 
                   <Button
                     color="inherit"
-                    sx={{ fontSize: 12, alignSelf: "end" }}
+                    sx={{
+                      fontSize: 12,
+                      alignSelf: "end",
+                      backgroundColor: "#000",
+                      color: "#fff",
+                      ":hover": {
+                        color: "#fff",
+                        backgroundColor: "#000",
+                      },
+                    }}
                     onClick={() => routerPage(val.id)}
                   >
                     View Car Details <ChevronRight />

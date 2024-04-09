@@ -158,7 +158,11 @@ const CarDetails = () => {
   const engine = [
     {
       label: "Fuel",
-      value: carData && carData.variant && carData.variant.fuelType,
+      value:
+        carData &&
+        carData.specification &&
+        carData.specification.specificationDetails &&
+        carData.specification.specificationDetails.fuelType,
     },
     {
       label: "Transmission",
@@ -270,21 +274,15 @@ const CarDetails = () => {
               justifyContent={"flex-start"}
             >
               <Typography
-                fontSize={25}
+                fontSize={30}
                 fontWeight={600}
                 textTransform={"capitalize"}
               >
                 {carData && carData.make && carData.make.makeName}
               </Typography>
+
               <Typography
-                fontSize={25}
-                fontWeight={600}
-                textTransform={"capitalize"}
-              >
-                {carData && carData.variant && carData.variant.variantName}
-              </Typography>
-              <Typography
-                fontSize={25}
+                fontSize={30}
                 fontWeight={600}
                 textTransform={"capitalize"}
               >
@@ -334,7 +332,7 @@ const CarDetails = () => {
                 </Typography>
               </Stack>
             </Card>
-            <Card sx={{ mb: 2 }}>
+            {/* <Card sx={{ mb: 2 }}>
               {loading ? (
                 <Skeleton variant="text" />
               ) : (
@@ -351,11 +349,12 @@ const CarDetails = () => {
                     <Typography fontSize={12}>Location</Typography>
                   </Stack>
                   <Typography fontSize={12}>
-                    {carData && carData.location && carData.location.city}
+                    {(carData && carData.location && carData.location.city) ||
+                      "Not Specified By Seller"}
                   </Typography>
                 </Box>
               )}
-            </Card>
+            </Card> */}
             <Card sx={{ p: 1 }}>
               {loading ? (
                 <Skeleton variant="text" />

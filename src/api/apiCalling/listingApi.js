@@ -106,10 +106,11 @@ export const getCarDetailsById = async ({
   setLoading,
   setCarData,
   userId,
+  status,
 }) => {
   userId
     ? listingController
-        .getCarDetailsByCarId({ carId, userId })
+        .getCarDetailsByCarId({ carId, userId, status })
         .then((res) => {
           setCarData(res.data.data);
           setLoading(false);
@@ -118,7 +119,7 @@ export const getCarDetailsById = async ({
           console.log(err);
         })
     : listingController
-        .getCarDetailsByCarId({ carId })
+        .getCarDetailsByCarId({ carId, status })
         .then((res) => {
           setCarData(res.data.data);
           setLoading(false);

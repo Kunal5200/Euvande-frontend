@@ -40,13 +40,13 @@ const PeriodStep = ({ state, setState, carData }) => {
   }, [carData]);
 
   useEffect(() => {
-    if (carData && carData.make && carData.make.id) {
+    if (state && state.make && state.make.id) {
       let data = {
         makeId: carData.make.id,
       };
       getPeriod({ setPeriod, data });
     }
-  }, []);
+  }, [state]);
 
   return (
     <div>
@@ -54,7 +54,11 @@ const PeriodStep = ({ state, setState, carData }) => {
         <Grid item lg={6}>
           <Autocomplete
             renderInput={(params) => (
-              <TextField {...params} label="Year of 1st Registration" />
+              <TextField
+                {...params}
+                label="Year of 1st Registration"
+                helperText="Select the manufacturing year of the Car"
+              />
             )}
             options={period}
             getOptionLabel={(option) => option.year}
@@ -63,9 +67,7 @@ const PeriodStep = ({ state, setState, carData }) => {
             loading={!periodValue}
             sx={loginTextField}
           />
-          <FormHelperText sx={{ fontSize: 12 }}>
-            Select the manufacturing year of the Car
-          </FormHelperText>
+          {/* <FormHelperText sx={{ fontSize: 12 }}></FormHelperText> */}
         </Grid>
         <Grid item lg={6}>
           <TextField

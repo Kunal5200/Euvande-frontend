@@ -164,8 +164,10 @@ const Step3 = ({ handleNext, handlePrev }) => {
   const [progress, setProgress] = useState({});
   const handleImageUpload = async (id) => {
     const file = inputRefs.current[id].files[0];
+
     if (file) {
       const imageUrl = URL.createObjectURL(file);
+
       setImagePreviews((prevPreviews) => ({
         ...prevPreviews,
         [id]: imageUrl,
@@ -176,7 +178,7 @@ const Step3 = ({ handleNext, handlePrev }) => {
       formData.append("carId", carInfo && carInfo.id);
 
       try {
-        const result = await vehicleController.uploadPicture(
+        const result = await vehicleController.uploadPhotos(
           formData,
           (progressEvent) => {
             const progress = Math.round(
@@ -194,7 +196,11 @@ const Step3 = ({ handleNext, handlePrev }) => {
           delete updatedProgress[id];
           return updatedProgress;
         });
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+        // Handle errors
+        // console.error(`${id} upload failed:`, error);
+      }
     }
   };
 

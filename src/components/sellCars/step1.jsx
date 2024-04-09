@@ -102,6 +102,7 @@ const Step1 = ({ handleNext }) => {
   const [selectedModel, setSelectedModel] = useState(null);
   const brandChangeHandler = (e, newValue) => {
     setSelectedBrand(newValue);
+    setSelectedModel(null);
     if (!newValue && selectedBrand.id && selectedBrand.makeName) {
       let data = {
         makeId: selectedBrand.id,
@@ -117,6 +118,7 @@ const Step1 = ({ handleNext }) => {
   };
 
   const modelChangeHandler = (e, newValue) => {
+    setSelectedModel(newValue);
     if (newValue) {
       setState({ ...state, model: newValue.id });
     }
@@ -167,7 +169,11 @@ const Step1 = ({ handleNext }) => {
             response &&
             response.specification &&
             response.specification.transmission,
-          fuelType: response && response.variant && response.variant.fuelType,
+          fuelType:
+            response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.fuelType,
           vehicleType:
             (response &&
               response.specification &&

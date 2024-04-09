@@ -39,17 +39,12 @@ const CarDetails = () => {
     const fetchData = async () => {
       const carId = parseInt(router.query.slug);
       if (carId && status) {
-        status === CarStatus.Approved
-          ? await getCarDetailsById({
-              carId,
-              setCarData,
-              setLoading,
-            })
-          : await getCarDetails({
-              carId,
-              setCarData,
-              setLoading,
-            });
+        await getCarDetailsById({
+          carId,
+          setCarData,
+          setLoading,
+          status,
+        });
       } else {
         return () => {};
       }
@@ -66,64 +61,91 @@ const CarDetails = () => {
     {
       icon: <GiRoad />,
       label: "Mileage",
-      value: carData && carData.odometer,
+      value: (carData && carData.odometer) || "Not Published by Seller",
     },
     {
       icon: <BsCalendar />,
       label: "First Registration",
-      value: carData && carData.period && carData.period.year,
+      value:
+        (carData && carData.period && carData.period.year) ||
+        "Not Published by Seller",
     },
     {
       icon: <GiGearStickPattern />,
       label: "Transmission",
       value:
-        carData && carData.specification && carData.specification.transmission,
+        (carData &&
+          carData.specification &&
+          carData.specification.transmission) ||
+        "Not Published by Seller",
     },
     {
       icon: <PiEngine />,
       label: "Power",
-      value: `${
-        carData && carData.specification && carData.specification.power
-      } kw`,
+      value:
+        (carData &&
+          carData.specification &&
+          carData.specification.power &&
+          `${carData.specification.power} kw`) ||
+        "Not Published by Seller",
     },
     {
       icon: <BsFuelPump />,
       label: "Fuel",
-      value: carData && carData.variant && carData.variant.fuelType,
+      value:
+        (carData &&
+          carData.specification &&
+          carData.specification.specificationDetails &&
+          carData.specification.specificationDetails.fuelType) ||
+        "Not Published by Seller",
     },
   ];
   const details = [
     {
       label: "Make",
-      value: carData && carData.make && carData.make.makeName,
+      value:
+        (carData && carData.make && carData.make.makeName) ||
+        "Not Published by the Seller",
     },
     {
       label: "Model",
-      value: carData && carData.model && carData.model.modelName,
+      value:
+        (carData && carData.model && carData.model.modelName) ||
+        "Not Published by the Seller",
     },
     {
       label: "Body Color",
-      value: carData && carData.specification && carData.specification.color,
+      value:
+        (carData && carData.specification && carData.specification.color) ||
+        "Not Published by the Seller",
     },
     {
       label: "Interior Material",
       value:
-        carData &&
-        carData.specification &&
-        carData.specification.interiorMaterial,
+        (carData &&
+          carData.specification &&
+          carData.specification.interiorMaterial) ||
+        "Not Published by the Seller",
     },
     {
       label: "Body",
       value:
-        carData && carData.specification && carData.specification.vehicleType,
+        (carData &&
+          carData.specification &&
+          carData.specification.vehicleType) ||
+        "Not Published by the Seller",
     },
     {
       label: "Doors",
-      value: carData && carData.specification && carData.specification.doors,
+      value:
+        (carData && carData.specification && carData.specification.doors) ||
+        "Not Published by the Seller",
     },
     {
       label: "Seats",
-      value: carData && carData.specification && carData.specification.seats,
+      value:
+        (carData && carData.specification && carData.specification.seats) ||
+        "Not Published by the Seller",
     },
     {
       label: "VIN",
@@ -134,7 +156,12 @@ const CarDetails = () => {
     {
       label: "Fuel",
       value:
-        (carData && carData.variant && carData.variant.fuelType) || "Petrol",
+        (carData &&
+          carData.specification &&
+          carData.specification.specificationDetails &&
+          carData &&
+          carData.specification.specificationDetails.fuelType) ||
+        "Not Disclosed",
     },
     {
       label: "Transmission",
@@ -142,55 +169,51 @@ const CarDetails = () => {
         (carData &&
           carData.specification &&
           carData.specification.transmission) ||
-        "Automatic",
+        "Not Disclosed",
     },
     {
       label: "Drive Type",
       value:
-        (carData && carData.specification && carData.specification.driveType) ||
-        "4x4",
+        (carData &&
+        carData.specification &&
+        carData.specification.driveType4WD === OPTION_TYPE.Yes
+          ? "4x4"
+          : "2x4") || "Not Disclosed",
     },
     {
       label: "Power",
       value:
         (carData && carData.specification && carData.specification.power) ||
-        "200kw",
+        "Not Disclosed",
     },
   ];
   const vehicleCondition = [
     {
       label: "Mileage",
-      value: (carData && carData.odometer) || "35000Km",
+      value: (carData && carData.odometer) || "Not Disclosed",
     },
     {
       label: "First registration",
-      value: (carData && carData.period && carData.period.year) || "2019",
+      value:
+        (carData && carData.period && carData.period.year) || "Not Disclosed",
+    },
+    {
+      label: "Ownership",
+      value: (carData && carData.ownership) || "Not Specified",
     },
   ];
 
   return (
     <Container maxWidth={1400}>
-      <Button sx={{ mt: 3, fontSize: 12 }} onClick={() => router.back()}>
+      <Button
+        sx={{ mt: 3, fontSize: 12, color: "#000" }}
+        onClick={() => router.back()}
+      >
         <FaAngleLeft /> Back to results
       </Button>
       <Grid container>
         <Grid item lg={7} p={2}>
-          {loading ? (
-            <Skeleton variant="text" width={300} />
-          ) : (
-            <Stack direction={"row"} alignItems={"center"} spacing={1}>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.make && carData.make.makeName}
-              </Typography>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.variant && carData.variant.variantName}
-              </Typography>
-              <Typography fontSize={30} fontWeight={600}>
-                {carData && carData.model && carData.model.modelName}
-              </Typography>
-            </Stack>
-          )}
-          {loading ? (
+          {/* {loading ? (
             <Skeleton variant="text" />
           ) : (
             <Box display={"flex"} flexWrap={"wrap"}>
@@ -217,15 +240,16 @@ const CarDetails = () => {
                   />
                 ))}
             </Box>
-          )}
+          )} */}
           {loading ? (
-            <Skeleton variant="rectangular" width={400} height={400} />
+            <Skeleton variant="rectangular" width={"100%"} height={"90%"} />
           ) : (
             <Carousel
               dynamicHeight={true}
               showIndicators={false}
               autoPlay={true}
               infiniteLoop={true}
+              showArrows={false}
             >
               {carData && carData.carImages ? (
                 carData.carImages.map((val, i) => <img src={val} key={i} />)
@@ -236,55 +260,96 @@ const CarDetails = () => {
           )}
         </Grid>
         <Grid item lg={5} p={2}>
-          <Box textAlign={"center"}>
-            <Typography fontSize={30} fontWeight={600}>
-              {carData && carData.price} €
-            </Typography>
-            <Typography fontSize={12}>
-              {carData &&
-              carData.specification &&
-              carData.specification.vatDeduction === OPTION_TYPE.No
-                ? "Without VAT Deduction"
-                : "With VAT Deduction"}
-            </Typography>
-          </Box>
-          <Card sx={{ mt: 6, mb: 2, borderRadius: 4 }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                p: 2,
-              }}
+          {loading ? (
+            <Skeleton variant="text" sx={{ fontSize: 30 }} />
+          ) : (
+            <Stack
+              spacing={1}
+              direction={"row"}
+              alignItems={"center"}
+              textTransform={"uppercase"}
             >
-              <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                <LocationOn />
-                <Typography>Location</Typography>
-              </Stack>
-              <Typography>
-                {carData && carData.location && carData.location.city}
+              <Typography fontSize={40} fontWeight={600}>
+                {carData && carData.make && carData.make.makeName}
               </Typography>
-            </Box>
-          </Card>
-          <Card sx={{ p: 2 }}>
-            {specificationArray.map((val, i) => (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  mb: 2,
-                }}
-                key={i}
-              >
-                <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                  {val.icon}
-                  <Typography fontSize={14}>{val.label}</Typography>
-                </Stack>
-                <Typography fontSize={15}>{val.value}</Typography>
+
+              <Typography fontSize={40} fontWeight={600}>
+                {carData && carData.model && carData.model.modelName}
+              </Typography>
+            </Stack>
+          )}
+
+          {loading ? (
+            <Skeleton sx={{ fontSize: 20 }} />
+          ) : (
+            carData &&
+            carData.price && (
+              <Box textAlign={"start"}>
+                <Typography fontSize={20} fontWeight={600}>
+                  Price : {carData && carData.price} €
+                </Typography>
               </Box>
-            ))}
+            )
+          )}
+          <Card sx={{ mt: 2, mb: 2 }}>
+            {loading ? (
+              <Skeleton variant="rectangular" width={"100%"} />
+            ) : (
+              carData &&
+              carData.specification &&
+              carData.specification.specificationDetails &&
+              carData.specification.specificationDetails.manufacturedIn && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    p: 2,
+                  }}
+                >
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <LocationOn />
+                    <Typography>Location</Typography>
+                  </Stack>
+                  <Typography>
+                    {carData &&
+                      carData.specification &&
+                      carData.specification.specificationDetails &&
+                      carData.specification.specificationDetails.manufacturedIn}
+                  </Typography>
+                </Box>
+              )
+            )}
           </Card>
+          {loading ? (
+            <Skeleton />
+          ) : (
+            <Card sx={{ p: 2 }}>
+              {specificationArray.map((val, i) => (
+                <>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mb: 2,
+                      p: 1,
+                    }}
+                    key={i}
+                  >
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      {val.icon}
+                      <Typography fontSize={12}>{val.label}</Typography>
+                    </Stack>
+                    <Typography fontSize={12}>{val.value}</Typography>
+                  </Box>
+                  {i != specificationArray.length - 1 && (
+                    <Divider sx={{ my: 0.5, backgroundColor: "#000" }} />
+                  )}
+                </>
+              ))}
+            </Card>
+          )}
         </Grid>
       </Grid>
       <Box
@@ -314,10 +379,15 @@ const CarDetails = () => {
                             justifyContent: "space-between",
                             mb: 2,
                             mt: 1,
+                            p: 1,
                           }}
                         >
-                          <Typography>{val.label}</Typography>
-                          <Typography>{val.value}</Typography>
+                          <Typography sx={{ fontSize: 12, color: "grey" }}>
+                            {val.label}
+                          </Typography>
+                          <Typography sx={{ fontSize: 12 }}>
+                            {val.value}
+                          </Typography>
                         </Box>
 
                         {i !== details.length - 1 && (
@@ -344,10 +414,15 @@ const CarDetails = () => {
                             justifyContent: "space-between",
                             mb: 2,
                             mt: 1,
+                            p: 1,
                           }}
                         >
-                          <Typography>{val.label}</Typography>
-                          <Typography>{val.value}</Typography>
+                          <Typography sx={{ fontSize: 12, color: "grey" }}>
+                            {val.label}
+                          </Typography>
+                          <Typography sx={{ fontSize: 12 }}>
+                            {val.value}
+                          </Typography>
                         </Box>
 
                         {i !== engine.length - 1 && (
@@ -371,10 +446,15 @@ const CarDetails = () => {
                             justifyContent: "space-between",
                             mb: 2,
                             mt: 1,
+                            p: 0.5,
                           }}
                         >
-                          <Typography>{val.label}</Typography>
-                          <Typography>{val.value}</Typography>
+                          <Typography sx={{ fontSize: 12, color: "grey" }}>
+                            {val.label}
+                          </Typography>
+                          <Typography sx={{ fontSize: 12 }}>
+                            {val.value}
+                          </Typography>
                         </Box>
 
                         {i !== vehicleCondition.length - 1 && (
@@ -387,7 +467,7 @@ const CarDetails = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item lg={4} sx={{ position: "relative" }}>
+          {/* <Grid item lg={4} sx={{ position: "relative" }}>
             <Card sx={{ p: 2, backgroundColor: "#000", height: 200 }}>
               <Typography textAlign={"center"} fontSize={12} color={"#fff"}>
                 TOTAL PRICE OF THE CAR INCL. SERVICES
@@ -431,22 +511,9 @@ const CarDetails = () => {
               >
                 17042 €
               </Typography>
-              {/* <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  mt: 2,
-                }}
-              >
-                <IconButton>
-                  <Favorite />
-                </IconButton>
-                <Button fullWidth variant="contained">
-                  Buy
-                </Button>
-              </Box> */}
+              
             </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </Container>

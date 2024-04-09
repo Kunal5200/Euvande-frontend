@@ -70,12 +70,12 @@ export const listingController = {
       throw error;
     }
   },
-  getCarDetailsByCarId: async ({ carId, userId }) => {
+  getCarDetailsByCarId: async ({ carId, userId, status }) => {
     try {
       let result = await vehiclePublicAPI.vehcilePublicAPI.get(
         userId
-          ? `/api/newCars/getCarDetailById/${carId}?userId:${userId}`
-          : `/api/newCars/getCarDetailById/${carId}`
+          ? `/api/newCars/getCarDetailById/${carId}?userId:${userId}?status=${status}`
+          : `/api/newCars/getCarDetailById/${carId}?status=${status}`
       );
       return result;
     } catch (error) {

@@ -119,6 +119,7 @@ const PendingCar = ({
                   showThumbs={false}
                   showStatus={false}
                   showIndicators={false}
+                  showArrows={false}
                 >
                   {val && val.carImages ? (
                     val.carImages.map((value, index) => (
@@ -135,11 +136,12 @@ const PendingCar = ({
                 </Carousel>
               )}
             </Grid>
-            <Grid item lg={7} py={3} p={3}>
+            <Grid item lg={7}>
               <Stack
                 direction={"row"}
                 alignItems={"center"}
                 justifyContent={"space-between"}
+                mt={2}
               >
                 <Typography
                   fontSize={20}
@@ -305,7 +307,7 @@ const PendingCar = ({
                   </Stack>
                 </Grid>
               </Grid>
-              <Stack direction={"row"} alignItems={"center"}>
+              {/* <Stack direction={"row"} alignItems={"center"} spacing={0.3}>
                 <Typography fontSize={12} fontWeight={600}>
                   {" "}
                   Status :{" "}
@@ -314,9 +316,10 @@ const PendingCar = ({
                   fontSize={12}
                   color={val.status === CarStatus.Pending ? "red" : "green"}
                 >
+                  {" "}
                   {val && val.status}
                 </Typography>
-              </Stack>
+              </Stack> */}
               <Stack
                 direction={"row"}
                 alignItems={"center"}
@@ -330,8 +333,16 @@ const PendingCar = ({
                 )}
                 <Button
                   onClick={() => handleRoute(val.id)}
-                  sx={{ fontSize: 12 }}
-                  color="inherit"
+                  sx={{
+                    fontSize: 12,
+                    backgroundColor: "#000",
+                    color: "#fff",
+                    mx: 2,
+                    ":hover": {
+                      color: "#000",
+                      border: "1px solid #000",
+                    },
+                  }}
                 >
                   View Car Details <ArrowRightOutlined />
                 </Button>

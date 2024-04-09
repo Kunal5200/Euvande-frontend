@@ -26,10 +26,15 @@ const FuelStep = ({ data, state, setState }) => {
     setState({ ...state, color: e.target.value });
   };
   useEffect(() => {
-    if (carInfo && carInfo.variant && carInfo.variant.fuelType) {
-      setSelectedFuelType(carInfo.variant.fuelType);
+    if (
+      carInfo &&
+      carInfo.specification &&
+      carInfo.specification.specificationDetails &&
+      carInfo.specification.specificationDetails.fuelType
+    ) {
+      setSelectedFuelType(carInfo.specification.specificationDetails.fuelType);
     }
-  }, [carInfo.variant]);
+  }, [carInfo]);
   return (
     <div>
       {/* <Stack direction={"row"} alignItems={"center"} spacing={2}>

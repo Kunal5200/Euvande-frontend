@@ -4,6 +4,7 @@ import {
   getModelByYear,
   getPeriod,
 } from "@/api/apiCalling/listingApi";
+import CarGrid from "@/components/carGrid";
 import BoxCar from "@/components/cars-box";
 import Filterbar from "@/components/filter-bar";
 import FilterSection from "@/components/filterSection";
@@ -34,10 +35,11 @@ const BuyCars = () => {
   const [loading, setLoading] = useState(true);
   const [carData, setCarData] = useState([]);
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(9);
   const user = useSelector((state) => state.userInfo);
 
   const pageChangeHandler = (e, newValue) => {
+    setLoading(true);
     setPage(newValue);
     let body = {
       userId: user.id,
@@ -52,6 +54,7 @@ const BuyCars = () => {
   };
 
   const rowsChangeHandler = (event) => {
+    setLoading(true);
     setPageSize(event.target.value);
     let body = {
       userId: user.id,
@@ -301,7 +304,7 @@ const BuyCars = () => {
                 <Box>
                   <TablePagination
                     rowsPerPage={pageSize}
-                    rowsPerPageOptions={[5, 10, 15, 20]}
+                    rowsPerPageOptions={[9, 12, 15, 18]}
                     page={page}
                     count={carData && carData.totalDocs}
                     onPageChange={pageChangeHandler}
@@ -321,7 +324,14 @@ const BuyCars = () => {
                   className="m-auto"
                 />
               ) : carData.docs.length ? (
-                <BoxCar
+                // <BoxCar
+                //   data={carData.docs}
+                //   setCarData={setCarData}
+                //   setLoading={setLoading}
+                //   page={page}
+                //   pageSize={pageSize}
+                // />
+                <CarGrid
                   data={carData.docs}
                   setCarData={setCarData}
                   setLoading={setLoading}
@@ -344,7 +354,7 @@ const BuyCars = () => {
               >
                 <TablePagination
                   rowsPerPage={pageSize}
-                  rowsPerPageOptions={[5, 10, 15, 20]}
+                  rowsPerPageOptions={[9, 12, 15, 18]}
                   page={page}
                   count={carData && carData.totalDocs}
                   onPageChange={pageChangeHandler}
