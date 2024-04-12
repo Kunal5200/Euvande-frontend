@@ -10,6 +10,7 @@ import { updateDetailsValidation } from "@/utils/validation";
 import { toast } from "react-toastify";
 import Loading from "react-loading";
 import { isEmail, isPhonenumber } from "@/utils/regex";
+import { MuiTelInput } from "mui-tel-input";
 
 const EditUserProfile = ({ value, setUser }) => {
   const [state, setState] = useState({
@@ -94,7 +95,7 @@ const EditUserProfile = ({ value, setUser }) => {
 
         <form className="mt-5" onSubmit={submitHandler}>
           <Grid container className="mb-3" spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <TextField
                 label="Name*"
                 sx={loginTextField}
@@ -107,7 +108,7 @@ const EditUserProfile = ({ value, setUser }) => {
                 helperText={error.name}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <TextField
                 label="Email*"
                 sx={loginTextField}
@@ -118,13 +119,15 @@ const EditUserProfile = ({ value, setUser }) => {
                 id="email"
                 error={error.email}
                 helperText={error.email}
-                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
           </Grid>
           <Grid container className="mb-3" spacing={2}>
-            <Grid item xs={6}>
-              <TextField
+            <Grid item xs={12}>
+              {/* <TextField
                 label="Phone Number*"
                 sx={loginTextField}
                 fullWidth
@@ -135,9 +138,10 @@ const EditUserProfile = ({ value, setUser }) => {
                 focused={state.phoneNo === "" ? false : true}
                 error={error.phoneNo}
                 helperText={error.phoneNo}
-              />
+              /> */}
+              <MuiTelInput defaultCountry="DE" continents={["EU"]} fullWidth />
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Autocomplete
                 id="country"
                 options={countries}
@@ -176,7 +180,7 @@ const EditUserProfile = ({ value, setUser }) => {
                   />
                 )}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <Grid container className="mb-2">

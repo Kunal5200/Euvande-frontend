@@ -54,7 +54,7 @@ const ProfileSettings = (props) => {
   return (
     <div>
       <div>
-        <h4 className="fw-semibold mb-2">Profile Settings</h4>
+        <h4 className="fw-semibold mb-2 ms-3">Profile Settings</h4>
 
         <div className="container ">
           <div className="row">

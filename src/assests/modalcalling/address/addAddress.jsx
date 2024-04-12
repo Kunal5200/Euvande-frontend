@@ -232,6 +232,7 @@ const AddAddress = ({ getAddress }) => {
                 id="addressType"
                 className="mb-3"
                 onChange={handleAddressType}
+                fullWidth
               />
             )}
             <div className="text-center ">

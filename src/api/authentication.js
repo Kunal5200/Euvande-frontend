@@ -147,4 +147,15 @@ export const authControllers = {
       throw error;
     }
   },
+  loginOrRegister: async (data) => {
+    try {
+      let result = await publicAPI.publicAPI.post(
+        "/api/user/loginOrRegister",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

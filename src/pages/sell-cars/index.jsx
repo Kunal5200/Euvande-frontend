@@ -3,6 +3,7 @@ import { addCar } from "@/api/apiCalling/vehicle";
 import { listingController } from "@/api/listing";
 import data from "@/assests/data";
 import Brands from "@/components/brands";
+import Recommended from "@/components/recommendedCard";
 import Testimonials from "@/components/testimonials";
 // import Button from "@/components/button";
 import hands from "@/icons/hands.png";
@@ -29,6 +30,9 @@ import { useEffect, useState } from "react";
 import Loading from "react-loading";
 import Carousel from "react-multi-carousel";
 import { useDispatch } from "react-redux";
+import growth from "@/icons/growth-chart.png";
+import star from "@/icons/star.png";
+import location from "@/icons/location.png";
 const SellerLogin = () => {
   const router = useRouter();
   const [make, setMake] = useState([]);
@@ -78,6 +82,24 @@ const SellerLogin = () => {
         console.log(err);
       });
   }, []);
+
+  const arrRecommended = [
+    {
+      img: growth.src,
+      title: "1 Lakh+",
+      spanTitle: "cars purchased",
+    },
+    {
+      img: star.src,
+      title: "4.7",
+      spanTitle: "average rating",
+    },
+    {
+      img: location.src,
+      title: "40+",
+      spanTitle: "states in Europe",
+    },
+  ];
 
   return (
     <>
@@ -251,6 +273,11 @@ const SellerLogin = () => {
                 </Card>
               </Grid>
             ))}
+          </Grid>
+          <Grid container mt={4}>
+            <Grid item lg={8} margin={"auto"}>
+              <Recommended data={arrRecommended} />
+            </Grid>
           </Grid>
         </Container>
         {/* <Container style={{ maxWidth: 1300, mb: 4 }}>

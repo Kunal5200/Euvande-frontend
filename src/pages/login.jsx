@@ -5,6 +5,7 @@ import LoginForm from "@/components/loginForm";
 import SignupForm from "@/components/signupForm";
 import { Close } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import LoginOTP from "@/components/login-form";
 
 export default function SignInUpForm() {
   const [signup, setsignup] = useState(false);
@@ -53,6 +54,7 @@ export default function SignInUpForm() {
             className={`${styles.form_container} ${styles.sign_in_container}`}
           >
             <LoginForm />
+            {/* <LoginOTP /> */}
           </div>
           <div className={styles.overlay_container}>
             <div className={styles.overlay}>
@@ -76,7 +78,7 @@ export default function SignInUpForm() {
                     position: "absolute",
                     right: 0,
                     zIndex: 999,
-                    m:1
+                    m: 1,
                   }}
                   onClick={() => router.back()}
                 >

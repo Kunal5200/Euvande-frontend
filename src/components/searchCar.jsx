@@ -22,8 +22,11 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
+import { loginTextField } from "@/utils/styles";
+// import { Lato } from "next/font";
 const SearchForm = () => {
   const router = useRouter();
+  // const lato = Lato({subsets});
   const dispatch = useDispatch();
   const vatDeductionHandler = (e) => {
     let { id, checked } = e.target;
@@ -162,6 +165,32 @@ const SearchForm = () => {
       color: "#fff",
     }),
   };
+
+  // const searchHandler = (e) => {
+  //   e.preventDefault();
+  //   if (
+  //     state.make === "" ||
+  //     state.mileage === "" ||
+  //     state.model === "" ||
+  //     state.period === "" ||
+  //     state.price === ""
+  //   ) {
+  //     toast.error("Please Enter Details for Search");
+  //     return false;
+  //   } else {
+  //     let data = {
+  //       make: state.make,
+  //       model: state.model,
+  //       mileage: state.mileage,
+  //       period: state.period,
+  //       vatDeduction: state.vatDeduction,
+  //       price: state.price,
+  //     };
+  //     const body = encodeURIComponent(JSON.stringify(data));
+  //     // dispatch(setSearchData({ ...searchData }));
+  //     router.push(`/buy-cars?state=${body}`);
+  //   }
+  // };
   return (
     <Box sx={{ position: "relative", mb: 23 }}>
       {/* <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
@@ -338,65 +367,85 @@ const SearchForm = () => {
           boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
         }}
       >
-        <Typography sx={{ fontSize: 30, fontWeight: 550 }} variant="h3">
+        <Typography
+          sx={{ fontSize: 30, fontWeight: 400 }}
+          variant="h3"
+          className="customFont"
+        >
           I am in pursuit of
         </Typography>
-        <Grid container mt={1} spacing={2}>
-          <Grid item lg={4}>
-            <Autocomplete
-              renderInput={(params) => (
-                <TextField {...params} label="Select Make" />
-              )}
-              getOptionLabel={(option) => option.makeName}
-              options={brand}
-              onChange={makeHandler}
-            />
+        <form onSubmit={searchHandler}>
+          <Grid container mt={1} spacing={2}>
+            <Grid item lg={4}>
+              <Autocomplete
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select Make"
+                  />
+                )}
+                getOptionLabel={(option) => option.makeName}
+                options={brand}
+                onChange={makeHandler}
+              />
+            </Grid>
+            <Grid item lg={4}>
+              <Autocomplete
+                renderInput={(params) => (
+                  <TextField {...params} label="Select Model" />
+                )}
+                getOptionLabel={(option) => option.modelName}
+                options={model}
+                onChange={modelHandler}
+              />
+            </Grid>
+            <Grid item lg={4}>
+              <Autocomplete
+                renderInput={(params) => (
+                  <TextField {...params} label="Select Period" />
+                )}
+                getOptionLabel={(option) => option.year}
+                options={period}
+                onChange={periodHandler}
+              />
+            </Grid>
           </Grid>
-          <Grid item lg={4}>
-            <Autocomplete
-              renderInput={(params) => (
-                <TextField {...params} label="Select Model" />
-              )}
-              getOptionLabel={(option) => option.modelName}
-              options={model}
-            />
+          <Grid container mt={2} spacing={2}>
+            <Grid item lg={4}>
+              <TextField
+                label="Enter Mileage"
+                fullWidth
+                onChange={mileageHandler}
+              />
+            </Grid>
+            <Grid item lg={4}>
+              <TextField
+                label="Enter Price (in Euro)"
+                fullWidth
+                onChange={priceHandler}
+              />
+            </Grid>
+            <Grid item lg={4}>
+              <Button
+                sx={{
+                  border: "1px solid #2b2b2b",
+                  p: 1.8,
+                  backgroundColor: "#2b2b2b",
+                  color: "#dbac5b",
+                  ":hover": {
+                    color: "#dbac5b",
+                    backgroundColor: "#2b2b2b",
+                  },
+                  fontWeight: 600,
+                }}
+                fullWidth
+                type="submit"
+              >
+                Search
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item lg={4}>
-            <Autocomplete
-              renderInput={(params) => (
-                <TextField {...params} label="Select Period" />
-              )}
-              getOptionLabel={(option) => option.year}
-              options={period}
-            />
-          </Grid>
-        </Grid>
-        <Grid container mt={2} spacing={2}>
-          <Grid item lg={4}>
-            <TextField label="Enter Mileage" fullWidth />
-          </Grid>
-          <Grid item lg={4}>
-            <TextField label="Enter Price (in Euro)" fullWidth />
-          </Grid>
-          <Grid item lg={4}>
-            <Button
-              sx={{
-                border: "1px solid #000",
-                p: 1.8,
-                backgroundColor: "#000",
-                color: "#fff",
-                ":hover": {
-                  color: "#fff",
-                  backgroundColor: "#000",
-                },
-                fontWeight: 600,
-              }}
-              fullWidth
-            >
-              Search
-            </Button>
-          </Grid>
-        </Grid>
+        </form>
       </Card>
     </Box>
   );

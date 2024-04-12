@@ -95,7 +95,7 @@ export default function Home() {
                     border: "0.4px solid grey",
                     width: 200,
                     color: "#fff",
-                    p:1.5
+                    p: 1.5,
                   }}
                 >
                   Buy Premium Cars
@@ -105,7 +105,7 @@ export default function Home() {
                     border: "0.4px solid grey",
                     width: 200,
                     color: "#fff",
-                    p:1.5
+                    p: 1.5,
                   }}
                 >
                   Sell Premium Cars
@@ -129,6 +129,7 @@ export default function Home() {
             fontSize={{ xs: 20, lg: 25 }}
             variant="h4"
             fontWeight={600}
+            color={"#dbac5b"}
           >
             How it Works?
           </Typography>

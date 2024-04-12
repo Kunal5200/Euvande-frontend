@@ -3,7 +3,9 @@ import {
   AddRoad,
   CalendarMonth,
   ChevronRight,
+  DirectionsCar,
   Favorite,
+  Person,
 } from "@mui/icons-material";
 import {
   Box,
@@ -25,6 +27,7 @@ import { Carousel } from "react-responsive-carousel";
 import dummyCars from "@/icons/cars.jpg";
 import { useSelector } from "react-redux";
 import { vehicleController } from "@/api/addVehicle";
+import { PiEngine } from "react-icons/pi";
 const ShortListedVehicle = () => {
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -129,6 +132,7 @@ const ShortListedVehicle = () => {
                     fontWeight={600}
                     textTransform={"capitalize"}
                   >
+                    {val && val.period && val.period.year}{" "}
                     {val && val.make && val.make.makeName}{" "}
                     {val && val.model && val.model.modelName}
                   </Typography>
@@ -148,14 +152,11 @@ const ShortListedVehicle = () => {
                 >
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <AddRoad sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>{val && val.odometer}</Typography>
+                    <Typography fontSize={12}>{`${
+                      val && val.odometer
+                    } km`}</Typography>
                   </Stack>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <CalendarMonth sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>
-                      {val && val.period && val.period.year}
-                    </Typography>
-                  </Stack>
+
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <BsFuelPump sx={{ fontSize: 12 }} />
                     <Typography fontSize={12}>
@@ -183,32 +184,26 @@ const ShortListedVehicle = () => {
                   my={1}
                 >
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <AddRoad sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>{val && val.odometer}</Typography>
-                  </Stack>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <CalendarMonth sx={{ fontSize: 12 }} />
+                    <Person sx={{ fontSize: 14 }} />
                     <Typography fontSize={12}>
-                      {val && val.period && val.period.year}
+                      {val && val.ownership}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <BsFuelPump sx={{ fontSize: 12 }} />
+                    <PiEngine sx={{ fontSize: 14 }} />
                     <Typography fontSize={12}>
-                      {(val &&
+                      {val &&
                         val.specification &&
-                        val.specification.specificationDetails &&
-                        val.specification.specificationDetails.fuelType) ||
-                        "Not Disclosed"}
+                        val.specification.power &&
+                        `${val.specification.power} kw`}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <GiGearStickPattern sx={{ fontSize: 12 }} />
+                    <DirectionsCar sx={{ fontSize: 12 }} />
                     <Typography fontSize={12}>
-                      {(val &&
+                      {val &&
                         val.specification &&
-                        val.specification.transmission) ||
-                        "Not Disclosed"}
+                        val.specification.vehicleType}
                     </Typography>
                   </Stack>
                 </Stack>

@@ -42,8 +42,19 @@
 
 /* CSS */
 
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"); */
 html {
   scroll-behavior: smooth;
+}
+@font-face {
+  font-family: roboto-condensed;
+  src: url("../../public/fonts/RobotoCondensed-VariableFont_wght.ttf");
+  font-style: normal;
+}
+
+.customFont {
+  font-family: roboto-condensed;
 }
 
 /* CSS */
