@@ -103,4 +103,14 @@ export const listingController = {
       throw error;
     }
   },
+  getAllModels: async () => {
+    try {
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        "/api/model/public/getAllModels"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

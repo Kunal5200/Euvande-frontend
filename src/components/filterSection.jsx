@@ -11,7 +11,7 @@ import {
   ListItem,
   Radio,
   RadioGroup,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useState } from "react";
 
@@ -45,7 +45,10 @@ const FilterSection = ({
       >
         <AccordionSummary
           expandIcon={<ExpandMore />}
-          sx={{ borderBottom: expanded === "panel1" ? "1px solid #eee" : "1px solid #eee" }}
+          sx={{
+            borderBottom:
+              expanded === "panel1" ? "1px solid #eee" : "1px solid #eee",
+          }}
         >
           <Typography variant="h4" fontSize={15}>
             Make

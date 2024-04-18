@@ -305,3 +305,14 @@ export const vehicleMakeCount = ({ setMake }) => {
       console.log(err);
     });
 };
+
+export const getAllModels = ({ setAllModels, setLoading }) => {
+  listingController
+    .getAllModels()
+    .then((res) => {
+      console.log("res", res);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
+};

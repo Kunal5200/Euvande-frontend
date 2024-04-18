@@ -119,7 +119,10 @@ const BuyCars = () => {
     setSelectedMake("");
     setSelectedPeriod("");
     setSelectedModel("");
-    getCars({ loading: setLoading, setCarData, pageSize, page });
+    let body = {
+      userId: user.id,
+    };
+    getCars({ loading: setLoading, setCarData, pageSize, page, body });
   };
   const [sortingValue, setSortingValue] = useState("");
 
