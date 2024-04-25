@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -83,15 +83,22 @@ const BuyCars = () => {
   }, []);
   const handlePeriodSelector = (e) => {
     setSelectedPeriod(e.target.value);
-    let body = {
-      makeId: parseInt(selectedMake),
-      periodId: parseInt(e.target.value),
-    };
+    setLoading(true);
+    let body =
+      selectedMake != null
+        ? {
+            makeId: parseInt(selectedMake),
+            periodId: parseInt(e.target.value),
+          }
+        : {
+            periodId: parseInt(e.target.value),
+          };
     getCars({ body, loading: setLoading, setCarData, page, pageSize });
   };
 
   const handleMakeSelector = (e) => {
     setSelectedMake(e.target.value);
+    setLoading(true);
     let body = {
       makeId: parseInt(e.target.value),
     };
@@ -101,7 +108,7 @@ const BuyCars = () => {
   };
   const handleModelSelector = (e) => {
     setSelectedModel(e.target.value);
-
+    setLoading(true);
     let body = {
       makeId: parseInt(selectedMake),
       modelId: parseInt(e.target.value),
@@ -114,11 +121,42 @@ const BuyCars = () => {
     getCars({ body, setCarData, page, pageSize, loading: setLoading });
     getModelByYear({ setModel, data });
   };
+  const [filters, setFilters] = useState({
+    make: null,
+    model: null,
+    period: null,
+    minPrice: null,
+    maxPrice: null,
+    transmission: null,
+    fuelType: null,
+    vehicleType: null,
+    interiorMaterial: null,
+    driveType4WD: null,
+    color: null,
+    seats: null,
+    doors: null,
+    ownership: null,
+  });
 
   const removeFilter = () => {
-    setSelectedMake("");
-    setSelectedPeriod("");
-    setSelectedModel("");
+    setLoading(true);
+    setFilters({
+      ...filters,
+      make: null,
+      model: null,
+      period: null,
+      minPrice: null,
+      maxPrice: null,
+      transmission: null,
+      fuelType: null,
+      vehicleType: null,
+      interiorMaterial: null,
+      driveType4WD: null,
+      color: null,
+      seats: null,
+      doors: null,
+      ownership: null,
+    });
     let body = {
       userId: user.id,
     };
@@ -180,6 +218,7 @@ const BuyCars = () => {
   }, [user]);
   // sorting
   const sortingHandler = (e) => {
+    setLoading(true);
     if (e) {
       setSortingValue(sortingValue);
       if (e.value === FILTERS.NEWESTAD) {
@@ -232,6 +271,8 @@ const BuyCars = () => {
   };
   useEffect(() => {
     scrollToTop();
+    getPeriod({ setPeriod });
+    getModelByYear({ setModel });
   }, []);
   return (
     <Container style={{ maxWidth: 1325 }}>
@@ -241,7 +282,7 @@ const BuyCars = () => {
       <Box>
         <Grid container spacing={6}>
           <Grid item lg={3} sx={{ mt: 5 }}>
-            <Card>
+            <Card sx={{ zIndex: -1 }}>
               <Box
                 sx={{
                   display: "flex",
@@ -268,6 +309,14 @@ const BuyCars = () => {
                 model={model}
                 selectedModel={selectedModel}
                 modelHandler={handleModelSelector}
+                setCarData={setCarData}
+                carData={carData}
+                setLoading={setLoading}
+                page={page}
+                pageSize={pageSize}
+                filters={filters}
+                setFilters={setFilters}
+                removeFilter={removeFilter}
               />
             </Card>
           </Grid>
@@ -275,97 +324,89 @@ const BuyCars = () => {
             <Typography fontSize={30} letterSpacing={1} fontWeight={600}>
               Verified Cars
             </Typography>
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-              spacing={1}
-            >
-              <Stack direction={"row"} alignItems={"center"}>
-                <Typography fontSize={13} fontWeight={600}>
-                  {carData.totalDocs}
-                </Typography>
-                <Typography fontSize={13} ml={0.5}>
-                  Results
-                </Typography>
 
-                <Divider
-                  flexItem
-                  orientation="vertical"
-                  variant="middle"
-                  sx={{
-                    backgroundColor: "#000",
-                    opacity: 1,
-                    height: 15,
-                    alignSelf: "center",
-                    ml: 1,
-                  }}
-                />
-                <Filterbar onChange={sortingHandler} />
-              </Stack>
-              {!loading && (
-                <Box>
-                  <TablePagination
-                    rowsPerPage={pageSize}
-                    rowsPerPageOptions={[9, 12, 15, 18]}
-                    page={page}
-                    count={carData && carData.totalDocs}
-                    onPageChange={pageChangeHandler}
-                    onRowsPerPageChange={rowsChangeHandler}
-                    labelRowsPerPage="Results Displayed : "
-                  />
-                </Box>
-              )}
-            </Stack>
             <Box marginTop={3}>
               {loading ? (
                 <Loading
                   type={"bars"}
                   color="#000"
-                  width={30}
-                  height={30}
+                  width={20}
+                  height={20}
                   className="m-auto"
                 />
               ) : carData.docs.length ? (
-                // <BoxCar
-                //   data={carData.docs}
-                //   setCarData={setCarData}
-                //   setLoading={setLoading}
-                //   page={page}
-                //   pageSize={pageSize}
-                // />
-                <CarGrid
-                  data={carData.docs}
-                  setCarData={setCarData}
-                  setLoading={setLoading}
-                  page={page}
-                  pageSize={pageSize}
-                />
+                <React.Fragment>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                    spacing={1}
+                  >
+                    <Stack direction={"row"} alignItems={"center"}>
+                      <Typography fontSize={13} fontWeight={600}>
+                        {carData.totalDocs}
+                      </Typography>
+                      <Typography fontSize={13} ml={0.5}>
+                        Results
+                      </Typography>
+
+                      <Divider
+                        flexItem
+                        orientation="vertical"
+                        variant="middle"
+                        sx={{
+                          backgroundColor: "#000",
+                          opacity: 1,
+                          height: 15,
+                          alignSelf: "center",
+                          ml: 1,
+                        }}
+                      />
+                      <Filterbar onChange={sortingHandler} />
+                    </Stack>
+                    <Box>
+                      <TablePagination
+                        rowsPerPage={pageSize}
+                        rowsPerPageOptions={[9, 12, 15, 18]}
+                        page={page}
+                        count={carData && carData.totalDocs}
+                        onPageChange={pageChangeHandler}
+                        onRowsPerPageChange={rowsChangeHandler}
+                        labelRowsPerPage="Results Displayed : "
+                      />
+                    </Box>
+                  </Stack>
+                  <CarGrid
+                    data={carData.docs}
+                    setCarData={setCarData}
+                    setLoading={setLoading}
+                    page={page}
+                    pageSize={pageSize}
+                  />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <TablePagination
+                      rowsPerPage={pageSize}
+                      rowsPerPageOptions={[9, 12, 15, 18]}
+                      page={page}
+                      count={carData && carData.totalDocs}
+                      onPageChange={pageChangeHandler}
+                      onRowsPerPageChange={rowsChangeHandler}
+                      labelRowsPerPage="Results Displayed : "
+                    />
+                  </Box>
+                </React.Fragment>
               ) : (
-                <Typography fontSize={20} textAlign={"center"}>
+                <Typography fontSize={15} textAlign={"center"}>
                   No Car Found
                 </Typography>
               )}
             </Box>
-            {!loading && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <TablePagination
-                  rowsPerPage={pageSize}
-                  rowsPerPageOptions={[9, 12, 15, 18]}
-                  page={page}
-                  count={carData && carData.totalDocs}
-                  onPageChange={pageChangeHandler}
-                  onRowsPerPageChange={rowsChangeHandler}
-                  labelRowsPerPage="Results Displayed : "
-                />
-              </Box>
-            )}
           </Grid>
         </Grid>
       </Box>

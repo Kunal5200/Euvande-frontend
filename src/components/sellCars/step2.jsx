@@ -55,6 +55,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
   const [showphoneOTPField, setShowPhoneOTPField] = useState(false);
   const [showGetOtpButtonEmail, setShowOtpButtonEmail] = useState(false);
   const [showEmailOTPField, setShowEmailOTPField] = useState(false);
+  // const [user, setUser] = useState(null);
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setState({ ...state, [id]: value });
@@ -211,7 +212,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
         .then((res) => {
           if (res && res.data && res.data.data) {
             localStorage.setItem("accessToken", res.data.data.accessToken);
-            dispatch(setDetails({ ...res.data.data }));
+            // dispatch(setDetails({ ...res.data.data, isAuthenticated: true }));
             getUserProfile({ setUser, dispatch, setLoading });
           }
           setAddContactLoading(false);
@@ -256,7 +257,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
     }
   }, []);
 
-  console.log("user", user);
+  // console.log("user", user);
   return (
     <Container style={{ maxWidth: 1310 }}>
       <CarInfo data={carData} loading={loading} />

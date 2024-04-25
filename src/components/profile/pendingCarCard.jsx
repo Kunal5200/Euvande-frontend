@@ -76,7 +76,7 @@ const PendingCar = ({
   const handleEditCar = () => {
     if (id) {
       localStorage.setItem("carId", id);
-      router.push("/sell-cars/make");
+      router.push("/create-demand");
     }
   };
 

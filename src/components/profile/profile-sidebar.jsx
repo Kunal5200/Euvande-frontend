@@ -21,7 +21,7 @@ const ProfileSidebar = () => {
       icon: <FaBoxOpen />,
     },
     {
-      label: "Favourite Vehicle",
+      label: "Favourite Cars",
       icon: <FaHeart />,
     },
     {

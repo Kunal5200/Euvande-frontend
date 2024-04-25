@@ -51,9 +51,9 @@ const Layout = ({ children }) => {
       {show && <Header />}
       {children}
       <Box sx={{ backgroundColor: "#000" }}>
-        <Footer />
-        <Divider sx={{ backgroundColor: "#fff" }} />
-        <SubFooter />
+        {show && <Footer />}
+        {show && <Divider sx={{ backgroundColor: "#fff" }} />}
+        {show && <SubFooter />}
       </Box>
       {showScroll && (
         <IconButton

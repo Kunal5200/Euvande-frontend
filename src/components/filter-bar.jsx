@@ -33,6 +33,13 @@ const Filterbar = (props) => {
       ...styles,
       fontSize: "12px",
     }),
+    placeholder: (baseStyles, state) => {
+      return {
+        ...baseStyles,
+        color: "#000",
+        fontSize: 12,
+      };
+    },
   };
 
   return (
@@ -40,12 +47,13 @@ const Filterbar = (props) => {
       <Select
         options={filterItem}
         styles={colorStyles}
-        defaultValue={{ label: FILTERS.NEWESTAD, value: FILTERS.NEWESTAD }}
+        // defaultValue={{ label: FILTERS.NEWESTAD, value: FILTERS.NEWESTAD }}
         components={{
           IndicatorSeparator: () => null,
         }}
         isSearchable={false}
         onChange={props.onChange}
+        placeholder="SORT BY"
       />
     </div>
   );

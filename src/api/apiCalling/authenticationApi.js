@@ -55,13 +55,13 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);
-      router.push("/");
+      router.back();
     })
     .catch((err) => {
       setLoading(false);
       let errMessage = err.response ? err.response.data.message : err.message;
       toast.error(errMessage);
-      console.log(err);
+      // console.log(err);
     });
 };
 
