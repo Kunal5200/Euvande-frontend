@@ -106,7 +106,7 @@ const FilterSection = ({
       });
   }, []);
 
-  console.log("specification", specification);
+  // console.log("specification", specification);
 
   return (
     <Box>

@@ -38,21 +38,39 @@ const BuyCars = () => {
   const [pageSize, setPageSize] = useState(9);
   const user = useSelector((state) => state.userInfo);
 
-  const pageChangeHandler = (e, newValue) => {
+  // const pageChangeHandler = (e,newValue) => {
+  //   setLoading(true);
+  //   // console.log("::::newValue", newValue);
+  //   setPage(newValue);
+  //   let body = {
+  //     userId: user.id,
+  //   };
+  //   getCars({
+  //     loading: setLoading,
+  //     setCarData,
+  //     page: newValue + 1,
+  //     pageSize,
+  //     body,
+  //   });
+  // };
+
+  const pageChangeHandler = (e, newPage) => {
     setLoading(true);
-    setPage(newValue);
-    let body = {
-      userId: user.id,
-    };
+    setPage(newPage);
+    let body = user.isAuthenticated
+      ? {
+          userId: user.id,
+        }
+      : {};
     getCars({
       loading: setLoading,
       setCarData,
-      page: newValue + 1,
+      page: newPage + 1,
       pageSize,
       body,
     });
+    console.log("pageChange");
   };
-
   const rowsChangeHandler = (event) => {
     setLoading(true);
     setPageSize(event.target.value);
@@ -120,6 +138,7 @@ const BuyCars = () => {
     };
     getCars({ body, setCarData, page, pageSize, loading: setLoading });
     getModelByYear({ setModel, data });
+    console.log("modelSelector");
   };
   const [filters, setFilters] = useState({
     make: null,
@@ -215,7 +234,7 @@ const BuyCars = () => {
       }
     };
     fetchData();
-  }, [user]);
+  }, []);
   // sorting
   const sortingHandler = (e) => {
     setLoading(true);
@@ -383,7 +402,7 @@ const BuyCars = () => {
                     page={page}
                     pageSize={pageSize}
                   />
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -399,7 +418,7 @@ const BuyCars = () => {
                       onRowsPerPageChange={rowsChangeHandler}
                       labelRowsPerPage="Results Displayed : "
                     />
-                  </Box>
+                  </Box> */}
                 </React.Fragment>
               ) : (
                 <Typography fontSize={15} textAlign={"center"}>

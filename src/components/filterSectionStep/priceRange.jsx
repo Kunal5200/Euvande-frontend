@@ -59,14 +59,8 @@ const PriceRange = ({
         getCars({ loading: setLoading, setCarData, page, pageSize });
       }
     }
-  }, [
-    debouncedMaxPrice,
-    debouncedMinPrice,
-    setLoading,
-    setCarData,
-    page,
-    pageSize,
-  ]);
+    console.log("chali");
+  }, [debouncedMaxPrice, debouncedMinPrice, setLoading, setCarData]);
   return (
     <div>
       <Grid container spacing={2} mt={0}>

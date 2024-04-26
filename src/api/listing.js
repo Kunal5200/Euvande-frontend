@@ -58,11 +58,12 @@ export const listingController = {
     }
   },
   getCars: async ({ body, page, pageSize }) => {
+    // console.log("page", page);
     try {
       let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
-        `/api/newCars/getCarList?page=${(page && page) || "1"}&&pageSize=${
-          (pageSize && pageSize) || "10"
-        }`,
+        `/api/newCars/getCarList?page=${
+          page === 0 ? 1 : page
+        }&&pageSize=${pageSize}`,
         body
       );
       return result;
