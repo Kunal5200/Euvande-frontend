@@ -97,6 +97,8 @@ const BodyType = () => {
       body: {
         vehicleType: vehicleType,
       },
+      page: 1,
+      pageSize: 10,
     });
   }, [vehicleType]);
 
