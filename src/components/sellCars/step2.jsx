@@ -56,6 +56,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
   const [showGetOtpButtonEmail, setShowOtpButtonEmail] = useState(false);
   const [showEmailOTPField, setShowEmailOTPField] = useState(false);
   // const [user, setUser] = useState(null);
+  const [userData, setUser] = useState(null);
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setState({ ...state, [id]: value });

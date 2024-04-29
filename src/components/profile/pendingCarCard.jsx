@@ -252,7 +252,10 @@ const PendingCar = ({
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <GiRoad />
                     <Typography fontSize={12}>
-                      {(val && val.odometer) || "Not Disclosed"}
+                      {/* {`${val && val.odometer} km` || "Not Disclosed"} */}
+                      {val && val.odometer
+                        ? `${val.odometer} km`
+                        : "Not Disclosed"}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -269,9 +272,12 @@ const PendingCar = ({
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <PiEngine />
                     <Typography fontSize={12}>
-                      {`${
+                      {/* {`${val && val.specification && val.specification.power}?${
                         val && val.specification && val.specification.power
-                      } kw` || "Not Disclosed"}
+                      } kw` :""} */}
+                      {val && val.specification && val.specification.power
+                        ? `${val.specification.power} kw`
+                        : "Not Disclosed"}
                     </Typography>
                   </Stack>
                 </Grid>

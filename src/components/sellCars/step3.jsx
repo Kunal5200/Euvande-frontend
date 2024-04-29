@@ -227,7 +227,12 @@ const Step3 = ({ handleNext, handlePrev }) => {
       setCarId(carId);
       if (carId) {
         getCarInfo({ data: carId, dispatch });
-        getCarDetails({ carId, setCarData, setLoading: setCarDataLoading });
+        getCarDetails({
+          carId,
+          setCarData,
+          setLoading: setCarDataLoading,
+          dispatch,
+        });
       }
     };
 

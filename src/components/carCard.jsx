@@ -31,7 +31,7 @@ const CarCard = ({ data }) => {
   return (
     <Card
       sx={{
-        height: { lg: 420, sm: 370 },
+        height: { lg: 420, sm: 370,xs:420 },
         ":hover": {
           // transform: "scale(1.1)",
           // zIndex: 999,

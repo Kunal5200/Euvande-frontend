@@ -1,18 +1,21 @@
+import { getCars } from "@/api/apiCalling/listingApi";
+import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
-import BannerForm from "@/components/bannerForm";
 import BodyType from "@/components/bodyType/bodyType";
 import BrandCard from "@/components/brandCard";
 import CarCard from "@/components/carCard";
 import HowWorks from "@/components/howItWorks";
+import SearchForm from "@/components/searchCar";
 import TestimonialCard from "@/components/testimonialCard";
 import styles from "@/styles/Home.module.css";
+import { responsive } from "@/utils/styles";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Button,
-  Card,
   Container,
   Divider,
   Grid,
@@ -21,18 +24,12 @@ import {
 } from "@mui/material";
 import Aos from "aos";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { AutoPlay, Autoplay, Navigation } from "swiper/modules";
-import { ExpandMore } from "@mui/icons-material";
-import { useSelector } from "react-redux";
-import Carousel from "react-multi-carousel";
-import { responsive } from "@/utils/styles";
 import { useRouter } from "next/router";
-import { getCars } from "@/api/apiCalling/listingApi";
+import { useEffect, useState } from "react";
+import Carousel from "react-multi-carousel";
 import "swiper/css/navigation";
-import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
-import SearchForm from "@/components/searchCar";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -46,8 +43,10 @@ export default function Home() {
   const [carData, setCarData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [make, setMake] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
-    getCars({ setCarData, loading: setLoading });
+    getCars({ setCarData, loading: setLoading, page, pageSize });
     vehicleMakeCount({ setMake });
   }, []);
 
@@ -73,40 +72,51 @@ export default function Home() {
             </Grid>
           </Grid>
         </Container> */}
-        <Container style={{ maxWidth: 1320 }}>
+        <Container style={{ maxWidth: 1320 }} sx={{ pt: { xs: 8} }}>
           <Grid container alignItems={"center"}>
             <Grid item lg={4}>
-              <Typography fontSize={55} color={"#fff"} lineHeight={1.2}>
+              <Typography
+                fontSize={{ lg: 55, xs: 25 }}
+                color={"#fff"}
+                lineHeight={1.2}
+              >
                 Effortless Car Transactions Made Simple!
               </Typography>
-              <Typography fontSize={14} color={"#fff"} mt={3} mb={5}>
+              <Typography
+                fontSize={{ lg: 14, xs: 13 }}
+                color={"#fff"}
+                mt={{ lg: 3, xs: 2 }}
+                mb={{ lg: 5, xs: 2 }}
+              >
                 Buy or sell cars hassle-free with our simplified steps.
                 Streamlined process, maximum convenience.
               </Typography>
               <Stack
-                direction={"row"}
+                direction={{ lg: "row", xs: "column" }}
                 alignItems={"center"}
                 spacing={2}
-                mt={4}
+                mt={{ lg: 4, xs: 2 }}
                 mb={3}
               >
                 <Button
                   sx={{
                     border: "0.4px solid grey",
-                    width: 200,
+                    width: { lg: 200, xs: "100%" },
                     color: "#fff",
                     p: 1.5,
                   }}
+                  onClick={() => router.push("/buy-cars")}
                 >
                   Buy Premium Cars
                 </Button>
                 <Button
                   sx={{
                     border: "0.4px solid grey",
-                    width: 200,
+                    width: { lg: 200, xs: "100%" },
                     color: "#fff",
                     p: 1.5,
                   }}
+                  onClick={() => router.push("/sell-cars")}
                 >
                   Sell Premium Cars
                 </Button>
@@ -117,7 +127,7 @@ export default function Home() {
       </Box>
       <Container style={{ maxWidth: 1300 }}>
         <Grid container>
-          <Grid item lg={10} margin={"auto"}>
+          <Grid item lg={10} xs={12} margin={"auto"}>
             <SearchForm />
           </Grid>
         </Grid>
@@ -129,7 +139,7 @@ export default function Home() {
             fontSize={{ xs: 20, lg: 25 }}
             variant="h4"
             fontWeight={600}
-            color={"#dbac5b"}
+            color={"#000"}
           >
             How it Works?
           </Typography>
@@ -234,7 +244,7 @@ export default function Home() {
         <Divider>
           <Typography
             variant="h4"
-            fontSize={{ xs: 18, lg: 25 }}
+            fontSize={{ xs: 12, lg: 25 }}
             fontWeight={600}
             letterSpacing={1}
           >
@@ -255,7 +265,7 @@ export default function Home() {
                   </Grid>
                 ))
               : make.slice(0, 6).map((val, i) => (
-                  <Grid item lg={2} key={i}>
+                  <Grid item lg={2} xs={6} key={i}>
                     <BrandCard
                       brandName={val.makeName}
                       img={val.logo}
@@ -271,7 +281,7 @@ export default function Home() {
         <Divider sx={{ mb: 3 }}>
           <Typography
             variant="h4"
-            fontSize={{ xs: 18, lg: 25 }}
+            fontSize={{ xs: 20, lg: 25 }}
             fontWeight={600}
             letterSpacing={1}
           >
@@ -281,11 +291,15 @@ export default function Home() {
         <Container style={{ maxWidth: 1300 }}>
           <Grid container alignItems={"center"}>
             <Grid item lg={3}>
-              <Typography variant="h4" fontWeight={600} fontSize={30}>
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                fontSize={{ lg: 30, xs: 15 }}
+              >
                 Hear What Our Clients Have to Say!
               </Typography>
             </Grid>
-            <Grid item lg={9}>
+            <Grid item lg={9} xs={12} mt={{ lg: 0, xs: 2 }}>
               <Carousel responsive={responsive}>
                 {data.testimonials.map((val, i) => (
                   <TestimonialCard

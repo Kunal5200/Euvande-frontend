@@ -73,6 +73,7 @@ const ShortListedVehicle = () => {
   const routerPage = (id) => {
     router.push(`/vehicles/${id}/car-details`);
   };
+
   return (
     <Box>
       <Box
@@ -99,6 +100,8 @@ const ShortListedVehicle = () => {
           color="#000"
           className="m-auto"
         />
+      ) : carData && carData.docs.length === 0 ? (
+        <Typography fontSize={15} textAlign={"center"} fontWeight={600}> No Car Found</Typography>
       ) : (
         carData &&
         carData.docs &&

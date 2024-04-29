@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import { loginTextField } from "@/utils/styles";
+import Loading from "react-loading";
 // import { Lato } from "next/font";
 const SearchForm = () => {
   const router = useRouter();
@@ -98,9 +99,11 @@ const SearchForm = () => {
   const mileageHandler = (e) => {
     setState({ ...state, mileage: e.value });
   };
+  const [loading, setLoading] = useState(false);
 
   const searchHandler = (e) => {
     e.preventDefault();
+    setLoading(true);
     if (
       state.make === "" ||
       state.mileage === "" ||
@@ -121,6 +124,7 @@ const SearchForm = () => {
       };
       const body = encodeURIComponent(JSON.stringify(data));
       router.push(`/buy-cars?state=${body}`);
+      setLoading(false);
     }
   };
 
@@ -192,7 +196,7 @@ const SearchForm = () => {
   //   }
   // };
   return (
-    <Box sx={{ position: "relative", mb: 23 }}>
+    <Box sx={{ position: "relative", mb: { lg: 23, xs: 2 }, mt: { xs: 2 } }}>
       {/* <Grid item xs={12} sm={9} marginLeft={{ lg: "2rem" }}>
         <Paper elevation={3} sx={{ backgroundColor: "#ffffff17", p: 4 }}>
           <Grid container>
@@ -358,17 +362,15 @@ const SearchForm = () => {
       </Grid> */}
       <Card
         sx={{
-          pt: 4,
-          pb: 4,
-          px: 4,
-          position: "absolute",
+          p: 4,
+          position: { lg: "absolute", xs: "relative" },
           width: "100%",
-          bottom: -140,
+          bottom: { lg: -140, xs: 0 },
           boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
         }}
       >
         <Typography
-          sx={{ fontSize: 30, fontWeight: 400 }}
+          sx={{ fontSize: { lg: 30, xs: 20 }, fontWeight: 400 }}
           variant="h3"
           className="customFont"
         >
@@ -376,20 +378,17 @@ const SearchForm = () => {
         </Typography>
         <form onSubmit={searchHandler}>
           <Grid container mt={1} spacing={2}>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <Autocomplete
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select Make"
-                  />
+                  <TextField {...params} label="Select Make" />
                 )}
                 getOptionLabel={(option) => option.makeName}
                 options={brand}
                 onChange={makeHandler}
               />
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <Autocomplete
                 renderInput={(params) => (
                   <TextField {...params} label="Select Model" />
@@ -399,7 +398,7 @@ const SearchForm = () => {
                 onChange={modelHandler}
               />
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <Autocomplete
                 renderInput={(params) => (
                   <TextField {...params} label="Select Period" />
@@ -411,29 +410,29 @@ const SearchForm = () => {
             </Grid>
           </Grid>
           <Grid container mt={2} spacing={2}>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <TextField
                 label="Enter Mileage"
                 fullWidth
                 onChange={mileageHandler}
               />
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <TextField
                 label="Enter Price (in Euro)"
                 fullWidth
                 onChange={priceHandler}
               />
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <Button
                 sx={{
                   border: "1px solid #2b2b2b",
                   p: 1.8,
                   backgroundColor: "#2b2b2b",
-                  color: "#dbac5b",
+                  color: "#fff",
                   ":hover": {
-                    color: "#dbac5b",
+                    color: "#fff",
                     backgroundColor: "#2b2b2b",
                   },
                   fontWeight: 600,
@@ -441,7 +440,17 @@ const SearchForm = () => {
                 fullWidth
                 type="submit"
               >
-                Search
+                {loading ? (
+                  <Loading
+                    type="bars"
+                    width={20}
+                    height={20}
+                    className="m-auto"
+                    color="#fff"
+                  />
+                ) : (
+                  "Search"
+                )}
               </Button>
             </Grid>
           </Grid>

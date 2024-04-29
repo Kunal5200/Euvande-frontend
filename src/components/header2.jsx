@@ -11,6 +11,8 @@ import {
   Chip,
   Container,
   Divider,
+  Drawer,
+  IconButton,
   List,
   ListItemButton,
   ListItemText,
@@ -25,7 +27,7 @@ import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 // import Button from "./button";
-import { Person } from "@mui/icons-material";
+import { Close, Menu, Person } from "@mui/icons-material";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -46,6 +48,13 @@ const Header = () => {
   }, [router.pathname, show]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const drawerOpen = (newOpen) => {
+    setOpenDrawer(newOpen);
+  };
+  const handleDrawerClose = () => {
+    setOpenDrawer(null);
+  };
   const [popOver, setIsPopOver] = useState(false);
   const handleLogout = () => {
     localStorage.clear();
@@ -158,18 +167,23 @@ const Header = () => {
                       }}
                     />
                   }
-                  label={`Hello, ${isAuthenticated ? name : "Sign In"} `}
                   sx={{
                     color: "#000",
                     fontSize: 14,
                     cursor: "pointer",
                     backgroundColor: "transparent",
+                    "& .MuiChip-label": {
+                      textTransform: "capitalize",
+                    },
                   }}
+                  label={`Hello, ${isAuthenticated ? name : "Sign In"} `}
                   onClick={routePage}
                 />
               </Stack>
-
-              <FaUser className={styles.mobileView} />
+              <IconButton onClick={drawerOpen} className={styles.mobileView}>
+                <Menu sx={{ fill: "#000" }} />
+              </IconButton>
+              {/* <FaUser className={styles.mobileView} /> */}
             </Box>
           </Container>
         ) : (
@@ -234,12 +248,17 @@ const Header = () => {
                   fontSize: 14,
                   cursor: "pointer",
                   backgroundColor: "transparent",
+                  "& .MuiChip-label": {
+                    textTransform: "capitalize",
+                  },
                 }}
                 onClick={routePage}
               />
             </Stack>
-
-            <FaUser className={styles.mobileView} />
+            <IconButton onClick={drawerOpen} className={styles.mobileView}>
+              <Menu sx={{ fill: "#fff" }} />
+            </IconButton>
+            {/* <FaUser className={styles.mobileView} /> */}
           </Box>
         )}
 
@@ -429,6 +448,21 @@ const Header = () => {
           </List>
         </Popover>
       </div>
+      <Drawer
+        open={openDrawer}
+        anchor={"right"}
+        onClose={() => setOpenDrawer(null)}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "100%",
+            zIndex: 10000,
+          },
+        }}
+      >
+        <IconButton onClick={handleDrawerClose}>
+          <Close onClick={handleDrawerClose} />
+        </IconButton>
+      </Drawer>
     </div>
   );
 };

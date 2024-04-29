@@ -63,13 +63,13 @@ export const contactValidation = ({ state, error, setError, setLoading }) => {
 
 export const updateDetailsValidation = ({ state, setError, error }) => {
   let { name, email, phoneNo, countryName, countryCode } = state;
-  if (name === "" || email === "" || phoneNo === "" || countryName === "") {
+  if (name === "" || email === "" || phoneNo === "") {
     setError({
       ...error,
       name: name === "" && "Pelase Enter Full Name",
       email: email === "" && "Please Enter Email Address",
       phoneNo: phoneNo === "" && "Please Enter Mobile No.",
-      countryName: countryName === "" && "Please Select Country",
+      // countryName: countryName === "" && "Please Select Country",
     });
     return false;
   } else {

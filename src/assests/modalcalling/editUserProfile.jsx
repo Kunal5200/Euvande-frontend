@@ -1,23 +1,22 @@
-import { loginTextField } from "@/utils/styles";
-import { Autocomplete, Box, Divider, Grid, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { countries } from "../country";
-import Button from "@/components/button";
-import { useDispatch } from "react-redux";
-import { hideModal } from "@/redux/reducers/modal";
 import { updateUserDetails } from "@/api/apiCalling/authenticationApi";
-import { updateDetailsValidation } from "@/utils/validation";
-import { toast } from "react-toastify";
-import Loading from "react-loading";
+import { hideModal } from "@/redux/reducers/modal";
 import { isEmail, isPhonenumber } from "@/utils/regex";
-import { MuiTelInput } from "mui-tel-input";
+import { loginTextField } from "@/utils/styles";
+import { updateDetailsValidation } from "@/utils/validation";
+import { Button, Divider, Grid, TextField } from "@mui/material";
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
+import { useEffect, useState } from "react";
+import Loading from "react-loading";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const EditUserProfile = ({ value, setUser }) => {
   const [state, setState] = useState({
-    name: value.name ? value.name : "",
-    email: value.email ? value.email : "",
-    phoneNo: value.phoneNo ? value.phoneNo : "",
-    countryName: value.countryName ? value.countryName : "",
+    name: "",
+    email: "",
+    phoneNo: "",
+    countryName: "",
+    countryCode: "",
   });
   const [error, setError] = useState({
     name: "",
@@ -26,6 +25,7 @@ const EditUserProfile = ({ value, setUser }) => {
     countryName: "",
     countryCode: "",
   });
+  const [phone, setPhone] = useState();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const inputChangeHandler = (e) => {
@@ -63,13 +63,25 @@ const EditUserProfile = ({ value, setUser }) => {
       setError({ ...error, countryName: "" });
     }
   };
+  const handlePhoneNumberHandler = (newPhone, countryData) => {
+    setPhone(newPhone);
+    const validPhone = matchIsValidTel(newPhone);
+    if (validPhone) {
+      setState({
+        ...state,
+        phoneNo: countryData.nationalNumber,
+        countryCode: countryData.countryCallingCode,
+      });
+      setError({ ...error, phoneNo: "" });
+    } else {
+      setError({ ...error, phoneNo: "Please Enter Valid Phone Number" });
+    }
+  };
 
   const submitHandler = (e) => {
     setLoading(false);
     e.preventDefault();
-    if (!isPhonenumber(state.phoneNo) || !isEmail(state.email)) {
-      return;
-    }
+
     let body = {
       name: state.name,
       email: state.email,
@@ -83,8 +95,21 @@ const EditUserProfile = ({ value, setUser }) => {
     } else {
       toast.error("Please Enter Required Fields");
       setLoading(false);
+      console.log(state)
     }
   };
+  useEffect(() => {
+    if (value) {
+      setState({
+        ...state,
+        name: value.name,
+        email: value.email,
+        phoneNo: value.phoneNo,
+        countryCode: value.countryCode,
+      });
+      setPhone(value.phoneNo && `+${value.countryCode} ${value.phoneNo}`);
+    }
+  }, [value]);
   return (
     <div style={{ width: "600px" }}>
       <div className="container-fluid">
@@ -139,7 +164,13 @@ const EditUserProfile = ({ value, setUser }) => {
                 error={error.phoneNo}
                 helperText={error.phoneNo}
               /> */}
-              <MuiTelInput defaultCountry="DE" continents={["EU"]} fullWidth />
+              <MuiTelInput
+                defaultCountry="DE"
+                continents={["EU"]}
+                fullWidth
+                value={phone}
+                onChange={handlePhoneNumberHandler}
+              />
             </Grid>
             {/* <Grid item xs={6}>
               <Autocomplete
@@ -187,7 +218,7 @@ const EditUserProfile = ({ value, setUser }) => {
             <Grid item xs={6}></Grid>
 
             <Grid item xs={6} className="text-end">
-              <Button
+              {/* <Button
                 className="custom_btn_white"
                 width="200px"
                 backgroundColor="#000"
@@ -206,6 +237,30 @@ const EditUserProfile = ({ value, setUser }) => {
                     <span>Save Changes</span>
                     <span>Save Changes</span>
                   </>
+                )}
+              </Button> */}
+              <Button
+                sx={{
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  fontSize: 12,
+                  ":hover": {
+                    color: "#fff",
+                    backgroundColor: "#000",
+                  },
+                }}
+                type="submit"
+              >
+                {loading ? (
+                  <Loading
+                    type="bars"
+                    width={20}
+                    height={20}
+                    color="#fff"
+                    className="m-auto"
+                  />
+                ) : (
+                  "Save Changes"
                 )}
               </Button>
             </Grid>

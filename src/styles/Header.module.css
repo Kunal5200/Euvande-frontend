@@ -20,11 +20,16 @@
 
 .mainHeader {
   position: absolute;
-  z-index: 9999;
+  z-index: 99;
   width: 100%;
   left: 0;
   right: 0;
   top: 45px;
+}
+@media screen and (max-width: 600px) {
+  .mainHeader {
+    top: 0;
+  }
 }
 .main_header {
   position: fixed;

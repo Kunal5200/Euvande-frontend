@@ -89,7 +89,7 @@ const SubFooter = () => {
       </Box> */}
       <Box
         sx={{
-          display: "flex",
+          display: { lg: "flex", xs: "block" },
           alignItems: "center",
           justifyContent: "space-between",
         }}

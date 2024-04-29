@@ -350,6 +350,9 @@ input[type="number"]::-webkit-outer-spin-button {
   .custom_btn {
     width: 100% !important;
   }
+  .absolute__header {
+    display: none !important;
+  }
 }
 
 .text-justify {
