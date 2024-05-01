@@ -216,7 +216,7 @@ const CarDetails = () => {
         </Button>
       </Box>
       <Grid container>
-        <Grid item lg={7} p={2}>
+        <Grid item lg={7} xs={12} p={{ lg: 2, xs: 0 }}>
           {loading ? (
             <Skeleton variant="rectangular" width={600} height={600} />
           ) : (
@@ -234,7 +234,12 @@ const CarDetails = () => {
                   carData.carImages &&
                   carData.carImages.map((val, i) => (
                     <SwiperSlide key={i}>
-                      <img src={val} height={600} width={"100%"} />
+                      <img
+                        src={val}
+                        height={600}
+                        width={"100%"}
+                        className="details_slider_image"
+                      />
                     </SwiperSlide>
                   ))}
               </Swiper>
@@ -256,14 +261,19 @@ const CarDetails = () => {
                   carData.carImages &&
                   carData.carImages.map((val, i) => (
                     <SwiperSlide key={i}>
-                      <img src={val} width={"100%"} height={90} />
+                      <img
+                        src={val}
+                        width={"100%"}
+                        height={90}
+                        className="details_thumbs_image"
+                      />
                     </SwiperSlide>
                   ))}
               </Swiper>
             </Card>
           )}
         </Grid>
-        <Grid item lg={5} p={2}>
+        <Grid item lg={5} xs={12} p={{ lg: 2, xs: 0 }} mt={{ xs: 2 }}>
           {loading ? (
             <Skeleton variant="text" width={300} />
           ) : (
@@ -276,7 +286,7 @@ const CarDetails = () => {
               <Typography
                 fontSize={30}
                 fontWeight={600}
-                textTransform={"capitalize"}
+                textTransform={"upperCase"}
               >
                 {carData && carData.make && carData.make.makeName}
               </Typography>
@@ -284,7 +294,7 @@ const CarDetails = () => {
               <Typography
                 fontSize={30}
                 fontWeight={600}
-                textTransform={"capitalize"}
+                textTransform={"upperCase"}
               >
                 {carData && carData.model && carData.model.modelName}
               </Typography>
@@ -332,29 +342,7 @@ const CarDetails = () => {
                 </Typography>
               </Stack>
             </Card>
-            {/* <Card sx={{ mb: 2 }}>
-              {loading ? (
-                <Skeleton variant="text" />
-              ) : (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    p: 1,
-                  }}
-                >
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <LocationOn />
-                    <Typography fontSize={12}>Location</Typography>
-                  </Stack>
-                  <Typography fontSize={12}>
-                    {(carData && carData.location && carData.location.city) ||
-                      "Not Specified By Seller"}
-                  </Typography>
-                </Box>
-              )}
-            </Card> */}
+
             <Card sx={{ p: 1 }}>
               {loading ? (
                 <Skeleton variant="text" />
@@ -411,110 +399,16 @@ const CarDetails = () => {
                   </Box>
                 </AccordionDetails>
               </Accordion>
-              {/* <Box display={"flex"} flexWrap={"wrap"} my={2}>
-                {carData &&
-                  carData.specification &&
-                  carData.specification.equipments &&
-                  carData.specification.equipments.slice(0, 5).map((val, i) => (
-                    <Chip
-                      label={val}
-                      key={i}
-                      sx={{
-                        backgroundColor: "#0000008e",
-                        color: "#fff",
-                        mx: 1,
-                        my: 0.3,
-                        textTransform: "capitalize",
-                        fontSize: 10,
-                        borderRadius: 1,
-                      }}
-                    />
-                  ))}
-                <Accordion
-                  sx={{
-                    "& ": {
-                      boxShadow: "none",
-                      p: 0,
-                      margin: 0,
-                      "& .MuiAccordionSummary-root": {
-                        padding: 0,
-                        minHeight: 0,
-                      },
-                      "& .MuiAccordionSummary-content": {
-                        margin: 0,
-                      },
-                    },
-                  }}
-                >
-                  <AccordionSummary>
-                    {carData &&
-                      carData.specification &&
-                      carData.specification.equipments &&
-                      carData.specification.equipments.length > 5 && (
-                        <Chip
-                          sx={{
-                            backgroundColor: "#000000",
-                            color: "#fff",
-                            mx: 1,
-                            my: 0.3,
-                            textTransform: "capitalize",
-                            fontSize: 10,
-                            borderRadius: 1,
-                            cursor: "pointer",
-                          }}
-                          label={`+${
-                            carData.specification.equipments.length - 5
-                          } more`}
-                        />
-                      )}
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {carData &&
-                      carData.specification &&
-                      carData.specification.equipments &&
-                      carData.specification.equipments
-                        .slice(5, carData.specification.equipments.length)
-                        .map((val, i) => (
-                          <Chip
-                            label={val}
-                            key={i}
-                            sx={{
-                              backgroundColor: "#0000008e",
-                              color: "#fff",
-                              mx: 1,
-                              my: 0.3,
-                              textTransform: "capitalize",
-                              fontSize: 10,
-                              borderRadius: 1,
-                            }}
-                          />
-                        ))}
-                  </AccordionDetails>
-                </Accordion>
-              </Box> */}
             </Box>
-            {/* <Stack direction={"row"} alignItems={"center"} mt={3} spacing={2}>
-              <Button
-                fullWidth
-                sx={{
-                  backgroundColor: "#000",
-                  color: "#fff",
-                  p: 1,
-                  border: "1px solid #fff",
-                  "&:hover": {
-                    color: "#000",
-                    backgroundColor: "#fff",
-                    border: "1px solid #000",
-                  },
-                }}
-              >
-                Buy
-              </Button>
-            </Stack> */}
-            {/* <FormLabel sx={{fontSize:}}>Your Offer Price for this vehicle:</FormLabel> */}
-            <Stack direction={"row"} alignItems={"center"} spacing={1} mt={2}>
+
+            <Stack
+              direction={{ lg: "row", xs: "column" }}
+              alignItems={"center"}
+              spacing={1}
+              mt={2}
+            >
               <TextField
-                sx={{ width: "70%" }}
+                sx={{ width: { lg: "70%", xs: "100%" } }}
                 helperText="Your Offer Price for this vehicle"
                 label="Your offer Price (in Euro)"
               />
@@ -529,7 +423,7 @@ const CarDetails = () => {
                   },
                   fontSize: 12,
                   mb: "24px !important",
-                  width: 200,
+                  width: { lg: 200, xs: "100%" },
                   p: 2,
                 }}
               >
@@ -547,12 +441,12 @@ const CarDetails = () => {
         }}
       >
         <Grid container>
-          <Grid item lg={8}>
+          <Grid item lg={8} xs={12}>
             <Typography fontSize={25} fontWeight={600}>
               Details
             </Typography>
             <Grid container mt={3} columnSpacing={2}>
-              <Grid lg={5}>
+              <Grid lg={5} xs={12} mb={{ xs: 2 }}>
                 <Card sx={{ p: 2, height: "100%" }}>
                   <Typography fontSize={15} fontWeight={550}>
                     VEHICLE DETAIL
@@ -563,7 +457,7 @@ const CarDetails = () => {
                 </Card>
               </Grid>
               <Grid lg={1}></Grid>
-              <Grid lg={5}>
+              <Grid lg={5} xs={12}>
                 <Card sx={{ p: 2, mb: 2 }}>
                   <Typography fontSize={15} fontWeight={550}>
                     Engine
@@ -583,7 +477,13 @@ const CarDetails = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item lg={4} sx={{ position: "relative" }}>
+          <Grid
+            item
+            lg={4}
+            xs={12}
+            mt={{ xs: 2 }}
+            sx={{ position: "relative" }}
+          >
             <Card sx={{ p: 2, backgroundColor: "#000", height: 150 }}>
               <Typography
                 color={"#fff"}
@@ -599,11 +499,11 @@ const CarDetails = () => {
             </Card>
             <Card
               sx={{
-                width: 300,
+                width: { lg: 300, xs: 250 },
                 margin: "auto",
                 p: 2,
                 position: "absolute",
-                left: 60,
+                left: { lg: 60, xs: 30 },
                 top: 80,
               }}
             >

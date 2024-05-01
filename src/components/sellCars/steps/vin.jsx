@@ -5,18 +5,20 @@ import {
   FormHelperText,
   Stack,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import React from "react";
 import Loading from "react-loading";
 
 const Vin = ({ state, decodeVinHandler, error, loading, decodeVin }) => {
+  const mobilePhone = useMediaQuery("(max-width:600px)");
   return (
     <div>
       {" "}
       <Stack
-        direction="row"
+        direction={{ lg: "row", xs: "column" }}
         alignItems={"center"}
-        spacing={5}
+        spacing={{ lg: 5, xs: 2 }}
         justifyContent={"space-between"}
       >
         <FormControl fullWidth>
@@ -36,7 +38,7 @@ const Vin = ({ state, decodeVinHandler, error, loading, decodeVin }) => {
           sx={{
             border: "1px solid #000",
             backgroundColor: "#000",
-            width: 150,
+            width: { lg: 150, xs: "100%" },
             p: 2,
             color: "#fff",
             ":hover": {

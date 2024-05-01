@@ -51,7 +51,7 @@ const PeriodStep = ({ state, setState, carData }) => {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <Autocomplete
             renderInput={(params) => (
               <TextField
@@ -69,7 +69,7 @@ const PeriodStep = ({ state, setState, carData }) => {
           />
           {/* <FormHelperText sx={{ fontSize: 12 }}></FormHelperText> */}
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <TextField
             label="Trim Level"
             fullWidth

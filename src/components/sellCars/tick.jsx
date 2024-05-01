@@ -101,8 +101,8 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
   // console.log("ttt", failedStepsCount);
   return (
     <div>
-      <Box sx={{ flex: "1" }}>
-        <Box sx={{ p: 13 }}>
+      <Box>
+        <Box sx={{ p: { lg: 13, xs: 0 } }}>
           <Stepper
             sx={{
               "& .MuiStepLabel-label": {
@@ -120,7 +120,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             activeStep={activeStep}
             orientation="vertical"
           >
-            <Step sx={{ pt: 4 }}>
+            <Step sx={{ pt: { lg: 4, xs: 15 } }}>
               <StepLabel
                 StepIconComponent={(props) => {
                   const StepIcon =
@@ -143,7 +143,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
               // sx={{ pt: 10 }}
               // active={isVIN(state.vin) && state.make && state.model}
               ref={failedStepIndex === 1 ? failedStepRef : null}
-              sx={{ pt: 10 }}
+              sx={{ pt: { lg: 10, xs: showStep ? 27 : 28 } }}
               active={showStep}
             >
               <StepLabel
@@ -167,7 +167,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             </Step>
             <Step
               // sx={{ pt: state.make && state.model ? 10 : 2 }}
-              sx={{ pt: showStep ? 10 : 2 }}
+              sx={{ pt: { lg: showStep ? 10 : 2, xs: showStep ? 24 : 10 } }}
               // active={state.make && state.model}
               active={showStep}
               ref={failedStepIndex === 2 ? failedStepRef : null}
@@ -194,7 +194,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             </Step>
             <Step
               sx={{
-                pt: showStep ? 12 : 3,
+                pt: { lg: showStep ? 12 : 3, xs: showStep ? 32 : 3 },
               }}
               active={showStep}
               // sx={{
@@ -226,7 +226,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             </Step>
             <Step
               sx={{
-                pt: showStep ? 8 : 1,
+                pt: { lg: showStep ? 8 : 1, xs: showStep ? 9 : 1 },
               }}
               active={showStep}
               ref={failedStepIndex === 4 ? failedStepRef : null}
@@ -259,7 +259,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             <Step
               // sx={{ pt: isVIN(state.vin) || state.vehicleType ? 5 : 2 }}
               // active={isVIN(state.vin) || state.vehicleType}
-              sx={{ pt: showStep ? 12 : 2 }}
+              sx={{ pt: { lg: showStep ? 12 : 2, xs: showStep ? 24 : 2 } }}
               active={showStep}
               ref={failedStepIndex === 5 ? failedStepRef : null}
             >
@@ -284,7 +284,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             <Step
               // sx={{ pt: isVIN(state.vin) || state.doors ? 14 : 2 }}
               // active={isVIN(state.vin) || state.doors}
-              sx={{ pt: showStep ? 14 : 2 }}
+              sx={{ pt: { lg: showStep ? 14 : 2, xs: showStep ? 12 : 2 } }}
               active={showStep}
               ref={failedStepIndex === 6 ? failedStepRef : null}
             >
@@ -308,7 +308,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             </Step>
             <Step
               active={showStep}
-              sx={{ pt: showStep ? 4 : 2 }}
+              sx={{ pt: { lg: showStep ? 4 : 2, xs: showStep ? 12 : 2 } }}
               ref={failedStepIndex === 7 ? failedStepRef : null}
 
               // active={isVIN(state.vin) || state.driveType4WD}
@@ -371,7 +371,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
               // active={isVIN(state.vin) || state.seats}
               // sx={{ pt: isVIN(state.vin) || state.seats ? 14 : 2 }}
               active={showStep}
-              sx={{ pt: showStep ? 14 : 2 }}
+              sx={{ pt: { lg: showStep ? 14 : 2, xs: showStep ? 29 : 2 } }}
               ref={failedStepIndex === 9 ? failedStepRef : null}
             >
               <StepLabel
@@ -396,7 +396,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
               // active={isVIN(state.vin) || state.mileage}
               // sx={{ pt: isVIN(state.vin) || state.mileage ? 5 : 1 }}
               active={showStep}
-              sx={{ pt: showStep ? 5 : 1 }}
+              sx={{ pt: { lg: showStep ? 5 : 1, xs: showStep ? 22 : 1 } }}
               ref={failedStepIndex === 10 ? failedStepRef : null}
             >
               <StepLabel
@@ -421,7 +421,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
             </Step>
             <Step
               active={showStep}
-              sx={{ pt: showStep ? 10 : 2 }}
+              sx={{ pt: { lg: showStep ? 10 : 2, xs: showStep ? 30 : 2 } }}
               ref={failedStepIndex === 11 ? failedStepRef : null}
 
               // active={isVIN(state.vin) || state.interiorMaterial}
@@ -497,7 +497,7 @@ const Tick = ({ activeStep, state, showStep, setFailedStepsCount }) => {
               <StepContent sx={{ display: "none" }}></StepContent>
             </Step>
             <Step
-              sx={{ pt: showStep ? 10 : 2 }}
+              sx={{ pt: { lg: showStep ? 10 : 2, xs: showStep ? 13 : 2 } }}
               active={showStep}
               ref={failedStepIndex === 14 ? failedStepRef : null}
 

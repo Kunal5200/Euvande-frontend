@@ -5,7 +5,7 @@ import Step2 from "@/components/sellCars/step2";
 import Step3 from "@/components/sellCars/step3";
 import ProgressStep from "@/components/stepper";
 import styles from "@/styles/createDemand.module.css";
-import { Container } from "@mui/material";
+import { Container, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -44,10 +44,12 @@ const CreateDemand = () => {
     }
   }, []);
 
+  const phone = useMediaQuery("(max-width:600px)");
+
   return (
     <div>
       <div className={fixed ? styles.fixed_image : styles.image_bg}>
-        <Container style={{ maxWidth: "1320px" }}>
+        <Container style={{ maxWidth: phone ? "" : "1320px" }}>
           <ProgressStep
             data={data.carModifySteps}
             activeStep={activeStep}

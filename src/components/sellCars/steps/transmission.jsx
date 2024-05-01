@@ -5,6 +5,7 @@ import {
   Grid,
   Stack,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -31,43 +32,49 @@ const Transmission = ({ data, state, setState, carData }) => {
       );
     }
   }, [carInfo.specification]);
+  const phone = useMediaQuery("(max-width:600px)");
 
   return (
     <div>
-      <Stack direction={"row"} alignItems={"center"} spacing={2}>
-        {data &&
-          data.transmission &&
-          data.transmission.map((val, i) => (
-            <Button
-              key={i}
-              sx={{
-                border: "1px solid #000",
-                color: state && state.transmission === val ? "#fff" : "#000",
-                backgroundColor:
-                  state && state.transmission === val ? "#000" : "#fff",
-                ":hover": {
-                  backgroundColor: state.transmission === val ? "#000" : "#fff",
-                },
-                fontSize: 12,
-              }}
-              onClick={() => addTransmission(val)}
-            >
-              {val}
-            </Button>
-          ))}
-      </Stack>
-      {/* <Grid container spacing={2}>
-        <Grid item lg={12}>
-          <Autocomplete
-            options={data.transmission}
-            renderInput={(params) => (
-              <TextField {...params} label="Select Transmission" />
-            )}
-            value={selectedTransmission}
-            onChange={transmissionHandler}
-          />
+      {!phone ? (
+        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+          {data &&
+            data.transmission &&
+            data.transmission.map((val, i) => (
+              <Button
+                key={i}
+                sx={{
+                  border: "1px solid #000",
+                  color: state && state.transmission === val ? "#fff" : "#000",
+                  backgroundColor:
+                    state && state.transmission === val ? "#000" : "#fff",
+                  ":hover": {
+                    backgroundColor:
+                      state.transmission === val ? "#000" : "#fff",
+                  },
+                  fontSize: 12,
+                }}
+                onClick={() => addTransmission(val)}
+              >
+                {val}
+              </Button>
+            ))}
+        </Stack>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Autocomplete
+              options={data.transmission}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Transmission" />
+              )}
+              value={state.transmission}
+              onChange={transmissionHandler}
+              fullWidth
+            />
+          </Grid>
         </Grid>
-      </Grid> */}
+      )}
     </div>
   );
 };

@@ -32,7 +32,7 @@ const MakeStep = ({
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <Autocomplete
             renderInput={(params) => <TextField {...params} label="Make" />}
             options={brand}
@@ -45,7 +45,7 @@ const MakeStep = ({
             Select the Brand of the Car
           </FormHelperText>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <Autocomplete
             renderInput={(params) => <TextField {...params} label="Model" />}
             options={model}

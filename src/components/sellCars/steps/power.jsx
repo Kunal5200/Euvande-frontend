@@ -17,7 +17,7 @@ const Power = ({ setState, state }) => {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <TextField
             label="Engine Power (in KW)"
             fullWidth
@@ -30,7 +30,7 @@ const Power = ({ setState, state }) => {
             sx={loginTextField}
           />
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <TextField
             label="Engine displacementL (L)"
             fullWidth

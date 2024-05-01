@@ -339,7 +339,7 @@ const BuyCars = () => {
               />
             </Card>
           </Grid>
-          <Grid item lg={9} mt={5} p={4}>
+          <Grid item lg={9} xs={12} mt={5} p={{ lg: 4, xs: 0 }}>
             <Typography fontSize={30} letterSpacing={1} fontWeight={600}>
               Verified Cars
             </Typography>
@@ -356,8 +356,8 @@ const BuyCars = () => {
               ) : carData.docs.length ? (
                 <React.Fragment>
                   <Stack
-                    direction={"row"}
-                    alignItems={"center"}
+                    direction={{ lg: "row", xs: "column" }}
+                    alignItems={{ lg: "center", xs: "start" }}
                     justifyContent={"space-between"}
                     spacing={1}
                   >
@@ -391,6 +391,20 @@ const BuyCars = () => {
                         count={carData && carData.totalDocs}
                         onPageChange={pageChangeHandler}
                         onRowsPerPageChange={rowsChangeHandler}
+                        sx={{
+                          "& .MuiTablePagination-selectLabel": {
+                            fontSize: { lg: 15, xs: 12 },
+                          },
+                          "& .MuiTablePagination-toolbar": {
+                            paddingLeft: { lg: 16, xs: 0 },
+                            "& .MuiTablePagination-actions": {
+                              marginLeft: { lg: 20, xs: 0 },
+                            },
+                          },
+                          "& .MuiSelect-select-MuiInputBase-input": {
+                            paddingRight: { lg: 24, xs: 13 },
+                          },
+                        }}
                         labelRowsPerPage="Results Displayed : "
                       />
                     </Box>

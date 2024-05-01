@@ -58,7 +58,7 @@ const FuelStep = ({ data, state, setState }) => {
           ))}
       </Stack> */}
       <Grid container spacing={2}>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <Autocomplete
             renderInput={(params) => (
               <TextField
@@ -73,7 +73,7 @@ const FuelStep = ({ data, state, setState }) => {
             sx={loginTextField}
           />
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <TextField
             label="Enter Color of the Car"
             helperText="Enter Color of the Car"

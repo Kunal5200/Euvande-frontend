@@ -110,8 +110,10 @@ const SellerLogin = () => {
         <div className={styles.bgImage}>
           <Container style={{ maxWidth: 1300 }}>
             <Grid container>
-              <Grid lg={5}>
-                <Typography sx={{ fontSize: 25, fontWeight: 600 }}>
+              <Grid lg={5} xs={8}>
+                <Typography
+                  sx={{ fontSize: { lg: 25, xs: 15 }, fontWeight: 600 }}
+                >
                   Discover the Ultimate Convenience of Selling Your Car from the
                   Comfort of Your Couch!
                 </Typography>
@@ -122,13 +124,14 @@ const SellerLogin = () => {
                       sx={{
                         backgroundColor: "transparent",
                         border: "1px solid #000",
-                        p: 2,
-                        width: 250,
+                        p: { lg: 2, xs: 1 },
+                        width: { lg: 250, xs: 150 },
                         color: "#000",
                         ":hover": {
                           color: "#000",
                           backgroundColor: "transparent",
                         },
+                        fontSize: { xs: 12 },
                       }}
                       onClick={() => router.push("/create-demand")}
                     >
@@ -239,13 +242,19 @@ const SellerLogin = () => {
         </Grid> */}
         <Container style={{ maxWidth: "1300px" }}>
           <Divider sx={{ my: 4 }}>
-            <h4 className="text-capitalize  text-center f-30 ">
+            {/* <h4 className="text-capitalize  text-center f-30 ">
               Easy auto sales
-            </h4>
+            </h4> */}
+            <Typography
+              textTransform={"capitalize"}
+              fontSize={{ lg: 30, xs: 15 }}
+            >
+              Easy Auto Sales
+            </Typography>
           </Divider>
           <Grid container>
             {data.selling.map((val, i) => (
-              <Grid item xs={4} key={i}>
+              <Grid item xs={12} lg={4} mb={{ xs: 2 }} key={i}>
                 <Card
                   sx={{ width: "350px", height: "400px", paddingBottom: "5px" }}
                 >
@@ -257,13 +266,14 @@ const SellerLogin = () => {
                   >
                     {val.para}
                   </p>
-                  <div className=" text-center">
+                  <div className=" text-center p-2">
                     <Button
                       sx={{
                         color: "#000",
                         backgroundColor: "#fff",
                         border: "1px solid #000",
                         fontSize: 12,
+                        width: { xs: "100%" },
                       }}
                       onClick={() => router.push("/sell-cars")}
                     >

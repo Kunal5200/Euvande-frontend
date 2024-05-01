@@ -8,7 +8,7 @@ const Recommended = ({ data }) => {
         </Typography>
         <Grid container mt={2} spacing={2}>
           {data.map((val, i) => (
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <Card sx={{ backgroundColor: "#008190", p: 2 }}>
                 <img src={val.img} width={20} />
                 <Typography

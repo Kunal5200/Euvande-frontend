@@ -1,4 +1,11 @@
-import { Autocomplete, Button, Stack, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Grid,
+  Stack,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -18,6 +25,8 @@ const Seats = ({ data, setState, state }) => {
   }, [carInfo]);
   //   console.log("seats", state.seats);
 
+  const phone = useMediaQuery("(max-width:600px)");
+
   return (
     <div>
       {/* <Autocomplete
@@ -26,26 +35,52 @@ const Seats = ({ data, setState, state }) => {
         options={data.seats}
         value={selectedSeats}
       /> */}
-      <Stack direction={"row"} alignItems={"center"} spacing={2}>
-        {data &&
-          data.seats.map((val, i) => (
-            <Button
-              key={i}
-              sx={{
-                border: "1px solid #000",
-                backgroundColor: state.seats === val ? "#000" : "#fff",
-                color: state.seats === val ? "#fff" : "#000",
-                ":hover": {
+      {phone ? (
+        <Grid container>
+          {data &&
+            data.seats.map((val, i) => (
+              <Grid item xs={4} mb={2}>
+                <Button
+                  key={i}
+                  sx={{
+                    border: "1px solid #000",
+                    backgroundColor: state.seats === val ? "#000" : "#fff",
+                    color: state.seats === val ? "#fff" : "#000",
+                    ":hover": {
+                      backgroundColor: state.seats === val ? "#000" : "#fff",
+                    },
+                    fontSize: 12,
+                    mx: 1,
+                  }}
+                  onClick={() => handleSeat(val)}
+                >
+                  {val}
+                </Button>
+              </Grid>
+            ))}
+        </Grid>
+      ) : (
+        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+          {data &&
+            data.seats.map((val, i) => (
+              <Button
+                key={i}
+                sx={{
+                  border: "1px solid #000",
                   backgroundColor: state.seats === val ? "#000" : "#fff",
-                },
-                fontSize: 12,
-              }}
-              onClick={() => handleSeat(val)}
-            >
-              {val}
-            </Button>
-          ))}
-      </Stack>
+                  color: state.seats === val ? "#fff" : "#000",
+                  ":hover": {
+                    backgroundColor: state.seats === val ? "#000" : "#fff",
+                  },
+                  fontSize: 12,
+                }}
+                onClick={() => handleSeat(val)}
+              >
+                {val}
+              </Button>
+            ))}
+        </Stack>
+      )}
     </div>
   );
 };

@@ -353,6 +353,15 @@ input[type="number"]::-webkit-outer-spin-button {
   .absolute__header {
     display: none !important;
   }
+  .hide_header {
+    display: none !important;
+  }
+  .details_slider_image {
+    height: 300px !important;
+  }
+  .details_thumbs_image {
+    height: 50px !important;
+  }
 }
 
 .text-justify {

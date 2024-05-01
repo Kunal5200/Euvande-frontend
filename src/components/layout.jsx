@@ -16,7 +16,11 @@ const Layout = ({ children }) => {
   useEffect(() => {
     const pathName = router.pathname;
 
-    if (pathName === "/login" || pathName === "/thankyou") {
+    if (
+      pathName === "/login" ||
+      pathName === "/thankyou" ||
+      pathName === "/login-account"
+    ) {
       setShow(false);
     } else {
       setShow(true);

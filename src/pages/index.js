@@ -72,7 +72,7 @@ export default function Home() {
             </Grid>
           </Grid>
         </Container> */}
-        <Container style={{ maxWidth: 1320 }} sx={{ pt: { xs: 8} }}>
+        <Container style={{ maxWidth: 1320 }} sx={{ pt: { xs: 8 } }}>
           <Grid container alignItems={"center"}>
             <Grid item lg={4}>
               <Typography
@@ -92,7 +92,7 @@ export default function Home() {
                 Streamlined process, maximum convenience.
               </Typography>
               <Stack
-                direction={{ lg: "row", xs: "column" }}
+                direction={{ lg: "row", xs: "row" }}
                 alignItems={"center"}
                 spacing={2}
                 mt={{ lg: 4, xs: 2 }}
@@ -101,9 +101,10 @@ export default function Home() {
                 <Button
                   sx={{
                     border: "0.4px solid grey",
-                    width: { lg: 200, xs: "100%" },
+                    width: { lg: 200, xs: 150 },
                     color: "#fff",
                     p: 1.5,
+                    fontSize: { xs: 12 },
                   }}
                   onClick={() => router.push("/buy-cars")}
                 >
@@ -112,9 +113,10 @@ export default function Home() {
                 <Button
                   sx={{
                     border: "0.4px solid grey",
-                    width: { lg: 200, xs: "100%" },
+                    width: { lg: 200, xs: 150 },
                     color: "#fff",
                     p: 1.5,
+                    fontSize: { xs: 12 },
                   }}
                   onClick={() => router.push("/sell-cars")}
                 >

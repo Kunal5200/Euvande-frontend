@@ -7,6 +7,7 @@ import {
   Stack,
   Divider,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 import { Carousel } from "react-responsive-carousel";
 import { ChevronRight, Favorite } from "@mui/icons-material";
@@ -19,7 +20,7 @@ const CarGrid = ({ data, setCarData, page, setLoading, pageSize }) => {
     new Array(data.length).fill(false)
   );
   const router = useRouter();
-
+  const mobilePhones = useMediaQuery("(max-width:600px)");
   const user = useSelector((state) => state.userInfo);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const favouriteHandler = (carId, index, favourite) => {
@@ -41,7 +42,8 @@ const CarGrid = ({ data, setCarData, page, setLoading, pageSize }) => {
         user,
       });
     } else {
-      router.push("/login");
+      mobilePhones ? router.push("/login-account") : router.push("/login");
+      // console.log("mobilephones", matches);
     }
   };
 

@@ -17,6 +17,7 @@ import {
   Stepper,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { use, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -342,16 +343,19 @@ const Step1 = ({ handleNext }) => {
       setShowStep(true);
     }
   }, [carInfo]);
+  const phone = useMediaQuery("(max-width:600px)");
 
   return (
     <div>
       <Container style={{ maxWidth: "1325px" }}>
         <Grid container spacing={3}>
           <Grid item lg={12}>
-            <Box sx={{ display: "flex" }}>
-              {/* <Card sx={{ flex: "3" }}> */}
-              <Box sx={{ flex: "3" }}>
-                <Box sx={{ p: 2 }}>
+            {/* <Box sx={{ display: "flex" }}> */}
+            {/* <Card sx={{ flex: "3" }}> */}
+            {/* <Box sx={{ flex: "3" }}> */}
+            <Grid container>
+              <Grid item lg={10} xs={10}>
+                <Box sx={{ p: { lg: 2, xs: 0 } }}>
                   <Stack>
                     <Typography
                       sx={{ fontSize: 30, fontWeight: 600 }}
@@ -359,7 +363,10 @@ const Step1 = ({ handleNext }) => {
                     >
                       Vehicle Specification{" "}
                     </Typography>
-                    <Typography fontSize={12} textAlign={"justify"}>
+                    <Typography
+                      fontSize={{ lg: 12, xs: 11 }}
+                      textAlign={"justify"}
+                    >
                       {" "}
                       {/* You just need to enter VIN Number of your car and we will
                       automatically fetch detailed information about the vehicle
@@ -405,7 +412,9 @@ const Step1 = ({ handleNext }) => {
                     <Step active sx={{ mb: 2 }}>
                       <StepLabel>
                         Vehicle Vin{" "}
-                        <small>(Vehicle Identification Number) </small>
+                        <small style={{ fontSize: phone && 9 }}>
+                          (Vehicle Identification Number){" "}
+                        </small>
                       </StepLabel>
                       <StepContent>
                         <Vin
@@ -632,26 +641,32 @@ const Step1 = ({ handleNext }) => {
                     </Step>
                   </Stepper>
                 </Box>
-              </Box>
-              {/* </Card> */}
+              </Grid>
+              <Grid item lg={2} xs={1}>
+                <Tick
+                  activeStep={activeStep}
+                  state={state}
+                  showStep={showStep}
+                  setFailedStepsCount={setFailedStepsCount}
+                />
+              </Grid>
+            </Grid>
+            {/* </Box> */}
+            {/* </Card> */}
 
-              <Tick
-                activeStep={activeStep}
-                state={state}
-                showStep={showStep}
-                setFailedStepsCount={setFailedStepsCount}
-              />
-            </Box>
+            {/* </Box> */}
             <Box
               sx={{
                 p: 1,
-                display: "flex",
+                display: { lg: "flex", xs: "block" },
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
             >
               {failedStepsCount.length ? (
-                <Typography sx={{ color: "#ff0000", fontSize: 12, ml: 2 }}>
+                <Typography
+                  sx={{ color: "#ff0000", fontSize: { lg: 12, xs: 10 }, ml: 2 }}
+                >
                   Field Number {failedStepsCount.join(" , ")} need to be filled
                   to continue to the next Step
                 </Typography>
@@ -666,12 +681,13 @@ const Step1 = ({ handleNext }) => {
                   color: "#fff",
                   border: "1px solid #000",
                   backgroundColor: "#000",
-                  width: 150,
+                  width: { lg: 150, xs: "100%" },
                   p: 1.5,
                   ":hover": {
                     backgroundColor: "#000",
                     color: "#fff",
                   },
+                  mt: { xs: 2 },
                 }}
               >
                 {addLoading ? (

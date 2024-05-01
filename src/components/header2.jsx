@@ -62,6 +62,7 @@ const Header = () => {
     setAnchorEl(null);
     setShowMenu(false);
     dispatch(removeDetails());
+    setOpenDrawer(false);
   };
   const dispatch = useDispatch();
   const routePage = (event) => {
@@ -79,6 +80,11 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const handleRoute = (path) => {
+    router.push(path);
+    setOpenDrawer(null);
+  };
+
   const linksList = [
     {
       name: "User Profile",
@@ -93,9 +99,9 @@ const Header = () => {
     },
   ];
 
-  const selector = useSelector((state) => state.userInfo);
-  const name = selector.name;
-  const email = selector.email;
+  const user = useSelector((state) => state.userInfo);
+  const name = user.name;
+  const email = user.email;
   const [fixed, setFixed] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -130,6 +136,7 @@ const Header = () => {
                   src={fixed ? logoBlack : show ? logo : logoBlack}
                   width={150}
                   alt="logo"
+                  className={styles.logo}
                 />
               </Link>
 
@@ -194,6 +201,7 @@ const Header = () => {
               justifyContent: "space-between",
               pt: "10px",
               pb: "10px",
+              px: { xs: 2 },
             }}
           >
             <Link href={"/"}>
@@ -201,6 +209,7 @@ const Header = () => {
                 src={fixed ? logoBlack : show ? logo : logoBlack}
                 width={150}
                 alt="logo"
+                className={styles.logo}
               />
             </Link>
 
@@ -256,7 +265,11 @@ const Header = () => {
               />
             </Stack>
             <IconButton onClick={drawerOpen} className={styles.mobileView}>
-              <Menu sx={{ fill: "#fff" }} />
+              {user.isAuthenticated ? (
+                <Person sx={{ fill: show ? "#fff" : "#000" }} />
+              ) : (
+                <Menu sx={{ fill: show ? "#fff" : "#000" }} />
+              )}
             </IconButton>
             {/* <FaUser className={styles.mobileView} /> */}
           </Box>
@@ -459,9 +472,85 @@ const Header = () => {
           },
         }}
       >
-        <IconButton onClick={handleDrawerClose}>
-          <Close onClick={handleDrawerClose} />
-        </IconButton>
+        <Box textAlign={"end"} p={1}>
+          <IconButton
+            onClick={handleDrawerClose}
+            sx={{ border: "1px solid #000" }}
+          >
+            <Close onClick={handleDrawerClose} />
+          </IconButton>
+        </Box>
+        <Divider sx={{ backgroundColor: "#000" }} />
+        <Box sx={{ height: "100%", mt: 10 }}>
+          {HeaderLinks.map((val, i) => (
+            <Typography
+              textAlign={"center"}
+              fontSize={40}
+              key={i}
+              onClick={() => handleRoute(val.url)}
+              mt={3}
+              borderBottom="1px solid transparent"
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  borderBottom: "1px solid #000",
+                },
+              }}
+            >
+              {val.title}
+            </Typography>
+          ))}
+          {user.isAuthenticated ? (
+            <>
+              <Typography
+                textAlign={"center"}
+                fontSize={40}
+                onClick={() => handleRoute("/user-account")}
+                mt={3}
+                borderBottom="1px solid transparent"
+                sx={{
+                  cursor: "pointer",
+                  ":hover": {
+                    borderBottom: "1px solid #000",
+                  },
+                }}
+              >
+                Profile
+              </Typography>
+              <Typography
+                textAlign={"center"}
+                fontSize={40}
+                onClick={handleLogout}
+                mt={3}
+                borderBottom="1px solid transparent"
+                sx={{
+                  cursor: "pointer",
+                  ":hover": {
+                    borderBottom: "1px solid #000",
+                  },
+                }}
+              >
+                Logout
+              </Typography>
+            </>
+          ) : (
+            <Typography
+              textAlign={"center"}
+              fontSize={40}
+              onClick={() => handleRoute("/login-account")}
+              mt={3}
+              borderBottom="1px solid transparent"
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  borderBottom: "1px solid #000",
+                },
+              }}
+            >
+              Login
+            </Typography>
+          )}
+        </Box>
       </Drawer>
     </div>
   );

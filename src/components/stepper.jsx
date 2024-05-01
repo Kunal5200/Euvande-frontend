@@ -37,7 +37,15 @@ const ProgressStep = (props) => {
         }}
       >
         {props.data.map((val, i) => (
-          <Step key={i} onClick={() => handleStepClick(i)}>
+          <Step
+            key={i}
+            onClick={() => handleStepClick(i)}
+            sx={{
+              "& .MuiStepLabel-label": {
+                fontSize: 10,
+              },
+            }}
+          >
             <StepLabel>{val.name}</StepLabel>
           </Step>
         ))}

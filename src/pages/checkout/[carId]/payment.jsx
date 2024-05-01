@@ -138,7 +138,11 @@ const Checkout = () => {
               sx={{ mb: 2 }}
               helperText="Enter Card Number"
             />
-            <Stack direction={"row"} alignItems={"center"} spacing={2}>
+            <Stack
+              direction={{ lg: "row", xs: "column" }}
+              alignItems={"center"}
+              spacing={2}
+            >
               <TextField
                 id="expiry"
                 label="Expiry"
@@ -165,7 +169,7 @@ const Checkout = () => {
             </Stack>
             <Box sx={{ mb: 2 }}>
               <Grid container spacing={2} mt={1}>
-                <Grid item lg={6}>
+                <Grid item lg={6} xs={12}>
                   <TextField
                     label="Enter Email Address*"
                     onChange={handleInputChange}
@@ -174,7 +178,7 @@ const Checkout = () => {
                     helperText="Enter Valid Email Address"
                   />
                 </Grid>
-                <Grid item lg={6}>
+                <Grid item lg={6} xs={12}>
                   <MuiTelInput
                     defaultCountry="DE"
                     continents={["EU"]}
@@ -191,14 +195,14 @@ const Checkout = () => {
               Shipping Information
             </Divider>
             <Grid container spacing={2} mb={2}>
-              <Grid item lg={6}>
+              <Grid item lg={6} xs={12}>
                 <TextField
                   label="Address Line 1"
                   fullWidth
                   helperText="Enter Street Address"
                 />
               </Grid>
-              <Grid item lg={6}>
+              <Grid item lg={6} xs={12}>
                 <TextField
                   label="Address Line 2"
                   fullWidth
@@ -207,12 +211,12 @@ const Checkout = () => {
               </Grid>
             </Grid>
             <Grid container spacing={2} mb={2}>
-              <Grid item lg={6}>
+              <Grid item lg={6} xs={12}>
                 <Autocomplete
                   id="country-select-demo"
-                  sx={{ width: 300 }}
                   options={countries}
                   autoHighlight
+                  fullWidth
                   getOptionLabel={(option) => option.label}
                   renderOption={(props, option) => (
                     <Box
@@ -243,7 +247,7 @@ const Checkout = () => {
                   )}
                 />
               </Grid>
-              <Grid item lg={6}>
+              <Grid item lg={6} xs={12}>
                 <TextField
                   label="Enter City"
                   fullWidth
@@ -270,7 +274,7 @@ const Checkout = () => {
             </Button>
           </FormControl>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <Card>
             <Swiper
               modules={[Autoplay]}

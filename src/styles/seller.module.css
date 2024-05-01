@@ -25,4 +25,7 @@
   .seller_banner_heading {
     font-size: 20px;
   }
+  .bgImage {
+    height: 30vh;
+  }
 }

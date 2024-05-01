@@ -20,7 +20,7 @@ const Subheader = () => {
   return (
     <div
       className={`container-fluid  border-bottom p-2 ${
-        show ? "absolute__header text-white" : "text-dark"
+        show ? "absolute__header text-white" : "text-dark hide_header"
       }  `}
     >
       <div className="container" style={{ maxWidth: "1300px" }}>

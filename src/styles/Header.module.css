@@ -33,7 +33,7 @@
 }
 .main_header {
   position: fixed;
-  z-index: 9999;
+  z-index: 99;
   width: 100%;
   left: 0;
   right: 0;
@@ -78,5 +78,8 @@
 
   .desktopView {
     display: none;
+  }
+  .logo {
+    width: 100px;
   }
 }

@@ -27,7 +27,7 @@ const Mileage = ({ state, setState, carData }) => {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           <TextField
             label="Mileage (in KM)"
             value={state.mileage}
@@ -45,7 +45,7 @@ const Mileage = ({ state, setState, carData }) => {
             helperText="Mileage :  The Total distance that a vehicle has traveled"
           />
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} xs={12}>
           {/* <TextField label="Ownership of Car" /> */}
           <Autocomplete
             options={data.carOwnerShip}
