@@ -29,6 +29,7 @@ const PriceRange = ({
     const maxPriceValue = parseInt(debouncedMaxPrice);
     const minPriceValue = parseInt(debouncedMinPrice);
 
+    // Check if either maxPrice or minPrice is provided
     if (!isNaN(maxPriceValue) || !isNaN(minPriceValue)) {
       let body =
         filters.maxPrice === null
@@ -48,6 +49,7 @@ const PriceRange = ({
           : {
               maxPrice: maxPriceValue,
             };
+
       getCars({ loading: setLoading, setCarData, page, pageSize, body });
     } else {
       if (user) {
@@ -56,11 +58,12 @@ const PriceRange = ({
         };
         getCars({ loading: setLoading, setCarData, page, pageSize, body });
       } else {
-        getCars({ loading: setLoading, setCarData, page, pageSize });
+        console.log(
+          "Neither maxPrice nor minPrice is provided, and user is not present"
+        );
       }
     }
-    console.log("chali");
-  }, [debouncedMaxPrice, debouncedMinPrice, setLoading, setCarData]);
+  }, [debouncedMaxPrice, debouncedMinPrice]);
   return (
     <div>
       <Grid container spacing={2} mt={0}>

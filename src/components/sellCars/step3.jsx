@@ -24,12 +24,12 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Loading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import TabPanel from "../tabPanel";
 import MyDropzone from "./videoUpload";
-import Loading from "react-loading";
-const Step3 = ({ handleNext, handlePrev }) => {
+const Step3 = ({ handlePrev }) => {
   const inputRefs = useRef({});
   const dispatch = useDispatch();
   const [carId, setCarId] = useState("");
@@ -68,21 +68,10 @@ const Step3 = ({ handleNext, handlePrev }) => {
   const [videoprogress, setVideoProgress] = useState(0);
 
   const [thumbnail, setThumbnail] = useState(null);
-  const [thumbnailLoading, setThumbnailLoading] = useState(false);
-  const [videoResponse, setVideoResponse] = useState(null);
 
   const togglePhotoAccordion = () => {
     setPhotoAccordionOpen(!photoAccordionOpen);
     setVideoAccordionOpen(false);
-  };
-  const removeVideo = () => {
-    setVideoFile(null);
-    setThumbnail(null);
-  };
-
-  const toggleVideoAccordion = () => {
-    setVideoAccordionOpen(!videoAccordionOpen);
-    setPhotoAccordionOpen(false);
   };
 
   const [uploadCompleted, setUploadCompleted] = useState(false);
@@ -126,39 +115,39 @@ const Step3 = ({ handleNext, handlePrev }) => {
 
   // console.log("videoFile", videoFile);
 
-  const generateThumbnail = (videoFile) => {
-    console.log("Thumbnil", videoFile);
+  // const generateThumbnail = (videoFile) => {
+  //   console.log("Thumbnil", videoFile);
 
-    const video = document.createElement("video");
-    video.setAttribute("crossOrigin", "anonymous");
-    video.src = URL.createObjectURL(videoFile);
-    video.onloadeddata = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+  //   const video = document.createElement("video");
+  //   video.setAttribute("crossOrigin", "anonymous");
+  //   video.src = URL.createObjectURL(videoFile);
+  //   video.onloadeddata = () => {
+  //     const canvas = document.createElement("canvas");
+  //     canvas.width = video.videoWidth;
+  //     canvas.height = video.videoHeight;
 
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height); // Draw video frame onto canvas
+  //     const ctx = canvas.getContext("2d");
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+  //     ctx.drawImage(video, 0, 0, canvas.width, canvas.height); // Draw video frame onto canvas
 
-      const image = canvas.toDataURL();
-      setThumbnail(image);
-      console.log(image);
-      setThumbnailLoading(false);
-    };
+  //     const image = canvas.toDataURL();
+  //     setThumbnail(image);
+  //     console.log(image);
+  //     setThumbnailLoading(false);
+  //   };
 
-    video.onerror = (error) => {
-      console.error("Error loading video:", error);
-      setThumbnailLoading(false);
-    };
-  };
+  //   video.onerror = (error) => {
+  //     console.error("Error loading video:", error);
+  //     setThumbnailLoading(false);
+  //   };
+  // };
   const [value, setValue] = useState(0);
 
   const photoUploadHandler = (e, newValue) => {
     setValue(newValue);
   };
 
-  useEffect(() => {}, [videoFile]);
+  // useEffect(() => {}, [videoFile]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState({});
@@ -231,7 +220,6 @@ const Step3 = ({ handleNext, handlePrev }) => {
           carId,
           setCarData,
           setLoading: setCarDataLoading,
-          dispatch,
         });
       }
     };
@@ -239,87 +227,37 @@ const Step3 = ({ handleNext, handlePrev }) => {
     fetchData();
   }, []);
 
+  const fetchImages = async () => {
+    const carId = localStorage.getItem("carId");
+    if (!carId) return;
+
+    try {
+      const {
+        data: {
+          data: {
+            media: { images, videos },
+          },
+        },
+      } = await vehicleController.getVehicleDetails(carId);
+      if (!images) return;
+
+      const updatedImagePreviews = {};
+      Object.keys(state).forEach((key) => {
+        if (images[key]) {
+          updatedImagePreviews[key] = images[key];
+        }
+      });
+
+      setImagePreviews(updatedImagePreviews);
+      setState({ ...state, ...updatedImagePreviews });
+
+      // setUploadedFile({ name: videos, video });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchImages = async () => {
-      const carId = localStorage.getItem("carId");
-      if (carId) {
-        vehicleController
-          .getVehicleDetails(carId)
-          .then((res) => {
-            const response =
-              res &&
-              res.data &&
-              res.data.data &&
-              res.data.data.media &&
-              res.data.data.media.images;
-            const video = res.data.data.media.videos;
-            if (response) {
-              setImagePreviews((prevPreviews) => ({
-                ...prevPreviews,
-                frontLeft: response.frontLeft,
-                frontView: response.frontView,
-                frontRight: response.frontRight,
-                rearRight: response.rearRight,
-                rearView: response.rearView,
-                rearLeft: response.rearLeft,
-                Headlining: response.Headlining,
-                headlamp: response.headlamp,
-                engine: response.engine,
-                driverDoor: response.driverDoor,
-                backLeftTyre: response.backLeftTyre,
-                backLeftWheel: response.backLeftWheel,
-                backRightTyre: response.backRightTyre,
-                backRightWheel: response.backRightWheel,
-                dashboard: response.dashboard,
-                driverDoor: response.driverDoor,
-                driverSeat: response.driverSeat,
-                engine: response.engine,
-                frontLeftTyre: response.frontLeftTyre,
-                frontLeftWheel: response.frontLeftWheel,
-                frontRightTyre: response.frontRightTyre,
-                frontRightWheel: response.frontRightWheel,
-                instrumentPanel: response.instrumentPanel,
-                passengerSeat: response.passengerSeat,
-                rearPanelOfCenterConsole: response.rearPanelOfCenterConsole,
-                rearSeat: response.rearSeat,
-              }));
-              setState((state) => ({
-                ...state,
-                frontLeft: response.frontLeft,
-                frontView: response.frontView,
-                frontRight: response.frontRight,
-                rearRight: response.rearRight,
-                rearView: response.rearView,
-                rearLeft: response.rearLeft,
-                Headlining: response.Headlining,
-                headlamp: response.headlamp,
-                engine: response.engine,
-                driverDoor: response.driverDoor,
-                backLeftTyre: response.backLeftTyre,
-                backLeftWheel: response.backLeftWheel,
-                backRightTyre: response.backRightTyre,
-                backRightWheel: response.backRightWheel,
-                dashboard: response.dashboard,
-                driverDoor: response.driverDoor,
-                driverSeat: response.driverSeat,
-                engine: response.engine,
-                frontLeftTyre: response.frontLeftTyre,
-                frontLeftWheel: response.frontLeftWheel,
-                frontRightTyre: response.frontRightTyre,
-                frontRightWheel: response.frontRightWheel,
-                instrumentPanel: response.instrumentPanel,
-                passengerSeat: response.passengerSeat,
-                rearPanelOfCenterConsole: response.rearPanelOfCenterConsole,
-                rearSeat: response.rearSeat,
-              }));
-            }
-            setUploadedFile({ name: video, video });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    };
     fetchImages();
   }, []);
   return (

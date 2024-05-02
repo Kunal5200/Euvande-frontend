@@ -103,7 +103,7 @@ export const updateUserDetails = ({
     .then((res) => {
       toast.success(res.data.message);
       setLoading(false);
-      router ? router.push("/sell-cars/upload-picture") : dispatch(hideModal());
+      // router ? router.push("/sell-cars/upload-picture") : dispatch(hideModal());
       getUserProfile({ setUser, dispatch });
     })
     .catch((err) => {
@@ -221,5 +221,28 @@ export const verifyOTP = ({
       let errMessage =
         (err.response && err.response.data.message) || err.message;
       toast.error(errMessage);
+    });
+};
+
+export const sendOtpEmail = ({
+  data,
+  setLoading,
+  showOtpField,
+  showOtpButton,
+}) => {
+  authControllers
+    .updateEmail(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("referenceId", res.data.data.referenceId);
+      setLoading(false);
+      showOtpField(true);
+      showOtpButton(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
     });
 };

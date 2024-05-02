@@ -25,7 +25,7 @@ const loginWhiteTextField = {
     color: "#ffffff",
   },
   "& label": {
-    fontSize: "15px",
+    fontSize: "12px",
     color: "#ffffff",
   },
   "& .MuiInput-underline:after": {
@@ -74,14 +74,14 @@ const LoginAccount = () => {
   };
   return (
     <div>
-      <Box sx={{ backgroundColor: "#000", height: "100vh" }}>
+      <Box sx={{ backgroundColor: "#000", height: "90vh" }}>
         <MobileLogin />
         <Box
           sx={{
             position: "absolute",
             bottom: 0,
             height: 100,
-            backgroundColor: "#403f3f",
+            backgroundColor: "#fff",
             width: "100%",
             borderTopRightRadius: 40,
             borderTopLeftRadius: 40,
@@ -91,14 +91,17 @@ const LoginAccount = () => {
             justifyContent: "space-around",
           }}
         >
-          <Typography color={"#fff"}>Don't have an account</Typography>
+          <Typography color={"#000"} fontSize={12}>
+            Don't have an account
+          </Typography>
           <Button
             sx={{
-              border: "1px solid #fff",
+              border: "1px solid #000",
               color: "#000",
               backgroundColor: "#fff",
               width: 100,
               borderRadius: 20,
+              fontSize: 12,
             }}
             onClick={() => setOpen(true)}
           >

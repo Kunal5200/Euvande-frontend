@@ -77,7 +77,7 @@ const ModelFilter = ({
               <RadioGroup
                 name="model"
                 onChange={modelHandler}
-                value={selectedModel}
+                value={filters.model}
               >
                 <FormControlLabel
                   control={<Radio size="small" />}

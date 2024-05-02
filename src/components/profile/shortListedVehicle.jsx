@@ -12,11 +12,13 @@ import {
   Button,
   Card,
   Chip,
+  Divider,
   Grid,
   IconButton,
   Stack,
   TablePagination,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -56,29 +58,18 @@ const ShortListedVehicle = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    // addCarsToFavorite({
-    //   data: {
-    //     favourite: false,
-    //     carId: value.id,
-    //   },
-    //   setCarData,
-    //   setLoading,
-    //   page,
-    //   pageSize,
-    //   user,
-    // });
   };
 
   const routerPage = (id) => {
     router.push(`/vehicles/${id}/car-details`);
   };
+  const phoneMatches = useMediaQuery("(max-width:600px)");
 
   return (
     <Box>
       <Box
         sx={{
-          display: "flex",
+          display: { lg: "flex", xs: "column" },
           alignItems: "center",
           justifyContent: "space-between",
         }}
@@ -86,10 +77,22 @@ const ShortListedVehicle = () => {
         <Typography fontSize={20} fontWeight={600}>
           Favourite Vehicles
         </Typography>
+
         <TablePagination
           count={carData && carData.totalDocs}
           rowsPerPage={10}
           page={page}
+          sx={{
+            "& .MuiTablePagination-selectLabel": {
+              fontSize: { xs: 12 },
+            },
+            "& .MuiSvgIcon-root": {
+              fontSize: { xs: 20 },
+            },
+            "& .MuiTablePagination-toolbar": {
+              paddingLeft: { xs: 0 },
+            },
+          }}
         />
       </Box>
       {loading ? (
@@ -101,14 +104,22 @@ const ShortListedVehicle = () => {
           className="m-auto"
         />
       ) : carData && carData.docs.length === 0 ? (
-        <Typography fontSize={15} textAlign={"center"} fontWeight={600}> No Car Found</Typography>
+        <Typography
+          fontSize={15}
+          textAlign={"center"}
+          fontWeight={600}
+          mt={{ xs: 1 }}
+        >
+          {" "}
+          No Car Found
+        </Typography>
       ) : (
         carData &&
         carData.docs &&
         carData.docs.map((val, i) => (
           <Card key={i} sx={{ my: 3 }}>
-            <Grid container spacing={3}>
-              <Grid item lg={4}>
+            <Grid container spacing={{ lg: 3, xs: 1 }}>
+              <Grid item lg={4} xs={12}>
                 <Carousel
                   showThumbs={false}
                   showIndicators={false}
@@ -123,17 +134,18 @@ const ShortListedVehicle = () => {
                   )}
                 </Carousel>
               </Grid>
-              <Grid item lg={8}>
+              <Grid item lg={8} xs={12} px={{ xs: 2 }}>
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
                   justifyContent={"space-between"}
-                  pt={2}
+                  pt={{ lg: 2, xs: 0 }}
                 >
                   <Typography
-                    fontSize={20}
+                    fontSize={{ lg: 20, xs: 15 }}
                     fontWeight={600}
                     textTransform={"capitalize"}
+                    px={2}
                   >
                     {val && val.period && val.period.year}{" "}
                     {val && val.make && val.make.makeName}{" "}
@@ -144,25 +156,30 @@ const ShortListedVehicle = () => {
                     <Favorite sx={{ fill: val.favourite ? "#ff0000" : "" }} />
                   </IconButton>
                 </Stack>
-                <Typography fontSize={10}>
+                <Typography fontSize={10} ml={{ xs: 2 }}>
                   {val.vin || "VIN not disclosed"}
                 </Typography>
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
-                  spacing={5}
+                  spacing={{ lg: 5, xs: 4 }}
                   mt={2}
                 >
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <AddRoad sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>{`${
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    px={{ xs: 2 }}
+                  >
+                    <AddRoad sx={{ fontSize: { lg: 12, xs: 9 } }} />
+                    <Typography fontSize={{ lg: 12, xs: 9 }}>{`${
                       val && val.odometer
                     } km`}</Typography>
                   </Stack>
 
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <BsFuelPump sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>
+                    <BsFuelPump fontSize={12} />
+                    <Typography fontSize={{ lg: 12, xs: 9 }}>
                       {(val &&
                         val.specification &&
                         val.specification.specificationDetails &&
@@ -171,8 +188,8 @@ const ShortListedVehicle = () => {
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <GiGearStickPattern sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>
+                    <GiGearStickPattern fontSize={12} />
+                    <Typography fontSize={{ lg: 12, xs: 9 }}>
                       {(val &&
                         val.specification &&
                         val.specification.transmission) ||
@@ -185,16 +202,17 @@ const ShortListedVehicle = () => {
                   alignItems={"center"}
                   spacing={5}
                   my={1}
+                  px={{ xs: 2 }}
                 >
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <Person sx={{ fontSize: 14 }} />
-                    <Typography fontSize={12}>
+                    <Person sx={{ fontSize: { lg: 12, xs: 9 } }} />
+                    <Typography fontSize={{ lg: 12, xs: 9 }}>
                       {val && val.ownership}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <PiEngine sx={{ fontSize: 14 }} />
-                    <Typography fontSize={12}>
+                    <PiEngine sx={{ fontSize: { lg: 12, xs: 9 } }} />
+                    <Typography fontSize={{ lg: 12, xs: 9 }}>
                       {val &&
                         val.specification &&
                         val.specification.power &&
@@ -202,76 +220,58 @@ const ShortListedVehicle = () => {
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <DirectionsCar sx={{ fontSize: 12 }} />
-                    <Typography fontSize={12}>
+                    <DirectionsCar sx={{ fontSize: { lg: 12, xs: 9 } }} />
+                    <Typography fontSize={{ lg: 12, xs: 9 }}>
                       {val &&
                         val.specification &&
                         val.specification.vehicleType}
                     </Typography>
                   </Stack>
                 </Stack>
-                {/* {val &&
-                  val.specification &&
-                  val.specification.equipments &&
-                  val.specification.equipments.slice(0, 3).map((label) => (
-                    <Chip
-                      label={label}
-                      sx={{
-                        mx: 1,
-                        fontSize: 10,
-                        backgroundColor: "#000",
-                        color: "#fff",
-                        textTransform: "capitalize",
-                      }}
-                    />
-                  ))}
-                {val &&
-                  val.specification &&
-                  val.specification.equipments &&
-                  val.specification.equipments.length > 3 && (
-                    <Chip
-                      label={`+ ${
-                        val &&
-                        val.specification &&
-                        val.specification.equipments.length - 3
-                      } more`}
-                      sx={{ fontSize: 12 }}
-                    />
-                  )} */}
+
                 <Stack
-                  direction={"row"}
-                  alignItems={"center"}
+                  direction={{ lg: "row", xs: "column" }}
+                  alignItems={{ lg: "center", xs: "flex-start" }}
                   justifyContent={"space-between"}
-                  mr={2}
+                  mr={{ lg: 2, xs: 0 }}
                 >
                   {val && val.price && (
                     <Typography
-                      fontSize={25}
+                      fontSize={{ lg: 25, xs: 15 }}
                       fontWeight={600}
                       // mt={2}
                       mb={2}
-                      alignSelf={"center"}
+                      mx={{ xs: 2 }}
+                      alignSelf={{ lg: "center", xs: "flex-start" }}
                     >
                       {`${val && val.price} €` || "Not Disclosed"}
                     </Typography>
                   )}
-
-                  <Button
-                    color="inherit"
-                    sx={{
-                      fontSize: 12,
-                      alignSelf: "end",
-                      backgroundColor: "#000",
-                      color: "#fff",
-                      ":hover": {
-                        color: "#fff",
+                  {phoneMatches ? (
+                    <>
+                      <Divider sx={{ backgroundColor: "#000" }} />
+                      <Button sx={{ color: "#000", fontSize: 12 }} fullWidth>
+                        View Car Details <ChevronRight fontSize="small" />
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      color="inherit"
+                      sx={{
+                        fontSize: 12,
+                        alignSelf: "end",
                         backgroundColor: "#000",
-                      },
-                    }}
-                    onClick={() => routerPage(val.id)}
-                  >
-                    View Car Details <ChevronRight />
-                  </Button>
+                        color: "#fff",
+                        ":hover": {
+                          color: "#fff",
+                          backgroundColor: "#000",
+                        },
+                      }}
+                      onClick={() => routerPage(val.id)}
+                    >
+                      View Car Details <ChevronRight />
+                    </Button>
+                  )}
                 </Stack>
               </Grid>
             </Grid>

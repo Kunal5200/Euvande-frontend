@@ -21,6 +21,7 @@ import {
   Grid,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Aos from "aos";
 import Head from "next/head";
@@ -58,6 +59,7 @@ export default function Home() {
     const body = encodeURIComponent(JSON.stringify(data));
     router.push(`/buy-cars?state=${body}`);
   };
+  const xss = useMediaQuery("(max-width:400px)");
   return (
     <>
       <Head>
@@ -92,8 +94,8 @@ export default function Home() {
                 Streamlined process, maximum convenience.
               </Typography>
               <Stack
-                direction={{ lg: "row", xs: "row" }}
-                alignItems={"center"}
+                direction={{ lg: "row", xs: "column" }}
+                alignItems={{ lg: "center", xs: "start" }}
                 spacing={2}
                 mt={{ lg: 4, xs: 2 }}
                 mb={3}
@@ -101,7 +103,7 @@ export default function Home() {
                 <Button
                   sx={{
                     border: "0.4px solid grey",
-                    width: { lg: 200, xs: 150 },
+                    width: { lg: 200, xs: 200 },
                     color: "#fff",
                     p: 1.5,
                     fontSize: { xs: 12 },
@@ -113,7 +115,7 @@ export default function Home() {
                 <Button
                   sx={{
                     border: "0.4px solid grey",
-                    width: { lg: 200, xs: 150 },
+                    width: { lg: 200, xs: 200 },
                     color: "#fff",
                     p: 1.5,
                     fontSize: { xs: 12 },

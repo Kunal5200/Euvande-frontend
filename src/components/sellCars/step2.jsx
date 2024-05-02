@@ -5,8 +5,8 @@ import {
 } from "@/api/apiCalling/authenticationApi";
 import { Verify_BY } from "@/utils/enum";
 import { isEmail } from "@/utils/regex";
-import { loginTextField } from "@/utils/styles";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { loginTextField, scrollToTop } from "@/utils/styles";
+import { ChevronLeft, ChevronRight, Info } from "@mui/icons-material";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import {
@@ -14,13 +14,17 @@ import {
   Button,
   Card,
   Container,
+  FormHelperText,
   Grid,
+  IconButton,
+  InputAdornment,
   Stack,
   Step,
   StepContent,
   StepLabel,
   Stepper,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
@@ -177,6 +181,8 @@ const Step2 = ({ handleNext, handlePrev }) => {
     const carId = localStorage.getItem("carId");
     if (carId) {
       getCarDetails({ carId, setCarData, setLoading, dispatch });
+    } else {
+      return () => {};
     }
   }, []);
   // const user = useSelector((state) => state.userInfo);
@@ -211,9 +217,10 @@ const Step2 = ({ handleNext, handlePrev }) => {
       authControllers
         .customLogin(body)
         .then((res) => {
+          console.log("testets", res);
           if (res && res.data && res.data.data) {
             localStorage.setItem("accessToken", res.data.data.accessToken);
-            // dispatch(setDetails({ ...res.data.data, isAuthenticated: true }));
+            dispatch(setDetails({ ...res.data.data, isAuthenticated: true }));
             getUserProfile({ setUser, dispatch, setLoading });
           }
           setAddContactLoading(false);
@@ -253,9 +260,15 @@ const Step2 = ({ handleNext, handlePrev }) => {
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      return null;
     }
+  }, []);
+  const wrongNumberHandler = () => {
+    setShowPhoneOTPField(false);
+    setShowGetOtpButtonPhone(true);
+  };
+
+  useEffect(() => {
+    scrollToTop();
   }, []);
 
   // console.log("user", user);
@@ -337,7 +350,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                 <>
                   <Grid item lg={3}>
                     <TextField
-                      label="Enter OTP"
+                      label="Enter OTP Here"
                       sx={loginTextField}
                       onChange={phoneOtpHandler}
                       inputProps={{
@@ -347,7 +360,24 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       }}
                       type="number"
                       helperText="Enter 6 digit OTP"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment>
+                            <Tooltip title="Wrong Number ">
+                              <IconButton onClick={wrongNumberHandler}>
+                                <Info htmlColor="#ff000" />
+                              </IconButton>
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
+                    {/* <FormHelperText
+                      onClick={wrongNumberHandler}
+                      sx={{ fontSize: 11, cursor: "pointer" }}
+                    >
+                      Wrong Number ?
+                    </FormHelperText> */}
                   </Grid>
                   <Grid item lg={2}>
                     <Button

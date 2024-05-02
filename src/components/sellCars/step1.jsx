@@ -299,42 +299,46 @@ const Step1 = ({ handleNext }) => {
     //   state.vehicleType &&
     //   state.vin
     // ) {
-    setAddLoading(true);
-    let body = {
-      displacementL: state.displacementL,
-      doors: state.doors,
-      driveType4WD: state.driveType4WD,
-      fuelType: state.fuelType,
-      interiorMaterial: state.interiorMaterial,
-      makeId: state.make,
-      odometer: state.mileage,
-      modelId: state.model,
-      manufacturedIn: state.originOfCar,
-      periodId: state.period,
-      power: state.power,
-      price: parseInt(state.price),
-      seats: state.seats,
-      transmission: state.transmission,
-      trimLevel: state.trimLevel,
-      vatDeduction: state.vatDeduction,
-      vehicleType: state.vehicleType,
-      ownership: state.ownership,
-      color: state.color,
-      id: carInfo && carInfo.id,
-    };
-    vehicleController
-      .addVehicle(body)
-      .then((res) => {
-        dispatch(setCarDetails({ ...res.data.data }));
-        setAddLoading(false);
-        handleNext();
-      })
-      .catch((err) => {
-        let errMessage =
-          (err.response && err.response.data.message) || err.message;
-        toast.error(errMessage);
-        setAddLoading(false);
-      });
+    if (state.vin === "") {
+      toast.error("Please Enter Valid Vin Number");
+    } else {
+      setAddLoading(true);
+      let body = {
+        displacementL: state.displacementL,
+        doors: state.doors,
+        driveType4WD: state.driveType4WD,
+        fuelType: state.fuelType,
+        interiorMaterial: state.interiorMaterial,
+        makeId: state.make,
+        odometer: state.mileage,
+        modelId: state.model,
+        manufacturedIn: state.originOfCar,
+        periodId: state.period,
+        power: state.power,
+        price: parseInt(state.price),
+        seats: state.seats,
+        transmission: state.transmission,
+        trimLevel: state.trimLevel,
+        vatDeduction: state.vatDeduction,
+        vehicleType: state.vehicleType,
+        ownership: state.ownership,
+        color: state.color,
+        id: carInfo && carInfo.id,
+      };
+      vehicleController
+        .addVehicle(body)
+        .then((res) => {
+          dispatch(setCarDetails({ ...res.data.data }));
+          setAddLoading(false);
+          handleNext();
+        })
+        .catch((err) => {
+          let errMessage =
+            (err.response && err.response.data.message) || err.message;
+          toast.error(errMessage);
+          setAddLoading(false);
+        });
+    }
     // handleNext();
   };
 

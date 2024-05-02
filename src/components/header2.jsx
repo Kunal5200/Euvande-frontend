@@ -1,5 +1,5 @@
 import { getUserProfile } from "@/api/apiCalling/authenticationApi";
-import { HeaderLinks } from "@/assests/routes";
+import { HeaderLinks, profileLinks } from "@/assests/routes";
 import logoBlack from "@/logo/EUVandeLogoBlack.svg";
 import logo from "@/logo/EUVandeLogoWhite.svg";
 import { removeDetails } from "@/redux/reducers/userdetails";
@@ -7,6 +7,7 @@ import styles from "@/styles/Header.module.css";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import {
+  Avatar,
   Box,
   Chip,
   Container,
@@ -14,6 +15,8 @@ import {
   Drawer,
   IconButton,
   List,
+  ListItem,
+  ListItemAvatar,
   ListItemButton,
   ListItemText,
   Popover,
@@ -27,7 +30,7 @@ import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 // import Button from "./button";
-import { Close, Menu, Person } from "@mui/icons-material";
+import { Close, Logout, Menu, Person } from "@mui/icons-material";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
@@ -142,7 +145,7 @@ const Header = () => {
 
               <Stack
                 direction={"row"}
-                spacing={2}
+                spacing={{ lg: 2, xs: 1 }}
                 alignItems={"center"}
                 className={styles.desktopView}
               >
@@ -188,7 +191,11 @@ const Header = () => {
                 />
               </Stack>
               <IconButton onClick={drawerOpen} className={styles.mobileView}>
-                <Menu sx={{ fill: "#000" }} />
+                {user.isAuthenticated ? (
+                  <Person sx={{ fill: show ? "#000" : "#000" }} />
+                ) : (
+                  <Menu sx={{ fill: show ? "#000" : "#000" }} />
+                )}
               </IconButton>
               {/* <FaUser className={styles.mobileView} /> */}
             </Box>
@@ -201,7 +208,7 @@ const Header = () => {
               justifyContent: "space-between",
               pt: "10px",
               pb: "10px",
-              px: { xs: 2 },
+              // px: { xs: 1 },
             }}
           >
             <Link href={"/"}>
@@ -425,7 +432,7 @@ const Header = () => {
           }}
           sx={{
             "& .MuiPopover-paper": {
-              width: 150,
+              width: 200,
               p: 1,
             },
           }}
@@ -463,16 +470,16 @@ const Header = () => {
       </div>
       <Drawer
         open={openDrawer}
-        anchor={"right"}
+        anchor={"left"}
         onClose={() => setOpenDrawer(null)}
         sx={{
           "& .MuiDrawer-paper": {
-            width: "100%",
+            width: "80%",
             zIndex: 10000,
           },
         }}
       >
-        <Box textAlign={"end"} p={1}>
+        {/* <Box textAlign={"end"} p={1}>
           <IconButton
             onClick={handleDrawerClose}
             sx={{ border: "1px solid #000" }}
@@ -550,7 +557,97 @@ const Header = () => {
               Login
             </Typography>
           )}
+        </Box> */}
+        <Box
+          textAlign={"end"}
+          p={1}
+          sx={{ backgroundColor: user.isAuthenticated ? "#000" : "#fff" }}
+        >
+          <IconButton
+            onClick={handleDrawerClose}
+            sx={{
+              border: user.isAuthenticated
+                ? "1px solid #fff"
+                : "1px solid #000",
+            }}
+          >
+            <Close
+              onClick={handleDrawerClose}
+              fontSize="small"
+              htmlColor={user.isAuthenticated ? "#fff" : "#000"}
+            />
+          </IconButton>
         </Box>
+        {user.isAuthenticated && (
+          <Box
+            sx={{
+              height: 150,
+              backgroundColor: "#000",
+              display: "grid",
+              placeItems: "start",
+              mb: 2,
+            }}
+          >
+            <Box>
+              <Avatar sx={{ width: 70, height: 70, ml: 2 }}>
+                <Typography fontSize={20}>
+                  {user && user.name.slice(0, 1)}
+                </Typography>
+              </Avatar>
+              <Typography fontSize={18} color="#fff" my={1} ml={2}>
+                {user && user.name}
+              </Typography>
+              <Typography fontSize={12} color="#fff" ml={2}>
+                {user && user.email}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        {user.isAuthenticated && (
+          <>
+            <List
+              xs={{
+                "& .MuiTypography-root": {
+                  fontSize: 12,
+                },
+              }}
+            >
+              {profileLinks.map((val, i) => (
+                <ListItemButton key={i} onClick={() => handleRoute(val.url)}>
+                  <ListItemAvatar>{val.icon}</ListItemAvatar>
+                  <ListItemText primary={val.title} />
+                </ListItemButton>
+              ))}
+            </List>
+            <Divider sx={{ backgroundColor: "#000" }} />
+          </>
+        )}
+        <List>
+          {HeaderLinks.map((val, i) => (
+            <ListItemButton onClick={() => handleRoute(val.url)} key={i}>
+              <ListItemAvatar>{val.icon}</ListItemAvatar>
+              <ListItemText primary={val.title} />
+            </ListItemButton>
+          ))}
+          {!user.isAuthenticated && (
+            <ListItemButton onClick={() => handleRoute("/login-account")}>
+              <ListItemAvatar>
+                <Person htmlColor="gray" />
+              </ListItemAvatar>
+              <ListItemText primary="Login" />
+            </ListItemButton>
+          )}
+        </List>
+        {user.isAuthenticated && (
+          <List>
+            <ListItemButton onClick={handleLogout}>
+              <ListItemAvatar>
+                <Logout htmlColor="gray" />
+              </ListItemAvatar>
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          </List>
+        )}
       </Drawer>
     </div>
   );

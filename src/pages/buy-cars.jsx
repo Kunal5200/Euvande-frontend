@@ -99,13 +99,29 @@ const BuyCars = () => {
     };
     fetchData();
   }, []);
+
+  const handleMakeSelector = async (e) => {
+    setFilters({ ...filters, period: e.target.value });
+    setLoading(true);
+    let body = {
+      makeId: parseInt(e.target.value),
+    };
+
+    try {
+      await getCars({ body, setCarData, page, pageSize, loading: setLoading });
+      await getPeriod({ data: body, setPeriod });
+      await getModelByYear({ setModel, data: body });
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  };
   const handlePeriodSelector = (e) => {
-    setSelectedPeriod(e.target.value);
+    setFilters({ ...filters, period: e.target.value });
     setLoading(true);
     let body =
-      selectedMake != null
+      filters.make != null
         ? {
-            makeId: parseInt(selectedMake),
+            makeId: parseInt(filters.make),
             periodId: parseInt(e.target.value),
           }
         : {
@@ -113,32 +129,20 @@ const BuyCars = () => {
           };
     getCars({ body, loading: setLoading, setCarData, page, pageSize });
   };
-
-  const handleMakeSelector = (e) => {
-    setSelectedMake(e.target.value);
-    setLoading(true);
-    let body = {
-      makeId: parseInt(e.target.value),
-    };
-    getCars({ body, setCarData, page, pageSize, loading: setLoading });
-    getPeriod({ data: body, setPeriod });
-    getModelByYear({ setModel, data: body });
-  };
   const handleModelSelector = (e) => {
-    setSelectedModel(e.target.value);
+    setFilters({ ...filters, model: e.target.value });
     setLoading(true);
     let body = {
-      makeId: parseInt(selectedMake),
+      makeId: parseInt(filters.make),
       modelId: parseInt(e.target.value),
-      periodId: parseInt(selectedPeriod),
+      periodId: parseInt(filters.period),
     };
     let data = {
-      makeId: parseInt(selectedMake),
-      periodId: parseInt(selectedPeriod),
+      makeId: parseInt(filters.make),
+      periodId: parseInt(filters.period),
     };
     getCars({ body, setCarData, page, pageSize, loading: setLoading });
     getModelByYear({ setModel, data });
-    console.log("modelSelector");
   };
   const [filters, setFilters] = useState({
     make: null,
@@ -206,19 +210,21 @@ const BuyCars = () => {
         });
         // Set selected make and other filters
         if (data.make) {
-          setSelectedMake(data.make);
+          // setSelectedMake(data.make);
+          setFilters({ ...filters, make: data.make });
           getPeriod({ data: { makeId: data.make }, setPeriod });
-          getModelByYear({ data: { makeId: data.make }, setPeriod });
+          getModelByYear({ data: { makeId: data.make }, setModel });
         }
         if (data.period) {
-          setSelectedPeriod(data.period);
+          // setSelectedPeriod(data.period);
+          setFilters({ ...filters, period: data.period });
           getModelByYear({
             data: { makeId: data.make, periodId: data.period },
             setModel,
           });
         }
         if (data.model) {
-          setSelectedModel(data.model);
+          setFilters({ ...filters, model: data.model });
         }
       } else {
         const body = {
@@ -364,9 +370,9 @@ const BuyCars = () => {
                     <Stack direction={"row"} alignItems={"center"}>
                       <Typography fontSize={13} fontWeight={600}>
                         {carData.totalDocs}
-                      </Typography>
+                      </Typography> 
                       <Typography fontSize={13} ml={0.5}>
-                        Results
+                        Cars Found
                       </Typography>
 
                       <Divider

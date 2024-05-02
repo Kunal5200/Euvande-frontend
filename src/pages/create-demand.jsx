@@ -7,7 +7,6 @@ import ProgressStep from "@/components/stepper";
 import styles from "@/styles/createDemand.module.css";
 import { Container, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 const CreateDemand = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -23,7 +22,6 @@ const CreateDemand = () => {
     <Step1 handleNext={handleNext} handlePrev={handlePrev} />,
     <Step2 handleNext={handleNext} handlePrev={handlePrev} />,
     <Step3 handleNext={handleNext} handlePrev={handlePrev} />,
-    // Add more steps content as needed
   ];
 
   const [fixed, setFixed] = useState(false);
@@ -35,7 +33,6 @@ const CreateDemand = () => {
       );
     }
   }, []);
-  const user = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");

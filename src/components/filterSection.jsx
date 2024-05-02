@@ -167,6 +167,8 @@ const FilterSection = ({
             period={period}
             selectedPeriod={selectedPeriod}
             periodHandler={periodHandler}
+            filters={filters}
+            setFilters={setFilters}
           />
         </AccordionDetails>
       </Accordion>
@@ -194,6 +196,8 @@ const FilterSection = ({
             model={model}
             selectedModel={selectedModel}
             modelHandler={modelHandler}
+            filters={filters}
+            setFilter={setFilters}
           />
         </AccordionDetails>
       </Accordion>

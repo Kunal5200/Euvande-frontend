@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Divider,
+  FormControl,
   IconButton,
   InputAdornment,
   TextField,
@@ -19,6 +20,8 @@ import { useDispatch } from "react-redux";
 // import Button from "./button";
 import OTPinput from "./otpInput";
 import MobileOtpInput from "./mobile-otp-input";
+import Image from "next/image";
+import logo from "@/logo/EUVandeLogoWhite.svg";
 
 const loginWhiteTextField = {
   mb: 4,
@@ -160,115 +163,123 @@ const MobileSignUp = (props) => {
           <Box
             sx={{
               p: 2,
-              display: "grid",
-              placeItems: "center",
+
               height: "100%",
               mt: 1,
             }}
           >
-            <form onSubmit={submitHandler}>
-              <Box textAlign={"center"} mb={4}>
-                <Typography
-                  fontWeight={600}
-                  fontSize={50}
-                  color={"#fff"}
-                  lineHeight={1}
-                >
-                  Welcome to EuVande!
-                </Typography>
-                <Typography fontSize={12} color={"#fff"}>
+            <Box textAlign={"flex-start"} mb={4}>
+              <Typography
+                fontWeight={600}
+                fontSize={12}
+                color={"#fff"}
+                lineHeight={1}
+              >
+                Welcome to EuVande!
+              </Typography>
+              {/* <Typography fontSize={12} color={"#fff"}>
                   {" "}
                   Ready to get started? Signing up is quick and easy.
-                </Typography>
+                </Typography> */}
+            </Box>
+            <FormControl sx={{ pt: 10, pb: 10 }}>
+              <Box textAlign={"center"} mb={4}>
+                <Image src={logo} width={100} />
               </Box>
-              <TextField
-                label="Name*"
-                variant="outlined"
-                fullWidth
-                sx={loginWhiteTextField}
-                onChange={inputChangeHandler}
-                id="name"
-                error={error.name}
-                helperText={error.name}
-                value={state.name}
-              />
-              <TextField
-                label="Email*"
-                variant="outlined"
-                fullWidth
-                sx={loginWhiteTextField}
-                id="email"
-                onChange={inputChangeHandler}
-                error={error.email}
-                helperText={error.email}
-                value={state.email}
-              />
+              <form onSubmit={submitHandler}>
+                <TextField
+                  label="Name*"
+                  variant="outlined"
+                  fullWidth
+                  sx={loginWhiteTextField}
+                  onChange={inputChangeHandler}
+                  id="name"
+                  error={error.name}
+                  helperText={error.name}
+                  value={state.name}
+                />
+                <TextField
+                  label="Email*"
+                  variant="outlined"
+                  fullWidth
+                  sx={loginWhiteTextField}
+                  id="email"
+                  onChange={inputChangeHandler}
+                  error={error.email}
+                  helperText={error.email}
+                  value={state.email}
+                />
 
-              <TextField
-                label="Password*"
-                variant="outlined"
-                fullWidth
-                type={!togglePassword ? "text" : "password"}
-                sx={loginWhiteTextField}
-                id="password"
-                onChange={inputChangeHandler}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setTogglePassword(!togglePassword)}
-                      >
-                        {togglePassword ? (
-                          <Visibility sx={{ fill: "#fff" }} />
-                        ) : (
-                          <VisibilityOff sx={{ fill: "#fff" }} />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                error={error.password}
-                helperText={error.password}
-                value={state.password}
-              />
+                <TextField
+                  label="Password*"
+                  variant="outlined"
+                  fullWidth
+                  type={!togglePassword ? "text" : "password"}
+                  sx={loginWhiteTextField}
+                  id="password"
+                  onChange={inputChangeHandler}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setTogglePassword(!togglePassword)}
+                        >
+                          {togglePassword ? (
+                            <Visibility sx={{ fill: "#fff" }} />
+                          ) : (
+                            <VisibilityOff sx={{ fill: "#fff" }} />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={error.password}
+                  helperText={error.password}
+                  value={state.password}
+                />
 
-              <Button
-                sx={{
-                  backgroundColor: "#000",
-                  p: 1.5,
-                  color: "#000",
-                  ":hover": {
-                    backgroundColor: "#fff",
+                <Button
+                  sx={{
+                    backgroundColor: "#000",
+                    p: 1.5,
+                    color: "#000",
+                    ":hover": {
+                      backgroundColor: "#fff",
+                      border: "1px solid #000",
+                    },
                     border: "1px solid #000",
-                  },
-                  border: "1px solid #000",
-                  backgroundColor: "#fff",
-                  borderRadius: 20,
-                }}
-                fullWidth
-                type="submit"
-              >
-                {loading ? (
-                  <Loading
-                    type="bars"
-                    width={20}
-                    height={20}
-                    color="#000"
-                    className="m-auto"
-                  />
-                ) : (
-                  "Sign UP"
-                )}
-              </Button>
-              <Box mt={2}>
-                <Typography color={"#403f3f"} textAlign={"start"} fontSize={12}>
-                  Already have an account ?{" "}
-                  <Typography variant="span" onClick={props.onClick}>
-                    Sign In
+                    backgroundColor: "#fff",
+                    borderRadius: 20,
+                  }}
+                  fullWidth
+                  type="submit"
+                >
+                  {loading ? (
+                    <Loading
+                      type="bars"
+                      width={20}
+                      height={20}
+                      color="#000"
+                      className="m-auto"
+                    />
+                  ) : (
+                    "Sign UP"
+                  )}
+                </Button>
+                <Box mt={2}>
+                  <Typography
+                    color={"#403f3f"}
+                    textAlign={"start"}
+                    fontSize={12}
+                  >
+                    Already have an account ?{" "}
+                    <Typography variant="span" onClick={props.onClick}>
+                      Sign In
+                    </Typography>
                   </Typography>
-                </Typography>
-              </Box>
-            </form>
+                </Box>
+              </form>
+            </FormControl>
           </Box>
         </Box>
       )}

@@ -8,7 +8,13 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const PeriodFilter = ({ period, periodHandler, selectedPeriod }) => {
+const PeriodFilter = ({
+  period,
+  periodHandler,
+  selectedPeriod,
+  filters,
+  setFilters,
+}) => {
   return (
     <div>
       <List>
@@ -18,7 +24,7 @@ const PeriodFilter = ({ period, periodHandler, selectedPeriod }) => {
               <RadioGroup
                 name="period"
                 onChange={periodHandler}
-                value={selectedPeriod}
+                value={filters.period}
               >
                 <FormControlLabel
                   control={<Radio size="small" />}

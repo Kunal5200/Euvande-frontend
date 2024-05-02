@@ -121,7 +121,7 @@ export const getCarDetails = ({
       const response = res.data.data;
       setCarData(res.data.data);
       setLoading && setLoading(false);
-      dispatch && dispatch(setVehicleInformation({ ...res.data.data }));
+      dispatch(setVehicleInformation({ ...res.data.data }));
       setState &&
         state &&
         setState({

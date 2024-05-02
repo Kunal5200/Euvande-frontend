@@ -158,4 +158,15 @@ export const authControllers = {
       throw error;
     }
   },
+  updateEmail: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "api/updateEmail/addOrUpdateEmail",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

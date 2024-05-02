@@ -1,11 +1,18 @@
 import { loginUser } from "@/api/apiCalling/authenticationApi";
 import { isEmail } from "@/utils/regex";
 import { loginValidation } from "@/utils/validation";
-import { Close, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Close,
+  Visibility,
+  VisibilityOff,
+  VisibilityOffOutlined,
+  VisibilityOutlined,
+} from "@mui/icons-material";
 import {
   Box,
   Button,
   Divider,
+  FormControl,
   IconButton,
   InputAdornment,
   TextField,
@@ -19,15 +26,18 @@ import OTPinput from "./otpInput";
 import { showModal } from "@/redux/reducers/modal";
 import ForgotPassword from "@/assests/modalcalling/forgot-password";
 import Loading from "react-loading";
+import logo from "@/logo/EUVandeLogoWhite.svg";
+import Image from "next/image";
 const loginWhiteTextField = {
   mb: 4,
   "& label.Mui-focused": {
     color: "#ffffff",
   },
   "& label": {
-    fontSize: "15px",
+    fontSize: "12px",
     color: "#ffffff",
     mx: 2,
+    top: 5,
   },
   "& .MuiInput-underline:after": {
     borderBottomColor: "#fff",
@@ -129,105 +139,112 @@ const MobileLogin = ({ otpShow, setOtpShow }) => {
   return (
     <Box sx={{ height: "100%" }}>
       <Box textAlign={"end"} px={2} pt={2} pb={2}>
-        <IconButton sx={{ border: "1px solid #fff" }} onClick={()=>router.back()}>
+        <IconButton
+          sx={{ border: "1px solid #fff" }}
+          onClick={() => router.back()}
+        >
           <Close htmlColor="#fff" />
         </IconButton>
       </Box>
       {/* <Divider sx={{ backgroundColor: "#fff" }} /> */}
       {!otpShow ? (
-        <Box sx={{ height: "100%", pt: 10, pb: 15 }}>
-          <form onSubmit={loginsubmitHandler}>
-            {/* <Image src={logo} width={200} className="" /> */}
-            <Box textAlign={"center"} mb={3}>
-              <Typography
-                fontWeight={600}
-                fontSize={50}
-                color={"#fff"}
-                lineHeight={1}
-              >
-                Welcome Back to EuVande!
-              </Typography>
-              <Typography fontSize={12} color={"#fff"}>
-                If you're already a member, logging in is a breeze.
-              </Typography>
-            </Box>
+        <Box sx={{ height: "100%" }}>
+          <Box ml={3}>
+            <Typography
+              fontWeight={600}
+              fontSize={12}
+              color={"#fff"}
+              lineHeight={1}
+            >
+              Welcome Back
+            </Typography>
+          </Box>
 
-            <Box sx={{ p: 2 }}>
-              <TextField
-                variant="outlined"
-                label="Enter Your Email*"
-                sx={loginWhiteTextField}
-                fullWidth
-                type="text"
-                onChange={inputHandler}
-                error={error.identity}
-                helperText={error.identity}
-                // className="mb-4"
-                id="identity"
-              />
-              <TextField
-                type={showPassword ? "text" : "password"}
-                variant="outlined"
-                fullWidth
-                label="Password"
-                sx={loginWhiteTextField}
-                id="password"
-                onChange={inputHandler}
-                error={error.password}
-                helperText={error.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment>
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {!showPassword ? (
-                          <Visibility sx={{ fill: "#fff" }} />
-                        ) : (
-                          <VisibilityOff sx={{ fill: "#fff" }} />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                sx={{
-                  color: "#000",
-                  backgroundColor: "#fff",
-                  ":hover": {
+          <FormControl fullWidth sx={{ pt: 14, pb: 10 }}>
+            <Box sx={{ mb: 2, textAlign: "center" }}>
+              <Image src={logo} width={150} />
+            </Box>
+            <form onSubmit={loginsubmitHandler}>
+              {/* <Image src={logo} width={200} className="" /> */}
+
+              <Box sx={{ p: 2 }}>
+                <TextField
+                  variant="outlined"
+                  label="Enter Your Email*"
+                  sx={loginWhiteTextField}
+                  fullWidth
+                  type="text"
+                  onChange={inputHandler}
+                  error={error.identity}
+                  helperText={error.identity}
+                  // className="mb-4"
+                  id="identity"
+                />
+                <TextField
+                  type={showPassword ? "text" : "password"}
+                  variant="outlined"
+                  fullWidth
+                  label="Password"
+                  sx={loginWhiteTextField}
+                  id="password"
+                  onChange={inputHandler}
+                  error={error.password}
+                  helperText={error.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment>
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {!showPassword ? (
+                            <VisibilityOutlined sx={{ fill: "#fff" }} />
+                          ) : (
+                            <VisibilityOffOutlined sx={{ fill: "#fff" }} />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Button
+                  sx={{
                     color: "#000",
                     backgroundColor: "#fff",
+                    ":hover": {
+                      color: "#000",
+                      backgroundColor: "#fff",
+                      border: "1px solid #fff",
+                    },
                     border: "1px solid #fff",
-                  },
-                  border: "1px solid #fff",
-                  p: 1.4,
-                  transition: "0.5s ease all",
-                  borderRadius: 20,
-                }}
-                fullWidth
-                type="submit"
-              >
-                {loading ? (
-                  <Loading type="bars" width={20} height={20} color="#000" />
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-              <Box textAlign={"start"}>
-                <Typography
-                  textAlign={"start"}
-                  color={"#403f3f"}
-                  fontSize={12}
-                  mt={2}
-                  sx={{ cursor: "pointer" }}
-                  onClick={ForgotPasswordModal}
+                    p: 1.4,
+                    transition: "0.5s ease all",
+                    borderRadius: 20,
+                    fontSize: 12,
+                  }}
+                  fullWidth
+                  type="submit"
                 >
-                  Forgot Password ?
-                </Typography>
+                  {loading ? (
+                    <Loading type="bars" width={20} height={20} color="#000" />
+                  ) : (
+                    "Sign In"
+                  )}
+                </Button>
+                <Box textAlign={"start"}>
+                  <Typography
+                    textAlign={"start"}
+                    color={"#403f3f"}
+                    fontSize={12}
+                    mt={2}
+                    sx={{ cursor: "pointer" }}
+                    onClick={ForgotPasswordModal}
+                  >
+                    Forgot Password ?
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </form>
+            </form>
+          </FormControl>
         </Box>
       ) : (
         <div className="p-3">
