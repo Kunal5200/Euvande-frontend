@@ -103,7 +103,6 @@ const SearchForm = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
     if (
       state.make === "" ||
       state.mileage === "" ||
@@ -114,6 +113,8 @@ const SearchForm = () => {
       toast.error("Please Enter Details for Search");
       return false;
     } else {
+      setLoading(true);
+
       let data = {
         make: state.make,
         model: state.model,

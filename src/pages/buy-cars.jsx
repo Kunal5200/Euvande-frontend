@@ -190,6 +190,7 @@ const BuyCars = () => {
   useEffect(() => {
     const fetchData = async () => {
       const filteredData = router.query.state;
+      console.log("filtered Data", filteredData);
       if (filteredData) {
         const data = JSON.parse(filteredData);
         const priceData =
@@ -230,6 +231,7 @@ const BuyCars = () => {
         const body = {
           ...(user.isAuthenticated && { userId: user.id }),
         };
+        console.log("ye wali chali hai ")
         await getCars({
           loading: setLoading,
           setCarData,
@@ -370,7 +372,7 @@ const BuyCars = () => {
                     <Stack direction={"row"} alignItems={"center"}>
                       <Typography fontSize={13} fontWeight={600}>
                         {carData.totalDocs}
-                      </Typography> 
+                      </Typography>
                       <Typography fontSize={13} ml={0.5}>
                         Cars Found
                       </Typography>

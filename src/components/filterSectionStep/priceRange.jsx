@@ -28,9 +28,12 @@ const PriceRange = ({
   useEffect(() => {
     const maxPriceValue = parseInt(debouncedMaxPrice);
     const minPriceValue = parseInt(debouncedMinPrice);
-
+    // if (maxPriceValue && minPriceValue === null) {
+    //  console.log("no value")
+    // }
     // Check if either maxPrice or minPrice is provided
     if (!isNaN(maxPriceValue) || !isNaN(minPriceValue)) {
+      console.log("tetsetet");
       let body =
         filters.maxPrice === null
           ? user
@@ -51,17 +54,13 @@ const PriceRange = ({
             };
 
       getCars({ loading: setLoading, setCarData, page, pageSize, body });
+      console.log("chl rha hai");
     } else {
-      if (user) {
-        let body = {
-          userId: user.id,
-        };
-        getCars({ loading: setLoading, setCarData, page, pageSize, body });
-      } else {
-        console.log(
-          "Neither maxPrice nor minPrice is provided, and user is not present"
-        );
-      }
+      // let body = {
+      //   userId: user.id,
+      // };
+      // getCars({ loading: setLoading, setCarData, page, pageSize, body });
+      // console.log("ttttttttsstststst");
     }
   }, [debouncedMaxPrice, debouncedMinPrice]);
   return (

@@ -1,6 +1,9 @@
 import {
+  phoneOtpVerify,
   sendOtpEmail,
+  updatePhoneNumber,
   updateUserDetails,
+  verifyOtpEmail,
 } from "@/api/apiCalling/authenticationApi";
 import { isEmail } from "@/utils/regex";
 import { loginTextField } from "@/utils/styles";
@@ -16,11 +19,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { MuiTelInput } from "mui-tel-input";
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Loading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ProfileInformation = () => {
   const user = useSelector((state) => state.userInfo);
@@ -32,11 +36,23 @@ const ProfileInformation = () => {
     countryCode: "",
   });
   const [phone, setPhone] = useState(null);
+  const [showGetOtpButtonEmail, setGetOtpButtonEmail] = useState(false);
+  const [showGetPhoneOtpButton, setShowGetPhoneOtpButton] = useState(false);
+
   const mobileChangeHandler = (newPhone, countryData) => {
     setPhone(newPhone);
+    const valid = matchIsValidTel(newPhone);
+    if (valid) {
+      setState({
+        ...state,
+        phoneNumber: countryData.nationalNumber,
+        countryCode: countryData.countryCallingCode,
+      });
+      setShowGetPhoneOtpButton(true);
+    } else {
+      setShowGetPhoneOtpButton(false);
+    }
   };
-  const [showGetOtpButtonEmail, setGetOtpButtonEmail] = useState(false);
-
   const inputChangeHandler = (e) => {
     let { id, value } = e.target;
     setState({ ...state, [id]: value });
@@ -66,6 +82,8 @@ const ProfileInformation = () => {
     countryCode: "",
     phoneNumber: "",
   });
+  // email otp
+  const [emailOtp, setEmailOTP] = useState("");
   const [otpEmailLoading, setOtpEmailLoading] = useState(false);
   const [emailOtpField, setEmailOtpField] = useState(false);
   const sendOtpOnEmail = () => {
@@ -80,6 +98,82 @@ const ProfileInformation = () => {
       showOtpButton: setGetOtpButtonEmail,
     });
   };
+  const emailOtpHandler = (e) => {
+    if (e.target.value > 6) {
+      return;
+    }
+    setEmailOTP(e.target.value);
+  };
+  const [emailOtpLoading, setEmailOtpLoading] = useState(false);
+  const verifyEmailOtp = () => {
+    let body = {
+      otp: emailOtp,
+      referenceId: parseInt(localStorage.getItem("referenceId")),
+    };
+    if (emailOtp === "" || emailOtp.length > 6) {
+      toast.error("Please Enter Valid OTP");
+    } else {
+      setEmailOtpLoading(true);
+      verifyOtpEmail({
+        data: body,
+        showOtpField: setEmailOtpField,
+        setLoading: setEmailOtpLoading,
+      });
+    }
+  };
+
+  //  phone otp
+  const [showPhoneOtpField, setShowPhoneOtpField] = useState(false);
+  const [mobileOtpLoading, setMobileOtpLoading] = useState(false);
+  const [phoneOtp, setPhoneOtp] = useState("");
+  const [phoneOtpLoading, setPhoneOtpLoading] = useState(false);
+  const sendOtpPhone = () => {
+    let body = {
+      phoneNo: state.phoneNumber,
+      countryCode: state.countryCode,
+    };
+    if (state.phoneNumber === "") {
+      toast.success("Please Enter Valid Phone Number");
+    } else {
+      setMobileOtpLoading(true);
+      updatePhoneNumber({
+        data: body,
+        setLoading: setMobileOtpLoading,
+        showOtpField: setShowPhoneOtpField,
+      });
+    }
+  };
+  const phoneOtpHandler = (e) => {
+    const numericRegex = /^[0-9]*$/;
+
+    if (!numericRegex.test(e.target.value)) {
+      return;
+    }
+
+    if (e.target.value.length > 6) {
+      return;
+    }
+
+    // Set the phone OTP state with the entered value
+    setPhoneOtp(e.target.value);
+  };
+  const verifyOtpPhone = () => {
+    let body = {
+      otp: phoneOtp,
+      referenceId: parseInt(localStorage.getItem("referenceId")),
+    };
+    if (phoneOtp === "" || phoneOtp.length > 6) {
+      toast.error("Please Enter Valid OTP");
+    } else {
+      phoneOtpVerify({
+        data: body,
+        setLoading: setPhoneOtpLoading,
+        showOTPfield: setShowPhoneOtpField,
+        showGetOtpButton: setShowGetPhoneOtpButton,
+      });
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -93,23 +187,14 @@ const ProfileInformation = () => {
       };
 
       updateUserDetails({ body, setLoading, setUser, dispatch });
+    } else {
+      toast.error("All Fields are Mandatory");
     }
   };
   return (
     <div>
       <Container maxWidth="lg">
         <Stack direction={"row"} alignItems={"center"} spacing={2} py={2}>
-          {/* <Button
-            sx={{
-              border: "1px solid gray",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onClick={() => router.back()}
-          >
-            <ArrowBack htmlColor="gray" />
-          </Button> */}
           <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
             Profile Information
           </Typography>
@@ -126,7 +211,7 @@ const ProfileInformation = () => {
                   sx={loginTextField}
                   InputProps={{
                     endAdornment: (
-                      <InputAdornment>
+                      <InputAdornment position="end">
                         <Person />
                       </InputAdornment>
                     ),
@@ -137,11 +222,33 @@ const ProfileInformation = () => {
             </Grid>
             {emailOtpField ? (
               <Grid container mb={4} alignItems={"center"} spacing={2}>
-                <Grid item xs={8}>
-                  <TextField label="Enter OTP" />
+                <Grid item xs={9}>
+                  <TextField
+                    label="Enter OTP"
+                    value={emailOtp}
+                    fullWidth
+                    sx={loginTextField}
+                    onChange={emailOtpHandler}
+                    type="number"
+                  />
                 </Grid>
-                <Grid item xs={4}>
-                  <Button >verify</Button>
+                <Grid item xs={3}>
+                  <Button
+                    sx={{ border: "1px solid #d7d7d7", color: "#000", p: 1.6 }}
+                    onClick={verifyEmailOtp}
+                  >
+                    {emailOtpLoading ? (
+                      <Loading
+                        type="bars"
+                        width={20}
+                        height={20}
+                        className="m-auto"
+                        color="#000"
+                      />
+                    ) : (
+                      "verify"
+                    )}
+                  </Button>
                 </Grid>
               </Grid>
             ) : (
@@ -155,7 +262,7 @@ const ProfileInformation = () => {
                     type="email"
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment>
+                        <InputAdornment position="end">
                           <Email />
                         </InputAdornment>
                       ),
@@ -191,26 +298,79 @@ const ProfileInformation = () => {
                 )}
               </Grid>
             )}
-            <Grid container mb={4}>
-              <Grid item xs={12}>
-                <MuiTelInput
-                  value={phone}
-                  continents={["EU"]}
-                  defaultCountry="DE"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment>
-                        <Phone />
-                      </InputAdornment>
-                    ),
-                  }}
-                  fullWidth
-                  label="Phone Number"
-                  onChange={mobileChangeHandler}
-                  sx={loginTextField}
-                />
+            {showPhoneOtpField ? (
+              <Grid container spacing={2} mb={4} alignItems={"center"}>
+                <Grid item xs={9}>
+                  <TextField
+                    label="Enter OTP"
+                    sx={loginTextField}
+                    value={phoneOtp}
+                    onChange={phoneOtpHandler}
+                    fullWidth
+                    type="number"
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Button
+                    sx={{ border: "1px solid #000", color: "#000", p: 1.5 }}
+                    onClick={verifyOtpPhone}
+                  >
+                    {phoneOtpLoading ? (
+                      <Loading
+                        type="bars"
+                        color="#000"
+                        width={20}
+                        height={20}
+                        className="m-auto"
+                      />
+                    ) : (
+                      "Verify"
+                    )}
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            ) : (
+              <Grid container mb={4} spacing={2} alignItems={"center"}>
+                <Grid item xs={showGetPhoneOtpButton ? 9 : 12}>
+                  <MuiTelInput
+                    value={phone}
+                    continents={["EU"]}
+                    defaultCountry="DE"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Phone />
+                        </InputAdornment>
+                      ),
+                    }}
+                    fullWidth
+                    label="Phone Number"
+                    onChange={mobileChangeHandler}
+                    sx={loginTextField}
+                  />
+                </Grid>
+                {showGetPhoneOtpButton && (
+                  <Grid item xs={3}>
+                    <Button
+                      sx={{ border: "1px solid #000", color: "#000", p: 1.5 }}
+                      onClick={sendOtpPhone}
+                    >
+                      {mobileOtpLoading ? (
+                        <Loading
+                          type="bars"
+                          width={20}
+                          height={20}
+                          className="m-auto"
+                          color="#000"
+                        />
+                      ) : (
+                        "Verify"
+                      )}
+                    </Button>
+                  </Grid>
+                )}
+              </Grid>
+            )}
             <Button
               sx={{
                 border: "1px solid #000",
@@ -222,9 +382,21 @@ const ProfileInformation = () => {
                   color: "#fff",
                   backgroundColor: "#000",
                 },
+                ":disabled": {
+                  color: "#fff",
+                  backgroundColor: "#00000049",
+                  border: "1px solid #00000049",
+                },
               }}
               fullWidth
               type="submit"
+              disabled={
+                showGetOtpButtonEmail ||
+                emailOtpField ||
+                showGetPhoneOtpButton ||
+                showPhoneOtpField ||
+                loading
+              }
             >
               {loading ? (
                 <Loading

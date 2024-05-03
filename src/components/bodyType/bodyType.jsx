@@ -100,7 +100,7 @@ const BodyType = () => {
       page: 1,
       pageSize: 10,
     });
-  }, [vehicleType]);
+  }, []);
 
   return (
     <Box className="my-4">

@@ -169,4 +169,15 @@ export const authControllers = {
       throw error;
     }
   },
+  verifyEmail: async (body) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "api/updateEmail/emailVerification",
+        body
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

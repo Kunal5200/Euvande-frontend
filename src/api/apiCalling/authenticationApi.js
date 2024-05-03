@@ -246,3 +246,64 @@ export const sendOtpEmail = ({
       setLoading(false);
     });
 };
+
+export const verifyOtpEmail = ({ data, setLoading, showOtpField }) => {
+  authControllers
+    .verifyEmail(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      showOtpField(false);
+      setLoading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
+    });
+};
+
+// export const updatePhoneNumber = { data, setLoading, showOTPfield };
+export const updatePhoneNumber = ({ data, setLoading, showOtpField }) => {
+  authControllers
+    .updatePhoneNumber(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      // console.log("res", res);
+      localStorage.setItem("referenceId", res.data.data.referenceId);
+      showOtpField(true);
+      setLoading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
+    });
+};
+
+export const phoneOtpVerify = ({
+  data,
+  setLoading,
+  showOTPfield,
+  showGetOtpButton,
+}) => {
+  authControllers
+    .verifyPhoneOTP(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      showOTPfield(false);
+      setLoading(false);
+      showGetOtpButton(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
+    });
+};

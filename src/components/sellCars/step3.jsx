@@ -162,50 +162,71 @@ const Step3 = ({ handlePrev }) => {
         [id]: imageUrl,
       }));
       setState({ ...state, [id]: file });
-      const formData = new FormData();
-      formData.append(id, file);
-      formData.append("carId", carInfo && carInfo.id);
+      // const formData = new FormData();
+      // formData.append(id, file);
+      // formData.append("carId", carInfo && carInfo.id);
 
-      try {
-        const result = await vehicleController.uploadPhotos(
-          formData,
-          (progressEvent) => {
-            const progress = Math.round(
-              (progressEvent.loaded / progressEvent.total) * 100
-            );
-            setProgress((prevProgress) => ({
-              ...prevProgress,
-              [id]: progress,
-            }));
-          }
-        );
+      // try {
+      //   const result = await vehicleController.uploadPhotos(
+      //     formData,
+      //     (progressEvent) => {
+      //       const progress = Math.round(
+      //         (progressEvent.loaded / progressEvent.total) * 100
+      //       );
+      //       setProgress((prevProgress) => ({
+      //         ...prevProgress,
+      //         [id]: progress,
+      //       }));
+      //     }
+      //   );
 
-        setProgress((prevProgress) => {
-          const updatedProgress = { ...prevProgress };
-          delete updatedProgress[id];
-          return updatedProgress;
-        });
-      } catch (error) {
-        console.log(error);
-        // Handle errors
-        // console.error(`${id} upload failed:`, error);
-      }
+      //   setProgress((prevProgress) => {
+      //     const updatedProgress = { ...prevProgress };
+      //     delete updatedProgress[id];
+      //     return updatedProgress;
+      //   });
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
   };
 
   const submitHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
+
     const allImagesUploaded = Object.values(state).every(
       (image) => image !== null
     );
+
     if (!allImagesUploaded) {
       toast.error("Please upload all images before submitting.");
       return;
-    } else {
-      setLoading(true);
-      router.push("/car-preview");
-      setLoading(false);
     }
+
+    const formData = new FormData();
+
+    for (const key in state) {
+      if (state[key] !== null) {
+        formData.append(key, state[key]);
+      }
+    }
+    formData.append("carId", carInfo && carInfo.id);
+
+    vehicleController
+      .uploadPhotos(formData)
+      .then((res) => {
+        // console.log(res);
+        toast.success(res.data.message);
+        router.push("/car-preview");
+        setLoading(false);
+      })
+      .catch((err) => {
+        let errMessage =
+          (err.response && err.response.data.message) || err.message;
+        toast.error(errMessage);
+        setLoading(false);
+      });
   };
 
   const [carData, setCarData] = useState(null);
