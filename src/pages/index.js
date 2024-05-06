@@ -130,7 +130,7 @@ export default function Home() {
         </Container>
       </Box>
       <Container style={{ maxWidth: 1300 }}>
-        <Grid container>
+        <Grid container mt={3}>
           <Grid item lg={10} xs={12} margin={"auto"}>
             <SearchForm />
           </Grid>

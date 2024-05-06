@@ -102,6 +102,8 @@ const Order = () => {
             height: 500,
           },
         }}
+        variant="scroll"
+        allowScrollButtonsMobile={true}
       >
         {tabs.map((val, i) => (
           <Tab label={val} key={i} sx={orderTabButton} />

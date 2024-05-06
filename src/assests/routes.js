@@ -55,7 +55,7 @@ export const profileLinks = [
   {
     title: "Orders",
     icon: <AllInbox htmlColor="gray" />,
-    url: "/order",
+    url: "/orders",
   },
   // {
   //   title: "Address",

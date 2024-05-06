@@ -1,13 +1,11 @@
 import { authControllers } from "@/api/authentication";
-import { countries } from "@/assests/country";
-import Button from "@/components/button";
-import { hideModal } from "@/redux/reducers/modal";
 import { loginTextField } from "@/utils/styles";
 import { addAddressValidation } from "@/utils/validation";
 import {
   Autocomplete,
   Box,
-  Divider,
+  Button,
+  Container,
   FormControlLabel,
   FormLabel,
   Grid,
@@ -16,29 +14,48 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import Loading from "react-loading";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { countries } from "../assests/country";
+import { ChevronLeft } from "@mui/icons-material";
 
-const EditAddress = ({ value, getAddress }) => {
+const AddAddress = () => {
   const [state, setState] = useState({
-    street: value.street || "",
-    city: value.city || "",
-    postalCode: value.postalCode || "",
-    houseNumber: value.houseNo || "",
-    country: value.country || "",
-    id: value.id,
-    addressType: value.addressType || "",
+    street: "",
+    houseNumber: "",
+    postalCode: "",
+    city: "",
+    countryName: "",
+    addressType: "home",
   });
+  const router = useRouter();
+  const [country, setCountry] = useState("");
   const dispatch = useDispatch();
   const [error, setError] = useState({
     street: "",
     houseNumber: "",
     postalCode: "",
     city: "",
-    country: "",
+    countryName: "",
   });
+  const inputChangeHandler = (e) => {
+    let { id, value } = e.target;
+    setState({ ...state, [id]: value });
+    setError({ ...error, [id]: "" });
+  };
+
+  const handleCountryChange = (event, newValue) => {
+    setCountry(newValue);
+    if (newValue) {
+      setState({
+        ...state,
+        countryName: newValue.label,
+      });
+      setError({ ...error, countryName: "" });
+    }
+  };
   const handleAddressType = (e) => {
     let { checked, value } = e.target;
     if (value === "home" || value === "office") {
@@ -47,63 +64,55 @@ const EditAddress = ({ value, getAddress }) => {
       setState({ ...state, addressType: value });
     }
   };
-  const [country, setCountry] = useState({
-    label: value.country || "",
-    code: value.countryCode || "",
-  });
 
-  const inputChangeHandler = (e) => {
-    let { id, value } = e.target;
-    setState({ ...state, [id]: value });
-  };
-  const handleCountryChange = (event, newValue) => {
-    setCountry(newValue);
-    if (newValue) {
-      setState({
-        ...state,
-        country: newValue.label,
+  const addUserAddress = () => {
+    let body = {
+      street: state.street,
+      houseNo: state.houseNumber,
+      postalCode: state.postalCode,
+      city: state.city,
+      country: state.countryName,
+      isDefault: false,
+      addressType: state.addressType,
+    };
+    authControllers
+      .addAddress(body)
+      .then((res) => {
+        toast.success(res.data.message);
+        router.push("/manage-address");
+      })
+      .catch((err) => {
+        let errMessage =
+          (err.response && err.response.data.message) || err.message;
+        toast.error(errMessage);
       });
-      setError({ ...error, countryName: "" });
-    }
   };
-  const [loading, setLoading] = useState(false);
-
   const submitHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (addAddressValidation({ setError, error, state })) {
-      authControllers
-        .editAddress(state)
-        .then((res) => {
-          toast.success(res.data.data);
-          setLoading(false);
-          dispatch(hideModal());
-          getAddress();
-        })
-        .catch((err) => {
-          let errMessage = err.response.data.message || err.message;
-          toast.error(errMessage);
-          setLoading(false);
-        });
+    if (addAddressValidation({ state, setError, error })) {
+      addUserAddress();
     } else {
-      toast.error("Please Enter Details");
-      setLoading(false);
+      toast.error("Please Enter Required Fields");
     }
   };
   return (
-    <div>
+    <Container maxWidth="lg">
+      {/* <Button>
+        <ChevronLeft /> back
+      </Button> */}
       <Box>
-        <Typography variant="h5" fontSize={20}>
-          Edit Address
+        <Typography variant="h6" mt={{ xs: 1 }}>
+          Add New Address{" "}
         </Typography>
-        <Divider style={{ backgroundColor: "#000" }} />
-        <Typography fontSize={12} color={"#ff0000"}>
+        {/* <Divider style={{ backgroundColor: "#000" }} /> */}
+
+        <Typography fontSize={10} color={"#ff0000"} variant="p">
           *Indicates Required
         </Typography>
-        <form className="mt-2" onSubmit={submitHandler}>
-          <Box>
+        <form onSubmit={submitHandler}>
+          <Box mt={1}>
             <Grid container className="mb-3" spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <TextField
                   label="Street*"
                   fullWidth
@@ -112,11 +121,9 @@ const EditAddress = ({ value, getAddress }) => {
                   onChange={inputChangeHandler}
                   error={error.street}
                   helperText={error.street}
-                  value={state.street}
-                  focused={state.street != "" ? true : false}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <TextField
                   label="House Number*"
                   fullWidth
@@ -125,13 +132,11 @@ const EditAddress = ({ value, getAddress }) => {
                   onChange={inputChangeHandler}
                   error={error.houseNumber}
                   helperText={error.houseNumber}
-                  value={state.houseNumber}
-                  focused={state.houseNumber != "" ? true : false}
                 />
               </Grid>
             </Grid>
-            <Grid container className="mb-3" spacing={2}>
-              <Grid item xs={6}>
+            <Grid container mb={3} spacing={2}>
+              <Grid item xs={12}>
                 <TextField
                   label="Postal Code*"
                   fullWidth
@@ -140,11 +145,9 @@ const EditAddress = ({ value, getAddress }) => {
                   onChange={inputChangeHandler}
                   error={error.postalCode}
                   helperText={error.postalCode}
-                  value={state.postalCode}
-                  focused={state.postalCode != "" ? true : false}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <TextField
                   label="City*"
                   fullWidth
@@ -153,8 +156,6 @@ const EditAddress = ({ value, getAddress }) => {
                   helperText={error.city}
                   error={error.city}
                   onChange={inputChangeHandler}
-                  value={state.city}
-                  focused={state.city != "" ? true : false}
                 />
               </Grid>
             </Grid>
@@ -205,9 +206,10 @@ const EditAddress = ({ value, getAddress }) => {
             <FormLabel>Address Type*</FormLabel>
             <RadioGroup
               row
-              defaultValue={state.addressType}
+              defaultValue={"home"}
               onChange={handleAddressType}
               id="addressType"
+              sx={{ mb: 3 }}
             >
               <FormControlLabel
                 value={"home"}
@@ -235,31 +237,31 @@ const EditAddress = ({ value, getAddress }) => {
                 id="addressType"
                 className="mb-3"
                 onChange={handleAddressType}
+                fullWidth
               />
             )}
             <div className="text-center ">
-              <Button  width={250} disabled={loading}>
-                {loading ? (
-                  <Loading
-                    type="bars"
-                    color="#ffdb58"
-                    width={20}
-                    height={20}
-                    className="m-auto"
-                  />
-                ) : (
-                  <>
-                    <span>Update Address</span>
-                    <span>Update Address</span>
-                  </>
-                )}
+              <Button
+                sx={{
+                  border: "1px solid #000",
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  ":hover": {
+                    color: "#fff",
+                    backgroundColor: "#000",
+                  },
+                }}
+                fullWidth
+                type="submit"
+              >
+                Add Address
               </Button>
             </div>
           </Box>
         </form>
       </Box>
-    </div>
+    </Container>
   );
 };
 
-export default EditAddress;
+export default AddAddress;

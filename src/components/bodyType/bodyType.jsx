@@ -67,7 +67,7 @@ const BodyType = () => {
       vehicleType: value.label,
     };
     setVehicleType(value.label);
-    getCars({ setCarData, loading: setLoading, body });
+    getCars({ setCarData, loading: setLoading, body, page: 1, pageSize: 10 });
   };
 
   const [tabData, setData] = useState([]);
@@ -159,8 +159,10 @@ const BodyType = () => {
                         spaceBetween: 10,
                       },
                     }}
+                    // modules={Navigat}
                     spaceBetween={5}
-                    navigation={true}
+                    navigation={false}
+                    grabCursor={true}
                   >
                     {carData &&
                       carData.docs &&

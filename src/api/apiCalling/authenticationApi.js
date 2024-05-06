@@ -144,12 +144,12 @@ export const verifyForgotPasswordOTP = ({ body, setLoading, dispatch }) => {
     });
 };
 
-export const changePassword = ({ body, setLoading, setState }) => {
+export const changePassword = ({ body, setLoading }) => {
   authControllers
     .changePassword(body)
     .then((res) => {
       toast.success(res.data.message);
-      window.location.reload();
+      // window.location.reload();
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);

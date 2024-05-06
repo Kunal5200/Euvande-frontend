@@ -56,7 +56,7 @@ const ChangePassword = () => {
     };
 
     if (changePasswordValidation({ state, setError, error })) {
-      changePassword({ body, setLoading, setState });
+      changePassword({ body, setLoading });
     } else {
       toast.error("Please Fill Required Fields");
       setLoading(false);

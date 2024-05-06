@@ -180,4 +180,14 @@ export const authControllers = {
       throw error;
     }
   },
+  getAddressByAddressId: async (id) => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        `api/address/getAddressById/${id}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
