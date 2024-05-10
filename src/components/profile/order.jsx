@@ -102,8 +102,9 @@ const Order = () => {
             height: 500,
           },
         }}
-        variant="scroll"
-        allowScrollButtonsMobile={true}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
       >
         {tabs.map((val, i) => (
           <Tab label={val} key={i} sx={orderTabButton} />
@@ -135,6 +136,9 @@ const Order = () => {
             p: 1,
             boxShadow: "0px 0px 2px 2px #eee",
           }}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
         >
           {carStatus.map((val, i) => (
             <Tab

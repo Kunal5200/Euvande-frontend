@@ -18,16 +18,16 @@ import { useRouter } from "next/router";
 const Footer = () => {
   const icons = [
     {
-      icon: <FaFacebookF color="#fff" size={25} />,
+      icon: <FaFacebookF color="#fff" size={30} />,
     },
     {
-      icon: <FaInstagram color="#fff" size={25} />,
+      icon: <FaInstagram color="#fff" size={30} />,
     },
     {
-      icon: <FaLinkedinIn color="#fff" size={25} />,
+      icon: <FaLinkedinIn color="#fff" size={30} />,
     },
     {
-      icon: <FaYoutube color="#fff" size={25} />,
+      icon: <FaYoutube color="#fff" size={30} />,
     },
   ];
   const [margin, setMargin] = useState(false);
@@ -69,8 +69,8 @@ const Footer = () => {
               {icons.map((val, i) => (
                 <Avatar
                   sx={{
-                    width: 25,
-                    height: 25,
+                    width: 30,
+                    height: 30,
                     p: 1,
                     backgroundColor: "#000",
                     border: "1px solid #fff",
@@ -78,6 +78,7 @@ const Footer = () => {
                       transform: "scale(1.2)",
                     },
                     transition: "0.5s ease all",
+                    
                   }}
                 >
                   {val.icon}
@@ -86,7 +87,7 @@ const Footer = () => {
             </Stack>
             <Stack direction={"row"} alignItems={"center"} spacing={1}>
               <Typography color={"#fff"} fontSize={12}>
-                EuVande {new Date().getFullYear()}
+                © {new Date().getFullYear()} EuVande
               </Typography>
               <Dot bgColor="#fff" width={4} height={4} />
               <Typography color={"#fff"} fontSize={12}>

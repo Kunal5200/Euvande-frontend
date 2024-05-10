@@ -434,6 +434,7 @@ const Header = () => {
             "& .MuiPopover-paper": {
               width: 200,
               p: 1,
+              zIndex: 9999,
             },
           }}
         >

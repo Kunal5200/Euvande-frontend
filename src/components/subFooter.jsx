@@ -104,28 +104,26 @@ const SubFooter = () => {
         </Stack>
       </Box>
       <Typography fontSize={12} color={"#fff"} textAlign={"justify"} mt={3}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum libero
-        incidunt numquam neque impedit veniam quis dolores ad, nam perspiciatis
-        corrupti atque. Numquam eligendi veniam consequatur vero odio pariatur
-        commodi ut quibusdam qui similique. Molestiae vero praesentium sint? Rem
-        minima aut libero iste assumenda totam asperiores expedita facere quasi
-        beatae, nihil, excepturi voluptates! Possimus nisi ut id laudantium.
-        Fuga beatae maiores amet commodi autem facilis nisi accusantium
-        architecto inventore quae. Perspiciatis, inventore atque a voluptatum
-        deserunt alias ducimus architecto natus labore placeat nam hic
-        cupiditate quod laudantium! Nisi earum accusamus doloremque quo quidem.
-        Ipsum porro nisi sed consequatur recusandae quod, rem explicabo, ut
-        incidunt laudantium quas corrupti facere, asperiores repellendus tempora
-        est sit eum totam minus voluptas quidem dolorem! Assumenda fugiat velit
-        eum non sunt quis cumque consequatur, reiciendis quia culpa voluptas ad
-        voluptate amet laborum alias minima tempora sint similique. Minus
-        pariatur reprehenderit ea cumque ipsam sunt? Neque natus eos ex,
-        blanditiis id, labore quisquam quae odit temporibus commodi officiis
-        debitis excepturi dolorem. Quis fugit quos molestias quisquam odio
-        nobis, quaerat facilis reiciendis, saepe quia dolorum placeat ratione
-        modi. Enim quia exercitationem rem quibusdam possimus ipsum recusandae
-        quae, doloribus asperiores at laudantium inventore. Et accusamus minus
-        sunt error rem?
+        Welcome to EuVande, the ultimate destination for discerning enthusiasts
+        of premium and vintage automobiles. Our platform is dedicated to
+        providing you with an unparalleled experience in buying and selling the
+        finest vehicles on the market. With EuVande, indulge in the luxury of
+        transparency and peace of mind through our meticulous 200-point
+        evaluation process, ensuring that only the most exceptional cars grace
+        our curated collection. Whether you're in pursuit of an iconic classic
+        or a luxurious modern marvel, EuVande offers an extensive range of
+        automotive masterpieces to suit your tastes and preferences. From sleek
+        sports cars to timeless classics, each vehicle on our platform embodies
+        a legacy of excellence and distinction. At EuVande, we understand the
+        importance of a seamless transaction. That's why we offer hassle-free
+        services, including paperwork and RC transfer assistance, as well as
+        flexible financing options with rates starting at just 12.99%. With
+        EuVande, your journey towards owning or selling a premium or vintage car
+        is not just a transaction – it's an experience crafted with precision
+        and passion. Elevate your automotive endeavors with EuVande, where every
+        ride tells a story of sophistication, elegance, and unparalleled
+        quality. Discover the epitome of automotive excellence and embark on a
+        journey unlike any other, only with EuVande.
       </Typography>
     </Container>
   );

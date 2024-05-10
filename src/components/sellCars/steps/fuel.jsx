@@ -26,13 +26,8 @@ const FuelStep = ({ data, state, setState }) => {
     setState({ ...state, color: e.target.value });
   };
   useEffect(() => {
-    if (
-      carInfo &&
-      carInfo.specification &&
-      carInfo.specification.specificationDetails &&
-      carInfo.specification.specificationDetails.fuelType
-    ) {
-      setSelectedFuelType(carInfo.specification.specificationDetails.fuelType);
+    if (carInfo && carInfo.variant) {
+      setState({ ...state, fuelType: carInfo.variant.fuelType });
     }
   }, [carInfo]);
   return (
@@ -68,7 +63,7 @@ const FuelStep = ({ data, state, setState }) => {
               />
             )}
             options={data.fuel}
-            value={selectedFuelType}
+            value={state.fuelType}
             onChange={fuelTypeHandler}
             sx={loginTextField}
           />

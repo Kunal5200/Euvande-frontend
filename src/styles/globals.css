@@ -499,3 +499,9 @@ input[type="number"]::-webkit-outer-spin-button {
   left: 50% !important;
   transform: translate(-50%, -50%);
 }
+
+
+
+.react-multiple-carousel__arrow{
+  z-index: 9 !important;
+}

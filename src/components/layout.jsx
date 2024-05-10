@@ -7,6 +7,7 @@ import Header from "./header2";
 import { Box, Divider, IconButton } from "@mui/material";
 import SubFooter from "./subFooter";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { ArrowUpward } from "@mui/icons-material";
 
 const Layout = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -66,14 +67,14 @@ const Layout = ({ children }) => {
             position: "fixed",
             bottom: 20,
             right: 20,
-            backgroundColor: "#000",
+            backgroundColor: "#222",
             color: "#fff",
             ":hover": {
-              backgroundColor: "#000",
+              backgroundColor: "#222",
             },
           }}
         >
-          <KeyboardArrowUpIcon />
+          <ArrowUpward />
         </IconButton>
       )}
     </div>

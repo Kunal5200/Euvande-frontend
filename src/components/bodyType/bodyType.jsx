@@ -118,7 +118,7 @@ const BodyType = () => {
             border: "1px solid #eee",
           }}
         >
-          {tabData.map((val, i) => (
+          {tabData.slice(0, 10).map((val, i) => (
             <Tab
               label={val.label}
               icon={<Icons img={val.icons} />}

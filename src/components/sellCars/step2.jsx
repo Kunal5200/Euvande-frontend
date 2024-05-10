@@ -360,24 +360,7 @@ const Step2 = ({ handleNext, handlePrev }) => {
                       }}
                       type="number"
                       helperText="Enter 6 digit OTP"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment>
-                            <Tooltip title="Wrong Number ">
-                              <IconButton onClick={wrongNumberHandler}>
-                                <Info htmlColor="#ff000" />
-                              </IconButton>
-                            </Tooltip>
-                          </InputAdornment>
-                        ),
-                      }}
                     />
-                    {/* <FormHelperText
-                      onClick={wrongNumberHandler}
-                      sx={{ fontSize: 11, cursor: "pointer" }}
-                    >
-                      Wrong Number ?
-                    </FormHelperText> */}
                   </Grid>
                   <Grid item lg={2}>
                     <Button
