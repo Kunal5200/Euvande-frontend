@@ -3,6 +3,7 @@ import { addCar } from "@/api/apiCalling/vehicle";
 import { listingController } from "@/api/listing";
 import data from "@/assests/data";
 import Brands from "@/components/brands";
+import Recommended from "@/components/recommendedCard";
 import Testimonials from "@/components/testimonials";
 // import Button from "@/components/button";
 import hands from "@/icons/hands.png";
@@ -12,6 +13,7 @@ import styles from "@/styles/seller.module.css";
 import { isVIN } from "@/utils/regex";
 import { cardStyles, loginTextField } from "@/utils/styles";
 import {
+  Box,
   Button,
   Card,
   Container,
@@ -19,6 +21,7 @@ import {
   Grid,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
@@ -27,6 +30,9 @@ import { useEffect, useState } from "react";
 import Loading from "react-loading";
 import Carousel from "react-multi-carousel";
 import { useDispatch } from "react-redux";
+import growth from "@/icons/growth-chart.png";
+import star from "@/icons/star.png";
+import location from "@/icons/location.png";
 const SellerLogin = () => {
   const router = useRouter();
   const [make, setMake] = useState([]);
@@ -77,9 +83,24 @@ const SellerLogin = () => {
       });
   }, []);
 
-  // useEffect(()=>{
-  //   getSellerPendingCars
-  // },[])
+  const arrRecommended = [
+    {
+      img: growth.src,
+      title: "1 Lakh+",
+      spanTitle: "cars purchased",
+    },
+    {
+      img: star.src,
+      title: "4.7",
+      spanTitle: "average rating",
+    },
+    {
+      img: location.src,
+      title: "40+",
+      spanTitle: "states in Europe",
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -87,46 +108,42 @@ const SellerLogin = () => {
       </Head>
       <div className="">
         <div className={styles.bgImage}>
-          <Grid container alignItems="center" sx={{ height: "100%" }}>
-            {/* <Grid item xs={12} sm={6}>
-              <img src={car.src} width="100%" />
-            </Grid> */}
-            <Grid item sm={6}></Grid>
-            <Grid
-              alignItems={"center"}
-              item
-              xs={12}
-              sm={6}
-              className="p-5 "
-              justifyContent="start"
-            >
-              <h4 className={styles.seller_banner_heading}>
-                Sell your car at best price instantly from home
-              </h4>
-              <Stack
-                spacing={{ xs: 1, sm: 2, md: 4 }}
-                direction={{ xs: "row", sm: "row" }}
-                alignItems="center"
-                justifyItems="start"
-                className="mt-5"
-              >
-                <div className="d-flex align-items-center">
-                  <img src={hands.src} width={40} />
-                  <p className="mb-0 ms-2 f-13">Best Price</p>
-                </div>
-                <div className="d-flex align-items-center ">
-                  <img src={wallet.src} width={40} />
-                  <p className="mb-0 ms-2 f-13">Best Price</p>
-                </div>
-                <div className="d-flex align-items-center ">
-                  <img src={certificate.src} width={40} />
-                  <p className="mb-0 ms-2 f-13">Best Price</p>
-                </div>
-              </Stack>
+          <Container style={{ maxWidth: 1300 }}>
+            <Grid container>
+              <Grid lg={5} xs={8}>
+                <Typography
+                  sx={{ fontSize: { lg: 25, xs: 15 }, fontWeight: 600 }}
+                >
+                  Discover the Ultimate Convenience of Selling Your Car from the
+                  Comfort of Your Couch!
+                </Typography>
+                <Box sx={{ mt: 2 }}>
+                  <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                    {/* <TextField sx={loginTextField} fullWidth label="VIN" /> */}
+                    <Button
+                      sx={{
+                        backgroundColor: "transparent",
+                        border: "1px solid #000",
+                        p: { lg: 2, xs: 1 },
+                        width: { lg: 250, xs: 150 },
+                        color: "#000",
+                        ":hover": {
+                          color: "#000",
+                          backgroundColor: "transparent",
+                        },
+                        fontSize: { xs: 12 },
+                      }}
+                      onClick={() => router.push("/create-demand")}
+                    >
+                      Sell Your Cars
+                    </Button>
+                  </Stack>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          </Container>
         </div>
-        <Grid container>
+        {/* <Grid container>
           <Grid xs={2} item></Grid>
           <Grid xs={12} sm={8} md={8} item>
             <Card className="p-4" sx={cardStyles}>
@@ -222,16 +239,22 @@ const SellerLogin = () => {
             </Card>
           </Grid>
           <Grid xs={2} item></Grid>
-        </Grid>
+        </Grid> */}
         <Container style={{ maxWidth: "1300px" }}>
-          <Divider sx={{ mb: 4 }}>
-            <h4 className="text-capitalize  text-center f-30 ">
+          <Divider sx={{ my: 4 }}>
+            {/* <h4 className="text-capitalize  text-center f-30 ">
               Easy auto sales
-            </h4>
+            </h4> */}
+            <Typography
+              textTransform={"capitalize"}
+              fontSize={{ lg: 30, xs: 15 }}
+            >
+              Easy Auto Sales
+            </Typography>
           </Divider>
           <Grid container>
             {data.selling.map((val, i) => (
-              <Grid item xs={4} key={i}>
+              <Grid item xs={12} lg={4} mb={{ xs: 2 }} key={i}>
                 <Card
                   sx={{ width: "350px", height: "400px", paddingBottom: "5px" }}
                 >
@@ -243,13 +266,14 @@ const SellerLogin = () => {
                   >
                     {val.para}
                   </p>
-                  <div className=" text-center">
+                  <div className=" text-center p-2">
                     <Button
                       sx={{
                         color: "#000",
                         backgroundColor: "#fff",
                         border: "1px solid #000",
                         fontSize: 12,
+                        width: { xs: "100%" },
                       }}
                       onClick={() => router.push("/sell-cars")}
                     >
@@ -260,23 +284,19 @@ const SellerLogin = () => {
               </Grid>
             ))}
           </Grid>
+          <Grid container mt={4}>
+            <Grid item lg={8} margin={"auto"}>
+              <Recommended data={arrRecommended} />
+            </Grid>
+          </Grid>
         </Container>
-        <Container style={{ maxWidth: 1300, mb: 4 }}>
+        {/* <Container style={{ maxWidth: 1300, mb: 4 }}>
           <Divider sx={{ my: 4 }}>
             <h4 className="text-center  f-30">Customer Reviews</h4>
           </Divider>
-          {/* <Carousel responsive={responsive}>
-            {data.reviews.map((val, i) => (
-              <Review
-                img={val.img.src}
-                name={val.name}
-                review={val.review}
-                key={i}
-              />
-            ))}
-          </Carousel> */}
+       
           <Testimonials data={data.reviews} />
-        </Container>
+        </Container> */}
       </div>
     </>
   );

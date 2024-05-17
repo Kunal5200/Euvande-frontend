@@ -41,7 +41,7 @@ const ForgotPassword = () => {
     }
   };
   return (
-    <Box width={500}>
+    <Box width={{ lg: 500, xs: 300 }}>
       <Box>
         <Typography
           variant="h1"
@@ -55,7 +55,7 @@ const ForgotPassword = () => {
         <Divider style={{ backgroundColor: "#000" }} />
       </Box>
       <Box marginTop={2}>
-        <Typography variant="p" fontSize={15} marginBottom={3}>
+        <Typography variant="p" fontSize={{ lg: 15, xs: 12 }} marginBottom={3}>
           Enter Email Address and an OTP wiil be sent to your Email Address
         </Typography>
         <form onSubmit={submitHandler}>
@@ -94,7 +94,6 @@ const ForgotPassword = () => {
               ) : (
                 "Submit"
               )}
-              
             </Button>
           </Box>
         </form>

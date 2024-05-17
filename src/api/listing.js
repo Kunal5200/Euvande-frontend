@@ -58,11 +58,12 @@ export const listingController = {
     }
   },
   getCars: async ({ body, page, pageSize }) => {
+    // console.log("page", page);
     try {
       let result = await vehicleSecuredAPI.vehicleSecuredAPI.post(
-        `/api/newCars/getCarList?page=${(page && page) || "1"}&&pageSize=${
-          (pageSize && pageSize) || "10"
-        }`,
+        `/api/newCars/getCarList?page=${
+          page === 0 ? 1 : page
+        }&&pageSize=${pageSize}`,
         body
       );
       return result;
@@ -70,12 +71,12 @@ export const listingController = {
       throw error;
     }
   },
-  getCarDetailsByCarId: async ({ carId, userId }) => {
+  getCarDetailsByCarId: async ({ carId, userId, status }) => {
     try {
       let result = await vehiclePublicAPI.vehcilePublicAPI.get(
         userId
-          ? `/api/newCars/getCarDetailById/${carId}?userId:${userId}`
-          : `/api/newCars/getCarDetailById/${carId}`
+          ? `/api/newCars/getCarDetailById/${carId}?userId:${userId}?status=${status}`
+          : `/api/newCars/getCarDetailById/${carId}?status=${status}`
       );
       return result;
     } catch (error) {
@@ -97,6 +98,16 @@ export const listingController = {
     try {
       let result = await vehiclePublicAPI.vehcilePublicAPI.get(
         "api/newCars/public/getCountWithMake"
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getAllModels: async () => {
+    try {
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        "/api/model/public/getAllModels"
       );
       return result;
     } catch (error) {

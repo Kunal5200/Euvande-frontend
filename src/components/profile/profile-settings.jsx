@@ -54,7 +54,7 @@ const ProfileSettings = (props) => {
   return (
     <div>
       <div>
-        <h4 className="fw-semibold mb-2">Profile Settings</h4>
+        <h4 className="fw-semibold mb-2 ms-3">Profile Settings</h4>
 
         <div className="container ">
           <div className="row">
@@ -63,7 +63,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Person />
-                    <Typography variant="h6" fontWeight={600} fontSize={18}>
+                    <Typography variant="h6" fontWeight={500} fontSize={18}>
                       Contact Information
                     </Typography>
                   </Stack>
@@ -135,7 +135,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1}>
                     <Lock />
-                    <Typography variant="h6" fontWeight={600} fontSize={18}>Change Password</Typography>
+                    <Typography variant="h6" fontWeight={500} fontSize={18}>Change Password</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />
@@ -147,7 +147,7 @@ const ProfileSettings = (props) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack direction={"row"} spacing={1} alignItems={"center"}>
                     <ContactMailIcon />
-                    <Typography variant="h6" fontWeight={600} fontSize={18}>Address</Typography>
+                    <Typography variant="h6" fontWeight={500} fontSize={18}>Address</Typography>
                   </Stack>
                 </AccordionSummary>
                 <Divider style={{ backgroundColor: "#000" }} />

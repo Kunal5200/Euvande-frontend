@@ -3,10 +3,7 @@ import publicAPI from "./config";
 export const authControllers = {
   RegisterUser: async (body) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "api/user/register",
-        body
-      );
+      let result = await publicAPI.publicAPI.post("api/user/register", body);
       return result;
     } catch (error) {
       throw error;
@@ -14,10 +11,7 @@ export const authControllers = {
   },
   verifyOtp: async (body) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "api/user/verify",
-        body
-      );
+      let result = await publicAPI.publicAPI.post("api/user/verify", body);
       return result;
     } catch (error) {
       throw error;
@@ -25,10 +19,7 @@ export const authControllers = {
   },
   loginUser: async (body) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "/api/user/login",
-        body
-      );
+      let result = await publicAPI.publicAPI.post("/api/user/login", body);
       return result;
     } catch (error) {
       throw error;
@@ -36,9 +27,7 @@ export const authControllers = {
   },
   getUserDetails: async () => {
     try {
-      let result = await securedAPI.securedAPI.get(
-        "/api/user/getUserDetail"
-      );
+      let result = await securedAPI.securedAPI.get("/api/user/getUserDetail");
       return result;
     } catch (error) {
       throw error;
@@ -68,10 +57,7 @@ export const authControllers = {
   },
   forgotPassword: async (data) => {
     try {
-      let result = await publicAPI.publicAPI.post(
-        "/api/forgotPassword",
-        data
-      );
+      let result = await publicAPI.publicAPI.post("/api/forgotPassword", data);
       return result;
     } catch (error) {
       throw error;
@@ -136,6 +122,68 @@ export const authControllers = {
       let result = await securedAPI.securedAPI.post(
         "/api/address/editAddress",
         data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  guestLogin: async () => {
+    try {
+      let result = await publicAPI.publicAPI.get("/api/user/guestLogin");
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  customLogin: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "/api/user/customLogin",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  loginOrRegister: async (data) => {
+    try {
+      let result = await publicAPI.publicAPI.post(
+        "/api/user/loginOrRegister",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  updateEmail: async (data) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "api/updateEmail/addOrUpdateEmail",
+        data
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  verifyEmail: async (body) => {
+    try {
+      let result = await securedAPI.securedAPI.post(
+        "api/updateEmail/emailVerification",
+        body
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getAddressByAddressId: async (id) => {
+    try {
+      let result = await securedAPI.securedAPI.get(
+        `api/address/getAddressById/${id}`
       );
       return result;
     } catch (error) {

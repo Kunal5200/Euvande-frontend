@@ -7,7 +7,7 @@ export const TRANSMISSION = {
   Manual: "Manual",
 };
 export const FILTERS = {
-  NEWESTAD: "Newest Ad",
+  NEWESTAD: "Recently Added",
   LOWESTPRICE: "Lowest Price",
   HIGHESTPRICE: "Highest Price",
   RECOMMENDED: "Recommended",
@@ -26,4 +26,8 @@ export const CarStatus = {
   "On Hold": "On Hold",
   "Not Available": "Not Available", //maintenance, repairs .etc
   Approved: "Approved",
+};
+export const Verify_BY = {
+  PHONE: "PHONE",
+  EMAIL: "EMAIL",
 };

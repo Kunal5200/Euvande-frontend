@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import EmailIcon from "@mui/icons-material/Email";
-import { TiSocialFacebook } from "react-icons/ti";
-import twitter from "@/icons/xicon_white.svg";
-import twitterblack from "@/icons/xicon_black.svg";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import { FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { Avatar, Chip, Stack } from "@mui/material";
 import { FacebookOutlined, Mail } from "@mui/icons-material";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import { Avatar, Chip, Stack } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 const Subheader = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -26,7 +20,7 @@ const Subheader = () => {
   return (
     <div
       className={`container-fluid  border-bottom p-2 ${
-        show ? "absolute__header text-white" : "text-dark"
+        show ? "absolute__header text-white" : "text-dark hide_header"
       }  `}
     >
       <div className="container" style={{ maxWidth: "1300px" }}>
@@ -45,6 +39,7 @@ const Subheader = () => {
                   sx={{
                     backgroundColor: "transparent",
                     border: show ? "1px solid #fff" : "1px solid #000",
+                    marginLeft: "0px !important",
                   }}
                 >
                   <LocalPhoneIcon

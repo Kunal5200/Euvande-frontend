@@ -1,11 +1,15 @@
+import { getCars } from "@/api/apiCalling/listingApi";
+import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
 import data from "@/assests/data";
-import BannerForm from "@/components/bannerForm";
 import BodyType from "@/components/bodyType/bodyType";
 import BrandCard from "@/components/brandCard";
 import CarCard from "@/components/carCard";
 import HowWorks from "@/components/howItWorks";
+import SearchForm from "@/components/searchCar";
 import TestimonialCard from "@/components/testimonialCard";
 import styles from "@/styles/Home.module.css";
+import { responsive } from "@/utils/styles";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -15,21 +19,18 @@ import {
   Container,
   Divider,
   Grid,
+  Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Aos from "aos";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { AutoPlay, Autoplay, Navigation } from "swiper/modules";
-import { ExpandMore } from "@mui/icons-material";
-import { useSelector } from "react-redux";
-import Carousel from "react-multi-carousel";
-import { responsive } from "@/utils/styles";
 import { useRouter } from "next/router";
-import { getCars } from "@/api/apiCalling/listingApi";
+import { useEffect, useState } from "react";
+import Carousel from "react-multi-carousel";
 import "swiper/css/navigation";
-import { vehicleMakeCount } from "@/api/apiCalling/vehicle";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 export default function Home() {
   useEffect(() => {
     Aos.init();
@@ -43,8 +44,10 @@ export default function Home() {
   const [carData, setCarData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [make, setMake] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
-    getCars({ setCarData, loading: setLoading });
+    getCars({ setCarData, loading: setLoading, page, pageSize });
     vehicleMakeCount({ setMake });
   }, []);
 
@@ -56,6 +59,7 @@ export default function Home() {
     const body = encodeURIComponent(JSON.stringify(data));
     router.push(`/buy-cars?state=${body}`);
   };
+  const xss = useMediaQuery("(max-width:400px)");
   return (
     <>
       <Head>
@@ -63,14 +67,75 @@ export default function Home() {
       </Head>
 
       <Box className={styles.bg_home}>
-        <Container style={{ maxWidth: 1400 }}>
+        {/* <Container style={{ maxWidth: 1400 }}>
           <Grid container data-aos="fade-right">
             <Grid item xs={12} lg={6} mt={10}>
               <BannerForm />
             </Grid>
           </Grid>
+        </Container> */}
+        <Container style={{ maxWidth: 1320 }} sx={{ pt: { xs: 8 } }}>
+          <Grid container alignItems={"center"}>
+            <Grid item lg={4}>
+              <Typography
+                fontSize={{ lg: 55, xs: 25 }}
+                color={"#fff"}
+                lineHeight={1.2}
+              >
+                Effortless Car Transactions Made Simple!
+              </Typography>
+              <Typography
+                fontSize={{ lg: 14, xs: 13 }}
+                color={"#fff"}
+                mt={{ lg: 3, xs: 2 }}
+                mb={{ lg: 5, xs: 2 }}
+              >
+                Buy or sell cars hassle-free with our simplified steps.
+                Streamlined process, maximum convenience.
+              </Typography>
+              <Stack
+                direction={{ lg: "row", xs: "column" }}
+                alignItems={{ lg: "center", xs: "start" }}
+                spacing={2}
+                mt={{ lg: 4, xs: 2 }}
+                mb={3}
+              >
+                <Button
+                  sx={{
+                    border: "0.4px solid grey",
+                    width: { lg: 200, xs: 200 },
+                    color: "#fff",
+                    p: 1.5,
+                    fontSize: { xs: 12 },
+                  }}
+                  onClick={() => router.push("/buy-cars")}
+                >
+                  Buy Premium Cars
+                </Button>
+                <Button
+                  sx={{
+                    border: "0.4px solid grey",
+                    width: { lg: 200, xs: 200 },
+                    color: "#fff",
+                    p: 1.5,
+                    fontSize: { xs: 12 },
+                  }}
+                  onClick={() => router.push("/sell-cars")}
+                >
+                  Sell Premium Cars
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
+      <Container style={{ maxWidth: 1300 }}>
+        <Grid container mt={3}>
+          <Grid item lg={10} xs={12} margin={"auto"}>
+            <SearchForm />
+          </Grid>
+        </Grid>
+      </Container>
 
       <div className={`${styles.howItWorks} py-5`}>
         <Divider className="mb-3">
@@ -78,6 +143,7 @@ export default function Home() {
             fontSize={{ xs: 20, lg: 25 }}
             variant="h4"
             fontWeight={600}
+            color={"#000"}
           >
             How it Works?
           </Typography>
@@ -85,7 +151,7 @@ export default function Home() {
         <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={2} data-aos="fade-down">
             {data.howWorks.map((val, i) => (
-              <Grid item xs={12} lg={4} key={i}>
+              <Grid item xs={12} md={4} sm={4} lg={4} key={i}>
                 <HowWorks
                   img={val.img}
                   heading1={val.heading1}
@@ -96,35 +162,7 @@ export default function Home() {
             ))}
           </Grid>
 
-          <div className="text-center mt-4">
-            {/* <Button
-              sx={{
-                backgroundColor: "#000",
-                width: 200,
-                color: "#fff",
-                ":hover": {
-                  color: "#000",
-                  backgroundColor: "#fff",
-                },
-                border: "1px solid #000",
-                fontSize: 12,
-                p: 1,
-                transition: "0.5s ease all",
-              }}
-              onClick={() => router.push("/about-us")}
-            >
-              Know More
-            </Button> */}
-            {/* <Button
-              className="custom_btn"
-              width={200}
-              rounded={20}
-              onClick={() => router.push("/about-us")}
-            >
-              <span>Know More</span>
-              <span>Know More</span>
-            </Button> */}
-          </div>
+          {/* <div className="text-center mt-4">  </div> */}
         </Container>
       </div>
       <Box data-aos="fade-right">
@@ -210,7 +248,7 @@ export default function Home() {
         <Divider>
           <Typography
             variant="h4"
-            fontSize={{ xs: 18, lg: 25 }}
+            fontSize={{ xs: 12, lg: 25 }}
             fontWeight={600}
             letterSpacing={1}
           >
@@ -219,42 +257,35 @@ export default function Home() {
         </Divider>
         <Container style={{ maxWidth: 1300 }}>
           <Grid container spacing={3} marginTop={2} marginBottom={2}>
-            {make.map((val, i) => (
-              <Grid item lg={2} key={i}>
-                <BrandCard
-                  brandName={val.makeName}
-                  img={val.logo}
-                  carNumber={val.carCount}
-                  onClick={() => handleMake(val)}
-                />
-              </Grid>
-            ))}
+            {make.length === 13
+              ? make.map((val, i) => (
+                  <Grid item lg={2} key={i}>
+                    <BrandCard
+                      brandName={val.makeName}
+                      img={val.logo}
+                      carNumber={val.carCount}
+                      onClick={() => handleMake(val)}
+                    />
+                  </Grid>
+                ))
+              : make.slice(0, 6).map((val, i) => (
+                  <Grid item lg={2} xs={6} key={i}>
+                    <BrandCard
+                      brandName={val.makeName}
+                      img={val.logo}
+                      carNumber={val.carCount}
+                      onClick={() => handleMake(val)}
+                    />
+                  </Grid>
+                ))}
           </Grid>
-          {/* <Box textAlign={"center"} marginY={4}>
-            <Button
-              sx={{
-                color: "#fff",
-                backgroundColor: "#000",
-                width: 200,
-                ":hover": {
-                  color: "#000",
-                  backgroundColor: "#fff",
-                },
-                border: "1px solid #000",
-                transition: "0.5s ease all",
-              }}
-              onClick={() => router.push("/buy-cars")}
-            >
-              View All Cars
-            </Button>
-          </Box> */}
         </Container>
       </Box>
       <Box sx={{ my: 3 }}>
         <Divider sx={{ mb: 3 }}>
           <Typography
             variant="h4"
-            fontSize={{ xs: 18, lg: 25 }}
+            fontSize={{ xs: 20, lg: 25 }}
             fontWeight={600}
             letterSpacing={1}
           >
@@ -264,11 +295,15 @@ export default function Home() {
         <Container style={{ maxWidth: 1300 }}>
           <Grid container alignItems={"center"}>
             <Grid item lg={3}>
-              <Typography variant="h4" fontWeight={600} fontSize={30}>
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                fontSize={{ lg: 30, xs: 15 }}
+              >
                 Hear What Our Clients Have to Say!
               </Typography>
             </Grid>
-            <Grid item lg={9}>
+            <Grid item lg={9} xs={12} mt={{ lg: 0, xs: 2 }}>
               <Carousel responsive={responsive}>
                 {data.testimonials.map((val, i) => (
                   <TestimonialCard

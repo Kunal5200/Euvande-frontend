@@ -1,13 +1,18 @@
-import { Grid, LinearProgress, Paper } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { Grid, LinearProgress, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
 
-const ImageUpload = (props) => {
+const ImageUpload = ({
+  data,
+  handleImageUpload,
+  imagePreviews,
+  inputRefs,
+  progress,
+}) => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
-
   return (
     <div>
       <Grid container spacing={2}>
-        {props.data.map((val, i) => (
+        {data.map((val, i) => (
           <Grid
             item
             xs={3}
@@ -19,15 +24,13 @@ const ImageUpload = (props) => {
               <input
                 type="file"
                 style={{ display: "none" }}
-                onChange={() => props.handleImageUpload(val.id)}
+                onChange={() => handleImageUpload(val.id)}
                 id={val.id}
-                ref={(el) => (props.inputRefs.current[val.id] = el)}
+                ref={(el) => (inputRefs.current[val.id] = el)}
               />
               <div
                 style={{
-                  backgroundImage: `url(${
-                    props.imagePreviews[val.id] || val.image
-                  })`,
+                  backgroundImage: `url(${imagePreviews[val.id] || val.image})`,
                   height: "150px",
                   width: "100%",
                   backgroundRepeat: "no-repeat",
@@ -36,7 +39,7 @@ const ImageUpload = (props) => {
                   position: "relative",
                   cursor: "pointer",
                 }}
-                onClick={() => props.inputRefs.current[val.id].click()}
+                onClick={() => inputRefs.current[val.id].click()}
               >
                 {hoveredItemId === val.id && (
                   <div
@@ -65,12 +68,15 @@ const ImageUpload = (props) => {
                 )}
                 <div>
                   <div
-                    className="text-end "
+                    className="text-center "
                     style={{
                       opacity: 1,
-                      backgroundColor: "#000",
-                      width: "fit-content",
+                      backgroundColor: "#0000005E",
+                      width: "100%",
+                      position: "absolute",
+                      bottom: 0,
                       padding: "2px",
+                      left: 0,
                     }}
                   >
                     <p className="f-12 text-white mb-0">{val.label}</p>
@@ -78,11 +84,10 @@ const ImageUpload = (props) => {
                 </div>
               </div>
             </Paper>
-            {props.progress[val.id] !== undefined && (
-              <LinearProgress
-                variant="determinate"
-                value={props.progress[val.id]}
-              />
+            {/* Conditionally render LinearProgress */}
+            {progress[val.id] !== undefined && (
+              <LinearProgress variant="determinate" value={progress[val.id]} />
+              // <Typography>Loading</Typography>
             )}
           </Grid>
         ))}

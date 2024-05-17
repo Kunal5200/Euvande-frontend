@@ -13,13 +13,13 @@ const FeatureCard = ({ data }) => {
           mt: 1,
         }}
       >
-        <Typography fontSize={12}>{val.label}</Typography>
-        <Typography fontSize={12}>{val.value}</Typography>
+        <Typography fontSize={12} textTransform={"capitalize"}>{val.label}</Typography>
+        <Typography fontSize={12} textTransform={"capitalize"}>
+          {val.value || "Not Specified"}
+        </Typography>
       </Box>
 
-      {i !== data.length - 1 && (
-        <Divider sx={{ backgroundColor: "#000" }} />
-      )}
+      {i !== data.length - 1 && <Divider sx={{ backgroundColor: "#000" }} />}
     </Box>
   ));
 };

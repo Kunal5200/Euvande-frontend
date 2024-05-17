@@ -78,27 +78,24 @@ export const getModelByYear = ({ setModel, data }) => {
 };
 
 export const getCars = ({ loading, setCarData, body, pageSize, page }) => {
-  body
-    ? listingController
-        .getCars({ body, page, pageSize })
-        .then((res) => {
-          const response = res.data;
-          setCarData(res.data.data);
-          loading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    : listingController
-        .getCars({ page, pageSize })
-        .then((res) => {
-          setCarData(res.data.data);
-
-          loading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  // console.log("first", page);
+  const data = {
+    page,
+    pageSize,
+  };
+  if (body) {
+    data.body = body;
+  }
+  listingController
+    .getCars(data)
+    .then((res) => {
+      // const response = res.data;
+      setCarData(res.data.data);
+      loading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const getCarDetailsById = async ({
@@ -106,10 +103,11 @@ export const getCarDetailsById = async ({
   setLoading,
   setCarData,
   userId,
+  status,
 }) => {
   userId
     ? listingController
-        .getCarDetailsByCarId({ carId, userId })
+        .getCarDetailsByCarId({ carId, userId, status })
         .then((res) => {
           setCarData(res.data.data);
           setLoading(false);
@@ -118,7 +116,7 @@ export const getCarDetailsById = async ({
           console.log(err);
         })
     : listingController
-        .getCarDetailsByCarId({ carId })
+        .getCarDetailsByCarId({ carId, status })
         .then((res) => {
           setCarData(res.data.data);
           setLoading(false);

@@ -1,6 +1,6 @@
 import whitelogo from "@/logo/EUVandeLogoWhite.svg";
 import styles from "@/styles/footer.module.css";
-import { Avatar, Box, Grid, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Container, Grid, Stack, Typography } from "@mui/material";
 import {
   FaFacebookF,
   FaFacebookSquare,
@@ -13,27 +13,42 @@ import {
 import List from "./list";
 import data from "@/assests/data";
 import Dot from "./dot";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 const Footer = () => {
   const icons = [
     {
-      icon: <FaFacebookF color="#fff" size={25} />,
+      icon: <FaFacebookF color="#fff" size={30} />,
     },
     {
-      icon: <FaInstagram color="#fff" size={25} />,
+      icon: <FaInstagram color="#fff" size={30} />,
     },
     {
-      icon: <FaLinkedinIn color="#fff" size={25} />,
+      icon: <FaLinkedinIn color="#fff" size={30} />,
     },
     {
-      icon: <FaYoutube color="#fff" size={25} />,
+      icon: <FaYoutube color="#fff" size={30} />,
     },
   ];
+  const [margin, setMargin] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/car-preview") {
+      setMargin(true);
+    } else {
+      setMargin(false);
+    }
+  }, [router.pathname]);
   return (
     <Box
-      sx={{ borderTop: "1px solid #eee", mt: 4, backgroundColor: "#000" }}
+      sx={{
+        borderTop: "1px solid #eee",
+        mt: margin ? 0.4 : 4,
+        backgroundColor: "#000",
+      }}
       paddingY={10}
     >
-      <div className="container" style={{ maxWidth: 1250, padding: 0 }}>
+      <Container style={{ maxWidth: 1300 }}>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={4}>
             <img src={whitelogo.src} width={150} />
@@ -54,8 +69,8 @@ const Footer = () => {
               {icons.map((val, i) => (
                 <Avatar
                   sx={{
-                    width: 25,
-                    height: 25,
+                    width: 30,
+                    height: 30,
                     p: 1,
                     backgroundColor: "#000",
                     border: "1px solid #fff",
@@ -63,6 +78,7 @@ const Footer = () => {
                       transform: "scale(1.2)",
                     },
                     transition: "0.5s ease all",
+                    
                   }}
                 >
                   {val.icon}
@@ -71,7 +87,7 @@ const Footer = () => {
             </Stack>
             <Stack direction={"row"} alignItems={"center"} spacing={1}>
               <Typography color={"#fff"} fontSize={12}>
-                EuVande {new Date().getFullYear()}
+                © {new Date().getFullYear()} EuVande
               </Typography>
               <Dot bgColor="#fff" width={4} height={4} />
               <Typography color={"#fff"} fontSize={12}>
@@ -92,7 +108,7 @@ const Footer = () => {
             <List heading="Company" data={data.list4} />
           </Grid>
         </Grid>
-      </div>
+      </Container>
     </Box>
   );
 };

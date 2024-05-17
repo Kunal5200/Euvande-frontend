@@ -1,3 +1,17 @@
+import DeletePendingCars from "@/assests/modalcalling/deletePendingCars";
+import dummyCar from "@/icons/cars.jpg";
+import { showModal } from "@/redux/reducers/modal";
+import { CarStatus } from "@/utils/enum";
+import {
+  ArrowRight,
+  ArrowRightOutlined,
+  CalendarMonth,
+  Delete,
+  DirectionsCar,
+  Done,
+  Edit,
+  MoreVert,
+} from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -16,26 +30,14 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import dummyCar from "@/icons/cars.jpg";
-import { GiGearStickPattern, GiRoad } from "react-icons/gi";
-import {
-  ArrowRightOutlined,
-  CalendarMonth,
-  Delete,
-  DirectionsCar,
-  Done,
-  Edit,
-  MoreVert,
-} from "@mui/icons-material";
-import { PiEngine } from "react-icons/pi";
-import { BsFuelPump } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { showModal } from "@/redux/reducers/modal";
-import DeletePendingCars from "@/assests/modalcalling/deletePendingCars";
 import { useRouter } from "next/router";
-import { CarStatus } from "@/utils/enum";
+import { useState } from "react";
+import { BsFuelPump } from "react-icons/bs";
+import { GiGearStickPattern, GiRoad } from "react-icons/gi";
+import { PiEngine } from "react-icons/pi";
+import { useDispatch } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 const PendingCar = ({
   data,
@@ -76,7 +78,7 @@ const PendingCar = ({
   const handleEditCar = () => {
     if (id) {
       localStorage.setItem("carId", id);
-      router.push("/sell-cars/make");
+      router.push("/create-demand");
     }
   };
 
@@ -100,13 +102,14 @@ const PendingCar = ({
       </Typography>
     );
   }
+  const phones = useMediaQuery("(max-width:600px)");
 
   return (
     <Box>
       {data.map((val, i) => (
-        <Card key={i} sx={{ my: 3, height: 250 }}>
-          <Grid container spacing={2}>
-            <Grid item lg={5}>
+        <Card key={i} sx={{ my: 3, height: phones ? "100%" : 250 }}>
+          <Grid container spacing={{ lg: 2, xs: 0 }}>
+            <Grid item lg={5} xs={12}>
               {loading ? (
                 <Skeleton
                   animation="wave"
@@ -119,8 +122,9 @@ const PendingCar = ({
                   showThumbs={false}
                   showStatus={false}
                   showIndicators={false}
+                  showArrows={false}
                 >
-                  {val && val.carImages ? (
+                  {val && val.carImages && val.carImages.length ? (
                     val.carImages.map((value, index) => (
                       <img
                         src={value}
@@ -135,19 +139,21 @@ const PendingCar = ({
                 </Carousel>
               )}
             </Grid>
-            <Grid item lg={7} py={3} p={3}>
+            <Grid item lg={7} xs={12}>
               <Stack
                 direction={"row"}
                 alignItems={"center"}
                 justifyContent={"space-between"}
+                mt={{ lg: 2, xs: 2 }}
               >
                 <Typography
-                  fontSize={20}
+                  fontSize={{ lg: 20, xs: 18 }}
                   fontWeight={600}
                   color={"#000"}
                   letterSpacing={1}
                   sx={{
                     textTransform: "capitalize",
+                    mx: { xs: 1 },
                   }}
                 >
                   {val && val.make && val.make.makeName}{" "}
@@ -201,10 +207,10 @@ const PendingCar = ({
                   </Card>
                 </Popover>
               </Stack>
-              <Typography fontSize={12}>
+              <Typography fontSize={12} mx={{ xs: 1 }}>
                 {(val && val.vin) || "VIN not Disclosed"}
               </Typography>
-              <Stack direction={"row"} spacing={1} my={1}>
+              {/* <Stack direction={"row"} spacing={1} my={1}>
                 {val.specification &&
                   val.specification.equipments &&
                   val.specification.equipments.slice(0, 2).map((value) => (
@@ -243,18 +249,21 @@ const PendingCar = ({
                       onClick={() => handleRoute(val.id)}
                     />
                   )}
-              </Stack>
+              </Stack> */}
 
-              <Grid container mt={2}>
-                <Grid item lg={4} mb={1}>
+              <Grid container mt={2} mx={{ xs: 1 }}>
+                <Grid item lg={4} mb={1} xs={4}>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <GiRoad />
                     <Typography fontSize={12}>
-                      {(val && val.odometer) || "Not Disclosed"}
+                      {/* {`${val && val.odometer} km` || "Not Disclosed"} */}
+                      {val && val.odometer
+                        ? `${val.odometer} km`
+                        : "Not Disclosed"}
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item lg={4} mb={1}>
+                <Grid item lg={4} xs={4} mb={1}>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <CalendarMonth />
                     <Typography fontSize={12}>
@@ -263,17 +272,17 @@ const PendingCar = ({
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item lg={4} mb={1}>
+                <Grid item lg={4} xs={4} mb={1}>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <PiEngine />
                     <Typography fontSize={12}>
-                      {`${
-                        val && val.specification && val.specification.power
-                      } kw` || "Not Disclosed"}
+                      {val && val.specification && val.specification.power
+                        ? `${val.specification.power} kw`
+                        : "Not Disclosed"}
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item lg={4} mb={1}>
+                <Grid item lg={4} xs={4} mb={1}>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <GiGearStickPattern />
                     <Typography fontSize={12}>
@@ -284,7 +293,7 @@ const PendingCar = ({
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item lg={4} mb={1}>
+                <Grid item lg={4} xs={4} mb={1}>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <BsFuelPump style={{ marginLeft: 2 }} />
                     <Typography fontSize={12}>
@@ -305,7 +314,7 @@ const PendingCar = ({
                   </Stack>
                 </Grid>
               </Grid>
-              <Stack direction={"row"} alignItems={"center"}>
+              {/* <Stack direction={"row"} alignItems={"center"} spacing={0.3}>
                 <Typography fontSize={12} fontWeight={600}>
                   {" "}
                   Status :{" "}
@@ -314,27 +323,44 @@ const PendingCar = ({
                   fontSize={12}
                   color={val.status === CarStatus.Pending ? "red" : "green"}
                 >
+                  {" "}
                   {val && val.status}
                 </Typography>
-              </Stack>
+              </Stack> */}
+              {phones && <Divider />}
               <Stack
-                direction={"row"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
+                direction={{ lg: "row", xs: "column" }}
+                alignItems={{ lg: "center", xs: "start" }}
+                justifyContent={{ lg: "space-between", xs: "center" }}
                 mt={2}
+                mx={{ xs: 1 }}
               >
                 {val.price && (
                   <Typography fontSize={25} fontWeight={600}>
                     {val.price} €
                   </Typography>
                 )}
-                <Button
-                  onClick={() => handleRoute(val.id)}
-                  sx={{ fontSize: 12 }}
-                  color="inherit"
-                >
-                  View Car Details <ArrowRightOutlined />
-                </Button>
+                {phones ? (
+                  <Button sx={{ color: "#000" }} fullWidth>
+                    View More Details <ArrowRight />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleRoute(val.id)}
+                    sx={{
+                      fontSize: 12,
+                      backgroundColor: "#000",
+                      color: "#fff",
+                      mx: 2,
+                      ":hover": {
+                        color: "#000",
+                        border: "1px solid #000",
+                      },
+                    }}
+                  >
+                    View Car Details <ArrowRightOutlined />
+                  </Button>
+                )}
               </Stack>
             </Grid>
           </Grid>

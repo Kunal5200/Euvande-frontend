@@ -317,3 +317,75 @@ export const colorStyles = {
     color: "#fff",
   }),
 };
+
+export function smoothScrollToBottom() {
+  let currentPosition =
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0;
+  const scrollHeight = document.documentElement.scrollHeight;
+  const increment = 30; // adjust scroll speed
+  const duration = 10000; // adjust duration
+
+  function animateScroll() {
+    currentPosition += increment;
+    window.scrollTo(0, currentPosition);
+    if (currentPosition < scrollHeight) {
+      setTimeout(animateScroll, duration / (scrollHeight / increment));
+    }
+  }
+
+  animateScroll();
+}
+
+export function smoothScrollToTop() {
+  let currentPosition =
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0;
+  const increment = 20; // adjust scroll speed
+  const duration = 500; // adjust duration
+
+  function animateScroll() {
+    currentPosition -= increment;
+    window.scrollTo(0, currentPosition);
+    if (currentPosition > 0) {
+      setTimeout(animateScroll, duration / (currentPosition / increment));
+    }
+  }
+
+  animateScroll();
+}
+
+export function smoothScrollTo(targetPosition, duration) {
+  const startPosition =
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0;
+  const distance = targetPosition - startPosition;
+  const increments = distance / (duration / 16); // Adjust speed
+
+  let currentPosition = startPosition;
+  let currentTime = 0;
+
+  function animateScroll() {
+    currentTime += 16;
+    currentPosition += increments;
+    window.scrollTo(0, currentPosition);
+
+    if (currentTime < duration) {
+      setTimeout(animateScroll, 16);
+    } else {
+      window.scrollTo(0, targetPosition);
+    }
+  }
+
+  animateScroll();
+}
+
+export const scrollToTop = () => {
+  window.scrollTo(0, 0);
+};

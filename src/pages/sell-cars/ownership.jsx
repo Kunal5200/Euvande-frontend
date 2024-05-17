@@ -47,7 +47,7 @@ const Ownership = () => {
           <div className="col-sm-12 ">
             <LinkTab />
             <Card className="p-3">
-              <h5>Select Car Ownership</h5>
+              <h5 className="mb-2">Select Car Ownership</h5>
               <Stack spacing={3}>
                 {data.carOwnerShip.map((val, i) => (
                   <Card

@@ -4,6 +4,7 @@ import { setDetails } from "@/redux/reducers/userdetails";
 import { toast } from "react-toastify";
 import { authControllers } from "../authentication";
 import { loggedIn } from "@/redux/reducers/user";
+import { TroubleshootOutlined } from "@mui/icons-material";
 
 export const userRegister = ({
   setLoading,
@@ -54,13 +55,13 @@ export const loginUser = ({ body, router, setLoading, dispatch }) => {
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);
-      router.push("/");
+      router.back();
     })
     .catch((err) => {
       setLoading(false);
       let errMessage = err.response ? err.response.data.message : err.message;
       toast.error(errMessage);
-      console.log(err);
+      // console.log(err);
     });
 };
 
@@ -69,7 +70,7 @@ export const getUserProfile = ({ setUser, dispatch, setLoading }) => {
     .getUserDetails()
     .then((res) => {
       const response = res.data.data;
-
+      localStorage.setItem("group", res.data.data.group);
       dispatch(setDetails({ ...response, isAuthenticated: true }));
       setLoading && setLoading(false);
       setUser && setUser(res.data.data);
@@ -102,7 +103,7 @@ export const updateUserDetails = ({
     .then((res) => {
       toast.success(res.data.message);
       setLoading(false);
-      router ? router.push("/sell-cars/upload-picture") : dispatch(hideModal());
+      // router ? router.push("/sell-cars/upload-picture") : dispatch(hideModal());
       getUserProfile({ setUser, dispatch });
     })
     .catch((err) => {
@@ -143,18 +144,166 @@ export const verifyForgotPasswordOTP = ({ body, setLoading, dispatch }) => {
     });
 };
 
-export const changePassword = ({ body, setLoading, setState }) => {
+export const changePassword = ({ body, setLoading }) => {
   authControllers
     .changePassword(body)
     .then((res) => {
       toast.success(res.data.message);
-      window.location.reload();
+      // window.location.reload();
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       setLoading(false);
     })
     .catch((err) => {
       toast.error(err.response.data.message);
+      setLoading(false);
+    });
+};
+
+export const guestLogin = () => {
+  authControllers
+    .guestLogin()
+    .then((res) => {
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const customLoginAndRegister = ({
+  body,
+  showOTPButton,
+  showOTPfield,
+  loading,
+  handleNext,
+}) => {
+  authControllers
+    .customLogin(body)
+    .then((res) => {
+      toast.success(res.data.message);
+      if (res.data.data.referenceId) {
+        localStorage.setItem("referenceId", res.data.data.referenceId);
+      }
+      showOTPButton && showOTPButton(false);
+      showOTPfield && showOTPfield(true);
+      handleNext && handleNext();
+      loading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      loading(false);
+      // console.log(err);
+    });
+};
+
+export const verifyOTP = ({
+  body,
+  loading,
+  showOTPfield,
+
+  dispatch,
+}) => {
+  authControllers
+    .verifyOtp(body)
+    .then((res) => {
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      dispatch(setDetails({ ...res.data.data }));
+      showOTPfield(false);
+      getUserProfile({ dispatch });
+      loading(false);
+      // verified(true);
+    })
+    .catch((err) => {
+      loading(false);
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+    });
+};
+
+export const sendOtpEmail = ({
+  data,
+  setLoading,
+  showOtpField,
+  showOtpButton,
+}) => {
+  authControllers
+    .updateEmail(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("referenceId", res.data.data.referenceId);
+      setLoading(false);
+      showOtpField(true);
+      showOtpButton(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
+    });
+};
+
+export const verifyOtpEmail = ({ data, setLoading, showOtpField }) => {
+  authControllers
+    .verifyEmail(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      showOtpField(false);
+      setLoading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
+    });
+};
+
+// export const updatePhoneNumber = { data, setLoading, showOTPfield };
+export const updatePhoneNumber = ({ data, setLoading, showOtpField }) => {
+  authControllers
+    .updatePhoneNumber(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      // console.log("res", res);
+      localStorage.setItem("referenceId", res.data.data.referenceId);
+      showOtpField(true);
+      setLoading(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
+      setLoading(false);
+    });
+};
+
+export const phoneOtpVerify = ({
+  data,
+  setLoading,
+  showOTPfield,
+  showGetOtpButton,
+}) => {
+  authControllers
+    .verifyPhoneOTP(data)
+    .then((res) => {
+      toast.success(res.data.message);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      showOTPfield(false);
+      setLoading(false);
+      showGetOtpButton(false);
+    })
+    .catch((err) => {
+      let errMessage =
+        (err.response && err.response.data.message) || err.message;
+      toast.error(errMessage);
       setLoading(false);
     });
 };

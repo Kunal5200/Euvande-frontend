@@ -710,20 +710,12 @@ let data = {
     {
       name: "Specifications",
     },
+
     {
-      name: "Equipment",
-    },
-    {
-      name: "Car Condition",
-    },
-    {
-      name: "Contact Information",
+      name: "Personal Information",
     },
     {
       name: "Photos",
-    },
-    {
-      name: "Car Valutation",
     },
   ],
   list1: [
@@ -1497,6 +1489,26 @@ let data = {
     },
     {
       label: "LPG Variants",
+    },
+  ],
+  paymentFaq: [
+    {
+      label: "1. How secure is your online payment system?",
+      value:
+        "Our online payment system prioritizes security at every step of the transaction process. We utilize industry-standard encryption protocols to safeguard your personal and financial information. Additionally, we employ various security measures such as Secure Sockets Layer (SSL) technology to ensure that your data remains protected during transmission. Furthermore, we adhere to strict compliance standards and regularly undergo security audits to maintain the integrity of our system.",
+      panel: "panel1",
+    },
+    {
+      label: "2. What payment methods do you accept?",
+      value:
+        "We accept a variety of payment methods to accommodate our customers' preferences. These include major credit cards such as Visa, MasterCard, American Express, and Discover. Additionally, we support popular digital wallets like PayPal, Apple Pay, Google Pay, and Amazon Pay for added convenience. We continuously assess emerging payment technologies to expand our offerings and provide the best possible payment experience for our users.",
+      panel: "panel2",
+    },
+    {
+      label: "3. How do I know if my payment was successful?",
+      value:
+        "Once you complete the payment process, you will receive an immediate confirmation indicating the success of your transaction. This confirmation may be displayed on the website or sent to you via email, depending on your chosen communication preferences. Additionally, you can review your account or payment history to verify the status of your payment. In the rare event of any issues or discrepancies, our customer support team is available to assist you promptly and ensure that your payment concerns are addressed effectively.",
+      panel: "panel3",
     },
   ],
 };

@@ -31,7 +31,7 @@ const CarCard = ({ data }) => {
   return (
     <Card
       sx={{
-        height: 420,
+        height: { lg: 420, sm: 370,xs:420 },
         ":hover": {
           // transform: "scale(1.1)",
           // zIndex: 999,
@@ -62,7 +62,7 @@ const CarCard = ({ data }) => {
         >
           <Typography
             textTransform={"capitalize"}
-            fontSize={18}
+            fontSize={{ lg: 18, sm: 10 }}
             fontWeight={550}
           >
             {data && data.make && data.make.makeName}{" "}
@@ -70,24 +70,26 @@ const CarCard = ({ data }) => {
           </Typography>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
-          <Typography fontSize={12}>
+          <Typography fontSize={{ lg: 12, sm: 8 }}>
             {data.vin || "VIN not disclosed"}
           </Typography>
-          <Dot width={3} height={3} bgColor={"#000"} />
-          <Typography fontSize={12}>
+          {/* <Dot width={3} height={3} bgColor={"#000"} /> */}
+          {/* <Typography fontSize={12}>
             {(data && data.specification && data.specification.transmission) ||
               "Not Disclosed"}
-          </Typography>
+          </Typography> */}
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1} my={1}>
           {data && data.variant && data.variant.fuelType && (
-            <Typography fontSize={12}>
+            <Typography fontSize={{ lg: 12, sm: 9 }}>
               {data && data.variant && data.variant.fuelType}
             </Typography>
           )}
-          {data && data.period && <Dot width={3} height={3} bgColor={"#000"} />}
+          {data && data.variant && data.variant.fuelType && (
+            <Dot width={3} height={3} bgColor={"#000"} />
+          )}
           {data && data.period && (
-            <Typography fontSize={12}>
+            <Typography fontSize={{ lg: 12, sm: 9 }}>
               {data && data.period && data.period.year}
             </Typography>
           )}
@@ -95,16 +97,16 @@ const CarCard = ({ data }) => {
             <Dot width={3} height={3} bgColor="#000" />
           )}
           {data && data.specification && data.specification.transmission && (
-            <Typography fontSize={12}>
+            <Typography fontSize={{ lg: 12, sm: 9 }}>
               {data && data.specification && data.specification.transmission}
             </Typography>
           )}
-          {data && data.ownership && (
+          {/* {data && data.ownership && (
             <Dot width={3} height={3} bgColor="#000" />
           )}
           {data && data.ownership && (
-            <Typography fontSize={12}>{data && data.ownership}</Typography>
-          )}
+            <Typography fontSize={{ lg: 12, sm: 9 }}>{data && data.ownership}</Typography>
+          )} */}
         </Stack>
         <Stack
           direction={"row"}
@@ -112,9 +114,9 @@ const CarCard = ({ data }) => {
           justifyContent={"space-between"}
           sx={{ mb: 2 }}
         >
-          {data && data.status && (
+          {/* {data && data.status && (
             <Typography
-              fontSize={12}
+              fontSize={{ lg: 12, sm: 9 }}
               color={
                 data && data.status === CarStatus.Available ? "green" : "red"
               }
@@ -122,9 +124,14 @@ const CarCard = ({ data }) => {
             >
               {data && data.status}
             </Typography>
-          )}
+          )} */}
           {data && data.price && (
-            <Typography textAlign={"end"} mt={2} fontSize={20} fontWeight={550}>
+            <Typography
+              textAlign={"end"}
+              mt={2}
+              fontSize={{ lg: 20, sm: 12 }}
+              fontWeight={550}
+            >
               {data && data.price} €
             </Typography>
           )}
@@ -134,7 +141,7 @@ const CarCard = ({ data }) => {
         <Divider sx={{ backgroundColor: "#000" }} />
         <Button
           fullWidth
-          sx={{ color: "#000", fontSize: 13 }}
+          sx={{ color: "#000", fontSize: { lg: 13, sm: 10 } }}
           onClick={() => details(data.id)}
         >
           View Details <ChevronRightTwoTone />{" "}

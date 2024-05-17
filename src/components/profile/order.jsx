@@ -15,7 +15,7 @@ import { CarStatus } from "@/utils/enum";
 import { getSellerPendingCars } from "@/api/apiCalling/listingApi";
 
 const Order = () => {
-  const tabs = ["Cars to Buy", "Cars for Sell"];
+  const tabs = ["Car Bids", "Listed Cars"];
   const [value, setValue] = useState(0);
   const router = useRouter();
   const handleChange = (e, newValue) => {
@@ -31,7 +31,11 @@ const Order = () => {
     {
       label: CarStatus.Available,
     },
+    {
+      label: CarStatus["Not Available"] && "DisApproved",
+    },
   ];
+
   const [carStatusValue, setCarStatusvalue] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,10 +71,17 @@ const Order = () => {
   };
 
   const changeCarStatusHandler = (e, newValue) => {
-    setStatus(e.target.textContent);
+    setStatus(
+      e.target.textContent === "DisApproved"
+        ? CarStatus["Not Available"]
+        : e.target.textContent
+    );
     setLoading(true);
     getSellerPendingCars({
-      status: e.target.textContent,
+      status:
+        e.target.textContent === "DisApproved"
+          ? CarStatus["Not Available"]
+          : e.target.textContent,
       setData,
       setLoading,
       page,
@@ -91,6 +102,9 @@ const Order = () => {
             height: 500,
           },
         }}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
       >
         {tabs.map((val, i) => (
           <Tab label={val} key={i} sx={orderTabButton} />
@@ -122,6 +136,9 @@ const Order = () => {
             p: 1,
             boxShadow: "0px 0px 2px 2px #eee",
           }}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
         >
           {carStatus.map((val, i) => (
             <Tab

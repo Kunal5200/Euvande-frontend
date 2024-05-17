@@ -67,7 +67,7 @@ const BodyType = () => {
       vehicleType: value.label,
     };
     setVehicleType(value.label);
-    getCars({ setCarData, loading: setLoading, body });
+    getCars({ setCarData, loading: setLoading, body, page: 1, pageSize: 10 });
   };
 
   const [tabData, setData] = useState([]);
@@ -97,8 +97,10 @@ const BodyType = () => {
       body: {
         vehicleType: vehicleType,
       },
+      page: 1,
+      pageSize: 10,
     });
-  }, [vehicleType]);
+  }, []);
 
   return (
     <Box className="my-4">
@@ -116,7 +118,7 @@ const BodyType = () => {
             border: "1px solid #eee",
           }}
         >
-          {tabData.map((val, i) => (
+          {tabData.slice(0, 10).map((val, i) => (
             <Tab
               label={val.label}
               icon={<Icons img={val.icons} />}
@@ -157,8 +159,10 @@ const BodyType = () => {
                         spaceBetween: 10,
                       },
                     }}
+                    // modules={Navigat}
                     spaceBetween={5}
-                    navigation={true}
+                    navigation={false}
+                    grabCursor={true}
                   >
                     {carData &&
                       carData.docs &&

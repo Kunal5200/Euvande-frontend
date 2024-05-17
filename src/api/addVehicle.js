@@ -165,4 +165,22 @@ export const vehicleController = {
       throw error;
     }
   },
+  decodeVIN: async (vin) => {
+    try {
+      let result = await vehiclePublicAPI.vehcilePublicAPI.get(
+        `/api/vinDecode/getVinInfo/${vin}`
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  uploadvideo: async (file) => {
+    try {
+      let result = await vehicleSecuredAPI.vehicleSecuredAPI.post("/api", file);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

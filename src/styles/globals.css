@@ -42,8 +42,19 @@
 
 /* CSS */
 
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"); */
 html {
   scroll-behavior: smooth;
+}
+@font-face {
+  font-family: roboto-condensed;
+  src: url("../../public/fonts/RobotoCondensed-VariableFont_wght.ttf");
+  font-style: normal;
+}
+
+.customFont {
+  font-family: roboto-condensed;
 }
 
 /* CSS */
@@ -339,6 +350,18 @@ input[type="number"]::-webkit-outer-spin-button {
   .custom_btn {
     width: 100% !important;
   }
+  .absolute__header {
+    display: none !important;
+  }
+  .hide_header {
+    display: none !important;
+  }
+  .details_slider_image {
+    height: 300px !important;
+  }
+  .details_thumbs_image {
+    height: 50px !important;
+  }
 }
 
 .text-justify {
@@ -412,16 +435,73 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .swiper-button-prev,
 .swiper-button-next {
-  border: 1px solid #000;
+  border: 1px solid #00000041;
   border-radius: 50%;
   height: 50px !important;
   width: 50px !important;
   background-color: #00000041;
 }
 
-
-
-
 .css-1aquho2-MuiTabs-indicator {
   display: none;
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+  background-color: #000 !important;
+}
+
+.activeThumb {
+  border: 2px solid #000; /* Add your desired border style */
+}
+
+.mySwiper .swiper-slide {
+  width: 25%;
+  height: 100%;
+  border: 4px solid transparent;
+  transition: 0.5s ease all;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  /* opacity: 1; */
+  border: 4px solid #000;
+}
+.mySwiper .swiper-slide:hover {
+  border: 4px solid #000;
+}
+
+/* .carousel .control-arrow{
+  mar
+} */
+
+.carousel .control-next.control-arrow:before {
+  border-left: 8px solid #000 !important;
+}
+.carousel .control-arrow {
+  top: 42% !important;
+}
+.carousel .control-next.control-arrow {
+  right: -5px !important;
+}
+.carousel .control-prev.control-arrow:before {
+  border-right: 8px solid #000 !important;
+}
+.carousel .control-prev.control-arrow {
+  left: -5px !important;
+}
+
+.video-react.video-react-fluid {
+  height: 100% !important;
+}
+
+.video-react .video-react-big-play-button {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+}
+
+
+
+.react-multiple-carousel__arrow{
+  z-index: 9 !important;
 }

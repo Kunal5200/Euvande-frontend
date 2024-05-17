@@ -1,10 +1,10 @@
+import { setVehicleInformation } from "@/redux/reducers/carInformation";
+import { hideModal } from "@/redux/reducers/modal";
+import { setCarDetails } from "@/redux/reducers/vehicleInformation";
 import { toast } from "react-toastify";
 import { vehicleController } from "../addVehicle";
-import { setCarDetails } from "@/redux/reducers/vehicleInformation";
-import { setVehicleInformation } from "@/redux/reducers/carInformation";
-import { getCars, getSellerPendingCars } from "./listingApi";
-import { hideModal } from "@/redux/reducers/modal";
 import { listingController } from "../listing";
+import { getCars, getSellerPendingCars } from "./listingApi";
 
 export const addCar = ({
   body,
@@ -14,13 +14,39 @@ export const addCar = ({
   setLoading,
   setCarData,
   setEdit,
+  setState,
+  state,
+  activeStep,
+  setActiveStep,
+  setShow,
 }) => {
   vehicleController
     .addVehicle(body)
     .then((res) => {
       dispatch(setCarDetails({ ...res.data.data }));
       setLoading && setLoading(false);
-      getCarDetails({ setCarData, setLoading, carId: res.data.data.id });
+      getCarDetails({
+        setCarData,
+        setLoading,
+        carId: res.data.data.id,
+        setState,
+        state,
+        dispatch,
+      });
+      setShow && setShow(true);
+      setActiveStep(activeStep + 1);
+      // smoothScrollToBottom();
+
+      // // Smooth scroll to top after a brief delay
+      // setTimeout(() => {
+      //   smoothScrollToTop();
+      // }, 1000);
+
+      // smoothScrollTo(document.body.scrollHeight, 5000); // Adjust duration as needed
+
+      // setTimeout(() => {
+      //   smoothScrollTo(0, 2000); // Adjust duration as needed
+      // }, 3000); // Adjust delay as needed
       localStorage.setItem("carId", res.data.data.id);
       router && path && router.push(path);
       setEdit && setEdit(false);
@@ -31,6 +57,7 @@ export const addCar = ({
       setLoading && setLoading(false);
     });
 };
+
 export const getCarInfo = ({ data, dispatch }) => {
   vehicleController
     .getCarInfo(data)
@@ -80,13 +107,95 @@ export const addImageUpload = ({ data, router, setLoading }) => {
     });
 };
 
-export const getCarDetails = ({ carId, setCarData, setLoading, dispatch }) => {
+export const getCarDetails = ({
+  carId,
+  setCarData,
+  setLoading,
+  dispatch,
+  setState,
+  state,
+}) => {
   vehicleController
     .getVehicleDetails(carId)
     .then((res) => {
+      const response = res.data.data;
       setCarData(res.data.data);
       setLoading && setLoading(false);
-      dispatch && dispatch(setVehicleInformation({ ...res.data.data }));
+      dispatch(setVehicleInformation({ ...res.data.data }));
+
+      setState({
+        ...state,
+        vin: (response && response.vin) || "",
+        make: (response && response.make && response.make.id) || "",
+        model: (response && response.model && response.model.id) || "",
+        period: (response && response.period && response.period.id) || "",
+        trimLevel:
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.trimLevel) ||
+          "",
+        transmission:
+          (response &&
+            response.specification &&
+            response.specification.transmission) ||
+          "",
+        fuelType:
+          (response && response.variant && response.variant.fuelType) || "",
+        vehicleType:
+          (response &&
+            response.specification &&
+            response.specification.vehicleType) ||
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.bodyStyle) ||
+          "",
+        doors:
+          (response &&
+            response.specification &&
+            response.specification.doors) ||
+          "",
+        driveType4WD:
+          (response &&
+            response.specification &&
+            response.specification.driveType4WD) ||
+          "",
+        power:
+          (response &&
+            response.specification &&
+            response.specification.power) ||
+          "",
+        displacementL:
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.displacementL) ||
+          "",
+        seats:
+          (response &&
+            response.specification &&
+            response.specification.seats) ||
+          "",
+        mileage: (response && response.odometer) || "",
+        interiorMaterial:
+          (response &&
+            response.specification &&
+            response.specification.interiorMaterial) ||
+          "",
+        vatdeduction:
+          (response &&
+            response.specification &&
+            response.specification.vatDeduction) ||
+          "",
+        originOfCar:
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.manufacturedIn) ||
+          "",
+        price: (response && response.price) || "",
+      });
     })
     .catch((error) => {
       console.log(error);
@@ -142,13 +251,11 @@ export const addCarsToFavorite = ({
   setLoading,
   page,
   pageSize,
-  setFavoriteLoading,
   user,
 }) => {
   vehicleController
     .favoriteCars(data)
     .then((res) => {
-      setFavoriteLoading && setFavoriteLoading(false);
       getCars({
         setCarData,
         loading: setLoading,
@@ -156,12 +263,12 @@ export const addCarsToFavorite = ({
         pageSize,
         body: { userId: user.id },
       });
+      setLoading(false);
     })
     .catch((err) => {
       let errMessage =
         (err.response && err.response.data.message) || err.message;
       toast.error(errMessage);
-      setFavoriteLoading && setFavoriteLoading(false);
     });
 };
 
@@ -195,5 +302,16 @@ export const vehicleMakeCount = ({ setMake }) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+};
+
+export const getAllModels = ({ setAllModels, setLoading }) => {
+  listingController
+    .getAllModels()
+    .then((res) => {
+      console.log("res", res);
+    })
+    .catch((err) => {
+      console.log("err", err);
     });
 };

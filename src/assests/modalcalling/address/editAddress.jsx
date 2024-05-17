@@ -238,7 +238,7 @@ const EditAddress = ({ value, getAddress }) => {
               />
             )}
             <div className="text-center ">
-              <Button className="custom_btn" width={250} disabled={loading}>
+              <Button  width={250} disabled={loading}>
                 {loading ? (
                   <Loading
                     type="bars"
