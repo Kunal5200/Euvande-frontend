@@ -122,81 +122,80 @@ export const getCarDetails = ({
       setCarData(res.data.data);
       setLoading && setLoading(false);
       dispatch(setVehicleInformation({ ...res.data.data }));
-      setState &&
-        state &&
-        setState({
-          ...state,
-          vin: (response && response.vin) || "",
-          make: (response && response.make && response.make.id) || "",
-          model: (response && response.model && response.model.id) || "",
-          period: (response && response.period && response.period.id) || "",
-          trimLevel:
-            (response &&
-              response.specification &&
-              response.specification.specificationDetails &&
-              response.specification.specificationDetails.trimLevel) ||
-            "",
-          transmission:
-            (response &&
-              response.specification &&
-              response.specification.transmission) ||
-            "",
-          fuelType:
-            (response && response.variant && response.variant.fuelType) || "",
-          vehicleType:
-            (response &&
-              response.specification &&
-              response.specification.vehicleType) ||
-            (response &&
-              response.specification &&
-              response.specification.specificationDetails &&
-              response.specification.specificationDetails.bodyStyle) ||
-            "",
-          doors:
-            (response &&
-              response.specification &&
-              response.specification.doors) ||
-            "",
-          driveType4WD:
-            (response &&
-              response.specification &&
-              response.specification.driveType4WD) ||
-            "",
-          power:
-            (response &&
-              response.specification &&
-              response.specification.power) ||
-            "",
-          displacementL:
-            (response &&
-              response.specification &&
-              response.specification.specificationDetails &&
-              response.specification.specificationDetails.displacementL) ||
-            "",
-          seats:
-            (response &&
-              response.specification &&
-              response.specification.seats) ||
-            "",
-          mileage: (response && response.odometer) || "",
-          interiorMaterial:
-            (response &&
-              response.specification &&
-              response.specification.interiorMaterial) ||
-            "",
-          vatdeduction:
-            (response &&
-              response.specification &&
-              response.specification.vatDeduction) ||
-            "",
-          originOfCar:
-            (response &&
-              response.specification &&
-              response.specification.specificationDetails &&
-              response.specification.specificationDetails.manufacturedIn) ||
-            "",
-          price: (response && response.price) || "",
-        });
+
+      setState({
+        ...state,
+        vin: (response && response.vin) || "",
+        make: (response && response.make && response.make.id) || "",
+        model: (response && response.model && response.model.id) || "",
+        period: (response && response.period && response.period.id) || "",
+        trimLevel:
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.trimLevel) ||
+          "",
+        transmission:
+          (response &&
+            response.specification &&
+            response.specification.transmission) ||
+          "",
+        fuelType:
+          (response && response.variant && response.variant.fuelType) || "",
+        vehicleType:
+          (response &&
+            response.specification &&
+            response.specification.vehicleType) ||
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.bodyStyle) ||
+          "",
+        doors:
+          (response &&
+            response.specification &&
+            response.specification.doors) ||
+          "",
+        driveType4WD:
+          (response &&
+            response.specification &&
+            response.specification.driveType4WD) ||
+          "",
+        power:
+          (response &&
+            response.specification &&
+            response.specification.power) ||
+          "",
+        displacementL:
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.displacementL) ||
+          "",
+        seats:
+          (response &&
+            response.specification &&
+            response.specification.seats) ||
+          "",
+        mileage: (response && response.odometer) || "",
+        interiorMaterial:
+          (response &&
+            response.specification &&
+            response.specification.interiorMaterial) ||
+          "",
+        vatdeduction:
+          (response &&
+            response.specification &&
+            response.specification.vatDeduction) ||
+          "",
+        originOfCar:
+          (response &&
+            response.specification &&
+            response.specification.specificationDetails &&
+            response.specification.specificationDetails.manufacturedIn) ||
+          "",
+        price: (response && response.price) || "",
+      });
     })
     .catch((error) => {
       console.log(error);

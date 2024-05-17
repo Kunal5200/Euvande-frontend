@@ -276,6 +276,7 @@ const Step1 = ({ handleNext }) => {
       });
     }
   };
+  console.log("id",state)
   const [addLoading, setAddLoading] = useState(false);
 
   const addCarInformation = () => {
